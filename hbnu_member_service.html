@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구성원 서비스 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">구성원 전용 서비스</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">HBNU Member Service</h1>
+            <p class="text-gray-600">효빈대학교 구성원을 위한 맞춤형 서비스를 제공합니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- 학생 서비스 -->
+            <div class="bg-white rounded-xl shadow-lg border overflow-hidden group hover:-translate-y-1 transition duration-300">
+                <div class="bg-[#3344aa] p-6 text-white flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold">학생 (Student)</h2>
+                        <p class="text-blue-200 text-sm mt-1">학부생 / 대학원생</p>
+                    </div>
+                    <i data-lucide="graduation-cap" class="w-12 h-12 opacity-80"></i>
+                </div>
+                <div class="p-8">
+                    <ul class="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                        <li><a href="hbnu_portal_dashboard.html" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="layout-dashboard" class="w-4 h-4 mr-2"></i> 학사행정 (포털)</a></li>
+                        <li><a href="hbnu_library.html" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="book-open" class="w-4 h-4 mr-2"></i> 도서관 서비스</a></li>
+                        <li><a href="#" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="file-text" class="w-4 h-4 mr-2"></i> 성적/증명서 발급</a></li>
+                        <li><a href="hbnu_scholarship.html" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="gift" class="w-4 h-4 mr-2"></i> 장학금 신청</a></li>
+                        <li><a href="hbnu_dorm.html" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="building-2" class="w-4 h-4 mr-2"></i> 생활관 입사 신청</a></li>
+                        <li><a href="hbnu_webmail.html" class="flex items-center hover:text-[#3344aa] font-medium"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> 웹메일 (@hbnu)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 교직원 서비스 -->
+            <div class="bg-white rounded-xl shadow-lg border overflow-hidden group hover:-translate-y-1 transition duration-300">
+                <div class="bg-gray-700 p-6 text-white flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold">교직원 (Faculty/Staff)</h2>
+                        <p class="text-gray-300 text-sm mt-1">교수 / 직원 / 조교</p>
+                    </div>
+                    <i data-lucide="briefcase" class="w-12 h-12 opacity-80"></i>
+                </div>
+                <div class="p-8">
+                    <ul class="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                        <li><a href="#" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="monitor" class="w-4 h-4 mr-2"></i> 종합정보시스템 (행정)</a></li>
+                        <li><a href="#" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="users" class="w-4 h-4 mr-2"></i> 그룹웨어 (전자결재)</a></li>
+                        <li><a href="#" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="wallet" class="w-4 h-4 mr-2"></i> 급여/복지 조회</a></li>
+                        <li><a href="#" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="file-check" class="w-4 h-4 mr-2"></i> 연구비 관리 시스템</a></li>
+                        <li><a href="#" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="bus" class="w-4 h-4 mr-2"></i> 차량/시설 예약</a></li>
+                        <li><a href="hbnu_webmail.html" class="flex items-center hover:text-gray-900 font-medium"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> 웹메일</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

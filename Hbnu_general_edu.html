@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교양대학 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <!-- 헤더 -->
+    <header class="bg-white border-b py-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl hover:opacity-80 transition">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="hbnu_academics.html" class="text-gray-500 hover:text-[#3344aa] font-medium text-sm flex items-center transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 교육·연구 홈
+                </a>
+                <span class="text-[#3344aa] font-bold text-sm border-l pl-4 ml-2">교양대학 (General Education)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 히어로 섹션 -->
+        <div class="bg-slate-800 text-white py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600')] bg-cover bg-center opacity-30"></div>
+            <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
+                <h1 class="text-4xl md:text-6xl font-black mb-6 drop-shadow-lg tracking-tight">교양대학</h1>
+                <p class="text-xl md:text-2xl opacity-90 font-light mb-8">"불굴의 의지와 혁신적 사고를 갖춘 <span class="text-[#99dd88] font-bold">개천(改天)형 인재</span> 양성"</p>
+                <div class="flex justify-center space-x-2">
+                    <span class="px-3 py-1 border border-white/30 rounded-full text-xs">인성</span>
+                    <span class="px-3 py-1 border border-white/30 rounded-full text-xs">지성</span>
+                    <span class="px-3 py-1 border border-white/30 rounded-full text-xs">창의</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-10">
+            
+            <!-- 왼쪽 사이드바 (메뉴) -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 font-bold text-gray-700 border-b">교양 교육과정</div>
+                    <ul class="divide-y divide-gray-100 text-sm">
+                        <li><button onclick="scrollToSection('core')" class="w-full text-left p-4 hover:bg-gray-50 text-[#3344aa] font-bold border-l-4 border-[#3344aa]">효빈 시그니처 (필수)</button></li>
+                        <li><button onclick="scrollToSection('basic')" class="w-full text-left p-4 hover:bg-gray-50 text-gray-600 border-l-4 border-transparent hover:border-gray-300">기초 교양</button></li>
+                        <li><button onclick="scrollToSection('balance')" class="w-full text-left p-4 hover:bg-gray-50 text-gray-600 border-l-4 border-transparent hover:border-gray-300">균형 교양</button></li>
+                        <li><button onclick="location.href='hbnu_sugang.html'" class="w-full text-left p-4 hover:bg-blue-50 text-blue-600 font-bold bg-blue-50/50"><i data-lucide="mouse-pointer" class="w-4 h-4 inline mr-2"></i> 수강신청 바로가기</button></li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-100 p-6 rounded-xl border text-center">
+                    <h4 class="font-bold text-gray-800 mb-2">교양대학 행정실</h4>
+                    <p class="text-sm text-gray-600 mb-4">인문대학 2호관 1층 103호</p>
+                    <a href="tel:079-294-8100" class="inline-flex items-center text-[#3344aa] font-bold text-lg">
+                        <i data-lucide="phone" class="w-5 h-5 mr-2"></i> 079-294-8100
+                    </a>
+                </div>
+            </div>
+
+            <!-- 오른쪽 메인 컨텐츠 -->
+            <div class="lg:col-span-3 space-y-16">
+
+                <!-- 1. 효빈 시그니처 (HBNU Core) -->
+                <section id="core">
+                    <div class="flex items-center mb-6">
+                        <div class="w-1.5 h-8 bg-[#3344aa] mr-4 rounded-full"></div>
+                        <h2 class="text-3xl font-bold text-gray-800">효빈 시그니처 (HBNU Core)</h2>
+                    </div>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        효빈대학교 학생이라면 누구나 이수해야 하는 <b>졸업 필수 교양</b>입니다. 
+                        우리 대학의 건학 이념과 지역 사회(효빈시)의 특수성을 반영한 독자적인 커리큘럼입니다.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 과목 1 -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition group">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="bg-blue-100 p-3 rounded-lg text-[#3344aa]"><i data-lucide="book-open-check" class="w-6 h-6"></i></div>
+                                <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">졸업필수</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-[#3344aa]">효빈학의 이해</h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                효빈시와 본교의 100년 역사를 탐구하고, '불굴, 혁신, 개천' 정신을 현대적으로 재해석합니다. 
+                                <b>박효빈 시장</b>의 시정 철학과 지역 발전 비전을 공유하는 특강이 포함되어 있습니다.
+                            </p>
+                        </div>
+                        <!-- 과목 2 -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition group">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="bg-teal-100 p-3 rounded-lg text-teal-600"><i data-lucide="train-front" class="w-6 h-6"></i></div>
+                                <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">융합필수</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-teal-600">트램과 도시문명</h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                국내 유일의 <b>교내 트램 실습 노선</b>을 활용하여 교통 수단이 도시 구조와 시민의 삶에 미치는 영향을 학습합니다. 
+                                교통대학 교수진과 도시공학과 교수진이 팀티칭으로 진행합니다.
+                            </p>
+                        </div>
+                        <!-- 과목 3 -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition group">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="bg-purple-100 p-3 rounded-lg text-purple-600"><i data-lucide="glasses" class="w-6 h-6"></i></div>
+                                <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">인기강좌</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-600">서브컬처 비평</h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                '오타쿠 성지'인 효빈시의 특성을 살려, 애니메이션과 게임 서사 속에 담긴 철학적 메시지를 분석합니다. 
+                                <b>만화애니메이션학과</b> 연계 강좌로, 수강신청 1초 컷으로 유명합니다.
+                            </p>
+                        </div>
+                        <!-- 과목 4 -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition group">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="bg-indigo-100 p-3 rounded-lg text-indigo-600"><i data-lucide="globe-2" class="w-6 h-6"></i></div>
+                                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded">글로벌</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600">다문화 사회와 공존</h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                <b>필리핀어학과</b> 교수진이 진행하며, 이주민과의 공존과 상호 존중의 가치를 배웁니다. 
+                                '혐오와 차별(윤재훈 사건)'을 반면교사로 삼아 시민 의식을 함양합니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. 기초 교양 (Foundation) -->
+                <section id="basic">
+                    <div class="flex items-center mb-6">
+                        <div class="w-1.5 h-8 bg-gray-400 mr-4 rounded-full"></div>
+                        <h2 class="text-3xl font-bold text-gray-800">기초 교양 (Foundation)</h2>
+                    </div>
+                    <div class="bg-white border rounded-xl overflow-hidden shadow-sm">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-gray-100 text-gray-700 font-bold uppercase">
+                                <tr>
+                                    <th class="px-6 py-3 border-b w-32">영역</th>
+                                    <th class="px-6 py-3 border-b w-48">과목명</th>
+                                    <th class="px-6 py-3 border-b">내용 설명</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white text-gray-600 divide-y">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-800">사고와 표현</td>
+                                    <td class="px-6 py-4">
+                                        <span class="block font-bold">비판적 사고와 글쓰기</span>
+                                        <span class="block text-xs mt-1">공공 글쓰기</span>
+                                    </td>
+                                    <td class="px-6 py-4">논리적 사유 능력 및 대학 수준의 학술적 글쓰기 훈련. 사회복지정책학과의 경우 '공공 글쓰기' 필수.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-800">외국어</td>
+                                    <td class="px-6 py-4">
+                                        <span class="block font-bold">대학 영어 (1~4)</span>
+                                        <span class="block text-xs mt-1">기초 타갈로그어/일본어</span>
+                                    </td>
+                                    <td class="px-6 py-4">국제적 소통 능력 함양. 필리핀어/일어일문학과 교수진이 직접 강의하는 제2외국어 수업 인기.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-800">디지털</td>
+                                    <td class="px-6 py-4">
+                                        <span class="block font-bold">컴퓨터적 사고 (CT)</span>
+                                        <span class="block text-xs mt-1">데이터 리터러시</span>
+                                    </td>
+                                    <td class="px-6 py-4">4차 산업혁명 시대 필수 역량. AI융합대학 연계 강좌.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 3. 균형 교양 (Elective) -->
+                <section id="balance">
+                    <div class="flex items-center mb-6">
+                        <div class="w-1.5 h-8 bg-green-500 mr-4 rounded-full"></div>
+                        <h2 class="text-3xl font-bold text-gray-800">균형 교양 (Elective)</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- 인간과 사회 -->
+                        <div class="bg-orange-50 p-5 rounded-xl border border-orange-100">
+                            <h4 class="font-bold text-orange-800 mb-3 pb-2 border-b border-orange-200">인간과 사회</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li>• 공감과 소통의 심리학</li>
+                                <li>• 현대 사회와 인권</li>
+                                <li>• 사회문제와 공공정책</li>
+                                <li>• 법과 생활</li>
+                            </ul>
+                        </div>
+
+                        <!-- 과학과 기술 -->
+                        <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-3 pb-2 border-b border-blue-200">과학과 기술</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li>• 미래 사회와 AI 윤리</li>
+                                <li>• 생활 속의 철도 과학</li>
+                                <li>• 환경과 지속가능성</li>
+                                <li>• 우주의 이해</li>
+                            </ul>
+                        </div>
+
+                        <!-- 예술과 체육 -->
+                        <div class="bg-pink-50 p-5 rounded-xl border border-pink-100">
+                            <h4 class="font-bold text-pink-800 mb-3 pb-2 border-b border-pink-200">예술과 체육</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li>• 신화와 상상력</li>
+                                <li>• 캐릭터 심리학</li>
+                                <li>• 스포츠와 건강 관리</li>
+                                <li>• 대중음악의 이해</li>
+                            </ul>
+                        </div>
+
+                        <!-- 글로벌 -->
+                        <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100">
+                            <h4 class="font-bold text-indigo-800 mb-3 pb-2 border-b border-indigo-200">글로벌 시민</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li>• 세계 문화 기행</li>
+                                <li>• 국제 개발 협력의 이해</li>
+                                <li>• 동남아시아 문화 연구</li>
+                                <li>• 일본 문화 트렌드</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>
+        lucide.createIcons();
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const headerOffset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+    </script>
+</body>
+</html>

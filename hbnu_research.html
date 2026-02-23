@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연구소 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <nav class="text-sm font-medium text-gray-600 flex gap-4">
+                <a href="hbnu_academics.html" class="hover:text-[#3344aa]">교육·연구 홈</a>
+                <span class="text-gray-300">|</span>
+                <span class="text-[#3344aa] font-bold">부설연구소</span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">부설 연구소</h1>
+            <p class="text-gray-600">미래 사회의 난제를 해결하고 지역 발전을 선도하는 효빈대학교의 핵심 연구 기관입니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- 사회과학연구원 -->
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
+                <div class="h-40 bg-blue-600 relative p-6 flex flex-col justify-center text-white">
+                    <i data-lucide="users" class="w-10 h-10 mb-3 opacity-80"></i>
+                    <h3 class="text-2xl font-bold">사회과학연구원</h3>
+                    <p class="text-sm opacity-80">Institute of Social Science</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        효빈시의 복지 정책을 설계하고 평가하는 싱크탱크입니다. 박효빈 시장 당선 이후 시청과의 공동 연구 프로젝트가 활발히 진행 중입니다.
+                    </p>
+                    <div class="bg-blue-50 p-3 rounded text-sm text-blue-800 border border-blue-100">
+                        <span class="font-bold block mb-1">주요 연구 센터:</span>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>복지국가 전략 연구소</li>
+                            <li>지역사회 혁신 센터</li>
+                            <li>다문화 정책 연구소 (필리핀어학과 연계)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 미래교통기술연구소 -->
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
+                <div class="h-40 bg-[#00ccaa] relative p-6 flex flex-col justify-center text-white">
+                    <i data-lucide="train-front" class="w-10 h-10 mb-3 opacity-80"></i>
+                    <h3 class="text-2xl font-bold">미래교통기술연구소</h3>
+                    <p class="text-sm opacity-80">Future Mobility Research Institute</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        국내 유일의 트램 및 모노레일 실증 연구 기관입니다. 교내 A/B 노선을 테스트베드로 활용하여 차세대 철도 신호 시스템을 개발합니다.
+                    </p>
+                    <div class="bg-teal-50 p-3 rounded text-sm text-teal-800 border border-teal-100">
+                        <span class="font-bold block mb-1">주요 연구 분야:</span>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>스마트 트램 관제 시스템</li>
+                            <li>도심형 모노레일 구조 해석</li>
+                            <li>철도 안전 심리학 (철도운전학과 연계)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- K-컬처 융합 연구소 -->
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
+                <div class="h-40 bg-purple-600 relative p-6 flex flex-col justify-center text-white">
+                    <i data-lucide="sparkles" class="w-10 h-10 mb-3 opacity-80"></i>
+                    <h3 class="text-2xl font-bold">K-컬처 융합 연구소</h3>
+                    <p class="text-sm opacity-80">Institute of K-Culture Convergence</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        웹툰, 애니메이션, 게임 등 서브컬처 산업의 학술적 가치를 연구합니다. HAF(효빈 애니 페스티벌)의 성과 분석 및 전략 수립을 담당합니다.
+                    </p>
+                    <div class="bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-100">
+                        <span class="font-bold block mb-1">주요 프로젝트:</span>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>한일 서브컬처 비교 연구 (일어일문학과 연계)</li>
+                            <li>버추얼 유튜버 캐릭터 조형론</li>
+                            <li>오타쿠 문화와 지역 경제 활성화</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 기초과학연구소 -->
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
+                <div class="h-40 bg-gray-600 relative p-6 flex flex-col justify-center text-white">
+                    <i data-lucide="microscope" class="w-10 h-10 mb-3 opacity-80"></i>
+                    <h3 class="text-2xl font-bold">기초과학연구소</h3>
+                    <p class="text-sm opacity-80">Research Institute for Basic Science</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        자연과학의 기초 이론 정립과 응용 가능성을 탐구합니다. 물리, 화학, 생명과학 분야의 첨단 장비를 보유하고 있습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded text-sm text-gray-800 border border-gray-100">
+                        <span class="font-bold block mb-1">보유 장비:</span>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>초고분해능 전자현미경 (TEM)</li>
+                            <li>핵자기공명분광기 (NMR)</li>
+                            <li>기상 관측 레이더 (대기과학과 연계)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대학생활 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">대학생활 (Campus Life)</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">대학생활</h1>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <!-- 생활관 (연결) -->
+            <a href="hbnu_dorm.html" class="bg-white p-6 rounded-xl border hover:shadow-lg transition text-center group">
+                <i data-lucide="building-2" class="w-10 h-10 mx-auto mb-3 text-gray-400 group-hover:text-[#3344aa] transition"></i>
+                <h3 class="font-bold text-gray-700">생활관(기숙사)</h3>
+            </a>
+            <!-- 교통안내 (연결) -->
+            <a href="hbnu_traffic.html" class="bg-white p-6 rounded-xl border hover:shadow-lg transition text-center group">
+                <i data-lucide="bus" class="w-10 h-10 mx-auto mb-3 text-gray-400 group-hover:text-[#3344aa] transition"></i>
+                <h3 class="font-bold text-gray-700">셔틀/교통</h3>
+            </a>
+            <!-- 장학제도 (임시) -->
+            <div class="bg-white p-6 rounded-xl border hover:shadow-lg transition text-center group cursor-pointer" onclick="alert('장학정보는 포털에서 확인하세요.')">
+                <i data-lucide="gift" class="w-10 h-10 mx-auto mb-3 text-gray-400 group-hover:text-[#3344aa] transition"></i>
+                <h3 class="font-bold text-gray-700">장학제도</h3>
+            </div>
+            <!-- 동아리 (임시) -->
+            <div class="bg-white p-6 rounded-xl border hover:shadow-lg transition text-center group cursor-pointer" onclick="alert('동아리 연합회 페이지 준비중')">
+                <i data-lucide="users" class="w-10 h-10 mx-auto mb-3 text-gray-400 group-hover:text-[#3344aa] transition"></i>
+                <h3 class="font-bold text-gray-700">동아리</h3>
+            </div>
+        </div>
+
+        <section class="bg-white p-8 rounded-xl shadow-sm border">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">학생 복지 서비스</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-[#3344aa] mb-2 flex items-center"><i data-lucide="utensils" class="w-5 h-5 mr-2"></i> 교내 식당</h3>
+                    <ul class="text-sm text-gray-600 space-y-2 pl-7">
+                        <li><b>학생복지회관(2호관):</b> 푸드코트, 교직원식당</li>
+                        <li><b>학생복지타운(4호관):</b> 한식뷔페 (가성비 최강)</li>
+                        <li><b>정루관(13호관):</b> 양식/패스트푸드 (북구 캠퍼스)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-[#3344aa] mb-2 flex items-center"><i data-lucide="heart-pulse" class="w-5 h-5 mr-2"></i> 건강/편의</h3>
+                    <ul class="text-sm text-gray-600 space-y-2 pl-7">
+                        <li><b>보건진료소(30호관):</b> 1차 진료 (학생증 지참 무료)</li>
+                        <li><b>우체국/은행:</b> 학생복지타운 내 입점</li>
+                        <li><b>스포츠센터:</b> 체육관 내 헬스장, 수영장</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

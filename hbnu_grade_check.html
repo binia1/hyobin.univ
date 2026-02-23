@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성적 조회 - HBNU 포털</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    
+    <header class="bg-[#3344aa] text-white py-3 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="hbnu_portal_dashboard.html" class="font-bold text-xl flex items-center hover:opacity-80">
+                    <i data-lucide="arrow-left" class="mr-2"></i> 성적 조회
+                </a>
+            </div>
+            <div class="text-sm">202501234 김효빈</div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+        <!-- 전체 평점 요약 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border mb-6 flex justify-around items-center text-center">
+            <div>
+                <p class="text-gray-500 text-xs mb-1">전체 평점 (GPA)</p>
+                <p class="text-3xl font-bold text-[#3344aa]">4.35 <span class="text-sm text-gray-400 font-normal">/ 4.5</span></p>
+            </div>
+            <div class="h-10 w-px bg-gray-200"></div>
+            <div>
+                <p class="text-gray-500 text-xs mb-1">취득 학점</p>
+                <p class="text-3xl font-bold text-gray-800">18 <span class="text-sm text-gray-400 font-normal">/ 130</span></p>
+            </div>
+            <div class="h-10 w-px bg-gray-200"></div>
+            <div>
+                <p class="text-gray-500 text-xs mb-1">학사경고</p>
+                <p class="text-3xl font-bold text-green-500">0 <span class="text-sm text-gray-400 font-normal">회</span></p>
+            </div>
+        </div>
+
+        <!-- 학기별 성적 -->
+        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
+                <h3 class="font-bold text-gray-700">2025학년도 1학기</h3>
+                <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-bold">석차: 1 / 30</span>
+            </div>
+            <table class="w-full text-sm text-center">
+                <thead class="bg-gray-50 text-gray-600 border-b">
+                    <tr>
+                        <th class="p-3 text-left">교과목명</th>
+                        <th class="p-3 w-20">구분</th>
+                        <th class="p-3 w-16">학점</th>
+                        <th class="p-3 w-20">성적</th>
+                        <th class="p-3 w-20">등급</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y text-gray-700">
+                    <tr>
+                        <td class="p-3 text-left">사회복지개론</td>
+                        <td class="p-3 text-gray-500">전필</td>
+                        <td class="p-3">3</td>
+                        <td class="p-3">98</td>
+                        <td class="p-3 font-bold text-[#3344aa]">A+</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 text-left">인간행동과 사회환경</td>
+                        <td class="p-3 text-gray-500">전선</td>
+                        <td class="p-3">3</td>
+                        <td class="p-3">96</td>
+                        <td class="p-3 font-bold text-[#3344aa]">A+</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 text-left">대학생활과 진로</td>
+                        <td class="p-3 text-gray-500">교양</td>
+                        <td class="p-3">2</td>
+                        <td class="p-3">95</td>
+                        <td class="p-3 font-bold text-[#3344aa]">A+</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 text-left">글쓰기 기초</td>
+                        <td class="p-3 text-gray-500">교필</td>
+                        <td class="p-3">2</td>
+                        <td class="p-3">92</td>
+                        <td class="p-3 font-bold text-gray-800">A0</td>
+                    </tr>
+                </tbody>
+                <tfoot class="bg-gray-50 font-bold text-gray-800">
+                    <tr>
+                        <td class="p-3 text-right" colspan="2">합계</td>
+                        <td class="p-3">10</td>
+                        <td class="p-3">평점</td>
+                        <td class="p-3 text-[#3344aa]">4.35</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="mt-6 text-center text-xs text-gray-500">
+            * 성적에 이의가 있는 경우 정정 기간 내에 담당 교수님께 문의하시기 바랍니다.<br>
+            * F학점은 평점 계산에 포함됩니다.
+        </div>
+    </main>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

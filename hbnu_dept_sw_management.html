@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사회복지경영학과 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_colleges.html" class="text-gray-500 hover:text-[#3344aa] font-medium text-sm flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 전체 학과 목록
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 히어로 섹션 (색상: 네이비/청록 - 비즈니스 느낌) -->
+        <div class="bg-slate-700 text-white py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+            <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-teal-400 text-slate-900 font-bold text-xs mb-6 shadow-lg">사회복지학대학 CEO 트랙</span>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md">사회복지경영학과</h1>
+                <p class="text-xl md:text-2xl opacity-90 font-light">"따뜻한 가슴과 차가운 머리의 복지 경영인"</p>
+                <p class="mt-4 text-sm opacity-80 uppercase tracking-widest">Department of Social Welfare Management</p>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2 space-y-12">
+                
+                <!-- 1. 학과 소개 -->
+                <section>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 학과 소개
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed text-lg mb-6">
+                        사회복지 기관, 재단, 사회적 기업을 효율적이고 투명하게 운영하는 <b>복지 행정가 및 경영자(CEO)</b>를 양성합니다. 
+                        사회복지학의 윤리성과 경영학의 효율성을 결합한 융합 학문으로, 비영리 조직 마케팅, 재무 관리, 인적 자원 관리 등을 전문적으로 배웁니다.
+                    </p>
+                    <div class="flex gap-4">
+                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
+                            <i data-lucide="building" class="w-8 h-8 mx-auto text-slate-600 mb-2"></i>
+                            <span class="font-bold text-slate-800">조직 운영</span>
+                        </div>
+                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
+                            <i data-lucide="trending-up" class="w-8 h-8 mx-auto text-teal-600 mb-2"></i>
+                            <span class="font-bold text-teal-800">재무/회계</span>
+                        </div>
+                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
+                            <i data-lucide="users" class="w-8 h-8 mx-auto text-blue-600 mb-2"></i>
+                            <span class="font-bold text-blue-800">인적자원</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. 커리큘럼 (NEW) -->
+                <section>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 교육 과정 (Curriculum)
+                    </h2>
+                    <div class="border rounded-xl overflow-hidden shadow-sm">
+                        <table class="min-w-full text-sm text-left text-gray-600">
+                            <thead class="bg-gray-100 text-gray-700 font-bold uppercase">
+                                <tr>
+                                    <th class="px-6 py-3 border-b">학년</th>
+                                    <th class="px-6 py-3 border-b">주요 과목</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-slate-700">1학년</td>
+                                    <td class="px-6 py-4">사회복지개론, 경영학원론, 인간행동과 사회환경</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-slate-700">2학년</td>
+                                    <td class="px-6 py-4">사회복지행정론, 비영리회계, 마케팅원론</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-slate-700">3학년</td>
+                                    <td class="px-6 py-4">재무관리, 지역사회복지론, 사회적기업 창업론</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-slate-700">4학년</td>
+                                    <td class="px-6 py-4">복지경영세미나, 프로그램 개발과 평가, 현장실습</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 3. 학과 에피소드 (Legend) -->
+                <section>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 학과 에피소드
+                    </h2>
+                    
+                    <div class="bg-teal-50 border border-teal-100 p-6 rounded-xl hover:shadow-lg transition">
+                        <div class="flex items-start">
+                            <div class="bg-teal-100 p-3 rounded-full mr-4 text-teal-700"><i data-lucide="calculator" class="w-8 h-8"></i></div>
+                            <div>
+                                <h3 class="font-bold text-teal-900 text-xl mb-2">2024년 빵 테러 사건 손해배상 청구</h3>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    윤재훈이 복지관 아이들 빵에 침을 뱉고 기물을 파손했을 때, 학생들은 감정적으로 대응하는 대신 <b>계산기</b>를 꺼냈습니다.
+                                </p>
+                                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1 mb-3">
+                                    <li>빵값 및 폐기 처리 비용 (환경부담금 포함)</li>
+                                    <li>아이들이 겪은 정신적 피해 위자료</li>
+                                    <li>트램 지연으로 인한 사회적 기회비용 손실액</li>
+                                </ul>
+                                <p class="text-sm text-teal-800 font-bold bg-white p-3 rounded border border-teal-200 inline-block">
+                                    "자네는 마이너스 생산자야. 파산 확정일세."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 오른쪽 사이드바 -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- 진로 정보 -->
+                <div class="bg-white border rounded-xl shadow-sm p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-4 text-center border-b pb-2">💼 졸업 후 진로</h3>
+                    <ul class="space-y-4 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <i data-lucide="building-2" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold block">기관 운영 및 관리</span>
+                                <span class="text-gray-500 text-xs">사회복지관, 요양시설, 센터 시설장</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="briefcase" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold block">공공 행정</span>
+                                <span class="text-gray-500 text-xs">사회복지 전담 공무원, 건강보험공단</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="heart" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold block">기업 사회공헌(CSR)</span>
+                                <span class="text-gray-500 text-xs">대기업 CSR팀, 기업 재단</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="globe" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold block">NGO 및 국제기구</span>
+                                <span class="text-gray-500 text-xs">월드비전, 굿네이버스 등</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- [NEW] 버튼 수정 -->
+                    <a href="hbnu_admission_guide.html?dept=사회복지경영학과&back=hbnu_dept_sw_management.html" class="block w-full mt-6 bg-slate-600 text-white py-3 rounded-lg font-bold hover:bg-slate-700 transition text-center shadow-md">
+                        2025학년도 입시 요강
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>벼룩시장 & 분실물 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_community.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 효빈광장 홈
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
+        <!-- 탭 -->
+        <div class="flex mb-8 border-b">
+            <button onclick="setTab('market')" id="btn-market" class="px-6 py-3 border-b-2 border-[#3344aa] text-[#3344aa] font-bold transition-colors">벼룩시장</button>
+            <button onclick="setTab('lost')" id="btn-lost" class="px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-800 transition-colors">분실물센터</button>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="page-title" class="text-xl font-bold text-gray-800">중고 거래 물품</h2>
+            <div class="flex gap-2">
+                <button onclick="resetData()" class="bg-gray-200 text-gray-600 px-3 py-2 rounded text-xs font-bold hover:bg-gray-300 flex items-center">
+                    <i data-lucide="rotate-ccw" class="w-3 h-3 mr-1"></i> 초기화
+                </button>
+                <button onclick="openWriteModal()" class="bg-[#3344aa] text-white px-4 py-2 rounded text-sm font-bold hover:bg-[#2a3a9a] flex items-center">
+                    <i data-lucide="plus-circle" class="w-4 h-4 mr-2"></i> 등록하기
+                </button>
+            </div>
+        </div>
+
+        <!-- 아이템 그리드 -->
+        <div id="item-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[400px]">
+            <!-- JS로 렌더링 -->
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="flex justify-center mt-8 space-x-2" id="pagination">
+            <!-- JS로 렌더링 -->
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- 상세보기 모달 -->
+    <div id="modal-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 hidden" onclick="closeModal()">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-black"><i data-lucide="x" width="24"></i></button>
+            <h3 id="modal-title" class="text-xl font-bold text-gray-800 mb-2"></h3>
+            <p id="modal-desc" class="text-gray-600 mb-4 text-sm whitespace-pre-line"></p>
+            <div class="bg-gray-50 p-4 rounded text-sm mb-4">
+                <p><span class="font-bold text-[#3344aa]">가격/정보:</span> <span id="modal-price"></span></p>
+                <p class="mt-1"><span class="font-bold">작성자:</span> <span id="modal-author"></span></p>
+                <p class="mt-1"><span class="font-bold">날짜:</span> <span id="modal-date"></span></p>
+            </div>
+            <button class="w-full bg-[#3344aa] text-white py-2 rounded font-bold hover:bg-[#2a3a9a]" onclick="alert('작성자에게 쪽지를 보냈습니다.')">연락하기</button>
+        </div>
+    </div>
+
+    <!-- 글쓰기 모달 -->
+    <div id="write-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2" id="write-title">물품 등록</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">유형</label>
+                    <select id="input-type" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none">
+                        <!-- JS로 옵션 채움 -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">제목</label>
+                    <input type="text" id="input-item-title" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none" placeholder="예: 전공책 팝니다">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" id="label-price">가격</label>
+                    <input type="text" id="input-item-price" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none" placeholder="예: 10,000원">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">작성자</label>
+                    <input type="text" id="input-item-author" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none" placeholder="익명">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">설명</label>
+                    <textarea id="input-item-desc" rows="3" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none resize-none" placeholder="상세 내용을 입력하세요"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 mt-6">
+                <button onclick="closeWriteModal()" class="px-4 py-2 border rounded hover:bg-gray-100">취소</button>
+                <button onclick="submitItem()" class="px-4 py-2 bg-[#3344aa] text-white rounded font-bold hover:bg-[#2a3a9a]">등록하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 기본 데이터
+        const DEFAULT_MARKET_DATA = Array.from({ length: 25 }, (_, i) => ({
+            id: i,
+            type: i % 3 === 0 ? '팝니다' : (i % 3 === 1 ? '급처' : '나눔'),
+            title: i % 3 === 0 ? `전공책 싸게 팝니다 (${i+1})` : (i % 3 === 1 ? `아이패드 급처합니다 (${i+1})` : `필기구 나눔해요 (${i+1})`),
+            price: i % 3 === 2 ? '무료' : `${(i+1)*1000}원`,
+            desc: "상태 아주 좋습니다. 직거래 원해요.",
+            author: "효빈대생",
+            date: `02.${String(28-i).padStart(2,'0')}`,
+            icon: i % 3 === 0 ? 'book' : (i % 3 === 1 ? 'tablet' : 'pen-tool')
+        }));
+
+        const DEFAULT_LOST_DATA = Array.from({ length: 18 }, (_, i) => ({
+            id: 100+i,
+            type: '습득',
+            title: `베르데 홀 근처에서 에어팟 주웠습니다 (${i+1})`,
+            price: '학생지원팀 보관',
+            desc: "분실물 습득했습니다. 본인 확인 후 찾아가세요.",
+            author: "착한학우",
+            date: `02.${String(20-i).padStart(2,'0')}`,
+            icon: 'headphones'
+        }));
+
+        // 로컬 스토리지 키
+        const MARKET_KEY = 'hbnu_market_data';
+        const LOST_KEY = 'hbnu_lost_data';
+
+        // 데이터 로드
+        let marketData = JSON.parse(localStorage.getItem(MARKET_KEY)) || [...DEFAULT_MARKET_DATA];
+        let lostData = JSON.parse(localStorage.getItem(LOST_KEY)) || [...DEFAULT_LOST_DATA];
+
+        let state = {
+            tab: 'market', // 'market' or 'lost'
+            page: 1,
+            itemsPerPage: 8
+        };
+
+        function saveData() {
+            localStorage.setItem(MARKET_KEY, JSON.stringify(marketData));
+            localStorage.setItem(LOST_KEY, JSON.stringify(lostData));
+        }
+
+        function resetData() {
+            if(confirm('데이터를 초기화하시겠습니까?')) {
+                marketData = [...DEFAULT_MARKET_DATA];
+                lostData = [...DEFAULT_LOST_DATA];
+                saveData();
+                state.page = 1;
+                render();
+            }
+        }
+
+        function render() {
+            const data = state.tab === 'market' ? marketData : lostData;
+            const start = (state.page - 1) * state.itemsPerPage;
+            const end = start + state.itemsPerPage;
+            const viewData = data.slice(start, end);
+            const totalPages = Math.ceil(data.length / state.itemsPerPage);
+
+            const grid = document.getElementById('item-grid');
+            grid.innerHTML = viewData.map(item => {
+                const badgeColor = item.type === '팝니다' ? 'text-blue-600 border-blue-200' : (item.type === '급처' ? 'text-red-600 border-red-200' : (item.type === '나눔' ? 'text-green-600 border-green-200' : 'text-purple-600 border-purple-200'));
+                
+                return `
+                <div class="bg-white border rounded-lg overflow-hidden hover:shadow-md cursor-pointer transition group" onclick="openModal(${item.id})">
+                    <div class="h-40 bg-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition">
+                        <i data-lucide="${item.icon}" class="w-10 h-10"></i>
+                    </div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold ${badgeColor} border px-1.5 py-0.5 rounded">${item.type}</span>
+                        <h4 class="font-bold text-gray-800 mt-2 mb-1 truncate text-sm">${item.title}</h4>
+                        <p class="text-xs text-gray-500 truncate">${item.desc}</p>
+                        <p class="font-bold text-gray-900 mt-2 text-sm">${item.price}</p>
+                    </div>
+                </div>
+            `}).join('');
+
+            const pagination = document.getElementById('pagination');
+            let pagesHtml = '';
+            for(let i=1; i<=totalPages; i++) {
+                pagesHtml += `<button onclick="setPage(${i})" class="w-8 h-8 rounded ${state.page === i ? 'bg-[#3344aa] text-white font-bold' : 'border hover:bg-gray-100 text-gray-600'}">${i}</button>`;
+            }
+            pagination.innerHTML = pagesHtml;
+
+            lucide.createIcons();
+        }
+
+        function setTab(tab) {
+            state.tab = tab;
+            state.page = 1;
+            
+            const btnMarket = document.getElementById('btn-market');
+            const btnLost = document.getElementById('btn-lost');
+            const title = document.getElementById('page-title');
+
+            if(tab === 'market') {
+                btnMarket.className = "px-6 py-3 border-b-2 border-[#3344aa] text-[#3344aa] font-bold transition-colors";
+                btnLost.className = "px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-800 transition-colors";
+                title.innerText = "중고 거래 물품";
+            } else {
+                btnMarket.className = "px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-800 transition-colors";
+                btnLost.className = "px-6 py-3 border-b-2 border-[#3344aa] text-[#3344aa] font-bold transition-colors";
+                title.innerText = "분실물 습득 현황";
+            }
+            render();
+        }
+
+        function setPage(p) {
+            state.page = p;
+            render();
+        }
+
+        function openModal(id) {
+            const data = state.tab === 'market' ? marketData : lostData;
+            const item = data.find(d => d.id === id);
+            if(!item) return;
+
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-desc').innerText = item.desc;
+            document.getElementById('modal-price').innerText = item.price;
+            document.getElementById('modal-author').innerText = item.author;
+            document.getElementById('modal-date').innerText = item.date;
+            
+            document.getElementById('modal-overlay').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.add('hidden');
+        }
+
+        // --- 글쓰기 로직 ---
+        function openWriteModal() {
+            const typeSelect = document.getElementById('input-type');
+            typeSelect.innerHTML = '';
+            
+            if (state.tab === 'market') {
+                document.getElementById('write-title').innerText = "벼룩시장 물품 등록";
+                document.getElementById('label-price').innerText = "가격";
+                ['팝니다', '삽니다', '나눔', '급처'].forEach(opt => {
+                    typeSelect.innerHTML += `<option value="${opt}">${opt}</option>`;
+                });
+            } else {
+                document.getElementById('write-title').innerText = "분실물 등록";
+                document.getElementById('label-price').innerText = "보관 장소 / 사례금";
+                ['습득', '분실'].forEach(opt => {
+                    typeSelect.innerHTML += `<option value="${opt}">${opt}</option>`;
+                });
+            }
+            
+            document.getElementById('input-item-title').value = '';
+            document.getElementById('input-item-price').value = '';
+            document.getElementById('input-item-desc').value = '';
+            document.getElementById('input-item-author').value = '';
+            document.getElementById('write-modal').classList.remove('hidden');
+        }
+
+        function closeWriteModal() {
+            document.getElementById('write-modal').classList.add('hidden');
+        }
+
+        function submitItem() {
+            const type = document.getElementById('input-type').value;
+            const title = document.getElementById('input-item-title').value;
+            const price = document.getElementById('input-item-price').value;
+            const desc = document.getElementById('input-item-desc').value;
+            const author = document.getElementById('input-item-author').value || "익명";
+
+            if(!title || !price) {
+                alert("제목과 가격(정보)을 입력해주세요.");
+                return;
+            }
+
+            const today = new Date();
+            const dateStr = `${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
+            const newItem = {
+                id: Date.now(), // 유니크 ID
+                type: type,
+                title: title,
+                price: price,
+                desc: desc || "내용 없음",
+                author: author,
+                date: dateStr,
+                icon: 'package'
+            };
+
+            if(state.tab === 'market') {
+                marketData.unshift(newItem);
+            } else {
+                lostData.unshift(newItem);
+            }
+
+            saveData(); // 로컬 스토리지 저장
+            state.page = 1;
+            render();
+            closeWriteModal();
+        }
+
+        // 초기 실행
+        render();
+    </script>
+</body>
+</html>

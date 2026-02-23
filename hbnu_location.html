@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오시는 길 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <header class="bg-white border-b py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="https://imgur.com/Uvf0SqH.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">찾아오시는 길 (Access)</span>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="bg-white rounded-2xl shadow-sm border overflow-hidden mb-10">
+            <!-- 가상 지도 영역 -->
+            <div class="aspect-video bg-gray-200 flex flex-col items-center justify-center text-gray-400">
+                <i data-lucide="map" class="w-16 h-16 mb-4"></i>
+                <p class="font-bold text-lg">효빈광역시 서구 대학로 1 (당선동)</p>
+                <p class="text-sm">지도 서비스 준비 중입니다.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- 대중교통 -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 flex items-center">
+                    <i data-lucide="bus" class="mr-2 text-[#3344aa]"></i> 대중교통 이용
+                </h2>
+                
+                <div class="bg-white p-6 rounded-xl border shadow-sm border-l-4 border-pink-400">
+                    <h3 class="font-bold text-pink-600 mb-3 flex items-center">
+                        <i data-lucide="tram-front" class="w-5 h-5 mr-2"></i> 효빈 트램 (7호선)
+                    </h3>
+                    <p class="text-sm text-gray-700">
+                        <b>효빈대입구역</b> 하차 후 2번 출구 (정문 바로 앞)
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border shadow-sm border-l-4 border-green-400">
+                    <h3 class="font-bold text-green-600 mb-3 flex items-center">
+                        <i data-lucide="train" class="w-5 h-5 mr-2"></i> 지하철 이용
+                    </h3>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><b>2호선 효빈대역:</b> 1번 출구 (도보 5분)</li>
+                        <li><b>2, 5호선 당선역:</b> 3번 출구 (도보 10분, 베르데 홀 인접)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 자가용/셔틀 -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 flex items-center">
+                    <i data-lucide="car" class="mr-2 text-[#3344aa]"></i> 기타 안내
+                </h2>
+
+                <div class="bg-white p-6 rounded-xl border shadow-sm">
+                    <h3 class="font-bold text-gray-800 mb-3">자가용 이용</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        효빈IC 진출 후 대학로 방면으로 약 3km 직진. 
+                        교내 주차장은 유료이며, 학생증 소지 시 할인이 적용됩니다.
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <h3 class="font-bold text-[#3344aa] mb-2">교내 셔틀버스</h3>
+                    <p class="text-xs text-gray-600">
+                        소조역(5호선)과 본캠퍼스를 연결하는 셔틀버스가 15분 간격으로 운행됩니다. 
+                        실시간 위치는 '효빈 스마트 캠퍼스' 앱에서 확인하세요.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

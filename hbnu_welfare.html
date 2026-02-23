@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학생복지 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_life.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 대학생활 홈
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">학생복지 안내</h1>
+            <p class="text-gray-600">건강하고 즐거운 캠퍼스 라이프를 위한 다양한 복지 시설을 소개합니다.</p>
+        </div>
+
+        <div class="space-y-12">
+            <!-- 1. 식당 안내 -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-[#3344aa] pl-3">
+                    교내 식당 (Food Court)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- 학복 -->
+                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-orange-100 text-orange-600 p-2 rounded-full mr-3"><i data-lucide="utensils" class="w-5 h-5"></i></span>
+                            <h3 class="font-bold text-lg">학생복지회관 (2호관)</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">다양한 메뉴의 푸드코트와 교직원 식당이 있습니다. 가장 붐비는 곳입니다.</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li>🕒 운영시간: 08:00 ~ 19:00</li>
+                            <li>⭐ 추천: 왕돈가스, 뚝배기불고기</li>
+                        </ul>
+                    </div>
+                    <!-- 학복타운 -->
+                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-green-100 text-green-600 p-2 rounded-full mr-3"><i data-lucide="soup" class="w-5 h-5"></i></span>
+                            <h3 class="font-bold text-lg">학생복지타운 (4호관)</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">저렴하고 푸짐한 <b>한식 뷔페</b>가 운영됩니다. 자취생들의 성지입니다.</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li>🕒 운영시간: 11:00 ~ 14:00 (점심)</li>
+                            <li>⭐ 특징: 계란말이/제육 무한리필</li>
+                        </ul>
+                    </div>
+                    <!-- 정루관 -->
+                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-blue-100 text-blue-600 p-2 rounded-full mr-3"><i data-lucide="coffee" class="w-5 h-5"></i></span>
+                            <h3 class="font-bold text-lg">정루관 (북구)</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">북구 캠퍼스 학생들을 위한 양식 및 패스트푸드 코너입니다.</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li>🕒 운영시간: 09:00 ~ 18:00</li>
+                            <li>⭐ 메뉴: 엠마 샌드위치, 수제버거</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 건강 및 상담 -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-red-500 pl-3">
+                    건강 및 심리 지원
+                </h2>
+                <div class="bg-white rounded-xl border shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-1/2 p-8 border-r border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                            <i data-lucide="stethoscope" class="w-6 h-6 mr-2 text-red-500"></i> 보건진료소 (30호관)
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            내과, 외과, 치과 1차 진료 및 투약이 가능합니다. 학생증 지참 시 진료비가 무료입니다.
+                        </p>
+                        <div class="bg-red-50 p-4 rounded text-sm text-red-800">
+                            <b>💡 TMI:</b> 시험 기간에는 두통약과 피로회복제를 찾는 학생들로 문전성시를 이룹니다. 트램 실습 중 다친 교통대 학생들도 자주 옵니다.
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                            <i data-lucide="smile" class="w-6 h-6 mr-2 text-yellow-500"></i> 학생생활상담센터
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            전문 상담심리사가 상주하며 학업, 진로, 대인관계 고민을 나눕니다. (철저한 비밀 보장)
+                        </p>
+                        <div class="bg-yellow-50 p-4 rounded text-sm text-yellow-800">
+                            <b>💡 TMI:</b> 윤재훈 사건 당시, 분노 조절에 실패한(?) 학생들이 단체 상담을 신청해 예약이 폭주했던 전설이 있습니다.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 편의 시설 -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-green-600 pl-3">
+                    교내 편의 시설
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
+                        <i data-lucide="printer" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
+                        <h4 class="font-bold text-gray-700">출력 센터</h4>
+                        <p class="text-xs text-gray-500">도서관, 학생회관</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
+                        <i data-lucide="dumbbell" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
+                        <h4 class="font-bold text-gray-700">피트니스 센터</h4>
+                        <p class="text-xs text-gray-500">체육관 1층</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
+                        <i data-lucide="store" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
+                        <h4 class="font-bold text-gray-700">편의점/은행</h4>
+                        <p class="text-xs text-gray-500">각 단과대 로비</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
+                        <i data-lucide="glasses" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
+                        <h4 class="font-bold text-gray-700">안경점/미용실</h4>
+                        <p class="text-xs text-gray-500">학생복지회관</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

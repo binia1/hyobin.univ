@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동문 서비스 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">총동문회 (Alumni)</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow w-full">
+        <div class="text-center mb-16">
+            <h1 class="text-3xl font-bold text-[#3344aa] mb-4">효빈대학교 총동문회</h1>
+            <p class="text-gray-600">100년의 역사, 10만 동문의 힘으로 모교의 발전을 견인합니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- 인터넷 증명발급 -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border hover:-translate-y-1 transition text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-[#3344aa]">
+                    <i data-lucide="file-check" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">인터넷 증명발급</h3>
+                <p class="text-sm text-gray-500 mb-6">졸업증명서, 성적증명서 등<br>각종 증명서를 온라인으로 발급받으세요.</p>
+                <button onclick="alert('증명발급 시스템으로 이동합니다.')" class="bg-[#3344aa] text-white px-6 py-2 rounded-full font-bold hover:bg-[#2a3a9a] transition">발급 바로가기</button>
+            </div>
+
+            <!-- 동문 주소록 -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border hover:-translate-y-1 transition text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
+                    <i data-lucide="book-user" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">동문 주소록 / 찾기</h3>
+                <p class="text-sm text-gray-500 mb-6">그리운 학우들을 찾아보세요.<br>(로그인 필요)</p>
+                <button onclick="alert('로그인이 필요합니다.')" class="bg-green-600 text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition">동문 찾기</button>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 p-6 rounded-xl border">
+            <h3 class="font-bold text-gray-700 mb-4">📢 동문회 소식</h3>
+            <ul class="space-y-3 text-sm text-gray-600">
+                <li class="flex justify-between border-b pb-2 cursor-pointer hover:text-[#3344aa]">
+                    <span>[행사] 2025년 신년 하례회 개최 안내</span>
+                    <span class="text-gray-400">2025.01.05</span>
+                </li>
+                <li class="flex justify-between border-b pb-2 cursor-pointer hover:text-[#3344aa]">
+                    <span>[소식] 박효빈 동문(사회복지), 자랑스러운 효빈인상 수상</span>
+                    <span class="text-gray-400">2024.12.20</span>
+                </li>
+                <li class="flex justify-between cursor-pointer hover:text-[#3344aa]">
+                    <span>[안내] 2024학년도 전기 학위수여식 일정</span>
+                    <span class="text-gray-400">2024.12.01</span>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY ALUMNI. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

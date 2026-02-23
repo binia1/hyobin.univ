@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자유게시판 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_community.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 효빈광장 홈
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="flex justify-between items-end mb-6 border-b-2 border-gray-800 pb-2">
+            <h2 class="text-2xl font-bold text-gray-800">자유게시판</h2>
+            <div class="flex gap-2">
+                <button onclick="resetData()" class="bg-gray-200 text-gray-600 px-3 py-2 rounded text-xs font-bold hover:bg-gray-300 flex items-center">
+                    <i data-lucide="rotate-ccw" class="w-3 h-3 mr-1"></i> 초기화
+                </button>
+                <button onclick="openWriteModal()" class="bg-[#3344aa] text-white px-4 py-2 rounded text-sm font-bold hover:bg-[#2a3a9a] flex items-center">
+                    <i data-lucide="pen-square" class="w-4 h-4 mr-2"></i> 글쓰기
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white border rounded-lg shadow-sm overflow-hidden min-h-[500px]">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700">
+                    <tr>
+                        <th class="p-3 w-16 text-center">번호</th>
+                        <th class="p-3">제목</th>
+                        <th class="p-3 w-24 text-center">작성자</th>
+                        <th class="p-3 w-16 text-center">추천</th>
+                        <th class="p-3 w-16 text-center">조회</th>
+                        <th class="p-3 w-24 text-center">날짜</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y" id="board-list">
+                    <!-- JS로 데이터 생성 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="flex justify-center mt-6 space-x-2" id="pagination">
+            <!-- JS 렌더링 -->
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- 글쓰기 모달 -->
+    <div id="write-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">새 글 작성</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">제목</label>
+                    <input type="text" id="input-title" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none" placeholder="제목을 입력하세요">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">작성자</label>
+                    <input type="text" id="input-author" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none" placeholder="익명">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">내용</label>
+                    <textarea id="input-content" rows="6" class="w-full border rounded p-2 focus:border-[#3344aa] outline-none resize-none" placeholder="내용을 입력하세요"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 mt-6">
+                <button onclick="closeWriteModal()" class="px-4 py-2 border rounded hover:bg-gray-100">취소</button>
+                <button onclick="submitPost()" class="px-4 py-2 bg-[#3344aa] text-white rounded font-bold hover:bg-[#2a3a9a]">등록</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시글 상세 보기 모달 -->
+    <div id="post-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 hidden" onclick="closePost()">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] flex flex-col" onclick="event.stopPropagation()">
+            <!-- 모달 헤더 -->
+            <div class="p-5 border-b flex justify-between items-start">
+                <div>
+                    <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded mb-2 font-bold">자유</span>
+                    <h3 id="post-title" class="text-xl font-bold text-gray-800 leading-tight"></h3>
+                </div>
+                <button onclick="closePost()" class="text-gray-400 hover:text-black"><i data-lucide="x" width="24"></i></button>
+            </div>
+            <!-- 모달 정보 -->
+            <div class="px-5 py-2 bg-gray-50 border-b flex justify-between text-xs text-gray-500">
+                <div>
+                    <span class="font-bold text-gray-700 mr-2" id="post-author"></span>
+                    <span id="post-date"></span>
+                </div>
+                <div>
+                    <span class="mr-2">조회 <span id="post-views"></span></span>
+                    <span class="text-[#3344aa] font-bold">추천 <span id="post-likes"></span></span>
+                </div>
+            </div>
+            <!-- 모달 본문 -->
+            <div class="p-6 overflow-y-auto text-gray-700 text-sm leading-relaxed whitespace-pre-line" id="post-content" style="min-height: 200px;">
+            </div>
+            <!-- 모달 푸터 -->
+            <div class="p-4 border-t text-center">
+                <button id="btn-like" class="px-6 py-2 bg-[#3344aa] text-white rounded hover:bg-[#2a3a9a] text-sm font-bold transition flex items-center justify-center mx-auto" onclick="clickLike()">
+                    <i data-lucide="thumbs-up" class="w-4 h-4 mr-2"></i> 추천하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 기본 데이터 (초기화 시 사용)
+        const DEFAULT_POSTS = [
+            { id: 4052, title: "오늘 학생복지타운 학식 메뉴 미쳤다 ㅋㅋ", author: "맛점", views: 245, likes: 12, date: "12:30", content: "제육볶음에 계란말이 무한리필 실화냐? \n이모님 사랑해요. 다들 4호관으로 뛰어오셈." },
+            { id: 4051, title: "트램 7호선 지금 사람 많나요? (공대행)", author: "통학러", views: 102, likes: 3, date: "11:15", content: "지금 정문(효빈대입구역)에서 타려는데 자리 있나요? \n1교시 지각 위기임 ㅠㅠ" },
+            { id: 4050, title: "베르데 홀 근처에서 엠마 굿즈 주우신 분?", author: "니지", views: 56, likes: 5, date: "10:40", content: "엠마 베르데 아크릴 키링 떨어뜨렸어요 ㅠㅠ \n혹시 보신 분 계시면 사례하겠습니다. 제발요 ㅠㅠ" },
+            { id: 4049, title: "방도 도서관 3층 와이파이 안 잡힘 ㅠㅠ", author: "A+", views: 33, likes: 0, date: "09:55", content: "나만 안 됨? 과제 제출 10분 전인데 미치겠네. \n핫스팟 켜야 하나..." },
+            { id: 4048, title: "철도운전학과 실습 트램 운전하는 거 구경 가능?", author: "새내기", views: 189, likes: 8, date: "09:10", content: "신입생인데 지나가다 보니까 트램에 '실습 중' 붙어있던데 \n외부에서 구경해도 되나요? 운전하는 거 멋있음." },
+            { id: 4047, title: "윤재훈 사건 썰 다시 봐도 레전드네", author: "화석", views: 540, likes: 55, date: "02.17", content: "2024년 빵 테러 사건 때 현장에 있었던 사람임. \n그때 사회복지실천학과 과대 누나가 멱살 잡는 거 라이브로 봤는데 \n진짜 전투력 만렙이었음 ㅋㅋㅋ" },
+            { id: 4046, title: "사회복지정책학과 복전 컷 얼마나 되나요?", author: "고민중", views: 120, likes: 2, date: "02.16", content: "학점 4.2인데 비벼볼 만한가요? \n박효빈 시장님 후배 되고 싶어서..." },
+            { id: 4045, title: "기숙사 희다관(키타관) vs 후등관(봇치관) 어디가 좋음?", author: "신입", views: 312, likes: 10, date: "02.15", content: "인싸는 희다관 가라는데 진짜임? \n나 I인데 후등관 가야 하나..." },
+            { id: 4044, title: "박효빈 시장님 오늘 학교 오신대!!", author: "팬클럽", views: 890, likes: 102, date: "02.14", content: "오늘 개교 100주년 축사하러 오신대!! \n베르데 홀 자리 맡으러 간다 ㅌㅌ" },
+            { id: 4043, title: "만애과 졸업전시회 외부인도 입장 되나요?", author: "시민", views: 76, likes: 4, date: "02.13", content: "이번에 일본 성우 온다는데 티켓 예매해야 함? \n아니면 그냥 가면 됨?" },
+        ];
+
+        // 로컬 스토리지 키
+        const STORAGE_KEY = 'hbnu_free_posts';
+
+        // 데이터 불러오기
+        let posts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...DEFAULT_POSTS];
+        
+        let currentPostId = null;
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+        }
+
+        function resetData() {
+            if(confirm('모든 글을 초기 상태로 되돌리시겠습니까?')) {
+                posts = [...DEFAULT_POSTS];
+                saveData();
+                currentPage = 1;
+                renderList();
+            }
+        }
+
+        function renderList() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const viewPosts = posts.slice(start, end);
+            const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+            const list = document.getElementById('board-list');
+            list.innerHTML = viewPosts.map(p => `
+                <tr class="hover:bg-gray-50 cursor-pointer transition" onclick="showPost(${p.id})">
+                    <td class="p-3 text-center text-gray-500">${p.id}</td>
+                    <td class="p-3 font-medium text-gray-800">${p.title} <span class="text-[#3344aa] text-xs">[${Math.floor(Math.random()*10)}]</span></td>
+                    <td class="p-3 text-center text-gray-600">${p.author}</td>
+                    <td class="p-3 text-center text-gray-500 text-xs font-bold text-[#3344aa]">${p.likes}</td>
+                    <td class="p-3 text-center text-gray-400 text-xs">${p.views}</td>
+                    <td class="p-3 text-center text-gray-400 text-xs">${p.date}</td>
+                </tr>
+            `).join('');
+
+            // 페이지네이션 렌더링
+            const pagination = document.getElementById('pagination');
+            let pagesHtml = '';
+            for(let i=1; i<=totalPages; i++) {
+                pagesHtml += `<button onclick="setPage(${i})" class="w-8 h-8 rounded ${currentPage === i ? 'bg-[#3344aa] text-white font-bold' : 'border hover:bg-gray-100 text-gray-600'}">${i}</button>`;
+            }
+            pagination.innerHTML = pagesHtml;
+
+            lucide.createIcons();
+        }
+
+        function setPage(p) {
+            currentPage = p;
+            renderList();
+        }
+
+        // ================= 상세 보기 & 추천 =================
+        function showPost(id) {
+            const post = posts.find(p => p.id === id);
+            if(!post) return;
+
+            // 조회수 증가 및 저장
+            post.views += 1;
+            saveData();
+            currentPostId = id;
+
+            document.getElementById('post-title').innerText = post.title;
+            document.getElementById('post-author').innerText = post.author;
+            document.getElementById('post-date').innerText = post.date;
+            document.getElementById('post-views').innerText = post.views;
+            document.getElementById('post-likes').innerText = post.likes;
+            document.getElementById('post-content').innerText = post.content;
+            
+            // 추천 버튼 초기화
+            const btn = document.getElementById('btn-like');
+            btn.disabled = false;
+            btn.classList.remove('bg-gray-400');
+            btn.classList.add('bg-[#3344aa]');
+            btn.innerHTML = `<i data-lucide="thumbs-up" class="w-4 h-4 mr-2"></i> 추천하기`;
+            lucide.createIcons();
+
+            document.getElementById('post-modal').classList.remove('hidden');
+            renderList(); // 조회수 업데이트 반영
+        }
+
+        function clickLike() {
+            const post = posts.find(p => p.id === currentPostId);
+            if(post) {
+                post.likes += 1;
+                saveData(); // 추천수 저장
+                document.getElementById('post-likes').innerText = post.likes;
+                renderList(); // 목록의 추천수도 업데이트
+                
+                // 버튼 비활성화 효과
+                const btn = document.getElementById('btn-like');
+                btn.disabled = true;
+                btn.classList.remove('bg-[#3344aa]');
+                btn.classList.add('bg-gray-400');
+                btn.innerHTML = `<i data-lucide="check" class="w-4 h-4 mr-2"></i> 추천완료`;
+                lucide.createIcons();
+            }
+        }
+
+        function closePost() {
+            document.getElementById('post-modal').classList.add('hidden');
+            currentPostId = null;
+        }
+
+        // ================= 글쓰기 =================
+        function openWriteModal() {
+            document.getElementById('input-title').value = '';
+            document.getElementById('input-content').value = '';
+            document.getElementById('input-author').value = '';
+            document.getElementById('write-modal').classList.remove('hidden');
+        }
+
+        function closeWriteModal() {
+            document.getElementById('write-modal').classList.add('hidden');
+        }
+
+        function submitPost() {
+            const title = document.getElementById('input-title').value.trim();
+            const content = document.getElementById('input-content').value.trim();
+            const author = document.getElementById('input-author').value.trim() || "익명";
+
+            if (!title || !content) {
+                alert("제목과 내용을 입력해주세요.");
+                return;
+            }
+
+            // 새 ID 생성 (가장 큰 ID + 1)
+            const maxId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) : 4000;
+            const newId = maxId + 1;
+            
+            const today = new Date();
+            const timeString = `${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
+
+            const newPost = {
+                id: newId,
+                title: title,
+                author: author,
+                views: 0,
+                likes: 0,
+                date: timeString,
+                content: content
+            };
+
+            posts.unshift(newPost); // 맨 앞에 추가
+            saveData(); // 저장
+            currentPage = 1; // 첫 페이지로 이동
+            renderList();
+            closeWriteModal();
+        }
+
+        // 초기 실행
+        renderList();
+    </script>
+</body>
+</html>

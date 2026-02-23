@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>발전기금 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">발전기금 (HBNU Fund)</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow w-full">
+        <!-- 비전 -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-[#3344aa] mb-4">나눔으로 만드는 불굴의 미래</h1>
+            <p class="text-gray-600 text-lg">여러분의 소중한 기부가 효빈대학교의 새로운 100년을 만듭니다.</p>
+        </div>
+
+        <!-- 기부 현황 (명예의 전당) -->
+        <section class="bg-white p-8 rounded-xl shadow-lg border-t-8 border-[#3344aa] mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🏆 명예의 전당</h2>
+            
+            <div class="space-y-6">
+                <!-- 박효빈 시장 -->
+                <div class="flex items-center bg-[#f0f4f8] p-4 rounded-lg">
+                    <div class="w-16 h-16 bg-[#3344aa] rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">1위</div>
+                    <div class="flex-grow">
+                        <h3 class="font-bold text-lg">박효빈 (효빈광역시장)</h3>
+                        <p class="text-sm text-gray-600">사회복지학대학 발전기금 및 전교생 장학금 쾌척</p>
+                    </div>
+                    <div class="text-[#3344aa] font-bold text-lg">VIP Donor</div>
+                </div>
+                
+                <!-- 누마즈시 -->
+                <div class="flex items-center bg-pink-50 p-4 rounded-lg">
+                    <div class="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">특별</div>
+                    <div class="flex-grow">
+                        <h3 class="font-bold text-lg">일본 누마즈시 (Numazu City)</h3>
+                        <p class="text-sm text-gray-600">한일 문화 교류 및 베르데 홀 시설 개선 기금</p>
+                    </div>
+                    <div class="text-pink-600 font-bold text-lg">Partner</div>
+                </div>
+
+                <!-- 익명 기부 -->
+                <div class="flex items-center bg-gray-50 p-4 rounded-lg">
+                    <div class="w-16 h-16 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">익명</div>
+                    <div class="flex-grow">
+                        <h3 class="font-bold text-lg">익명의 졸업생 (철도운전학과)</h3>
+                        <p class="text-sm text-gray-600">후배들 실습용 트램 부품 교체 비용 지원</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 진행 중인 캠페인 -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">진행 중인 모금 캠페인</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white border rounded-xl overflow-hidden hover:shadow-md transition group cursor-pointer" onclick="alert('기부 페이지로 이동합니다.')">
+                    <div class="h-40 bg-[#3344aa] flex items-center justify-center text-white">
+                        <i data-lucide="book-open" class="w-12 h-12"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2 group-hover:text-[#3344aa]">천원의 아침밥 후원</h3>
+                        <p class="text-sm text-gray-600 mb-4">후배들이 든든하게 아침을 먹을 수 있도록 지원해주세요.</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
+                            <div class="bg-[#3344aa] h-2.5 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="text-xs text-right text-gray-500">75% 달성</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border rounded-xl overflow-hidden hover:shadow-md transition group cursor-pointer" onclick="alert('기부 페이지로 이동합니다.')">
+                    <div class="h-40 bg-purple-600 flex items-center justify-center text-white">
+                        <i data-lucide="star" class="w-12 h-12"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2 group-hover:text-purple-600">엠마 베르데 문화예술 기금</h3>
+                        <p class="text-sm text-gray-600 mb-4">예술대학 및 동아리 창작 활동을 지원하는 덕후 친화적 기금입니다.</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
+                            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 120%"></div>
+                        </div>
+                        <p class="text-xs text-right text-gray-500">120% 초과 달성 (화력 폭발)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="mt-12 text-center">
+            <button class="bg-[#3344aa] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#2a3a9a] shadow-lg transition">
+                기부 참여하기
+            </button>
+            <p class="text-xs text-gray-500 mt-4">기부금은 법정기부금으로 세제 혜택을 받으실 수 있습니다.</p>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

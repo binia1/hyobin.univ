@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동아리 안내 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_life.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 대학생활 홈
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">동아리 연합회</h1>
+            <p class="text-gray-600">열정과 끼가 넘치는 효빈대학교의 중앙동아리를 소개합니다.<br>카드를 클릭하면 상세 활동 내역을 볼 수 있습니다.</p>
+        </div>
+
+        <!-- 탭 -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button onclick="filterClubs('ALL')" class="px-4 py-2 rounded-full bg-[#3344aa] text-white font-bold text-sm transition shadow-sm hover:bg-[#2a3a9a]">전체</button>
+            <button onclick="filterClubs('공연')" class="px-4 py-2 rounded-full bg-white border text-gray-600 text-sm hover:bg-gray-50 transition">공연예술</button>
+            <button onclick="filterClubs('학술')" class="px-4 py-2 rounded-full bg-white border text-gray-600 text-sm hover:bg-gray-50 transition">학술/취미</button>
+            <button onclick="filterClubs('체육')" class="px-4 py-2 rounded-full bg-white border text-gray-600 text-sm hover:bg-gray-50 transition">체육</button>
+            <button onclick="filterClubs('봉사')" class="px-4 py-2 rounded-full bg-white border text-gray-600 text-sm hover:bg-gray-50 transition">봉사</button>
+        </div>
+
+        <!-- 동아리 그리드 -->
+        <div id="club-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- JS로 렌더링 -->
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- 상세 보기 모달 -->
+    <div id="club-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-60 p-4 hidden" onclick="closeModal()">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden transform transition-all scale-95 opacity-0" id="modal-content" onclick="event.stopPropagation()">
+            
+            <!-- 모달 헤더 (이미지) -->
+            <div class="h-48 bg-gray-200 relative">
+                <img id="modal-img" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-white bg-black bg-opacity-20 rounded-full p-1 hover:bg-opacity-50 transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                <div class="absolute bottom-4 left-6 text-white">
+                    <span id="modal-category" class="inline-block px-2 py-1 rounded text-xs font-bold mb-2 backdrop-blur-md bg-white/20 border border-white/30"></span>
+                    <h2 id="modal-title" class="text-3xl font-bold drop-shadow-md"></h2>
+                </div>
+            </div>
+
+            <!-- 모달 본문 -->
+            <div class="p-8 overflow-y-auto">
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 flex items-center"><i data-lucide="info" class="w-5 h-5 mr-2 text-[#3344aa]"></i> 동아리 소개</h3>
+                    <p id="modal-desc" class="text-gray-600 leading-relaxed whitespace-pre-line"></p>
+                </div>
+                
+                <div class="mb-6 bg-gray-50 p-5 rounded-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 flex items-center"><i data-lucide="award" class="w-5 h-5 mr-2 text-yellow-500"></i> 주요 활동 및 전설</h3>
+                    <p id="modal-legend" class="text-sm text-gray-700 leading-relaxed"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div class="border p-3 rounded">
+                        <span class="block text-gray-400 text-xs mb-1">회장</span>
+                        <span id="modal-leader" class="font-bold text-gray-700"></span>
+                    </div>
+                    <div class="border p-3 rounded">
+                        <span class="block text-gray-400 text-xs mb-1">동아리방</span>
+                        <span id="modal-room" class="font-bold text-gray-700"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 모달 푸터 -->
+            <div class="p-4 border-t bg-gray-50 flex justify-end">
+                <button id="btn-join" class="px-6 py-2 bg-[#3344aa] text-white rounded-lg font-bold hover:bg-[#2a3a9a] transition flex items-center" onclick="joinClub()">
+                    가입 신청하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CLUBS_DATA = [
+            {
+                id: 1,
+                name: "레일피아 (Railpia)",
+                category: "학술",
+                badgeColor: "text-blue-600 bg-blue-50",
+                icon: "train-front",
+                image: "https://images.unsplash.com/photo-1474487548417-781cb714c22d?w=800",
+                shortDesc: "철도와 교통을 사랑하는 사람들의 모임입니다.",
+                desc: "효빈대학교 유일의 철도 연구 동아리입니다. 교내 트램 및 모노레일 출사, 철도 모형 제작, 전국 철도 답사 등을 진행합니다. 철도운전학과 학생뿐만 아니라 타과생도 환영합니다.",
+                legend: "📸 <b>2024년 트램 사건의 목격자:</b>\n윤재훈이 트램 앞을 막아섰을 때, 회원들이 대포 카메라와 캠코더로 현장을 4K 60프레임으로 박제하여 경찰에 결정적 증거를 제출했습니다.",
+                leader: "김철덕 (교통대 3)",
+                room: "동아리관 402호"
+            },
+            {
+                id: 2,
+                name: "복지더락 (Bokji-The-Rock)",
+                category: "공연",
+                badgeColor: "text-pink-600 bg-pink-50",
+                icon: "music",
+                image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800",
+                shortDesc: "사회복지학대학 소속 밴드. (구 복지락)",
+                desc: "사회복지학대학 학생들로 구성된 어쿠스틱 & 락 밴드입니다. 애니메이션 '봇치 더 락'에서 영감을 받아 밴드명을 변경했습니다. 복지관 위문 공연부터 대동제 메인 스테이지까지 폭넓게 활동합니다.",
+                legend: "🎸 <b>전설의 떼창:</b>\n축제 때 '별자리가 된다면'을 연주하여 공대생들까지 떼창하게 만들었습니다.",
+                leader: "이고토 (사복 2)",
+                room: "사회대 1호관 지하 연습실"
+            },
+            {
+                id: 3,
+                name: "서브컬처 연구회 (오덕후)",
+                category: "학술",
+                badgeColor: "text-purple-600 bg-purple-50",
+                icon: "glasses",
+                image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800",
+                shortDesc: "애니메이션, 게임 문화를 연구하고 창작합니다.",
+                desc: "만화애니메이션학과를 주축으로 다양한 학과생들이 모여 서브컬처를 연구합니다. 2차 창작물 제작, 코스프레 촬영 지원 등을 하며, 매년 HAF(효빈 애니 페스티벌)의 핵심 스태프로 참여합니다.",
+                legend: "🛡️ <b>덕후의 성지 수호:</b>\n교내 행사 때 외부인의 혐오 발언에 맞서 논리적인 팩트 폭격으로 대응한 전력이 있습니다.",
+                leader: "박오타 (만애 3)",
+                room: "동아리관 505호"
+            },
+            {
+                id: 4,
+                name: "베르데 수호대 (코스프레)",
+                category: "공연",
+                badgeColor: "text-indigo-600 bg-indigo-50",
+                icon: "sword",
+                image: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6?w=800",
+                shortDesc: "의상 제작 및 무대 퍼포먼스 동아리.",
+                desc: "코스프레 의상을 직접 제작하고 무대 퍼포먼스를 기획합니다. 베르데 홀 행사 시 코스프레 모델로 활동하며 학교 홍보에 기여하고 있습니다.",
+                legend: "⚔️ <b>2024년 등신대 수호 사건:</b>\n난동자가 '엠마 베르데' 등신대를 부수려 하자, 소품용 대검(3m)을 들고 달려들어 물리적으로(?) 저지했습니다. 이후 '베르데의 기사단' 칭호를 얻었습니다.",
+                leader: "최엠마 (의류 2)",
+                room: "동아리관 301호"
+            },
+            {
+                id: 5,
+                name: "FC 효빈",
+                category: "체육",
+                badgeColor: "text-green-600 bg-green-50",
+                icon: "trophy",
+                image: "https://images.unsplash.com/photo-1522778119026-d647f0565c6d?w=800",
+                shortDesc: "효빈대학교 중앙 축구 동아리.",
+                desc: "매주 대운동장에서 정기 훈련 및 경기를 가집니다. 공대 vs 체대의 더비 매치는 교내 최고의 스포츠 이벤트 중 하나입니다.",
+                legend: "⚽ <b>시장님과의 한 판:</b>\n박효빈 시장이 방문했을 때 친선 경기를 가졌는데, 시장님이 자책골을 넣어서 분위기가 싸해졌다는 전설이 있습니다.",
+                leader: "정스트 (체육 3)",
+                room: "체육관 102호"
+            },
+            {
+                id: 6,
+                name: "효빈 필하모닉",
+                category: "공연",
+                badgeColor: "text-yellow-600 bg-yellow-50",
+                icon: "music-2",
+                image: "https://images.unsplash.com/photo-1507838153414-b4b713384ebd?w=800",
+                shortDesc: "교내 아마추어 오케스트라.",
+                desc: "음악대학 비전공자들이 모인 순수 아마추어 오케스트라입니다. 입학식, 졸업식 연주를 담당하며 베르데 홀에서 정기 연주회를 개최합니다.",
+                legend: "🎻 <b>베르데 홀의 기적:</b>\n정기 연주회 때 '러브라이브' OST를 오케스트라 버전으로 편곡해 연주하여 기립 박수를 받았습니다.",
+                leader: "강마에 (물리 4)",
+                room: "학생회관 5층 합주실"
+            },
+            {
+                id: 7,
+                name: "꿈나래 봉사단",
+                category: "봉사",
+                badgeColor: "text-red-600 bg-red-50",
+                icon: "heart",
+                image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800",
+                shortDesc: "지역 아동 멘토링 봉사 동아리.",
+                desc: "효빈시 지역아동센터와 연계하여 교육 봉사 및 정서 지원 활동을 합니다. 아이들에게 꿈과 희망을 선물합니다.",
+                legend: "🍞 <b>빵 테러 사건의 증인:</b>\n2024년 빵 테러 사건 당시, 아이들 간식을 지키기 위해 온몸으로 막아선 부원들이 있었습니다.",
+                leader: "한나눔 (유아교육 2)",
+                room: "학생복지회관 203호"
+            }
+        ];
+
+        // 가입된 동아리 목록 (로컬 스토리지 사용)
+        let joinedClubs = JSON.parse(localStorage.getItem('hbnu_joined_clubs')) || [];
+        let currentClubId = null;
+
+        function renderClubs(filter = 'ALL') {
+            const grid = document.getElementById('club-grid');
+            grid.innerHTML = '';
+            
+            const filteredData = filter === 'ALL' 
+                ? CLUBS_DATA 
+                : CLUBS_DATA.filter(club => club.category === filter);
+
+            if(filteredData.length === 0) {
+                grid.innerHTML = '<div class="col-span-3 text-center py-10 text-gray-500">해당 카테고리의 동아리가 없습니다.</div>';
+                return;
+            }
+
+            grid.innerHTML = filteredData.map(club => {
+                const isJoined = joinedClubs.includes(club.id);
+                return `
+                <div onclick="openModal(${club.id})" class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition group cursor-pointer transform hover:-translate-y-1 duration-300 relative">
+                    ${isJoined ? '<div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full z-10 font-bold">가입됨</div>' : ''}
+                    <div class="h-40 bg-gray-200 relative overflow-hidden">
+                        <img src="${club.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition"></div>
+                        <h3 class="absolute bottom-4 left-4 text-white font-bold text-xl flex items-center shadow-sm">
+                            <i data-lucide="${club.icon}" class="mr-2"></i> ${club.name}
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs font-bold ${club.badgeColor} px-2 py-1 rounded inline-block mb-3">${club.category}</span>
+                        <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                            ${club.shortDesc}
+                        </p>
+                        <div class="mt-4 pt-4 border-t flex justify-between text-xs text-gray-400">
+                            <span><i data-lucide="user" class="w-3 h-3 inline mr-1"></i> ${club.leader}</span>
+                            <span><i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i> ${club.room}</span>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+            
+            lucide.createIcons();
+        }
+
+        function filterClubs(category) {
+            renderClubs(category);
+        }
+
+        function openModal(id) {
+            currentClubId = id;
+            const club = CLUBS_DATA.find(c => c.id === id);
+            if(!club) return;
+
+            document.getElementById('modal-img').src = club.image;
+            document.getElementById('modal-category').innerText = club.category;
+            document.getElementById('modal-category').className = `inline-block px-2 py-1 rounded text-xs font-bold mb-2 ${club.badgeColor.replace('bg-', 'bg-white text-')}`; // 배지 스타일 조정
+            document.getElementById('modal-title').innerText = club.name;
+            document.getElementById('modal-desc').innerText = club.desc;
+            document.getElementById('modal-legend').innerHTML = club.legend;
+            document.getElementById('modal-leader').innerText = club.leader;
+            document.getElementById('modal-room').innerText = club.room;
+
+            // 버튼 상태 업데이트
+            const btnJoin = document.getElementById('btn-join');
+            if (joinedClubs.includes(id)) {
+                btnJoin.innerText = "가입 완료";
+                btnJoin.disabled = true;
+                btnJoin.className = "px-6 py-2 bg-gray-400 text-white rounded-lg font-bold cursor-not-allowed flex items-center";
+                btnJoin.innerHTML = `<i data-lucide="check" class="w-4 h-4 mr-2"></i> 가입 완료`;
+            } else {
+                btnJoin.innerText = "가입 신청하기";
+                btnJoin.disabled = false;
+                btnJoin.className = "px-6 py-2 bg-[#3344aa] text-white rounded-lg font-bold hover:bg-[#2a3a9a] transition flex items-center";
+                btnJoin.innerHTML = `가입 신청하기`;
+            }
+            lucide.createIcons();
+
+            const modal = document.getElementById('club-modal');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.remove('hidden');
+            // 애니메이션 효과
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function joinClub() {
+            if (currentClubId === null) return;
+            
+            if (!confirm("정말로 가입 신청하시겠습니까?")) return;
+
+            joinedClubs.push(currentClubId);
+            localStorage.setItem('hbnu_joined_clubs', JSON.stringify(joinedClubs));
+            
+            alert("가입이 완료되었습니다!\n동아리방에 방문하여 회장님께 인사해주세요.");
+            
+            // 버튼 상태 즉시 업데이트
+            const btnJoin = document.getElementById('btn-join');
+            btnJoin.disabled = true;
+            btnJoin.className = "px-6 py-2 bg-gray-400 text-white rounded-lg font-bold cursor-not-allowed flex items-center";
+            btnJoin.innerHTML = `<i data-lucide="check" class="w-4 h-4 mr-2"></i> 가입 완료`;
+            lucide.createIcons();
+            
+            // 리스트도 갱신 (배지 표시)
+            renderClubs();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('club-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // 초기 렌더링
+        renderClubs();
+    </script>
+</body>
+</html>

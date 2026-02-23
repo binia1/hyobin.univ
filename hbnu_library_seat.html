@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>열람실 좌석 배정 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .seat { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .seat.available { background-color: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; }
+        .seat.available:hover { background-color: #3344aa; color: white; border-color: #3344aa; }
+        .seat.occupied { background-color: #fee2e2; color: #ef4444; border: 1px solid #fecaca; cursor: not-allowed; }
+        .seat.my { background-color: #3344aa; color: white; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="font-bold text-lg text-gray-800 flex items-center">
+                <i data-lucide="book-open" class="mr-2 text-[#3344aa]"></i> 제1열람실 (3F)
+            </h1>
+            <button onclick="history.back()" class="text-sm text-gray-500 hover:text-black">나가기</button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex gap-4 text-sm">
+                <div class="flex items-center"><div class="w-4 h-4 bg-gray-200 border border-gray-300 rounded mr-2"></div>사용가능</div>
+                <div class="flex items-center"><div class="w-4 h-4 bg-red-100 border border-red-200 rounded mr-2"></div>사용중</div>
+                <div class="flex items-center"><div class="w-4 h-4 bg-[#3344aa] rounded mr-2"></div>내좌석</div>
+            </div>
+            <div class="text-sm text-gray-600">
+                잔여석: <span class="font-bold text-[#3344aa]">42</span> / 100
+            </div>
+        </div>
+
+        <!-- 좌석 배치도 -->
+        <div class="bg-white p-8 rounded-xl shadow-lg border overflow-x-auto">
+            <div class="w-full flex justify-center mb-8">
+                <div class="bg-gray-100 px-12 py-2 rounded text-gray-400 text-xs border">출입구 / 키오스크</div>
+            </div>
+            
+            <div class="grid grid-cols-10 gap-3 min-w-[500px]" id="seat-map">
+                <!-- JS로 좌석 생성 -->
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-500 mb-4">좌석을 선택한 후 배정 버튼을 누르세요.</p>
+            <button class="bg-[#3344aa] text-white px-10 py-3 rounded-full font-bold hover:bg-[#2a3a9a] shadow-lg transition" onclick="assignSeat()">
+                좌석 배정
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const seatContainer = document.getElementById('seat-map');
+        let selectedSeat = null;
+
+        // 좌석 100개 생성 (랜덤 점유)
+        for (let i = 1; i <= 100; i++) {
+            const isOccupied = Math.random() < 0.6; // 60% 확률로 사용중
+            const seat = document.createElement('div');
+            
+            if (isOccupied) {
+                seat.className = 'seat occupied';
+                seat.innerText = i;
+            } else {
+                seat.className = 'seat available';
+                seat.innerText = i;
+                seat.onclick = function() {
+                    // 이전 선택 해제
+                    if(selectedSeat) selectedSeat.classList.remove('my');
+                    // 선택
+                    selectedSeat = this;
+                    this.classList.add('my');
+                };
+            }
+            seatContainer.appendChild(seat);
+            
+            // 통로 만들기 (중간에 빈 공간)
+            if (i % 10 === 5) {
+                // seatContainer.appendChild(document.createElement('div')); // 그리드 레이아웃이라 복잡, 생략
+            }
+        }
+
+        function assignSeat() {
+            if (!selectedSeat) {
+                alert("좌석을 선택해주세요.");
+                return;
+            }
+            alert(`${selectedSeat.innerText}번 좌석이 배정되었습니다.\n이용 시간: 4시간`);
+            location.href = 'hbnu_library.html';
+        }
+        
+        lucide.createIcons();
+    </script>
+</body>
+</html>

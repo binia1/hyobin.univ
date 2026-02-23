@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>효빈광장 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">효빈광장 (Community)</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- 사이드바 -->
+            <div class="md:w-1/4">
+                <div class="bg-white rounded-lg border shadow-sm overflow-hidden sticky top-24">
+                    <div class="bg-[#3344aa] text-white p-4 font-bold">효빈광장</div>
+                    <ul class="divide-y text-sm">
+                        <li class="p-3 hover:bg-gray-50 cursor-pointer font-bold text-[#3344aa] border-l-4 border-[#3344aa]">공지사항</li>
+                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">자유게시판</li>
+                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">벼룩시장</li>
+                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">분실물센터</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 본문 (게시판 리스트) -->
+            <div class="md:w-3/4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-gray-800 pb-2">공지사항</h2>
+                
+                <!-- 검색창 -->
+                <div class="flex justify-end mb-4">
+                    <div class="flex border rounded overflow-hidden">
+                        <select class="bg-gray-50 text-sm px-3 outline-none border-r">
+                            <option>제목</option>
+                            <option>내용</option>
+                        </select>
+                        <input type="text" placeholder="검색어를 입력하세요" class="p-2 text-sm outline-none w-48">
+                        <button class="bg-gray-100 px-3 hover:bg-gray-200"><i data-lucide="search" class="w-4 h-4 text-gray-600"></i></button>
+                    </div>
+                </div>
+
+                <!-- 리스트 -->
+                <div class="bg-white border rounded-lg shadow-sm overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-100 text-gray-700">
+                            <tr>
+                                <th class="p-3 w-16 text-center">번호</th>
+                                <th class="p-3">제목</th>
+                                <th class="p-3 w-24 text-center">작성자</th>
+                                <th class="p-3 w-24 text-center">날짜</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="hover:bg-gray-50 cursor-pointer">
+                                <td class="p-3 text-center text-[#3344aa] font-bold">공지</td>
+                                <td class="p-3 font-bold">[필독] 2025학년도 1학기 수강신청 안내</td>
+                                <td class="p-3 text-center">교무과</td>
+                                <td class="p-3 text-center">02.10</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 cursor-pointer">
+                                <td class="p-3 text-center text-[#3344aa] font-bold">공지</td>
+                                <td class="p-3 font-bold">[교통] 교내 트램 7호선 운행 시간표 변경</td>
+                                <td class="p-3 text-center">시설과</td>
+                                <td class="p-3 text-center">02.15</td>
+                            </tr>
+                            <!-- 더미 데이터 -->
+                            <tr class="hover:bg-gray-50 cursor-pointer">
+                                <td class="p-3 text-center">1024</td>
+                                <td class="p-3">2025학년도 학생증 발급 신청 안내</td>
+                                <td class="p-3 text-center">학생과</td>
+                                <td class="p-3 text-center">02.12</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 페이지네이션 -->
+                <div class="flex justify-center mt-6 space-x-2">
+                    <button class="w-8 h-8 rounded border hover:bg-gray-100 flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                    <button class="w-8 h-8 rounded bg-[#3344aa] text-white font-bold">1</button>
+                    <button class="w-8 h-8 rounded border hover:bg-gray-100">2</button>
+                    <button class="w-8 h-8 rounded border hover:bg-gray-100 flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

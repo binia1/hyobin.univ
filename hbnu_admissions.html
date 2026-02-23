@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입학안내 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교 입학처
+            </a>
+            <a href="hbnu_main.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium">HOME</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">입학안내</h1>
+            <p class="text-xl text-gray-600">"여러분의 꿈, 효빈에서 현실이 됩니다."</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 수시 (연결) -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#3344aa] hover:-translate-y-1 transition duration-300">
+                <div class="text-[#3344aa] mb-4"><i data-lucide="file-text" class="w-12 h-12"></i></div>
+                <h3 class="text-2xl font-bold mb-2">수시 모집</h3>
+                <p class="text-gray-500 mb-6 text-sm">학생부교과, 학생부종합, 실기위주 전형</p>
+                <button onclick="location.href='hbnu_admission_guide.html?type=susi'" class="w-full py-3 border border-[#3344aa] text-[#3344aa] font-bold rounded hover:bg-[#3344aa] hover:text-white transition">
+                    모집요강 확인
+                </button>
+            </div>
+
+            <!-- 정시 (연결) -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#99dd88] hover:-translate-y-1 transition duration-300">
+                <div class="text-green-600 mb-4"><i data-lucide="pen-tool" class="w-12 h-12"></i></div>
+                <h3 class="text-2xl font-bold mb-2">정시 모집</h3>
+                <p class="text-gray-500 mb-6 text-sm">가/나/다군 수능 위주 전형 안내</p>
+                <button onclick="location.href='hbnu_admission_guide.html?type=jungsi'" class="w-full py-3 border border-green-600 text-green-600 font-bold rounded hover:bg-green-600 hover:text-white transition">
+                    모집요강 확인
+                </button>
+            </div>
+
+            <!-- 대학원 (연결) -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-gray-600 hover:-translate-y-1 transition duration-300">
+                <div class="text-gray-600 mb-4"><i data-lucide="graduation-cap" class="w-12 h-12"></i></div>
+                <h3 class="text-2xl font-bold mb-2">대학원 입학</h3>
+                <p class="text-gray-500 mb-6 text-sm">일반/전문/특수대학원 석박사 과정</p>
+                <button onclick="location.href='hbnu_grad.html'" class="w-full py-3 border border-gray-600 text-gray-600 font-bold rounded hover:bg-gray-600 hover:text-white transition">
+                    대학원 안내 바로가기
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

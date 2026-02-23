@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국제교류 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <span class="text-gray-500 font-medium">국제교류 (Global HBNU)</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
+        <!-- 탭 -->
+        <div class="flex justify-center gap-4 mb-10">
+            <button onclick="showTab('exchange')" id="btn-exchange" class="px-6 py-2 bg-[#3344aa] text-white rounded-full font-bold">교환학생 프로그램</button>
+            <button onclick="showTab('admission')" id="btn-admission" class="px-6 py-2 bg-gray-200 text-gray-600 rounded-full font-bold hover:bg-gray-300">외국인 입학 안내</button>
+        </div>
+
+        <!-- 1. 교환학생 -->
+        <div id="tab-exchange" class="space-y-12">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">글로벌 네트워크</h1>
+                <p class="text-gray-600">전 세계 50개국 200여 개 대학과 자매결연을 맺고 있습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 일본 누마즈 프로그램 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-pink-100 group">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center z-10">
+                            <span class="text-4xl mb-2 block">🗻</span>
+                            <h3 class="text-xl font-bold text-pink-800">일본 누마즈시 파견</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2">서브컬처 & 지역학 연수</h4>
+                        <p class="text-sm text-gray-600 mb-4">
+                            러브라이브 선샤인의 성지인 누마즈시와 <b>'성지 보호 협약'</b>을 맺고 매년 여름방학 단기 연수단을 파견합니다.
+                            일어일문학과 및 만화애니메이션학과 학생 우선 선발.
+                        </p>
+                        <button class="text-pink-500 font-bold text-sm hover:underline">자세히 보기 &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- 필리핀 교류 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-blue-100 group">
+                    <div class="h-48 bg-blue-100 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center z-10">
+                            <span class="text-4xl mb-2 block">🏝️</span>
+                            <h3 class="text-xl font-bold text-blue-800">필리핀 국립대(UP) 교류</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2">어학 & 봉사 연계 프로그램</h4>
+                        <p class="text-sm text-gray-600 mb-4">
+                            필리핀어학과 주관으로 진행되며, 현지 어학 연수와 KOICA 연계 봉사 활동을 동시에 수행합니다.
+                            박효빈 시장의 적극적인 후원으로 장학 혜택이 풍부합니다.
+                        </p>
+                        <button class="text-blue-500 font-bold text-sm hover:underline">자세히 보기 &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 외국인 입학 (초기 숨김) -->
+        <div id="tab-admission" class="hidden">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">International Admissions</h1>
+                <p class="text-gray-600">Admission Guidelines for International Students (2025)</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border space-y-8">
+                <div class="flex items-start">
+                    <div class="bg-[#3344aa] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg">Eligibility</h3>
+                        <p class="text-gray-600 text-sm">Parents and students must both be non-Korean nationals.<br>High school graduates (or expected).</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#3344aa] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">2</div>
+                    <div>
+                        <h3 class="font-bold text-lg">Language Proficiency</h3>
+                        <p class="text-gray-600 text-sm">TOPIK Level 3 or higher is required.<br>(Department of Filipino Language requires English proficiency only)</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#3344aa] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">3</div>
+                    <div>
+                        <h3 class="font-bold text-lg">Scholarship</h3>
+                        <p class="text-gray-600 text-sm">
+                            <b>HBNU Global Scholarship:</b> 30% ~ 100% tuition waiver based on GPA and TOPIK score.<br>
+                            * Special scholarship for students from sister cities (e.g., Numazu).
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg text-center mt-8">
+                    <h4 class="font-bold text-gray-700 mb-4">Download Guidebook</h4>
+                    <div class="flex justify-center gap-4">
+                        <button class="px-4 py-2 border bg-white rounded hover:bg-gray-100 text-sm">🇰🇷 Korean</button>
+                        <button class="px-4 py-2 border bg-white rounded hover:bg-gray-100 text-sm">🇺🇸 English</button>
+                        <button class="px-4 py-2 border bg-white rounded hover:bg-gray-100 text-sm">🇨🇳 Chinese</button>
+                        <button class="px-4 py-2 border bg-white rounded hover:bg-gray-100 text-sm">🇯🇵 Japanese</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function showTab(tabName) {
+            document.getElementById('tab-exchange').classList.add('hidden');
+            document.getElementById('tab-admission').classList.add('hidden');
+            
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            // 버튼 스타일
+            const btnEx = document.getElementById('btn-exchange');
+            const btnAd = document.getElementById('btn-admission');
+
+            if(tabName === 'exchange') {
+                btnEx.className = "px-6 py-2 bg-[#3344aa] text-white rounded-full font-bold";
+                btnAd.className = "px-6 py-2 bg-gray-200 text-gray-600 rounded-full font-bold hover:bg-gray-300";
+            } else {
+                btnEx.className = "px-6 py-2 bg-gray-200 text-gray-600 rounded-full font-bold hover:bg-gray-300";
+                btnAd.className = "px-6 py-2 bg-[#3344aa] text-white rounded-full font-bold";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025학년도 입학 요강 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-white flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl hover:opacity-80 transition">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교 입학처
+            </a>
+            <button onclick="goBack()" class="text-sm text-gray-500 hover:text-[#3344aa] flex items-center font-bold">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 학과 페이지로 돌아가기
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="text-center mb-12">
+            <span class="bg-[#3344aa] text-white px-3 py-1 rounded-full text-xs font-bold mb-3 inline-block">2025학년도</span>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">신입학 모집요강</h1>
+            <p class="text-gray-600 text-lg" id="slogan-text">"불굴의 도전정신과 혁신적인 사고를 가진 인재를 기다립니다."</p>
+        </div>
+
+        <div class="space-y-12">
+            <!-- 1. 모집 일정 (공통) -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center border-b pb-2"><i data-lucide="calendar" class="w-6 h-6 mr-2 text-[#3344aa]"></i> 전형 일정 (공통)</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-center border">
+                        <thead class="bg-gray-100 text-gray-700 font-bold">
+                            <tr>
+                                <th class="p-3 border">구분</th>
+                                <th class="p-3 border">원서 접수</th>
+                                <th class="p-3 border">서류/실기</th>
+                                <th class="p-3 border">합격자 발표</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3 font-bold text-[#3344aa]">수시</td>
+                                <td class="p-3">2024.09.10(화) ~ 14(토)</td>
+                                <td class="p-3">2024.10.12(토) ~ 20(일)</td>
+                                <td class="p-3">2024.12.13(금)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-[#3344aa]">정시</td>
+                                <td class="p-3">2025.01.03(금) ~ 06(월)</td>
+                                <td class="p-3">2025.01.15(수) ~ 20(월)</td>
+                                <td class="p-3">2025.02.07(금)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 2. 학과별 맞춤 전형 안내 (동적 변경) -->
+            <section id="dept-specific-section" class="bg-blue-50 p-6 rounded-xl border border-blue-100 transition-all duration-500">
+                <h2 class="text-xl font-bold text-[#3344aa] mb-4 flex items-center">
+                    <i data-lucide="star" class="w-5 h-5 mr-2"></i> 
+                    <span id="dept-name-display">일반 전형</span> 안내
+                </h2>
+                <p class="text-sm text-gray-700 mb-4" id="dept-desc-display">효빈대학교는 창의적이고 주도적인 인재를 선발합니다.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm" id="dept-criteria-container">
+                    <!-- JS로 내용 주입 -->
+                </div>
+            </section>
+
+            <!-- 3. 장학 혜택 -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center border-b pb-2"><i data-lucide="gift" class="w-6 h-6 mr-2 text-[#3344aa]"></i> 신입생 장학 혜택</h2>
+                <ul class="space-y-3 text-sm text-gray-700">
+                    <li class="flex items-start">
+                        <span class="bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">전체 수석</span>
+                        4년 전액 장학금 + 도서비 지원 + 해외 연수 기회
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">단과대 수석</span>
+                        2년 전액 장학금
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-green-100 text-green-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">효빈 인재상</span>
+                        학과별 상위 10% 1년 전액 장학금
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="mt-12 text-center">
+            <button onclick="alert('PDF 다운로드가 시작됩니다.')" class="bg-[#3344aa] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#2a3a9a] transition shadow-lg flex items-center justify-center mx-auto">
+                <i data-lucide="download" class="w-5 h-5 mr-2"></i> 2025 모집요강 PDF 다운로드
+            </button>
+            <p class="text-xs text-gray-400 mt-4">* 본 내용은 변경될 수 있으니 최종 요강을 반드시 확인하세요.</p>
+        </div>
+    </main>
+
+    <footer class="bg-gray-100 text-gray-500 py-8 text-center text-xs border-t">
+        <p class="mb-2 font-bold">효빈대학교 입학처</p>
+        <p>079-552-3012 | admission@hbnu.ac.kr</p>
+    </footer>
+
+    <script>
+        // URL 파라미터 확인
+        const urlParams = new URLSearchParams(window.location.search);
+        const deptName = urlParams.get('dept') || "일반";
+        const backUrl = urlParams.get('back') || "hbnu_main.html";
+
+        // 학과별 입시 데이터
+        const ADMISSION_DB = {
+            "사회복지정책학과": {
+                desc: "효빈시의 정책 인재 양성을 목표로 하므로, <b>면접 및 포트폴리오</b> 평가 비중이 높습니다.",
+                criteria: [
+                    { title: "학생부종합 (효빈인재)", content: ["모집인원: 12명", "서류 100% (3배수)", "심층면접 30% 반영", "* 정책 제안서 우대"] },
+                    { title: "수능위주 (일반)", content: ["모집인원: 10명", "수능 100%", "국어(30) 수학(30) 영어(20) 탐구(20)", "* 사회탐구 가산점 5%"] }
+                ]
+            },
+            "철도운전학과": {
+                desc: "철도 차량 운전 업무 특성상 <b>신체검사 및 적성검사</b> 적격 판정이 필수입니다.",
+                criteria: [
+                    { title: "학생부교과 (철도인재)", content: ["모집인원: 8명", "교과 100% (수학/과학 중점)", "철도신체검사 적합자 필수", "* 색맹/색약 지원 불가"] },
+                    { title: "실기/면접 (덕업일치)", content: ["모집인원: 5명", "면접 50% + 교과 50%", "철도 관련 활동 및 지식 평가", "* 철도안전법 이해도 질문"] }
+                ]
+            },
+            "만화애니메이션학과": {
+                desc: "창의력과 표현력을 중시하며, <b>실기 고사</b> 비중이 매우 높습니다.",
+                criteria: [
+                    { title: "실기우수자 전형", content: ["모집인원: 25명", "실기 80% + 교과 20%", "과목: 칸만화, 상황표현 중 택1", "* 주제: '소통과 갈등' (예시)"] },
+                    { title: "비실기 (기획/연출)", content: ["모집인원: 5명", "서류 100%", "포트폴리오 및 학업계획서", "* 스토리텔링 능력 평가"] }
+                ]
+            },
+            "필리핀어학과": {
+                desc: "글로벌 마인드와 언어 습득 능력을 평가하며, <b>외국어 특기자</b>를 우대합니다.",
+                criteria: [
+                    { title: "학생부종합 (다문화)", content: ["모집인원: 15명", "서류 100%", "영어 및 제2외국어 성적 우수자", "* 다문화 관련 봉사활동 가산점"] },
+                    { title: "수능위주 (일반)", content: ["모집인원: 20명", "수능 100%", "국어/영어/탐구 우수자 선발", "* 제2외국어 응시자 가산점"] }
+                ]
+            },
+            "일어일문학과": {
+                desc: "일본 문화와 언어에 대한 깊이 있는 이해를 요구하며, <b>JLPT 성적</b> 소지자를 우대합니다.",
+                criteria: [
+                    { title: "학생부교과", content: ["모집인원: 20명", "교과 100%", "국어, 영어, 일본어 교과 반영", "* 일본어 I/II 이수자 우대"] },
+                    { title: "어학특기자", content: ["모집인원: 10명", "면접 40% + 서류 60%", "JLPT N3 이상 또는 JPT 600점 이상", "* 일본 문화 이해도 심층 면접"] }
+                ]
+            },
+            "사회복지경영학과": {
+                desc: "조직 관리 및 리더십 잠재력을 평가하며, <b>학생회 활동 경험</b>을 긍정적으로 평가합니다.",
+                criteria: [
+                    { title: "학생부종합 (리더십)", content: ["모집인원: 10명", "서류 100%", "임원 활동 경력자 우대", "* 자기주도적 학습 능력 평가"] },
+                    { title: "교과우수자", content: ["모집인원: 15명", "교과 100% (수학/사회 중점)", "수능 최저학력기준 적용", "* 국수영탐 중 2개 합 7등급"] }
+                ]
+            },
+            "일반": {
+                desc: "효빈대학교의 표준 전형 계획에 따릅니다.",
+                criteria: [
+                    { title: "학생부교과", content: ["교과 성적 100%", "수능 최저학력기준 적용"] },
+                    { title: "학생부종합", content: ["서류 100%", "학교생활기록부 기반 평가"] }
+                ]
+            }
+        };
+
+        // 초기화 로직
+        window.onload = function() {
+            const data = ADMISSION_DB[deptName] || ADMISSION_DB["일반"];
+            
+            document.getElementById('dept-name-display').innerText = deptName;
+            document.getElementById('dept-desc-display').innerHTML = data.desc;
+            
+            // 전형 정보 렌더링
+            const container = document.getElementById('dept-criteria-container');
+            container.innerHTML = data.criteria.map(item => `
+                <div class="bg-white p-5 rounded border hover:shadow-md transition">
+                    <strong class="block mb-3 text-lg text-gray-800 border-b pb-1">${item.title}</strong>
+                    <ul class="list-disc pl-4 text-gray-600 space-y-1">
+                        ${item.content.map(text => `<li>${text}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        };
+
+        function goBack() {
+            location.href = backUrl;
+        }
+    </script>
+</body>
+</html>

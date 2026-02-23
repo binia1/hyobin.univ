@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장학제도 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    
+    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
+                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
+                효빈대학교
+            </a>
+            <a href="hbnu_life.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 대학생활 홈
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">장학제도 안내</h1>
+            <p class="text-gray-600">효빈대학교는 학생들의 꿈을 지원하기 위해 다양한 장학 제도를 운영하고 있습니다.</p>
+        </div>
+
+        <div class="space-y-8">
+            <!-- 1. 박효빈 장학금 (특수) -->
+            <section class="bg-white rounded-xl shadow-lg border-l-8 border-[#3344aa] overflow-hidden">
+                <div class="p-8">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-[#3344aa] text-white px-3 py-1 rounded-full text-xs font-bold mr-3">특수 장학</span>
+                        <h2 class="text-2xl font-bold text-gray-800">박효빈 인재 장학금</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        효빈대학교 동문인 <b>박효빈 효빈광역시장</b>이 기탁한 발전기금으로 운영되는 장학금입니다. 
+                        가정 형편이 어렵지만 '불굴'의 의지로 학업을 지속하는 학생과, 사회 공헌 활동이 우수한 학생을 선발합니다.
+                    </p>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>대상:</b> 사회복지학대학 및 전 학과 재학생 중 가계 곤란자</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>혜택:</b> 등록금 전액 + 생활비 보조 (학기당 200만원)</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>비고:</b> 장학생은 '효빈 멘토링단' 활동 의무 부여</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 교내 성적 장학금 -->
+            <section class="bg-white rounded-xl shadow-sm border p-8">
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center"><i data-lucide="award" class="w-6 h-6 mr-2 text-yellow-500"></i> 성적 우수 장학금</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left border-collapse">
+                        <thead class="bg-gray-100 text-gray-700">
+                            <tr>
+                                <th class="p-3 border">장학명</th>
+                                <th class="p-3 border">선발 기준</th>
+                                <th class="p-3 border">지급액</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3 font-bold">전체 수석</td>
+                                <td class="p-3">단과대 전체 수석 입학/재학생</td>
+                                <td class="p-3">등록금 전액 + 도서비</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3 font-bold">학과 수석 (진리)</td>
+                                <td class="p-3">학과별 학업 성적 최우수자</td>
+                                <td class="p-3">등록금 전액</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">성적 우수 (창조)</td>
+                                <td class="p-3">학과별 성적 상위 10% 이내</td>
+                                <td class="p-3">등록금 50% 감면</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 3. 근로 및 기타 장학금 -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="briefcase" class="w-5 h-5 mr-2 text-green-600"></i> 근로 장학금</h3>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><b>국가근로:</b> 교내 행정부서 및 도서관 근무</li>
+                        <li><b>교내근로:</b> 학과 사무실 및 실험실 보조</li>
+                        <li><b>트램 안내 도우미:</b> 교통대학 학생 대상, 교내 트램 안전 관리 (시급 1.5배)</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="heart" class="w-5 h-5 mr-2 text-red-500"></i> 복지 장학금</h3>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><b>효빈 사랑:</b> 기초생활수급자 및 차상위계층 지원</li>
+                        <li><b>다문화 가족:</b> 다문화 가정 자녀 지원 (필리핀어학과 등)</li>
+                        <li><b>장애 학생:</b> 도우미 지원 및 학습 보조금</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
+        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
