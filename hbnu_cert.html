@@ -11,18 +11,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
     
-    <header class="bg-white border-b py-4 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                HBNU Certopia
-            </a>
-            <div class="flex items-center gap-4 text-sm text-gray-600">
-                <span><b>김효빈</b>님 (로그인 중)</span>
-                <button class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">로그아웃</button>
-            </div>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
         <h1 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -106,10 +95,8 @@
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-gray-400 py-6 text-center text-xs">
-        <p>HBNU Internet Certificate Issuance System</p>
-        <p>시스템 문의: 079-294-9999</p>
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
     <script>lucide.createIcons();</script>
+    <script src="common.js"></script>
 </body>
 </html>

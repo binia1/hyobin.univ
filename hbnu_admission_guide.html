@@ -11,17 +11,7 @@
 </head>
 <body class="bg-white flex flex-col min-h-screen">
     
-    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl hover:opacity-80 transition">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교 입학처
-            </a>
-            <button onclick="goBack()" class="text-sm text-gray-500 hover:text-[#3344aa] flex items-center font-bold">
-                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 학과 페이지로 돌아가기
-            </button>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
         <div class="text-center mb-12">
@@ -103,10 +93,7 @@
         </div>
     </main>
 
-    <footer class="bg-gray-100 text-gray-500 py-8 text-center text-xs border-t">
-        <p class="mb-2 font-bold">효빈대학교 입학처</p>
-        <p>079-552-3012 | admission@hbnu.ac.kr</p>
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
 
     <script>
         // URL 파라미터 확인
@@ -192,5 +179,6 @@
             location.href = backUrl;
         }
     </script>
+    <script src="common.js"></script>
 </body>
 </html>

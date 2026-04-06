@@ -18,21 +18,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
     
     <!-- 상단 바 -->
-    <header class="bg-[#3344aa] text-white py-3 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <a href="hbnu_main.html" class="font-bold text-xl flex items-center hover:opacity-90 transition">
-                    <img src="https://imgur.com/Uvf0SqH.png" alt="로고" class="w-6 h-6 mr-2 bg-white rounded-sm p-0.5">
-                    HBNU Portal
-                </a>
-                <span class="text-xs bg-[#2a3a9a] px-2 py-1 rounded hidden md:inline-block">2025-1학기</span>
-            </div>
-            <div class="flex items-center text-sm gap-4">
-                <span class="hidden md:inline"><b id="top-user-name" class="opacity-0 transition-opacity duration-500">로딩 중...</b>님 환영합니다.</span>
-                <button id="logout-btn" class="hover:underline opacity-80 font-bold">로그아웃</button>
-            </div>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main id="main-content" class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full fade-in">
         <div id="loading-overlay" class="fixed inset-0 bg-white/80 z-[100] flex items-center justify-center">
@@ -178,16 +164,7 @@
         </div>
     </main>
 
-    <footer class="bg-white border-t py-8 text-center mt-auto">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="text-[10px] text-slate-300 font-black uppercase tracking-widest">HBNU Integrated Information System Portal v2.5</p>
-            <div class="mt-4 flex justify-center gap-6 text-[11px] font-bold text-slate-400">
-                <a href="#" class="hover:text-slate-800 transition">개인정보처리방침</a>
-                <a href="#" class="hover:text-slate-800 transition">이용약관</a>
-                <a href="#" class="hover:text-slate-800 transition">시스템 헬프데스크</a>
-            </div>
-        </div>
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
 
     <!-- Firebase 및 데이터 로직 -->
     <script type="module">
@@ -297,5 +274,6 @@
             lucide.createIcons();
         };
     </script>
+    <script src="common.js"></script>
 </body>
 </html>

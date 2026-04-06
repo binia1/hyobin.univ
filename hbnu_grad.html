@@ -12,20 +12,7 @@
 <body class="bg-white flex flex-col min-h-screen">
     
     <!-- 헤더 -->
-    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교
-            </a>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-                <a href="hbnu_main.html" class="hover:text-[#3344aa]">홈으로</a>
-                <a href="hbnu_colleges.html" class="hover:text-[#3344aa]">대학(단과대)</a>
-                <span class="text-gray-300">|</span>
-                <span class="text-[#3344aa] font-bold">대학원</span>
-            </nav>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <!-- 메인 컨텐츠 -->
     <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
@@ -105,9 +92,8 @@
         </div>
     </main>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
     <script>lucide.createIcons();</script>
+    <script src="common.js"></script>
 </body>
 </html>

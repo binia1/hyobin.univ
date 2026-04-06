@@ -6,93 +6,270 @@
     <title>사이트맵 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
 </head>
-<body class="bg-white flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
-    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교
-            </a>
-            <span class="text-gray-500 font-medium">사이트맵 (Sitemap)</span>
-        </div>
-    </header>
+    <!-- 공통 헤더 자동 렌더링 영역 -->
+    <div id="header-area"></div>
 
     <main class="max-w-7xl mx-auto px-4 py-16 flex-grow w-full">
-        <h1 class="text-3xl font-bold text-gray-800 mb-12 text-center">전체 메뉴 안내</h1>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-            
-            <!-- 대학소개 -->
-            <div>
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 border-b-2 border-[#3344aa] pb-2">대학소개</h2>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="hbnu_about.html#president" class="hover:text-[#3344aa] hover:underline">총장인사말</a></li>
-                    <li><a href="hbnu_about.html#identity" class="hover:text-[#3344aa] hover:underline">건학이념</a></li>
-                    <li><a href="hbnu_about.html#history" class="hover:text-[#3344aa] hover:underline">대학연혁</a></li>
-                    <li><a href="hbnu_about.html#campus" class="hover:text-[#3344aa] hover:underline">캠퍼스 안내</a></li>
-                    <li><a href="hbnu_about.html#location" class="hover:text-[#3344aa] hover:underline">오시는 길</a></li>
-                </ul>
-            </div>
-
-            <!-- 입학안내 -->
-            <div>
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 border-b-2 border-[#3344aa] pb-2">입학안내</h2>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="hbnu_admissions.html" class="hover:text-[#3344aa] hover:underline">입학안내 홈</a></li>
-                    <li><a href="hbnu_admission_guide.html?type=susi" class="hover:text-[#3344aa] hover:underline">수시모집</a></li>
-                    <li><a href="hbnu_admission_guide.html?type=jungsi" class="hover:text-[#3344aa] hover:underline">정시모집</a></li>
-                    <li><a href="hbnu_transfer.html" class="hover:text-[#3344aa] hover:underline">편입학</a></li>
-                    <li><a href="hbnu_grad.html" class="hover:text-[#3344aa] hover:underline">대학원 입학</a></li>
-                    <li><a href="hbnu_global.html" class="hover:text-[#3344aa] hover:underline">외국인 전형</a></li>
-                </ul>
-            </div>
-
-            <!-- 교육/연구 -->
-            <div>
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 border-b-2 border-[#3344aa] pb-2">교육·연구</h2>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="hbnu_colleges.html" class="hover:text-[#3344aa] hover:underline">대학(단과대)</a></li>
-                    <li><a href="hbnu_grad.html" class="hover:text-[#3344aa] hover:underline">대학원</a></li>
-                    <li><a href="hbnu_calendar.html" class="hover:text-[#3344aa] hover:underline">학사일정</a></li>
-                    <li><a href="hbnu_library.html" class="hover:text-[#3344aa] hover:underline">중앙도서관</a></li>
-                    <li><a href="hbnu_research.html" class="hover:text-[#3344aa] hover:underline">부설연구소</a></li>
-                </ul>
-            </div>
-
-            <!-- 대학생활 -->
-            <div>
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 border-b-2 border-[#3344aa] pb-2">대학생활</h2>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="hbnu_scholarship.html" class="hover:text-[#3344aa] hover:underline">장학제도</a></li>
-                    <li><a href="hbnu_welfare.html" class="hover:text-[#3344aa] hover:underline">학생복지</a></li>
-                    <li><a href="hbnu_dorm.html" class="hover:text-[#3344aa] hover:underline">생활관(기숙사)</a></li>
-                    <li><a href="hbnu_traffic.html" class="hover:text-[#3344aa] hover:underline">셔틀/교통안내</a></li>
-                    <li><a href="hbnu_clubs.html" class="hover:text-[#3344aa] hover:underline">동아리</a></li>
-                    <li><a href="hbnu_military.html" class="hover:text-[#3344aa] hover:underline">병무안내</a></li>
-                </ul>
-            </div>
-
-            <!-- 효빈광장 -->
-            <div>
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 border-b-2 border-[#3344aa] pb-2">효빈광장</h2>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><a href="hbnu_community.html" class="hover:text-[#3344aa] hover:underline">공지사항</a></li>
-                    <li><a href="hbnu_board_free.html" class="hover:text-[#3344aa] hover:underline">자유게시판</a></li>
-                    <li><a href="hbnu_market.html" class="hover:text-[#3344aa] hover:underline">벼룩시장/분실물</a></li>
-                    <li><a href="hbnu_info_disclosure.html" class="hover:text-[#3344aa] hover:underline">정보공개</a></li>
-                    <li><a href="hbnu_fund.html" class="hover:text-[#3344aa] hover:underline">발전기금</a></li>
-                </ul>
-            </div>
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-black text-[#3344aa] tracking-tight inline-block border-b-4 border-[#99dd88] pb-2">전체 메뉴 안내</h1>
+            <p class="text-gray-500 mt-4 font-medium">효빈대학교의 전체 사이트맵입니다. 원하시는 메뉴를 클릭하여 이동하세요.</p>
         </div>
+
+        <!-- 카드형 그리드 레이아웃 시작 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            <!-- 1. 대학소개 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="building-2" class="w-5 h-5 mr-2"></i>대학소개</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">총장실</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="총장인사말.html" class="hover:text-[#3344aa] hover:font-bold transition">총장인사말</a></li>
+                            <li><a href="총장프로필.html" class="hover:text-[#3344aa] hover:font-bold transition">총장프로필</a></li>
+                            <li><a href="서한문.html" class="hover:text-[#3344aa] hover:font-bold transition">서한문</a></li>
+                            <li><a href="연설문.html" class="hover:text-[#3344aa] hover:font-bold transition">연설문</a></li>
+                            <li><a href="현장스케치.html" class="hover:text-[#3344aa] hover:font-bold transition">현장스케치</a></li>
+                            <li><a href="역대총장.html" class="hover:text-[#3344aa] hover:font-bold transition">역대총장</a></li>
+                            <li><a href="만남신청.html" class="hover:text-[#3344aa] hover:font-bold transition">만남 신청</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">대학소개</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="VISION2030플러스.html" class="hover:text-[#3344aa] hover:font-bold transition">VISION 2030</a></li>
+                            <li><a href="글로컬대학30.html" class="hover:text-[#3344aa] hover:font-bold transition">글로컬대학30</a></li>
+                            <li><a href="대학연혁.html" class="hover:text-[#3344aa] hover:font-bold transition">대학연혁</a></li>
+                            <li><a href="헌장.html" class="hover:text-[#3344aa] hover:font-bold transition">헌장</a></li>
+                            <li><a href="상징.html" class="hover:text-[#3344aa] hover:font-bold transition">상징</a></li>
+                            <li><a href="UI.html" class="hover:text-[#3344aa] hover:font-bold transition">UI</a></li>
+                            <li><a href="학교현황.html" class="hover:text-[#3344aa] hover:font-bold transition">학교현황</a></li>
+                            <li><a href="통계연보.html" class="hover:text-[#3344aa] hover:font-bold transition">통계연보</a></li>
+                            <li><a href="대학정보공시.html" class="hover:text-[#3344aa] hover:font-bold transition">대학정보공시</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">대학조직 & 캠퍼스</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="조직도.html" class="hover:text-[#3344aa] hover:font-bold transition">조직도</a></li>
+                            <li><a href="대학본부.html" class="hover:text-[#3344aa] hover:font-bold transition">대학본부</a></li>
+                            <li><a href="캠퍼스안내.html" class="hover:text-[#3344aa] hover:font-bold transition">캠퍼스안내</a></li>
+                            <li><a href="오시는길.html" class="hover:text-[#3344aa] hover:font-bold transition">오시는길</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 입학정보 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="graduation-cap" class="w-5 h-5 mr-2"></i>입학정보</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">학부/대학원</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="입학홈페이지.html" class="hover:text-[#3344aa] hover:font-bold transition">입학홈페이지</a></li>
+                            <li><a href="수시모집.html" class="hover:text-[#3344aa] hover:font-bold transition">수시모집</a></li>
+                            <li><a href="정시모집.html" class="hover:text-[#3344aa] hover:font-bold transition">정시모집</a></li>
+                            <li><a href="재외국민.html" class="hover:text-[#3344aa] hover:font-bold transition">재외국민</a></li>
+                            <li><a href="편입학.html" class="hover:text-[#3344aa] hover:font-bold transition">편입학</a></li>
+                            <li><a href="대학원입학.html" class="hover:text-[#3344aa] hover:font-bold transition">대학원입학</a></li>
+                            <li><a href="시간제등록생.html" class="hover:text-[#3344aa] hover:font-bold transition">시간제 등록생</a></li>
+                            <li><a href="고교대학연계.html" class="hover:text-[#3344aa] hover:font-bold transition">고교대학 연계</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">International</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="외국인전형.html" class="hover:text-[#3344aa] hover:font-bold transition">외국인전형</a></li>
+                            <li><a href="GKSProgram.html" class="hover:text-[#3344aa] hover:font-bold transition">GKS Program</a></li>
+                            <li><a href="ExchangeStudents.html" class="hover:text-[#3344aa] hover:font-bold transition">Exchange Students</a></li>
+                            <li><a href="StudentSupport.html" class="hover:text-[#3344aa] hover:font-bold transition">Student Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 대학/대학원 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="library" class="w-5 h-5 mr-2"></i>대학/대학원</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">인문·사회·상경</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="언어문학대학.html" class="hover:text-[#3344aa] hover:font-bold transition">언어문학대학</a></li>
+                            <li><a href="인문대학.html" class="hover:text-[#3344aa] hover:font-bold transition">인문대학</a></li>
+                            <li><a href="사회복지학대학.html" class="hover:text-[#3344aa] hover:font-bold transition text-red-600">사회복지학대학</a></li>
+                            <li><a href="사회과학대학.html" class="hover:text-[#3344aa] hover:font-bold transition">사회과학대학</a></li>
+                            <li><a href="상과대학.html" class="hover:text-[#3344aa] hover:font-bold transition">상과대학</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">공학·교통·이학</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="기계공업대학.html" class="hover:text-[#3344aa] hover:font-bold transition">기계공업대학</a></li>
+                            <li><a href="전기공업대학.html" class="hover:text-[#3344aa] hover:font-bold transition">전기공업대학</a></li>
+                            <li><a href="토목공업대학.html" class="hover:text-[#3344aa] hover:font-bold transition">토목공업대학</a></li>
+                            <li><a href="교통대학.html" class="hover:text-[#3344aa] hover:font-bold transition font-bold">교통대학</a></li>
+                            <li><a href="자연과학대학.html" class="hover:text-[#3344aa] hover:font-bold transition">자연과학대학</a></li>
+                            <li><a href="해양대학.html" class="hover:text-[#3344aa] hover:font-bold transition">해양대학</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">메디컬 타운</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="의과대학.html" class="hover:text-[#3344aa] hover:font-bold transition">의과대학(통합)</a></li>
+                            <li><a href="약학대학.html" class="hover:text-[#3344aa] hover:font-bold transition">약학대학</a></li>
+                            <li><a href="간호대학.html" class="hover:text-[#3344aa] hover:font-bold transition">간호대학</a></li>
+                            <li><a href="보건대학.html" class="hover:text-[#3344aa] hover:font-bold transition">보건대학</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">예체능·사범·기타</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="응용예술대학.html" class="hover:text-[#3344aa] hover:font-bold transition">응용예술대학</a></li>
+                            <li><a href="미술대학.html" class="hover:text-[#3344aa] hover:font-bold transition">미술대학</a></li>
+                            <li><a href="음악대학.html" class="hover:text-[#3344aa] hover:font-bold transition">음악대학</a></li>
+                            <li><a href="사범대학.html" class="hover:text-[#3344aa] hover:font-bold transition">사범대학</a></li>
+                            <li><a href="융합학부.html" class="hover:text-[#3344aa] hover:font-bold transition">융합학부</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">대학원</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="일반대학원.html" class="hover:text-[#3344aa] hover:font-bold transition">일반대학원</a></li>
+                            <li><a href="법학전문대학원.html" class="hover:text-[#3344aa] hover:font-bold transition">법학전문대학원</a></li>
+                            <li><a href="의학전문대학원.html" class="hover:text-[#3344aa] hover:font-bold transition">의학전문대학원</a></li>
+                            <li><a href="사회복지대학원.html" class="hover:text-[#3344aa] hover:font-bold transition">사회복지대학원</a></li>
+                            <li><a href="교육대학원.html" class="hover:text-[#3344aa] hover:font-bold transition">교육대학원</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 학사안내 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="calendar" class="w-5 h-5 mr-2"></i>학사안내</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">교육과정 & 수업</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="학사일정안내.html" class="hover:text-[#3344aa] hover:font-bold transition">학사일정안내</a></li>
+                            <li><a href="교양과목.html" class="hover:text-[#3344aa] hover:font-bold transition">교양/전공과목</a></li>
+                            <li><a href="복수전공.html" class="hover:text-[#3344aa] hover:font-bold transition">복수/연계전공</a></li>
+                            <li><a href="수강신청.html" class="hover:text-[#3344aa] hover:font-bold transition">수강신청</a></li>
+                            <li><a href="시험성적.html" class="hover:text-[#3344aa] hover:font-bold transition">시험/성적</a></li>
+                            <li><a href="졸업학점관리.html" class="hover:text-[#3344aa] hover:font-bold transition">졸업/논문심사</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">학적 & 장학</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="휴학복학.html" class="hover:text-[#3344aa] hover:font-bold transition">휴학/복학</a></li>
+                            <li><a href="자퇴제적.html" class="hover:text-[#3344aa] hover:font-bold transition">자퇴/제적</a></li>
+                            <li><a href="전학전과.html" class="hover:text-[#3344aa] hover:font-bold transition">전학/전과</a></li>
+                            <li><a href="등록금.html" class="hover:text-[#3344aa] hover:font-bold transition">등록금</a></li>
+                            <li><a href="교내장학금.html" class="hover:text-[#3344aa] hover:font-bold transition">교내/외 장학금</a></li>
+                            <li><a href="학자금대출.html" class="hover:text-[#3344aa] hover:font-bold transition">학자금대출</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. 연구/산학 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="flask-conical" class="w-5 h-5 mr-2"></i>연구/산학</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">연구 및 산학협력</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="연구뉴스.html" class="hover:text-[#3344aa] hover:font-bold transition">연구뉴스/성과</a></li>
+                            <li><a href="연구처.html" class="hover:text-[#3344aa] hover:font-bold transition">연구처</a></li>
+                            <li><a href="연구소현황.html" class="hover:text-[#3344aa] hover:font-bold transition">연구소 현황</a></li>
+                            <li><a href="산학협력단.html" class="hover:text-[#3344aa] hover:font-bold transition">산학협력단</a></li>
+                            <li><a href="창업교육센터.html" class="hover:text-[#3344aa] hover:font-bold transition">창업교육센터</a></li>
+                            <li><a href="학술DB.html" class="hover:text-[#3344aa] hover:font-bold transition">학술DB</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. 대학생활 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="coffee" class="w-5 h-5 mr-2"></i>대학생활</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">캠퍼스 시설 & 지원</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="식단안내.html" class="hover:text-[#3344aa] hover:font-bold transition">식단안내</a></li>
+                            <li><a href="차량등록.html" class="hover:text-[#3344aa] hover:font-bold transition">차량등록/셔틀</a></li>
+                            <li><a href="중앙도서관.html" class="hover:text-[#3344aa] hover:font-bold transition">중앙도서관</a></li>
+                            <li><a href="생활관.html" class="hover:text-[#3344aa] hover:font-bold transition">생활관(기숙사)</a></li>
+                            <li><a href="보건진료소.html" class="hover:text-[#3344aa] hover:font-bold transition">보건진료소</a></li>
+                            <li><a href="인권센터.html" class="hover:text-[#3344aa] hover:font-bold transition">인권센터</a></li>
+                            <li><a href="병무행정.html" class="hover:text-[#3344aa] hover:font-bold transition">병무행정</a></li>
+                            <li><a href="학생증발급.html" class="hover:text-[#3344aa] hover:font-bold transition">학생증발급</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. 대학소식 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-black text-[#3344aa] mb-5 flex items-center border-b pb-3"><i data-lucide="megaphone" class="w-5 h-5 mr-2"></i>대학소식</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#99dd88] pl-2">효빈광장 & 안내</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-600">
+                            <li><a href="공지사항.html" class="hover:text-[#3344aa] hover:font-bold transition">공지사항</a></li>
+                            <li><a href="자유게시판.html" class="hover:text-[#3344aa] hover:font-bold transition">자유게시판</a></li>
+                            <li><a href="벼룩시장.html" class="hover:text-[#3344aa] hover:font-bold transition">벼룩시장</a></li>
+                            <li><a href="효빈뉴스.html" class="hover:text-[#3344aa] hover:font-bold transition">효빈뉴스</a></li>
+                            <li><a href="정보공개.html" class="hover:text-[#3344aa] hover:font-bold transition">정보공개</a></li>
+                            <li><a href="개인정보처리방침.html" class="hover:text-[#3344aa] hover:font-bold transition">개인정보방침</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. HBNU anis & SNS -->
+            <div class="bg-[#FF8899] bg-opacity-10 p-6 rounded-xl shadow-sm border border-[#FF8899] border-opacity-30 lg:col-span-2 xl:col-span-1">
+                <h2 class="text-xl font-black text-[#EE0022] mb-5 flex items-center border-b border-[#FF8899] border-opacity-30 pb-3"><i data-lucide="sparkles" class="w-5 h-5 mr-2"></i>HBNU anis & SNS</h2>
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#FF8899] pl-2">HBNU anis</h3>
+                        <ul class="grid grid-cols-2 gap-2 text-[13px] text-gray-700">
+                            <li><a href="HBNUanis.html" class="hover:text-[#EE0022] hover:font-bold transition font-bold">HBNU anis 홈</a></li>
+                            <li><a href="HAF축제안내.html" class="hover:text-[#EE0022] hover:font-bold transition">HAF 축제 안내</a></li>
+                            <li><a href="베르데홀.html" class="hover:text-[#EE0022] hover:font-bold transition">베르데 홀</a></li>
+                            <li><a href="방도도서관.html" class="hover:text-[#EE0022] hover:font-bold transition">방도도서관</a></li>
+                            <li><a href="서브컬처동아리.html" class="hover:text-[#EE0022] hover:font-bold transition">서브컬처 동아리</a></li>
+                            <li><a href="도시철도캐릭터.html" class="hover:text-[#EE0022] hover:font-bold transition">도시철도 마스코트</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[14px] font-bold text-gray-800 mb-2 border-l-4 border-[#FF8899] pl-2">공식 SNS</h3>
+                        <ul class="flex flex-wrap gap-3 mt-3">
+                            <li><a href="인스타그램.html" class="text-gray-500 hover:text-pink-600 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a></li>
+                            <li><a href="유튜브.html" class="text-gray-500 hover:text-red-600 transition"><i data-lucide="youtube" class="w-5 h-5"></i></a></li>
+                            <li><a href="페이스북.html" class="text-gray-500 hover:text-blue-600 transition"><i data-lucide="facebook" class="w-5 h-5"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 그리드 종료 -->
     </main>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
-    <script>lucide.createIcons();</script>
+    <!-- 공통 푸터 자동 렌더링 영역 -->
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+
+    <!-- 핵심: 공통 스크립트 연결 -->
+    <script src="common.js"></script>
 </body>
 </html>

@@ -19,19 +19,7 @@
 <body class="bg-gray-50 flex flex-col min-h-screen">
 
     <!-- 헤더 -->
-    <header class="bg-white border-b py-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교
-            </a>
-            <nav class="hidden md:flex space-x-4 text-sm font-medium text-gray-600 items-center">
-                <a href="hbnu_colleges.html" class="flex items-center hover:text-[#3344aa]">
-                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 학과 목록으로
-                </a>
-            </nav>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <!-- 메인 컨텐츠 -->
     <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
@@ -188,9 +176,7 @@
         </div>
     </div>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
 
     <script>
         // ================= 유틸리티 함수 =================
@@ -481,5 +467,6 @@
             document.body.style.overflow = 'auto';
         }
     </script>
+    <script src="common.js"></script>
 </body>
 </html>

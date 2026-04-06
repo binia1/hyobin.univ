@@ -11,17 +11,7 @@
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
     
-    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교
-            </a>
-            <a href="hbnu_life.html" class="text-sm text-gray-500 hover:text-[#3344aa] font-medium flex items-center">
-                <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 대학생활 홈
-            </a>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
         <div class="text-center mb-12">
@@ -44,9 +34,7 @@
         </div>
     </main>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
 
     <!-- 상세 보기 모달 -->
     <div id="club-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-60 p-4 hidden" onclick="closeModal()">
@@ -318,5 +306,6 @@
         // 초기 렌더링
         renderClubs();
     </script>
+    <script src="common.js"></script>
 </body>
 </html>

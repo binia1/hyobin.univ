@@ -13,30 +13,15 @@
         @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
     <!-- 헤더 -->
-    <header class="bg-white border-b py-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl hover:opacity-80 transition">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교
-            </a>
-            <div class="flex items-center space-x-4">
-                <a href="hbnu_colleges.html" class="text-gray-500 hover:text-[#3344aa] font-medium text-sm flex items-center transition">
-                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 전체 학과 목록
-                </a>
-                <a href="hbnu_admission_guide.html?dept=사회복지정책학과" class="bg-[#3344aa] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-[#2a3a9a] transition shadow-md">
-                    입학 상담 신청
-                </a>
-            </div>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main class="flex-grow">
         <!-- 히어로 섹션 -->
         <div class="bg-[#3344aa] text-white py-28 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2673&auto=format&fit=crop')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
+            <div class="absolute inset-0 bg-[url('사회복지_배경.png')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
                 <div class="inline-flex items-center py-1 px-3 rounded-full bg-[#99dd88] text-[#3344aa] font-bold text-xs mb-6 shadow-lg animate-bounce">
                     <i data-lucide="crown" class="w-3 h-3 mr-1"></i> 사회복지학대학 간판학과
@@ -61,7 +46,7 @@
                     </div>
                     <div class="flex flex-col md:flex-row gap-6 items-start relative z-10">
                         <div class="w-24 h-24 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden border-4 border-gray-50 shadow-md">
-                             <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&h=200&fit=crop" alt="학과장" class="w-full h-full object-cover">
+                             <img src="최현우_교수.png" onerror="this.src='https://via.placeholder.com/200?text=Prof'" alt="학과장" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800 mb-2">학과장 인사말</h2>
@@ -209,17 +194,17 @@
                         <h2 class="text-3xl font-bold text-gray-800">학생 자치 활동</h2>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="alert('동아리 소개 페이지로 이동합니다.')">
+                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="location.href='동아리.html'">
                             <div class="font-bold text-lg mb-1 text-[#3344aa]">아고라</div>
                             <p class="text-xs text-gray-500 mb-2">사회정책 토론 학회</p>
                             <p class="text-sm text-gray-600 group-hover:text-[#3344aa]">매주 사회 이슈 토론 및 모의 국회 진행</p>
                         </div>
-                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="alert('동아리 소개 페이지로 이동합니다.')">
+                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="location.href='동아리.html'">
                             <div class="font-bold text-lg mb-1 text-[#3344aa]">복지더락</div>
                             <p class="text-xs text-gray-500 mb-2">어쿠스틱 밴드</p>
                             <p class="text-sm text-gray-600 group-hover:text-[#3344aa]">복지관 위문 공연 및 버스킹 (구 복지락)</p>
                         </div>
-                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="alert('동아리 소개 페이지로 이동합니다.')">
+                        <div class="bg-white p-4 rounded-lg border shadow-sm text-center group hover:-translate-y-1 transition cursor-pointer" onclick="location.href='동아리.html'">
                             <div class="font-bold text-lg mb-1 text-[#3344aa]">꿈나래</div>
                             <p class="text-xs text-gray-500 mb-2">멘토링 봉사단</p>
                             <p class="text-sm text-gray-600 group-hover:text-[#3344aa]">지역 아동센터 학습 및 정서 지원</p>
@@ -289,11 +274,11 @@
                         </li>
                         <li class="flex justify-between items-center">
                             <span class="text-gray-500">자격증</span>
-                            <span class="font-bold">사회복지사 2급(졸업시)<br>1급(시험응시)</span>
+                            <span class="font-bold text-right">사회복지사 2급(졸업시)<br>1급(시험응시)</span>
                         </li>
                     </ul>
-                    <a href="hbnu_admission_guide.html?dept=사회복지정책학과" class="block w-full mt-8 bg-[#3344aa] text-white py-3 rounded-lg font-bold hover:bg-[#2a3a9a] transition text-center shadow-md transform hover:-translate-y-1">
-                        2025학년도 수시/정시 요강
+                    <a href="수시모집.html" class="block w-full mt-8 bg-[#3344aa] text-white py-3 rounded-lg font-bold hover:bg-[#2a3a9a] transition text-center shadow-md transform hover:-translate-y-1">
+                        2026학년도 수시/정시 요강
                     </a>
                     <div class="mt-4 p-3 bg-red-50 rounded text-xs text-red-800 text-center border border-red-100">
                         <i data-lucide="alert-triangle" class="w-4 h-4 mx-auto mb-1"></i>
@@ -355,12 +340,12 @@
         </div>
     </main>
 
-    <!-- 교수 상세 모달 -->
-    <div id="prof-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeModal(event)">
+    <!-- 교수 상세 모달 (이름 충돌을 막기 위해 prof-modal 전용 함수 사용) -->
+    <div id="prof-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeProfModal(event)">
         <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl modal-enter relative" onclick="event.stopPropagation()">
             <!-- 헤더 -->
             <div class="bg-[#3344aa] p-6 text-white relative">
-                <button onclick="closeModal()" class="absolute top-4 right-4 hover:bg-white/20 p-2 rounded-full transition">
+                <button onclick="closeProfModal()" class="absolute top-4 right-4 hover:bg-white/20 p-2 rounded-full transition">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
                 <div class="flex items-center gap-6">
@@ -415,12 +400,11 @@
         </div>
     </div>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
+    <!-- 공통 푸터 -->
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
 
     <script>
-        // 교수 데이터 (10명, 3명은 효빈대 학/석/박 성골)
+        // 교수 데이터
         const PROFESSORS = [
             {
                 name: "최현우 교수",
@@ -432,7 +416,7 @@
                 research: "지역사회 조직화, 복지 전달체계, NPO 리더십",
                 email: "hwchoi@hbnu.ac.kr",
                 tags: ["#성골", "#학과장", "#지역전문가"],
-                img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&h=200&fit=crop"
+                img: "교수_최현우.png"
             },
             {
                 name: "김명석 교수",
@@ -444,7 +428,7 @@
                 research: "빈곤 정책, 소득보장, 사회안전망 구축 연구",
                 email: "mskim@hbnu.ac.kr",
                 tags: ["#빈곤전문가", "#엄격근엄", "#정책설계"],
-                img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&h=200&fit=crop"
+                img: "교수_김명석.png"
             },
             {
                 name: "이수진 교수",
@@ -456,7 +440,7 @@
                 research: "가족 치료, 다문화 가족 지원, 위기가정 개입",
                 email: "sjlee@hbnu.ac.kr",
                 tags: ["#가족치료", "#따뜻함", "#현장중심"],
-                img: "https://images.unsplash.com/photo-1573496359-7013ac2bebb4?q=80&w=200&h=200&fit=crop"
+                img: "교수_이수진.png"
             },
             {
                 name: "박준영 교수",
@@ -468,7 +452,7 @@
                 research: "사회복지 빅데이터 분석, 프로그램 성과평가, 증거기반실천",
                 email: "jypark@hbnu.ac.kr",
                 tags: ["#성골", "#데이터분석", "#스마트복지"],
-                img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&h=200&fit=crop"
+                img: "교수_박준영.png"
             },
             {
                 name: "정혜림 교수",
@@ -480,7 +464,7 @@
                 research: "아동학대 예방, 아동권리 협약, 복지법제 연구",
                 email: "hljung@hbnu.ac.kr",
                 tags: ["#아동권리", "#법률전문가", "#꼼꼼함"],
-                img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&h=200&fit=crop"
+                img: "교수_정혜림.png"
             },
             {
                 name: "강준성 교수",
@@ -492,7 +476,7 @@
                 research: "고령친화산업, 치매 케어, 커뮤니티 케어",
                 email: "jskang@hbnu.ac.kr",
                 tags: ["#노년학", "#일본유학파", "#커뮤니티케어"],
-                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&h=200&fit=crop"
+                img: "교수_강준성.png"
             },
             {
                 name: "윤서연 교수",
@@ -504,7 +488,7 @@
                 research: "장애인 고용 정책, 유니버설 디자인, 자립 생활",
                 email: "syyoon@hbnu.ac.kr",
                 tags: ["#배리어프리", "#인권감수성", "#직업재활"],
-                img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?q=80&w=200&h=200&fit=crop"
+                img: "교수_윤서연.png"
             },
             {
                 name: "장민호 교수",
@@ -516,7 +500,7 @@
                 research: "정신건강 정책, 중독 재활, 자살 예방",
                 email: "mhjang@hbnu.ac.kr",
                 tags: ["#정신건강", "#힐링", "#의료복지"],
-                img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&fit=crop"
+                img: "교수_장민호.png"
             },
             {
                 name: "강민지 교수",
@@ -528,7 +512,7 @@
                 research: "학교 밖 청소년, 학교폭력 예방 프로그램, 교육복지",
                 email: "mjkang@hbnu.ac.kr",
                 tags: ["#성골", "#청소년지킴이", "#현장통"],
-                img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&h=200&fit=crop"
+                img: "교수_강민지.png"
             },
             {
                 name: "한승우 교수",
@@ -540,7 +524,7 @@
                 research: "국제개발협력, 이주민 정책, 글로벌 복지 동향",
                 email: "swhan@hbnu.ac.kr",
                 tags: ["#글로벌", "#국제기구", "#ODA"],
-                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&h=200&fit=crop"
+                img: "교수_한승우.png"
             }
         ];
 
@@ -548,10 +532,10 @@
         function renderProfessors() {
             const container = document.getElementById('professor-grid');
             container.innerHTML = PROFESSORS.map((prof, index) => `
-                <div class="bg-white p-5 rounded-xl border shadow-sm hover:shadow-lg transition cursor-pointer group hover:-translate-y-1" onclick="openModal(${index})">
+                <div class="bg-white p-5 rounded-xl border shadow-sm hover:shadow-lg transition cursor-pointer group hover:-translate-y-1" onclick="openProfModal(${index})">
                     <div class="flex items-start gap-4">
                         <div class="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border">
-                            <img src="${prof.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                            <img src="${prof.img}" onerror="this.src='https://via.placeholder.com/150?text=Prof'" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                         </div>
                         <div class="flex-grow">
                             <div class="flex justify-between items-start">
@@ -575,8 +559,8 @@
             lucide.createIcons();
         }
 
-        // 모달 열기
-        function openModal(index) {
+        // 모달 열기 (이름 충돌 방지를 위해 openProfModal로 변경)
+        function openProfModal(index) {
             const prof = PROFESSORS[index];
             const modal = document.getElementById('prof-modal');
             
@@ -592,12 +576,12 @@
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // 스크롤 방지
+            document.body.style.overflow = 'hidden';
             lucide.createIcons();
         }
 
-        // 모달 닫기
-        function closeModal(event) {
+        // 모달 닫기 (이름 충돌 방지를 위해 closeProfModal로 변경)
+        function closeProfModal(event) {
             if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON' && event.target.closest('button') === null) return;
             
             const modal = document.getElementById('prof-modal');
@@ -611,5 +595,8 @@
             renderProfessors();
         });
     </script>
+    
+    <!-- 🔥 핵심: 공통 스크립트 연결 -->
+    <script src="common.js"></script>
 </body>
 </html>

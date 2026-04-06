@@ -18,14 +18,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
     
-    <header class="bg-white border-b py-4 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
-            <h1 class="font-bold text-lg text-gray-800 flex items-center">
-                <i data-lucide="book-open" class="mr-2 text-[#3344aa]"></i> 제1열람실 (3F)
-            </h1>
-            <button onclick="history.back()" class="text-sm text-gray-500 hover:text-black">나가기</button>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
         <div class="flex justify-between items-center mb-6">
@@ -100,5 +93,6 @@
         
         lucide.createIcons();
     </script>
+    <script src="common.js"></script>
 </body>
 </html>

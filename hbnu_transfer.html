@@ -9,25 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
-    <header class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <a href="hbnu_main.html" class="flex items-center text-[#3344aa] font-bold text-xl">
-                <img src="images/logo.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-8 h-8 mr-2 rounded-md">
-                효빈대학교 입학처
-            </a>
-            <nav class="text-sm font-medium text-gray-600 flex gap-4">
-                <a href="hbnu_admissions.html" class="hover:text-[#3344aa]">입학안내 홈</a>
-                <span class="text-gray-300">|</span>
-                <span class="text-[#3344aa] font-bold">편입학</span>
-            </nav>
-        </div>
-    </header>
+    <!-- 공통 헤더 자동 렌더링 영역 -->
+    <div id="header-area"></div>
 
     <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
         <div class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">2025학년도 편입학 모집안내</h1>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">2026학년도 편입학 모집안내</h1>
             <p class="text-gray-600">새로운 도약, 효빈대학교에서 꿈을 이어가세요.</p>
         </div>
 
@@ -107,15 +96,16 @@
         </section>
 
         <div class="mt-8 text-center">
-            <button class="bg-[#3344aa] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#2a3a9a] transition shadow-md" onclick="alert('PDF 다운로드')">
+            <button class="bg-[#3344aa] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#2a3a9a] transition shadow-md" onclick="alert('모집요강 다운로드 (임시버튼)')">
                 <i data-lucide="download" class="w-4 h-4 inline mr-2"></i> 모집요강 전체 다운로드
             </button>
         </div>
     </main>
 
-    <footer class="bg-[#2a2a2a] text-gray-400 py-8 text-center text-xs">
-        COPYRIGHT © 2025 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED.
-    </footer>
-    <script>lucide.createIcons();</script>
+    <!-- 공통 푸터 자동 렌더링 영역 -->
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+    
+    <!-- 🔥 핵심: 공통 스크립트 연결 (이 코드가 빠져있어서 안 떴던 것입니다!) -->
+    <script src="common.js"></script>
 </body>
 </html>

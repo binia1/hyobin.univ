@@ -45,33 +45,7 @@
 <body class="bg-slate-50 flex flex-col h-screen overflow-hidden text-slate-800">
 
     <!-- 상단 헤더 (효빈님 정보) -->
-    <header class="bg-[#3344aa] text-white py-2.5 px-4 shadow-md flex-shrink-0 z-50">
-        <div class="max-w-[1600px] mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3" onclick="location.href='hbnu_main.html'" style="cursor:pointer">
-                <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-inner">
-                    <span class="text-[#3344aa] font-black text-xl">H</span>
-                </div>
-                <div class="leading-none">
-                    <span class="font-black text-lg tracking-tighter block uppercase">HBNU Hub</span>
-                    <span class="text-[9px] uppercase tracking-widest opacity-70 font-bold">2025 Registration</span>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-6">
-                <div class="text-right border-r border-blue-400/30 pr-4 hidden xs:block">
-                    <div class="text-[9px] text-blue-200 uppercase font-black leading-none mb-1">Standard Time</div>
-                    <div id="server-clock" class="server-time text-lg font-black text-yellow-300 leading-none">10:00:00</div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="text-right">
-                        <div class="text-sm font-bold leading-none">박효빈</div>
-                        <div class="text-[10px] text-blue-100 opacity-80 mt-1">사회복지정책학과 / 202501234</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-blue-50 border-2 border-white/20 flex items-center justify-center text-[#3344aa] font-black text-sm shadow-inner">HB</div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div id="header-area"></div>
 
     <!-- 검색 바 및 대시보드 -->
     <main class="flex-grow max-w-[1600px] mx-auto w-full p-2 sm:p-4 flex flex-col gap-3 overflow-hidden">
@@ -480,5 +454,6 @@
             }
         }
     </script>
+    <script src="common.js"></script>
 </body>
 </html>
