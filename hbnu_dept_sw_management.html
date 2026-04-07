@@ -6,162 +6,588 @@
     <title>사회복지경영학과 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .modal-enter { animation: modalFadeIn 0.3s ease-out; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* 동적 탭 내용 전환 애니메이션 */
+        .tab-content { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="flex-grow">
+    <main class="flex-grow w-full">
         <!-- 히어로 섹션 (색상: 네이비/청록 - 비즈니스 느낌) -->
         <div class="bg-slate-700 text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+            <div class="absolute inset-0 bg-[url('사회복지경영_배경.png')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-teal-400 text-slate-900 font-bold text-xs mb-6 shadow-lg">사회복지학대학 CEO 트랙</span>
-                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md">사회복지경영학과</h1>
+                <span class="inline-block py-1 px-3 rounded-full bg-teal-400 text-slate-900 font-bold text-xs mb-6 shadow-lg animate-bounce">사회복지학대학 CEO 트랙</span>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md tracking-tight">사회복지경영학과</h1>
                 <p class="text-xl md:text-2xl opacity-90 font-light">"따뜻한 가슴과 차가운 머리의 복지 경영인"</p>
                 <p class="mt-4 text-sm opacity-80 uppercase tracking-widest">Department of Social Welfare Management</p>
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-12">
-                
-                <!-- 1. 학과 소개 -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 학과 소개
-                    </h2>
-                    <p class="text-gray-700 leading-relaxed text-lg mb-6">
-                        사회복지 기관, 재단, 사회적 기업을 효율적이고 투명하게 운영하는 <b>복지 행정가 및 경영자(CEO)</b>를 양성합니다. 
-                        사회복지학의 윤리성과 경영학의 효율성을 결합한 융합 학문으로, 비영리 조직 마케팅, 재무 관리, 인적 자원 관리 등을 전문적으로 배웁니다.
-                    </p>
-                    <div class="flex gap-4">
-                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
-                            <i data-lucide="building" class="w-8 h-8 mx-auto text-slate-600 mb-2"></i>
-                            <span class="font-bold text-slate-800">조직 운영</span>
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- 왼쪽 사이드바 (동적 탭 메뉴) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 font-bold text-gray-800 border-b flex items-center">
+                        <i data-lucide="menu" class="w-5 h-5 mr-2 text-slate-700"></i> 바로가기
+                    </div>
+                    <!-- 탭 버튼들 -->
+                    <ul class="divide-y divide-gray-100 text-sm font-medium">
+                        <li>
+                            <button onclick="showTab('intro')" class="w-full flex items-center justify-between p-4 bg-slate-100 text-slate-800 font-bold tab-btn transition-colors duration-300" data-target="intro">
+                                <span class="flex items-center"><i data-lucide="home" class="w-4 h-4 mr-3 text-teal-600 tab-icon"></i> 학과 소개 및 과정</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-teal-600 tab-arrow"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('notice')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="notice">
+                                <span class="flex items-center"><i data-lucide="bell" class="w-4 h-4 mr-3 tab-icon transition-colors"></i> 학과 공지사항</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-teal-600 opacity-0 tab-arrow transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('prof')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="prof">
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-3 tab-icon transition-colors"></i> 교수진 상세 안내</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-teal-600 opacity-0 tab-arrow transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('career')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="career">
+                                <span class="flex items-center"><i data-lucide="briefcase" class="w-4 h-4 mr-3 tab-icon transition-colors"></i> 취업 및 진로 게시판</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-teal-600 opacity-0 tab-arrow transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('student')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="student">
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-4 h-4 mr-3 tab-icon transition-colors"></i> 학생회 및 에피소드</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-teal-600 opacity-0 tab-arrow transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <!-- 일반 링크 이동 -->
+                            <a href="입시요강.html" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 transition-colors duration-300">
+                                <span class="flex items-center"><i data-lucide="graduation-cap" class="w-4 h-4 mr-3"></i> 2026학년도 입시 요강</span>
+                                <i data-lucide="external-link" class="w-4 h-4 text-gray-400"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- 학과 사무실 -->
+                    <div class="p-5 bg-[#f8f9fa] border-t text-center relative overflow-hidden group">
+                        <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="phone-call" class="w-24 h-24 text-slate-700"></i>
                         </div>
-                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
-                            <i data-lucide="trending-up" class="w-8 h-8 mx-auto text-teal-600 mb-2"></i>
-                            <span class="font-bold text-teal-800">재무/회계</span>
-                        </div>
-                        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm text-center">
-                            <i data-lucide="users" class="w-8 h-8 mx-auto text-blue-600 mb-2"></i>
-                            <span class="font-bold text-blue-800">인적자원</span>
+                        <div class="relative z-10">
+                            <h4 class="font-bold text-slate-800 text-sm mb-2 flex items-center justify-center">
+                                <i data-lucide="building" class="w-4 h-4 mr-1 text-teal-600"></i> 학과 사무실
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                사회과학관 4층 402호<br>
+                                <span class="font-black text-slate-700 text-base mt-2 inline-block bg-white px-3 py-1 rounded shadow-sm border border-gray-100">02-1234-5678</span>
+                            </p>
                         </div>
                     </div>
-                </section>
+                </div>
+            </div>
 
-                <!-- 2. 커리큘럼 (NEW) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 교육 과정 (Curriculum)
+            <!-- 오른쪽 메인 탭 콘텐츠 영역 -->
+            <div class="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm p-8 min-h-[600px]">
+                
+                <!-- 1. 학과 소개 & 교육과정 탭 -->
+                <div id="tab-intro" class="tab-content">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-slate-700 pb-2 flex items-center inline-block">
+                        <i data-lucide="book-open" class="mr-2 text-teal-600"></i> 학과 소개 및 교육과정
                     </h2>
-                    <div class="border rounded-xl overflow-hidden shadow-sm">
-                        <table class="min-w-full text-sm text-left text-gray-600">
-                            <thead class="bg-gray-100 text-gray-700 font-bold uppercase">
+                    <div class="text-gray-700 leading-relaxed mb-8">
+                        <p class="mb-4">
+                            사회복지경영학과는 사회복지 기관, 비영리 재단(NGO), 사회적 기업(소셜벤처)을 효율적이고 투명하게 운영할 수 있는 <b>복지 행정가 및 경영자(CEO)</b>를 양성합니다. 
+                            과거의 사회복지가 헌신과 희생에만 의존했다면, 현대의 복지는 '자원의 효율적 배분'과 '지속가능한 비즈니스 모델'을 요구합니다.
+                        </p>
+                        <p class="mb-6">
+                            우리 학과는 전통적인 사회복지학의 윤리성에 경영학의 날카로운 분석력을 결합한 융합 학문 트랙으로, 비영리 조직 마케팅, 재무/회계 관리, 펀드레이징, 인적 자원 관리 등을 전문적으로 훈련받습니다.
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-2">학과 핵심 역량 (Core Competencies)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 shadow-sm text-center hover:-translate-y-1 transition">
+                                <i data-lucide="building" class="w-8 h-8 mx-auto text-slate-600 mb-2"></i>
+                                <span class="font-bold text-slate-800 text-sm block mb-1">조직 운영 및 기획</span>
+                                <span class="text-xs text-gray-500">NPO 맞춤형 기획력</span>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-100 shadow-sm text-center hover:-translate-y-1 transition">
+                                <i data-lucide="trending-up" class="w-8 h-8 mx-auto text-teal-600 mb-2"></i>
+                                <span class="font-bold text-teal-900 text-sm block mb-1">재무 및 회계</span>
+                                <span class="text-xs text-gray-500">투명한 기부금 관리</span>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm text-center hover:-translate-y-1 transition">
+                                <i data-lucide="users" class="w-8 h-8 mx-auto text-blue-600 mb-2"></i>
+                                <span class="font-bold text-blue-900 text-sm block mb-1">인적자원 관리</span>
+                                <span class="text-xs text-gray-500">자원봉사자/조직원 리더십</span>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-100 shadow-sm text-center hover:-translate-y-1 transition">
+                                <i data-lucide="gift" class="w-8 h-8 mx-auto text-purple-600 mb-2"></i>
+                                <span class="font-bold text-purple-900 text-sm block mb-1">모금 (펀드레이징)</span>
+                                <span class="text-xs text-gray-500">비영리 마케팅 전략</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800 mt-10 mb-4 flex items-center">
+                        <i data-lucide="graduation-cap" class="mr-2 text-slate-600"></i> 학년별 세부 커리큘럼
+                    </h3>
+                    <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                        <table class="min-w-full text-sm text-left whitespace-nowrap">
+                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase">
                                 <tr>
-                                    <th class="px-6 py-3 border-b">학년</th>
-                                    <th class="px-6 py-3 border-b">주요 과목</th>
+                                    <th class="px-6 py-3 border-b text-center w-24">학년</th>
+                                    <th class="px-6 py-3 border-b text-teal-700">전공 필수 (사회복지 기반)</th>
+                                    <th class="px-6 py-3 border-b text-slate-700">전공 선택 (경영 및 실무 심화)</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-slate-700">1학년</td>
-                                    <td class="px-6 py-4">사회복지개론, 경영학원론, 인간행동과 사회환경</td>
+                                <tr class="border-b hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-slate-50 border-r text-slate-700">1학년</td>
+                                    <td class="px-6 py-4 text-gray-700">사회복지학개론, 인간행동과 사회환경</td>
+                                    <td class="px-6 py-4 text-gray-700">경영학원론, 경제학의 이해, 논리와 비판적 사고</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-slate-700">2학년</td>
-                                    <td class="px-6 py-4">사회복지행정론, 비영리회계, 마케팅원론</td>
+                                <tr class="border-b hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-slate-50 border-r text-slate-700">2학년</td>
+                                    <td class="px-6 py-4 text-gray-700">사회복지실천론, 사회복지행정론</td>
+                                    <td class="px-6 py-4 text-gray-700"><span class="font-bold text-teal-800 bg-teal-50 px-1 rounded">비영리회계(NPO회계)</span>, 마케팅원론, 통계학기초</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-slate-700">3학년</td>
-                                    <td class="px-6 py-4">재무관리, 지역사회복지론, 사회적기업 창업론</td>
+                                <tr class="border-b hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-slate-50 border-r text-slate-700">3학년</td>
+                                    <td class="px-6 py-4 text-gray-700">지역사회복지론, 사회복지조사론</td>
+                                    <td class="px-6 py-4 text-gray-700">재무관리, <span class="font-bold text-teal-800 bg-teal-50 px-1 rounded">사회적기업 창업론</span>, 비영리PR 및 펀드레이징</td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-slate-700">4학년</td>
-                                    <td class="px-6 py-4">복지경영세미나, 프로그램 개발과 평가, 현장실습</td>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-slate-50 border-r text-slate-700">4학년</td>
+                                    <td class="px-6 py-4 text-gray-700">프로그램 개발과 평가, 사회복지현장실습</td>
+                                    <td class="px-6 py-4 text-gray-700"><span class="font-bold text-slate-800 bg-slate-200 px-1 rounded">복지경영 캡스톤디자인(세미나)</span>, 인사조직관리, 취업전략</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </section>
+                </div>
 
-                <!-- 3. 학과 에피소드 (Legend) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-slate-600 mr-3 rounded-full"></span> 학과 에피소드
+                <!-- 2. 학과 공지사항 탭 -->
+                <div id="tab-notice" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-slate-700 pb-2 flex items-center inline-block">
+                        <i data-lucide="bell" class="mr-2 text-teal-600"></i> 학과 공지사항
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4 text-right">제목을 클릭하면 상세 공지 내용을 확인할 수 있습니다.</p>
+                    
+                    <ul class="space-y-3" id="notice-list">
+                        <!-- JavaScript를 통해 동적으로 렌더링 됩니다. -->
+                    </ul>
+                </div>
+
+                <!-- 3. 교수진 상세 안내 탭 -->
+                <div id="tab-prof" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-slate-700 pb-2 flex items-center inline-block">
+                        <i data-lucide="users" class="mr-2 text-teal-600"></i> 교수진 상세 안내
+                    </h2>
+                    <p class="text-sm text-gray-600 mb-6 bg-slate-50 p-3 rounded-lg border border-slate-200 flex justify-between items-center">
+                        <span>우리 학과는 각 분야 최고의 실무 경험과 학문적 권위를 갖춘 교수진으로 구성되어 있습니다.</span>
+                        <span class="text-xs font-bold text-teal-600 animate-pulse">※ 카드를 클릭하면 세부 이력을 볼 수 있습니다!</span>
+                    </p>
+
+                    <!-- 동적으로 렌더링되는 교수 리스트 컨테이너 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="prof-list">
+                    </div>
+                </div>
+
+                <!-- 4. 취업 및 진로 게시판 탭 -->
+                <div id="tab-career" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-slate-700 pb-2 flex items-center inline-block">
+                        <i data-lucide="briefcase" class="mr-2 text-teal-600"></i> 취업 및 진로 게시판
                     </h2>
                     
-                    <div class="bg-teal-50 border border-teal-100 p-6 rounded-xl hover:shadow-lg transition">
-                        <div class="flex items-start">
-                            <div class="bg-teal-100 p-3 rounded-full mr-4 text-teal-700"><i data-lucide="calculator" class="w-8 h-8"></i></div>
-                            <div>
-                                <h3 class="font-bold text-teal-900 text-xl mb-2">2024년 빵 테러 사건 손해배상 청구</h3>
-                                <p class="text-gray-700 leading-relaxed mb-3">
-                                    윤재훈이 복지관 아이들 빵에 침을 뱉고 기물을 파손했을 때, 학생들은 감정적으로 대응하는 대신 <b>계산기</b>를 꺼냈습니다.
-                                </p>
-                                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1 mb-3">
-                                    <li>빵값 및 폐기 처리 비용 (환경부담금 포함)</li>
-                                    <li>아이들이 겪은 정신적 피해 위자료</li>
-                                    <li>트램 지연으로 인한 사회적 기회비용 손실액</li>
-                                </ul>
-                                <p class="text-sm text-teal-800 font-bold bg-white p-3 rounded border border-teal-200 inline-block">
-                                    "자네는 마이너스 생산자야. 파산 확정일세."
-                                </p>
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
+                        <h3 class="font-bold text-lg mb-6 text-center text-slate-800">💼 졸업 후 주요 진로 현황</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex items-start">
+                                <div class="bg-slate-100 p-2 rounded-lg mr-3"><i data-lucide="building-2" class="w-6 h-6 text-slate-600"></i></div>
+                                <div>
+                                    <span class="font-bold text-gray-800 block mb-1">복지 기관 기획 및 운영</span>
+                                    <span class="text-gray-600 text-sm leading-relaxed">종합사회복지관, 대형 요양시설, 아동/장애인 재단의 중간 관리자, 총무/회계팀, 시설장</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-teal-50 p-2 rounded-lg mr-3"><i data-lucide="briefcase" class="w-6 h-6 text-teal-600"></i></div>
+                                <div>
+                                    <span class="font-bold text-gray-800 block mb-1">공공 행정 및 산하기관</span>
+                                    <span class="text-gray-600 text-sm leading-relaxed">사회복지 전담 공무원, 국민건강보험공단, 근로복지공단 등 공기업 기획/행정 부서</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-50 p-2 rounded-lg mr-3"><i data-lucide="heart" class="w-6 h-6 text-blue-600"></i></div>
+                                <div>
+                                    <span class="font-bold text-gray-800 block mb-1">기업 사회공헌(CSR/ESG)</span>
+                                    <span class="text-gray-600 text-sm leading-relaxed">일반 대기업 ESG 경영팀, 사회공헌 전담 부서, 대기업 산하 복지 재단 사업 기획자</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-purple-50 p-2 rounded-lg mr-3"><i data-lucide="globe" class="w-6 h-6 text-purple-600"></i></div>
+                                <div>
+                                    <span class="font-bold text-gray-800 block mb-1">국제기구 및 대형 NGO</span>
+                                    <span class="text-gray-600 text-sm leading-relaxed">월드비전, 굿네이버스, 세이브더칠드런 등 본부 마케팅 기획, 모금(펀드레이저), 캠페이너</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
 
-            <!-- 오른쪽 사이드바 -->
-            <div class="lg:col-span-1 space-y-6">
-                <!-- 진로 정보 -->
-                <div class="bg-white border rounded-xl shadow-sm p-6 sticky top-24">
-                    <h3 class="font-bold text-lg mb-4 text-center border-b pb-2">💼 졸업 후 진로</h3>
-                    <ul class="space-y-4 text-sm text-gray-700">
-                        <li class="flex items-start">
-                            <i data-lucide="building-2" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold block">기관 운영 및 관리</span>
-                                <span class="text-gray-500 text-xs">사회복지관, 요양시설, 센터 시설장</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-lucide="briefcase" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold block">공공 행정</span>
-                                <span class="text-gray-500 text-xs">사회복지 전담 공무원, 건강보험공단</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-lucide="heart" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold block">기업 사회공헌(CSR)</span>
-                                <span class="text-gray-500 text-xs">대기업 CSR팀, 기업 재단</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-lucide="globe" class="w-5 h-5 text-slate-500 mr-2 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold block">NGO 및 국제기구</span>
-                                <span class="text-gray-500 text-xs">월드비전, 굿네이버스 등</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <!-- [NEW] 버튼 수정 -->
-                    <a href="hbnu_admission_guide.html?dept=사회복지경영학과&back=hbnu_dept_sw_management.html" class="block w-full mt-6 bg-slate-600 text-white py-3 rounded-lg font-bold hover:bg-slate-700 transition text-center shadow-md">
-                        2025학년도 입시 요강
-                    </a>
+                    <!-- 자격증 현황 -->
+                    <div class="bg-teal-50 border border-teal-100 rounded-xl p-5 mb-6">
+                        <h4 class="font-bold text-teal-900 mb-3 flex items-center">
+                            <i data-lucide="award" class="w-5 h-5 mr-2 text-teal-600"></i> 학과 연계 취득 가능 자격증
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-200">사회복지사 1급/2급</span>
+                            <span class="bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-200">전산세무회계 1급/2급</span>
+                            <span class="bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-200">사회조사분석사 2급</span>
+                            <span class="bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-200">경영지도사</span>
+                            <span class="bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-200">펀드레이저 자격증</span>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- 5. 학생회 및 학과 전설 탭 -->
+                <div id="tab-student" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-slate-700 pb-2 flex items-center inline-block">
+                        <i data-lucide="message-circle" class="mr-2 text-teal-600"></i> 학생회 및 학과 에피소드
+                    </h2>
+                    
+                    <div class="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-6 rounded-xl mb-8 flex items-center justify-between shadow-md">
+                        <div>
+                            <h3 class="font-bold text-xl mb-2">제21대 사회복지경영학과 학생회 '시너지(Synergy)'</h3>
+                            <p class="text-teal-300 text-sm">복지와 경영의 완벽한 조화, 학우 여러분의 시너지가 되겠습니다!</p>
+                        </div>
+                        <i data-lucide="pie-chart" class="w-16 h-16 opacity-30 text-teal-200"></i>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="calculator" class="w-5 h-5 mr-2 text-slate-600"></i> 학과 전설 & 에피소드</h3>
+                    <div class="space-y-4">
+                        
+                        <div class="flex items-start bg-blue-50 border border-blue-100 p-6 rounded-xl hover:shadow-md transition">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4 text-blue-700 flex-shrink-0">
+                                <i data-lucide="crown" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-blue-900 text-lg mb-2">효빈대학교 제26대 총장의 출신 학과!</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                    효빈대의 르네상스를 이끌고 있는 <b>민부선 총장</b>이 바로 우리 사회복지경영학과 출신이자 본 학과의 교수님입니다!
+                                    "사회복지 조직에도 기업가 정신과 문화적 팬덤이 필요하다"는 그의 이론은 실제 효빈대를 HAF(효빈 애니메이션 페스티벌) 파트너로 만들며 증명되었습니다.
+                                </p>
+                                <p class="text-xs text-blue-800 font-bold bg-white p-2 rounded border border-blue-200 inline-block mt-1">
+                                    "Shiny하게 나아갑시다! 고립을 추방하고 연결을 가르치겠습니다." - 민부선 총장
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start bg-teal-50 border border-teal-100 p-6 rounded-xl hover:shadow-md transition">
+                            <div class="bg-teal-100 p-3 rounded-full mr-4 text-teal-700 flex-shrink-0">
+                                <i data-lucide="receipt" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-teal-900 text-lg mb-2">2024년 빵 테러 사건, 자비 없는 손해배상 청구</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                    윤재훈이 복지관 아이들 빵에 침을 뱉고 난동을 부려 기물을 파손했던 사건 당시, 사회복지경영학과 학생회 임원들은 분노하는 대신 조용히 사무실에 모여 <b>노트북과 계산기</b>를 켰습니다.
+                                </p>
+                                <div class="bg-white p-4 rounded border border-teal-200 mb-3 shadow-inner">
+                                    <p class="text-xs font-bold text-slate-500 mb-2 border-b pb-1">청구서 (Invoice) 요약 내역</p>
+                                    <ul class="text-sm text-slate-700 space-y-1.5 font-mono">
+                                        <li class="flex justify-between"><span>침 묻은 단팥빵 50개 전량 폐기 비용:</span> <span>150,000원</span></li>
+                                        <li class="flex justify-between"><span>환경폐기물 처리 부담금:</span> <span>35,000원</span></li>
+                                        <li class="flex justify-between"><span>기물 파손(감가상각 적용 잔존가치액):</span> <span>42,500원</span></li>
+                                        <li class="flex justify-between text-red-600"><span>아이들 심리치료 연계 위자료:</span> <span>2,500,000원</span></li>
+                                    </ul>
+                                </div>
+                                <p class="text-xs text-teal-800 font-bold bg-teal-100 p-2 rounded inline-block mt-1">
+                                    "자네는 마이너스 생산자야. 너의 파산을 경영학적으로 증명해주지."
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
 
+    <!-- 동적 뷰: 교수진 상세 모달 (새로 추가됨) -->
+    <div id="prof-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeProfModal(event)">
+        <div class="bg-white rounded-xl w-full max-w-2xl shadow-2xl modal-enter relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-slate-700 p-6 flex items-center gap-6 text-white relative">
+                <button onclick="closeProfModal()" class="absolute top-4 right-4 hover:bg-white/20 p-2 rounded-full transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                <img id="p-modal-img" src="" class="w-24 h-24 rounded-full object-cover border-4 border-teal-400 bg-white">
+                <div>
+                    <h2 id="p-modal-name" class="text-2xl font-bold mb-1"></h2>
+                    <p id="p-modal-role" class="text-teal-300 font-medium text-sm"></p>
+                </div>
+            </div>
+            <div class="p-8 space-y-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 border-b pb-2 mb-3 flex items-center"><i data-lucide="book-open" class="w-5 h-5 mr-2 text-teal-600"></i> 전문 분야 및 연구</h3>
+                    <p id="p-modal-major" class="text-sm text-gray-700 leading-relaxed font-bold text-teal-700 bg-teal-50 inline-block px-3 py-1 rounded-full mb-2"></p>
+                    <p id="p-modal-desc" class="text-sm text-gray-700 leading-relaxed"></p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 border-b pb-2 mb-3 flex items-center"><i data-lucide="briefcase" class="w-5 h-5 mr-2 text-teal-600"></i> 주요 약력</h3>
+                    <ul id="p-modal-history" class="text-sm text-gray-700 space-y-2 list-disc pl-5"></ul>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <h3 class="font-bold text-slate-800 text-sm mb-2 flex items-center"><i data-lucide="quote" class="w-4 h-4 mr-2 text-slate-500"></i> 교육 철학 및 어록</h3>
+                    <p id="p-modal-quote" class="text-sm text-slate-600 font-bold italic"></p>
+                </div>
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="closeProfModal()" class="px-5 py-2 bg-slate-100 text-slate-800 rounded-lg hover:bg-slate-200 text-sm font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 동적 뷰: 공지사항 상세 모달 -->
+    <div id="notice-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeNoticeModal(event)">
+        <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl modal-enter relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-slate-700 p-4 flex justify-between items-center text-white">
+                <h3 class="font-bold text-lg flex items-center"><i data-lucide="bell" class="w-5 h-5 mr-2 text-teal-400"></i> 공지사항 상세</h3>
+                <button onclick="closeNoticeModal()" class="hover:bg-white/20 p-1 rounded transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div class="p-6">
+                <h2 id="modal-title" class="text-xl font-bold text-gray-900 mb-2 leading-tight"></h2>
+                <p id="modal-date" class="text-sm text-gray-500 mb-6 border-b pb-4"></p>
+                <div id="modal-content" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap min-h-[150px]"></div>
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="closeNoticeModal()" class="px-4 py-2 bg-slate-100 text-slate-800 rounded hover:bg-slate-200 text-sm font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 동적 뷰 적용 스크립트 -->
+    <script>
+        // 사회복지경영학과 전용 공지사항 데이터
+        const NOTICE_DATA = [
+            {
+                title: "[실습] 2026학년도 효빈시 사회적기업 창업 인턴십 선발",
+                date: "2026.03.02",
+                content: "학과 사무실입니다.\n\n효빈시 산하 기관 및 우수 사회적기업과 연계한 '예비 CEO 인턴십' 참가자를 모집합니다.\n\n- 대상: 3학년, 4학년 재학생\n- 분야: 마케팅 기획, 펀드레이징(모금), 재무/회계 관리\n- 혜택: 전공실습 3학점 인정 및 실습 지원금 지급\n\n조직 운영의 실제를 경험할 수 있는 좋은 기회이니 많은 참여 바랍니다."
+            },
+            {
+                title: "[특강] 국제 NGO 마케팅 및 펀드레이징 전략 특강",
+                date: "2026.02.28",
+                content: "대형 NGO의 모금 마케팅 전략을 생생하게 들을 수 있는 현직자 특강을 진행합니다.\n\n- 연사: 김준호 교수님 (前 초록우산어린이재단 모금기획팀장)\n- 주제: 데이터로 증명하는 펀드레이징 마케팅\n- 일시: 2026.03.15 (수) 14:00\n- 장소: 사회과학관 대강당\n\n비영리 마케팅 및 광고 기획에 관심 있는 학생들의 필참을 권장합니다."
+            },
+            {
+                title: "[안내] 2026년 1학기 복지경영세미나 과제 제출 가이드라인",
+                date: "2026.02.20",
+                content: "4학년 전공필수 '복지경영세미나' 수강생 여러분께 안내드립니다.\n\n올해 졸업 논문 대체 프로젝트는 <효빈시 복지 사각지대 해소를 위한 사회적 비즈니스 모델 기획안> 입니다.\n단순한 복지 정책 제안이 아닌, '수익 창출'과 '사회적 가치'를 동시에 달성할 수 있는 추정 재무제표가 반드시 포함되어야 합니다.\n\n자세한 가이드라인 양식(엑셀 및 한글 파일)은 학과 홈페이지 자료실에서 다운로드 바랍니다."
+            }
+        ];
+
+        // 교수진 데이터
+        const PROF_DATA = [
+            {
+                name: "민부선 교수",
+                role: "제26대 효빈대학교 총장 / 교수",
+                major: "사회복지경영학, 비영리 마케팅, 팬덤조직론",
+                desc: "효빈대의 르네상스를 이끌고 있는 '성공한 덕후' 총장님입니다. 학생 시절부터 이어온 날카로운 비영리 경영 분석과 서브컬처 팬덤의 연대 의식을 접목하여, 완전히 새로운 개념의 복지 경영 모델을 제시하고 있습니다.",
+                history: [
+                    "현) 제26대 효빈대학교 총장",
+                    "전) 효빈대학교 사회복지학대학 학장",
+                    "효빈대학교 사회복지학과 수석 입학 및 학/석/박사 졸업",
+                    "논문: <가상 공동체(Fandom)의 정서적 유대가 사회적 자본 형성에 미치는 영향>"
+                ],
+                quote: "\"고립을 추방하고 연결을 가르칩니다. 우리 대학의 미래는 에버그린(Evergreen)입니다!\"",
+                img: "민부선_총장.png"
+            },
+            {
+                name: "이도윤 교수",
+                role: "학과장 / 교수",
+                major: "비영리조직운영(NPO), 복지행정",
+                desc: "대형 비영리 법인에서 임원으로 활약하며 조직의 혁신을 이끌었던 현장 전문가입니다. 복지 기관의 인사, 조직, 기획 파트 실무자 양성을 목표로 혹독하지만 확실한 트레이닝을 제공합니다.",
+                history: [
+                    "전) 굿네이버스 경영기획본부장",
+                    "서울대학교 행정학 박사",
+                    "보건복지부 사회복지시설 평가위원"
+                ],
+                quote: "\"복지도 결국 경영입니다. 한정된 자원이 효율적으로 배분될 때, 비로소 더 많은 사람을 도울 수 있습니다.\"",
+                img: "이도윤_교수.png"
+            },
+            {
+                name: "박서연 교수",
+                role: "부교수",
+                major: "복지재무, 비영리회계",
+                desc: "공인회계사(CPA) 출신으로 사회복지법인의 감사를 다년간 담당했습니다. 학생들을 재무제표를 꿰뚫어 보는 냉철한 재무 전문가로 훈련시켜 NGO 회계팀에 바로 투입되게 만듭니다.",
+                history: [
+                    "전) 삼일회계법인 공인회계사(CPA)",
+                    "연세대학교 경영학 박사",
+                    "주요 사회복지법인 및 재단 외부감사역"
+                ],
+                quote: "\"선한 의도만으로는 부족합니다. 1원의 후원금도 헛되이 쓰이지 않도록 투명한 재무 시스템을 가르칩니다.\"",
+                img: "박서연_교수.png"
+            },
+            {
+                name: "김준호 교수",
+                role: "조교수",
+                major: "펀드레이징, 비영리 PR 및 마케팅",
+                desc: "현대 복지 기관의 핵심인 '모금 전략' 전문가입니다. 감정에 호소하는 방식을 넘어, 빅데이터와 트렌드를 분석하여 후원자들의 지갑을 열게 만드는 첨단 마케팅 기법을 연구합니다.",
+                history: [
+                    "전) 초록우산어린이재단 모금기획팀장",
+                    "미국 인디애나 대학교 비영리경영학 석사",
+                    "한국모금가협회(KAFP) 수석연구위원"
+                ],
+                quote: "\"사람의 마음을 지갑으로 연결하는 것은 동정심이 아니라, 정확한 데이터와 확실한 비전 제시입니다.\"",
+                img: "김준호_교수.png"
+            },
+            {
+                name: "최민아 교수",
+                role: "겸임교수",
+                major: "소셜벤처 창업, 사회적경제",
+                desc: "현재 성공적인 소셜 벤처를 운영하고 있는 현업 CEO입니다. 창업을 꿈꾸는 학생들에게 멘토 역할을 자처하며, 사회 문제를 비즈니스로 해결하는 실질적인 로드맵을 그려줍니다.",
+                history: [
+                    "현) 소셜벤처 '가치이음' 대표이사 (CEO)",
+                    "한국사회적기업진흥원 전문 멘토",
+                    "KAIST 기술경영학 석사"
+                ],
+                quote: "\"세상을 바꾸는 가장 강력하고 지속가능한 방법은, 바로 자생할 수 있는 비즈니스 모델을 구축하는 것입니다.\"",
+                img: "최민아_교수.png"
+            }
+        ];
+
+        // 페이지 로드 시 공지사항 및 교수진 리스트 렌더링
+        document.addEventListener('DOMContentLoaded', () => {
+            // 공지사항 렌더링
+            const noticeList = document.getElementById('notice-list');
+            noticeList.innerHTML = NOTICE_DATA.map((item, index) => `
+                <li class="flex justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-slate-100 transition border border-transparent hover:border-slate-300 shadow-sm" onclick="openNoticeModal(${index})">
+                    <span class="truncate pr-4 font-bold text-slate-700 hover:text-teal-600 transition-colors">${item.title}</span>
+                    <span class="text-xs text-gray-500 whitespace-nowrap mt-0.5">${item.date}</span>
+                </li>
+            `).join('');
+
+            // 교수진 렌더링
+            const profContainer = document.getElementById('prof-list');
+            profContainer.innerHTML = PROF_DATA.map((prof, index) => `
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg cursor-pointer" onclick="openProfModal(${index})">
+                    <img src="${prof.img}" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-teal-400 bg-gray-50">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-1 flex items-center">${prof.name} <i data-lucide="zoom-in" class="w-4 h-4 ml-1 text-teal-500 opacity-80"></i></h3>
+                        <p class="text-sm text-teal-600 font-bold mb-2">${prof.role}</p>
+                        <p class="text-xs text-gray-600 mb-2"><b>전문분야:</b> ${prof.major}</p>
+                        <p class="text-xs text-gray-500 bg-slate-50 p-2 rounded border line-clamp-2">${prof.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        });
+
+        // 탭 전환 로직 (사회복지경영학과 Slate/Teal 테마 적용)
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-slate-800', 'font-bold', 'bg-slate-100');
+                btn.classList.add('text-gray-600');
+                
+                const icon = btn.querySelector('.tab-icon');
+                if(icon) icon.classList.remove('text-teal-600');
+
+                const arrow = btn.querySelector('.tab-arrow');
+                if(arrow) arrow.classList.add('opacity-0');
+                
+                if (btn.dataset.target === tabName) {
+                    btn.classList.remove('text-gray-600');
+                    btn.classList.add('text-slate-800', 'font-bold', 'bg-slate-100');
+                    if(icon) icon.classList.add('text-teal-600');
+                    if(arrow) arrow.classList.remove('opacity-0');
+                }
+            });
+            lucide.createIcons();
+        }
+
+        // 공지사항 모달 열기
+        function openNoticeModal(index) {
+            const data = NOTICE_DATA[index];
+            const modal = document.getElementById('notice-modal');
+            
+            document.getElementById('modal-title').innerHTML = data.title;
+            document.getElementById('modal-date').textContent = data.date;
+            document.getElementById('modal-content').textContent = data.content;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNoticeModal(event) {
+            if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON') return;
+            const modal = document.getElementById('notice-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 교수진 모달 열기
+        function openProfModal(index) {
+            const prof = PROF_DATA[index];
+            const modal = document.getElementById('prof-modal');
+            
+            document.getElementById('p-modal-img').src = prof.img;
+            document.getElementById('p-modal-img').onerror = function() { this.src='기본프로필_이미지.png'; };
+            document.getElementById('p-modal-name').textContent = prof.name;
+            document.getElementById('p-modal-role').textContent = prof.role;
+            document.getElementById('p-modal-major').textContent = prof.major;
+            document.getElementById('p-modal-desc').textContent = prof.desc;
+            document.getElementById('p-modal-history').innerHTML = prof.history.map(h => `<li>${h}</li>`).join('');
+            document.getElementById('p-modal-quote').textContent = prof.quote;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeProfModal(event) {
+            if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON' && event.target.closest('button') === null) return;
+            const modal = document.getElementById('prof-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
     <script src="common.js"></script>
+
+    <!-- X 버튼 닫기 오류 강제 해결 스크립트 -->
+    <script>
+        document.addEventListener('click', function(e) {
+            const closeTarget = e.target.closest('button, .close, .close-btn');
+            if (closeTarget && (closeTarget.textContent.trim() === 'X' || closeTarget.textContent.trim() === '✕' || closeTarget.classList.contains('close'))) {
+                const modalWrapper = closeTarget.closest('.fixed, .absolute, .modal, [role="dialog"]');
+                if (modalWrapper) {
+                    modalWrapper.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script>
 </body>
 </html>

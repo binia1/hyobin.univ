@@ -3,74 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU 교통안내</title>
+    <title>교통안내 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
+    
+    <!-- 공통 헤더 자동 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full">
-        <h1 class="text-3xl font-bold text-[#3344aa] mb-2">오시는 길 & 셔틀버스</h1>
-        <p class="text-gray-600 mb-8">효빈대학교는 편리한 대중교통망과 교내 셔틀 시스템을 갖추고 있습니다.</p>
+    <main class="max-w-7xl mx-auto px-4 py-16 flex-grow w-full">
+        <h1 class="text-3xl font-black text-[#3344aa] mb-3 tracking-tight">오시는 길 & 대중교통 안내</h1>
+        <p class="text-gray-600 mb-8 font-medium">효빈대학교는 촘촘한 도시철도망과 최첨단 교내 철도 시스템을 갖추고 있어 최적의 통학 환경을 제공합니다.</p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- 대중교통 -->
-            <div class="space-y-6">
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#00ccaa]">
-                    <h3 class="text-xl font-bold flex items-center mb-3">
-                        <i data-lucide="train" class="mr-2 text-[#00ccaa]"></i> 지하철
+        <!-- 교내 철도 시스템 이동 배너 -->
+        <div class="bg-gradient-to-r from-[#00E5FF]/20 to-[#74F466]/20 border-2 border-gray-200 rounded-2xl p-8 mb-12 flex flex-col md:flex-row items-center justify-between shadow-sm hover:shadow-md transition">
+            <div>
+                <h3 class="text-2xl font-black text-gray-800 mb-2 flex items-center">
+                    <i data-lucide="train-track" class="w-7 h-7 mr-2 text-[#3344aa]"></i> HBNU Rail (교내 철도 시스템)
+                </h3>
+                <p class="text-gray-600 text-sm">캠퍼스 전체를 순환하는 A선(트램)과 B선(모노레일)의 실시간 운행 현황과 노선도를 확인하세요.</p>
+            </div>
+            <button onclick="navigateTo('교내교통시스템.html')" class="mt-6 md:mt-0 bg-[#3344aa] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#2a3a9a] transition shadow-md flex items-center whitespace-nowrap transform hover:-translate-y-1">
+                운행 현황 및 노선도 보기 <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- 대중교통 (지하철 & 트램) -->
+            <div class="space-y-8">
+                <!-- 지하철 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold flex items-center mb-5 border-b pb-3">
+                        <i data-lucide="subway" class="mr-2 text-gray-700"></i> 광역 지하철 노선
                     </h3>
-                    <ul class="space-y-3 text-gray-700">
-                        <li><span class="inline-block px-2 py-0.5 bg-[#00ccaa] text-white text-xs rounded font-bold mr-2">2호선</span> <b>효빈대역</b>: 1번 출구 (정문 도보 5분)</li>
-                        <li><span class="inline-block px-2 py-0.5 bg-[#00ccaa] text-white text-xs rounded font-bold mr-2">2호선</span> <b>당선역</b>: 3번 출구 (도보 10분, 베르데홀 인접)</li>
-                        <li><span class="inline-block px-2 py-0.5 bg-[#EE0022] text-white text-xs rounded font-bold mr-2">5호선</span> <b>소조역</b>: 2번 출구 (북구 캠퍼스 셔틀 연계)</li>
+                    <ul class="space-y-4 text-gray-700 text-sm">
+                        <li class="flex items-center">
+                            <span class="inline-block px-2.5 py-1 bg-[#00CCAA] text-white text-xs rounded-md font-bold mr-3 shadow-sm min-w-[50px] text-center">2호선</span> 
+                            <span><b>효빈대역</b>: 1번 출구 (정문 도보 5분 / 대학본부 지하 직결)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block px-2.5 py-1 bg-[#00CCAA] text-white text-xs rounded-md font-bold mr-3 shadow-sm min-w-[50px] text-center">2호선</span> 
+                            <span><b>당선역</b>: 3번 출구 (도보 10분, 베르데 홀 인접)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block px-2.5 py-1 bg-[#EE0022] text-white text-xs rounded-md font-bold mr-3 shadow-sm min-w-[50px] text-center">5호선</span> 
+                            <span><b>소조역</b>: 2번 출구 (사회복지학대학 직결 게이트)</span>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#FF8899]">
+                <!-- 트램 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-[#FF8899] hover:shadow-md transition">
                     <h3 class="text-xl font-bold flex items-center mb-3">
-                        <i data-lucide="tram-front" class="mr-2 text-[#FF8899]"></i> 효빈 트램 (7호선)
+                        <i data-lucide="tram-front" class="mr-2 text-[#FF8899]"></i> 효빈 트램 (도시철도 7호선)
                     </h3>
-                    <p class="text-gray-600 mb-2 text-sm">2025년 개통된 효빈시의 명물 트램입니다. 정시성이 뛰어나 통학에 최적화되어 있습니다.</p>
-                    <ul class="space-y-2 text-gray-700">
-                        <li><span class="inline-block px-2 py-0.5 bg-[#FF8899] text-white text-xs rounded font-bold mr-2">7호선</span> <b>효빈대입구역</b>: 하차 시 정문 연결</li>
-                        <li><span class="inline-block px-2 py-0.5 bg-[#FF8899] text-white text-xs rounded font-bold mr-2">7호선</span> <b>효빈성북문역</b>: 효빈대학교병원 연결</li>
+                    <p class="text-gray-600 mb-5 text-sm leading-relaxed bg-pink-50 p-3 rounded-lg border border-pink-100">
+                        <b>1931년 첫 구간이 개통</b>되었으며 (효빈대 통과 구간은 1930년대 후반 개통), 2010년 공영화 및 대대적인 현대화를 거친 유서 깊은 노선입니다. 정시성이 뛰어나 통학에 최적화되어 있습니다.
+                    </p>
+                    <ul class="space-y-3 text-gray-700 text-sm">
+                        <li class="flex items-center">
+                            <span class="inline-block px-2.5 py-1 bg-[#FF8899] text-white text-xs rounded-md font-bold mr-3 shadow-sm min-w-[50px] text-center">7호선</span> 
+                            <span><b>효빈대입구역</b>: 하차 시 정문 및 A선(트램) 연결</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block px-2.5 py-1 bg-[#FF8899] text-white text-xs rounded-md font-bold mr-3 shadow-sm min-w-[50px] text-center">7호선</span> 
+                            <span><b>효빈성북문역</b>: 효빈대학교병원 및 의과대학 연결</span>
+                        </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- 셔틀버스 -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#3344aa]">
-                <h3 class="text-xl font-bold flex items-center mb-4 text-[#3344aa]">
-                    <i data-lucide="bus" class="mr-2"></i> 교내 순환 셔틀버스
+            <!-- 교내 순환 셔틀 시스템 -->
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 h-fit hover:shadow-md transition">
+                <h3 class="text-xl font-black flex items-center mb-6 text-[#3344aa] border-b pb-3">
+                    <i data-lucide="bus-front" class="mr-2 w-6 h-6"></i> 교내 순환 셔틀열차 및 셔틀버스(일부 한정)
                 </h3>
+                <p class="text-sm text-gray-600 mb-6">
+                    효빈대학교는 HBNU Rail(교내 철도) 외에도, 심야 시간대와 외곽 캠퍼스를 위한 셔틀열차 및 일부 보조 셔틀버스를 병행 운행하고 있습니다.
+                </p>
                 
-                <div class="mb-6">
-                    <h4 class="font-bold text-gray-800 mb-2 bg-gray-100 p-2 rounded">A 노선 (서구 본캠퍼스 순환)</h4>
-                    <p class="text-sm text-gray-600 mb-2">배차간격: 10분 (08:00 ~ 22:00)</p>
-                    <div class="relative pl-4 border-l-2 border-gray-300 space-y-4 text-sm">
-                        <div class="relative"><div class="absolute -left-[21px] top-1 w-3 h-3 bg-[#3344aa] rounded-full"></div>정문 (효빈대입구역)</div>
-                        <div class="relative"><div class="absolute -left-[21px] top-1 w-3 h-3 bg-gray-300 rounded-full"></div>대학본부</div>
-                        <div class="relative"><div class="absolute -left-[21px] top-1 w-3 h-3 bg-gray-300 rounded-full"></div>중앙도서관</div>
-                        <div class="relative"><div class="absolute -left-[21px] top-1 w-3 h-3 bg-gray-300 rounded-full"></div>공과대학</div>
-                        <div class="relative"><div class="absolute -left-[21px] top-1 w-3 h-3 bg-[#3344aa] rounded-full"></div>기숙사 (종점)</div>
+                <div class="mb-8">
+                    <h4 class="font-bold text-gray-800 mb-3 flex items-center bg-gray-50 p-2 rounded-lg border">
+                        <span class="w-2 h-4 bg-[#3344aa] mr-2 rounded-sm"></span> A 노선 (서구 본캠퍼스 순환)
+                    </h4>
+                    <p class="text-sm text-gray-600 mb-4 pl-2 font-medium">배차간격: 10분 (08:00 ~ 22:00)</p>
+                    <div class="relative pl-6 border-l-2 border-gray-200 space-y-5 text-sm text-gray-700 ml-2">
+                        <div class="relative font-bold"><div class="absolute -left-[29px] top-1.5 w-3 h-3 bg-[#3344aa] rounded-full ring-4 ring-white"></div>정문 (효빈대입구역)</div>
+                        <div class="relative"><div class="absolute -left-[29px] top-1.5 w-3 h-3 bg-gray-300 rounded-full ring-4 ring-white"></div>대학본부</div>
+                        <div class="relative"><div class="absolute -left-[29px] top-1.5 w-3 h-3 bg-gray-300 rounded-full ring-4 ring-white"></div>중앙도서관</div>
+                        <div class="relative"><div class="absolute -left-[29px] top-1.5 w-3 h-3 bg-gray-300 rounded-full ring-4 ring-white"></div>공과대학</div>
+                        <div class="relative font-bold"><div class="absolute -left-[29px] top-1.5 w-3 h-3 bg-[#3344aa] rounded-full ring-4 ring-white"></div>기숙사 (종점)</div>
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="font-bold text-gray-800 mb-2 bg-gray-100 p-2 rounded">B 노선 (서구 ↔ 북구 캠퍼스)</h4>
-                    <p class="text-sm text-gray-600 mb-1">배차간격: 30분</p>
-                    <p class="text-xs text-red-500">* 교직원 및 학생증 소지자만 탑승 가능</p>
+                <div class="bg-red-50 p-5 rounded-xl border border-red-100">
+                    <h4 class="font-bold text-red-800 mb-2 flex items-center">
+                        <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i> B 노선 (서구 ↔ 북구 캠퍼스)
+                    </h4>
+                    <p class="text-sm text-gray-700 mb-2">배차간격: 30분 (외곽 순환 보조 노선)</p>
+                    <p class="text-xs text-red-600 font-bold">* 교직원 및 학생증(모바일 ID) 소지자만 탑승 가능합니다.</p>
                 </div>
             </div>
         </div>
+
+        <!-- 🚨 타 캠퍼스 연계 직통 셔틀버스 추가 영역 -->
+        <div class="mt-10 bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+            <h3 class="text-2xl font-black flex items-center mb-6 text-[#3344aa] border-b pb-3">
+                <i data-lucide="bus" class="mr-3 w-7 h-7"></i> 캠퍼스 간 직통 셔틀버스 (이원화 캠퍼스 연계)
+            </h3>
+            <p class="text-sm text-gray-600 mb-8 leading-relaxed">
+                효빈대학교는 본(당선)캠퍼스와 4개의 특성화 이원화 캠퍼스(이자, 천주, 낭원, 강주)를 연결하는 전용 직통 셔틀버스를 운영하여, 재학생들의 원활한 학업 교류와 안전한 이동을 지원하고 있습니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 이자캠퍼스 -->
+                <div class="border border-gray-200 rounded-xl p-5 hover:border-[#00A495] hover:shadow-sm transition-all group relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-[#00A495]/5 rounded-bl-full -z-10 group-hover:bg-[#00A495]/10 transition-colors"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-gray-800 text-lg flex items-center group-hover:text-[#00A495] transition-colors">
+                            <span class="w-1.5 h-5 bg-[#00A495] mr-2 rounded-sm"></span> 이자캠퍼스행
+                        </h4>
+                        <span class="text-xs bg-[#00A495]/10 text-[#00A495] font-bold px-2 py-1 rounded border border-[#00A495]/20">안천구 신동</span>
+                    </div>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li><span class="font-bold text-gray-700 block mb-0.5">탑승 장소</span> 본캠퍼스 대학본부 앞 ↔ 이자캠 디자인센터 앞</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 간격</span> <span class="text-[#00A495] font-bold">평시 60분</span> (매시 정각 출발) / <span class="text-red-500 font-bold">등하교 시간대(08~10시, 16~18시) 30분</span> 집중 배차</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 시간</span> 첫차 08:00 / 막차 20:30</li>
+                    </ul>
+                </div>
+
+                <!-- 천주캠퍼스 -->
+                <div class="border border-gray-200 rounded-xl p-5 hover:border-blue-500 hover:shadow-sm transition-all group relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-blue-50 rounded-bl-full -z-10 group-hover:bg-blue-100 transition-colors"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-gray-800 text-lg flex items-center group-hover:text-blue-600 transition-colors">
+                            <span class="w-1.5 h-5 bg-blue-500 mr-2 rounded-sm"></span> 천주캠퍼스행
+                        </h4>
+                        <span class="text-xs bg-blue-50 text-blue-600 font-bold px-2 py-1 rounded border border-blue-200">천주시 궁하구</span>
+                    </div>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li><span class="font-bold text-gray-700 block mb-0.5">탑승 장소</span> 본캠퍼스 정문 ↔ 천주캠 아트테크센터 앞</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 간격</span> <span class="text-blue-600 font-bold">평시 60분 간격</span> / <span class="text-red-500 font-bold">HAF 등 주요 축제 기간 20분 간격</span> 특별 증차</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">환승 연계</span> 빈효선 광역전철 궁하역 하차 시 도보 5분 연계 가능</li>
+                    </ul>
+                </div>
+
+                <!-- 낭원캠퍼스 -->
+                <div class="border border-gray-200 rounded-xl p-5 hover:border-purple-500 hover:shadow-sm transition-all group relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-purple-50 rounded-bl-full -z-10 group-hover:bg-purple-100 transition-colors"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-gray-800 text-lg flex items-center group-hover:text-purple-600 transition-colors">
+                            <span class="w-1.5 h-5 bg-purple-500 mr-2 rounded-sm"></span> 낭원캠퍼스행
+                        </h4>
+                        <span class="text-xs bg-purple-50 text-purple-600 font-bold px-2 py-1 rounded border border-purple-200">낭원군 전포읍</span>
+                    </div>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li><span class="font-bold text-gray-700 block mb-0.5">탑승 장소</span> 본캠퍼스 공대 앞 ↔ 낭원캠 융합테크센터 앞</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 간격</span> <span class="text-purple-600 font-bold">평시 90분 간격</span> (일 8회 운행) / <span class="text-red-500 font-bold">08:00, 18:00 집중 배차</span></li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 노선</span> 전포물류단지 및 낭원산학협력관 경유</li>
+                    </ul>
+                </div>
+
+                <!-- 강주캠퍼스 -->
+                <div class="border border-gray-200 rounded-xl p-5 hover:border-cyan-600 hover:shadow-sm transition-all group relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-cyan-50 rounded-bl-full -z-10 group-hover:bg-cyan-100 transition-colors"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-gray-800 text-lg flex items-center group-hover:text-cyan-600 transition-colors">
+                            <span class="w-1.5 h-5 bg-cyan-500 mr-2 rounded-sm"></span> 강주캠퍼스행
+                        </h4>
+                        <span class="text-xs bg-cyan-50 text-cyan-600 font-bold px-2 py-1 rounded border border-cyan-200">강주시 좌구동</span>
+                    </div>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li><span class="font-bold text-gray-700 block mb-0.5">탑승 장소</span> 본캠퍼스 정문 ↔ 강주캠 강주마린센터 앞</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">운행 간격</span> <span class="text-cyan-600 font-bold">일 6회 왕복 고정 배차</span> (08:00, 10:00, 12:00, 14:00, 16:00, 18:00)</li>
+                        <li><span class="font-bold text-gray-700 block mb-0.5">특이 사항</span> 강주대교 경유 직통 고속 노선 (교통상황에 따라 약 45분~1시간 소요)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 공통 푸터 자동 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 핵심: 공통 스크립트 연결 -->
     <script src="common.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

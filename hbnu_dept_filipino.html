@@ -6,112 +6,405 @@
     <title>필리핀어학과 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .modal-enter { animation: modalFadeIn 0.3s ease-out; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* 동적 탭 내용 전환 애니메이션 */
+        .tab-content { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
-    <!-- 헤더 (기존 동일) -->
+    <!-- 공통 헤더 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="flex-grow">
-        <!-- 히어로 섹션 (기존 동일) -->
-        <div class="bg-blue-600 text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=2574&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+    <main class="flex-grow w-full">
+        <!-- 히어로 섹션 -->
+        <div class="bg-[#3344aa] text-white py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('필리핀_풍경.png')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-yellow-400 text-blue-900 font-bold text-xs mb-6 shadow-lg">언어문학대학 희소학과</span>
-                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md">필리핀어학과</h1>
+                <span class="inline-block py-1 px-3 rounded-full bg-[#99dd88] text-[#3344aa] font-bold text-xs mb-6 shadow-lg animate-bounce">언어문학대학 희소학과</span>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md tracking-tight">필리핀어학과</h1>
                 <p class="text-xl md:text-2xl opacity-90 font-light">"언어는 인격이다. 우리는 다문화의 가교가 된다."</p>
                 <p class="mt-4 text-sm opacity-80 uppercase tracking-widest">Department of Filipino Language & Culture</p>
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-12">
-                
-                <!-- 1. 학과 소개 (기존 동일) -->
-                <!-- 2. 교수진 소개 (기존 동일) -->
-                <!-- (생략) -->
-
-                <!-- 3. 교육과정 (교양 대폭 추가) -->
-                <section>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center">
-                            <div class="w-1.5 h-8 bg-blue-600 mr-4 rounded-full"></div>
-                            <h2 class="text-3xl font-bold text-gray-800">교육 과정 (Curriculum)</h2>
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- 왼쪽 사이드바 (동적 탭 메뉴) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 font-bold text-gray-800 border-b flex items-center">
+                        <i data-lucide="menu" class="w-5 h-5 mr-2 text-[#3344aa]"></i> 바로가기
+                    </div>
+                    <!-- 탭 버튼들 -->
+                    <ul class="divide-y divide-gray-100 text-sm font-medium">
+                        <li>
+                            <button onclick="showTab('intro')" class="w-full flex items-center justify-between p-4 bg-blue-50 text-[#3344aa] font-bold tab-btn transition-colors duration-300" data-target="intro">
+                                <span class="flex items-center"><i data-lucide="home" class="w-4 h-4 mr-3"></i> 학과 소개 및 과정</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('notice')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="notice">
+                                <span class="flex items-center"><i data-lucide="bell" class="w-4 h-4 mr-3"></i> 학과 공지사항</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('prof')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="prof">
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-3"></i> 교수진 상세 안내</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('exchange')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="exchange">
+                                <span class="flex items-center"><i data-lucide="plane-takeoff" class="w-4 h-4 mr-3"></i> 필리핀 교환학생 프로그램</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('career')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="career">
+                                <span class="flex items-center"><i data-lucide="briefcase" class="w-4 h-4 mr-3"></i> 취업 및 진로 게시판</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('student')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="student">
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-4 h-4 mr-3"></i> 필리핀어학과 학생회</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <!-- 학과 사무실 -->
+                    <div class="p-5 bg-[#f8f9fa] border-t text-center relative overflow-hidden group">
+                        <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="phone-call" class="w-24 h-24 text-[#3344aa]"></i>
                         </div>
-                        <div class="flex gap-2 text-xs">
-                            <span class="flex items-center bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200 font-bold">● 어학 집중</span>
-                            <span class="flex items-center bg-yellow-50 text-yellow-700 px-2 py-1 rounded border border-yellow-200 font-bold">● 지역학</span>
-                            <span class="flex items-center bg-green-50 text-green-700 px-2 py-1 rounded border border-green-200 font-bold">● 추천 교양</span>
+                        <div class="relative z-10">
+                            <h4 class="font-bold text-[#3344aa] text-sm mb-2 flex items-center justify-center">
+                                <i data-lucide="building" class="w-4 h-4 mr-1"></i> 학과 사무실
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                인문관 3층 304호<br>
+                                <span class="font-black text-[#3344aa] text-base mt-2 inline-block bg-white px-3 py-1 rounded shadow-sm border border-gray-100">02-1234-5678</span>
+                            </p>
                         </div>
                     </div>
-                    
-                    <div class="overflow-hidden border rounded-xl shadow-sm">
-                        <table class="min-w-full text-sm text-left">
+                </div>
+            </div>
+
+            <!-- 오른쪽 메인 탭 콘텐츠 영역 -->
+            <div class="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm p-8 min-h-[600px]">
+                
+                <!-- 1. 학과 소개 & 교육과정 탭 (기본 노출) -->
+                <div id="tab-intro" class="tab-content">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="book-open" class="mr-2 text-[#3344aa]"></i> 학과 소개 및 교육과정
+                    </h2>
+                    <div class="text-gray-700 leading-relaxed mb-10">
+                        <p class="mb-4">
+                            효빈대학교 필리핀어학과는 1925년 개교 이래 글로벌 시대의 요구에 부응하여, 동남아시아의 핵심 국가인 필리핀의 언어(타갈로그어)와 문화를 깊이 있게 연구하는 학과입니다.
+                            필리핀은 수많은 섬으로 이루어진 다문화 국가이자, 영어와 타갈로그어를 공용어로 사용하는 독특한 언어 환경을 가지고 있습니다. 
+                        </p>
+                        <p>
+                            우리 학과에서는 실용적인 언어 구사 능력뿐만 아니라, 필리핀의 정치, 경제, 사회, 역사에 대한 포괄적인 이해를 통해 한-필 교류를 선도할 지역 전문가를 양성합니다.
+                        </p>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-lucide="graduation-cap" class="mr-2 text-[#99dd88]"></i> 학년별 교육 과정
+                    </h3>
+                    <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                        <table class="min-w-full text-sm text-left whitespace-nowrap">
                             <thead class="bg-gray-100 text-gray-700 font-bold uppercase text-center">
                                 <tr>
                                     <th class="px-4 py-3 border-b w-16">학기</th>
-                                    <th class="px-4 py-3 border-b text-blue-700 w-1/3">어학 (Language)</th>
+                                    <th class="px-4 py-3 border-b text-[#3344aa] w-1/3">어학 (Language)</th>
                                     <th class="px-4 py-3 border-b text-yellow-700 w-1/4">지역학 (Area Studies)</th>
                                     <th class="px-4 py-3 border-b text-green-700">다양성 교양 (Elective)</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white text-gray-600">
-                                <!-- 1학년 -->
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">1-1</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">초급 타갈로그어 1</td>
-                                    <td class="px-4 py-4">필리핀학 입문</td>
-                                    <td class="px-4 py-4 text-green-700"><b>세계 문화의 이해</b><br>대학 영어</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">1학년</td>
+                                    <td class="px-4 py-4 font-bold text-[#3344aa]">초급 타갈로그어 1, 2</td>
+                                    <td class="px-4 py-4">필리핀학 입문, 동남아시아 문화</td>
+                                    <td class="px-4 py-4 text-green-700">세계 문화의 이해, 다문화 사회와 공존</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">1-2</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">초급 타갈로그어 2</td>
-                                    <td class="px-4 py-4">동남아시아 문화</td>
-                                    <td class="px-4 py-4 text-green-700"><b>다문화 사회와 공존</b><br>글로벌 에티켓</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">2학년</td>
+                                    <td class="px-4 py-4 font-bold text-[#3344aa]">중급 타갈로그어 1, 2</td>
+                                    <td class="px-4 py-4">필리핀 정치경제, 한-필 외교론</td>
+                                    <td class="px-4 py-4 text-green-700">인종과 혐오(비판적 이해), 효빈학의 이해</td>
                                 </tr>
-                                <!-- 2학년 -->
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">2-1</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">중급 타갈로그어 1</td>
-                                    <td class="px-4 py-4">필리핀 정치경제</td>
-                                    <td class="px-4 py-4 text-green-700"><b>인종과 혐오(비판적 이해)</b><br>제3세계의 역사</td>
-                                </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">2-2</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">중급 타갈로그어 2</td>
-                                    <td class="px-4 py-4">한-필 외교론</td>
-                                    <td class="px-4 py-4 text-green-700"><b>효빈학의 이해</b><br>국제 개발 협력의 이해</td>
-                                </tr>
-                                <!-- 3학년 -->
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">3-1</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">비즈니스 타갈로그어</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">3학년</td>
+                                    <td class="px-4 py-4 font-bold text-[#3344aa]">비즈니스 타갈로그어</td>
                                     <td class="px-4 py-4">아세안 지역연구</td>
-                                    <td class="px-4 py-4 text-green-700"><b>관광과 서비스 경영</b><br>스피치와 토론</td>
+                                    <td class="px-4 py-4 text-green-700">관광과 서비스 경영</td>
                                 </tr>
-                                <!-- 4학년 -->
-                                <tr class="hover:bg-gray-50">
+                                <tr class="hover:bg-gray-50 transition">
                                     <td class="px-4 py-4 font-bold text-center bg-gray-50 border-r">4학년</td>
-                                    <td class="px-4 py-4 font-bold text-blue-700">한-필 통번역연습</td>
+                                    <td class="px-4 py-4 font-bold text-[#3344aa]">한-필 통번역연습</td>
                                     <td class="px-4 py-4">필리핀 이슈 분석</td>
-                                    <td class="px-4 py-4 text-green-700">취업 영어<br>직업 윤리</td>
+                                    <td class="px-4 py-4 text-green-700">취업 영어, 직업 윤리</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </section>
+                </div>
 
-                <!-- 4. 학과 전설 (기존 동일) -->
+                <!-- 2. 학과 공지사항 탭 (동적 리스트 및 모달 연동) -->
+                <div id="tab-notice" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="bell" class="mr-2 text-[#3344aa]"></i> 학과 공지사항
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4 text-right">제목을 클릭하면 상세 공지 내용을 확인할 수 있습니다.</p>
+                    
+                    <ul class="space-y-3" id="notice-list">
+                        <!-- JavaScript를 통해 동적으로 렌더링 됩니다. -->
+                    </ul>
+                </div>
+
+                <!-- 3. 교수진 상세 안내 탭 -->
+                <div id="tab-prof" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="users" class="mr-2 text-[#3344aa]"></i> 교수진 상세 안내
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 교수 카드 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="호세리잘_교수.png" alt="호세 리잘 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-[#99dd88]">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">호세 리잘 (Jose Rizal)</h3>
+                                <p class="text-sm text-[#3344aa] font-medium mb-2">학과장 / 타갈로그어학 전공</p>
+                                <p class="text-xs text-gray-600 leading-relaxed mb-2">필리핀 국립대학교(UP) 언어학 박사.</p>
+                                <p class="text-xs text-gray-500 italic bg-gray-50 p-2 rounded border">"언어는 문화를 담는 그릇입니다. 생생한 타갈로그어를 통해 필리핀의 영혼을 느껴봅시다."</p>
+                            </div>
+                        </div>
+                        <!-- 교수 카드 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="김필연_교수.png" alt="김필연 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-[#99dd88]">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">김필연</h3>
+                                <p class="text-sm text-[#3344aa] font-medium mb-2">부교수 / 동남아시아 지역학 전공</p>
+                                <p class="text-xs text-gray-600 leading-relaxed mb-2">아테네오 데 마닐라 대학 정치경제학 박사.</p>
+                                <p class="text-xs text-gray-500 italic bg-gray-50 p-2 rounded border">복잡한 필리핀의 현대 사회를 명쾌하게 분석하여 학생들의 글로벌 인사이트를 넓혀줍니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 필리핀 교환학생 프로그램 탭 -->
+                <div id="tab-exchange" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="plane-takeoff" class="mr-2 text-[#3344aa]"></i> 필리핀 교환학생 프로그램
+                    </h2>
+                    <div class="bg-blue-50 border border-blue-100 p-6 rounded-xl mb-6">
+                        <h3 class="font-bold text-blue-900 text-lg mb-2">현지 학기제 (7+1 프로그램)</h3>
+                        <p class="text-sm text-blue-800 leading-relaxed">
+                            효빈대학교 필리핀어학과는 학생들의 완벽한 어학 능력 향상을 위해 재학 8학기 중 1학기를 필리핀 명문 대학에서 수학하는 '7+1 현지 학기제'를 운영하고 있습니다. 
+                            선발된 학생 전원에게는 <strong>효빈대학교 특별 장학금 및 항공료가 지원</strong>됩니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border rounded-lg p-5 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-2 border-b pb-2">협정 대학 1: 필리핀 국립대학교</h4>
+                            <p class="text-xs text-gray-500 mb-2">University of the Philippines Diliman (UP)</p>
+                            <p class="text-sm text-gray-700">필리핀 최고의 명문 국립대학으로, 타갈로그어 심화 및 동남아시아 사회학 수강에 최적화된 커리큘럼을 제공합니다.</p>
+                        </div>
+                        <div class="border rounded-lg p-5 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-2 border-b pb-2">협정 대학 2: 아테네오 대학교</h4>
+                            <p class="text-xs text-gray-500 mb-2">Ateneo de Manila University</p>
+                            <p class="text-sm text-gray-700">명문 사립대학으로, 비즈니스 타갈로그어 및 정치경제학 관련 학점을 교류할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 취업 및 진로 게시판 탭 -->
+                <div id="tab-career" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="briefcase" class="mr-2 text-[#3344aa]"></i> 취업 및 진로 게시판
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-gray-50 border rounded-xl p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="p-2 bg-blue-100 rounded-full mr-3 text-[#3344aa]"><i data-lucide="building"></i></div>
+                                <h4 class="font-bold text-gray-800">주요 취업처</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed font-medium">
+                                외교부, 주한필리핀대사관, 대한무역투자진흥공사(KOTRA), 다문화가족지원센터, 출입국관리직 공무원, 종합상사 해외영업부, 항공사 및 여행사 등
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 border rounded-xl p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="p-2 bg-green-100 rounded-full mr-3 text-[#99dd88]"><i data-lucide="trending-up"></i></div>
+                                <h4 class="font-bold text-gray-800">최근 진로 동향</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed font-medium">
+                                한국 내 다문화 가정 증가 및 아세안(ASEAN) 국가와의 경제 협력 확대로 인해, 타갈로그어 구사 능력과 지역학적 지식을 갖춘 융합형 인재의 수요가 급증하고 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-bold text-lg mb-3">최근 취업/진로 소식</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="p-3 border rounded-lg flex justify-between hover:bg-gray-50 cursor-pointer">
+                            <span class="text-gray-700">[채용] OOO 무역상사 마닐라 지사 신입 채용 공고</span><span class="text-gray-400">2026.04.05</span>
+                        </li>
+                        <li class="p-3 border rounded-lg flex justify-between hover:bg-gray-50 cursor-pointer">
+                            <span class="text-gray-700">[안내] 효빈시 다문화지원센터 인턴십 모집</span><span class="text-gray-400">2026.04.01</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 6. 학생회 및 학과 전설 탭 -->
+                <div id="tab-student" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#3344aa] pb-2 flex items-center inline-block">
+                        <i data-lucide="message-circle" class="mr-2 text-[#3344aa]"></i> 필리핀어학과 학생회 및 전설
+                    </h2>
+                    
+                    <div class="bg-[#3344aa] text-white p-6 rounded-xl mb-8 flex items-center justify-between shadow-md">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">제75대 필리핀어학과 학생회 '마부하이(Mabuhay)'</h3>
+                            <p class="text-blue-200 text-sm">소통과 화합으로 나아가는 필리핀어학과의 중심!</p>
+                        </div>
+                        <i data-lucide="users" class="w-12 h-12 opacity-50"></i>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="sparkles" class="w-5 h-5 mr-2 text-yellow-500"></i> 학과 전설 (Legend)</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <span class="text-[#3344aa] mr-4 mt-1"><i data-lucide="ghost" class="w-6 h-6"></i></span>
+                            <div>
+                                <strong class="text-gray-900 block mb-1 text-base">방도도서관 타갈로그어 귀신</strong>
+                                <p class="text-sm text-gray-600 leading-relaxed">효빈대 서브컬처 핫플 중 하나인 방도도서관 제3열람실 구석에는 자정이 넘으면 타갈로그어로 중얼거리는 귀신이 나타난다는 소문이 있습니다. 사실 이 귀신(?)의 정체는 중간고사를 앞두고 밤샘 벼락치기를 하던 필리핀어학과 학회장이라는 것이 정설입니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <span class="text-yellow-500 mr-4 mt-1"><i data-lucide="sun" class="w-6 h-6"></i></span>
+                            <div>
+                                <strong class="text-gray-900 block mb-1 text-base">베르데 홀 망고 파티</strong>
+                                <p class="text-sm text-gray-600 leading-relaxed">매년 5월, 필리핀어학과 학생회 주최로 베르데 홀 앞 광장에서 성대한 '망고 파티'가 열립니다. 이때 교수님들 앞에서 타갈로그어로 완벽한 인사를 건네면 생망고를 두 배로 준다는 전설이 있습니다. (물론 발음이 틀리면 단호하게 돌려보냅니다.)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            
-            <!-- 사이드바 (기존 동일) -->
         </div>
     </main>
 
+    <!-- 동적 뷰: 공지사항 상세 모달 -->
+    <div id="notice-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeNoticeModal(event)">
+        <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl modal-enter relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-[#3344aa] p-4 flex justify-between items-center text-white">
+                <h3 class="font-bold text-lg flex items-center"><i data-lucide="bell" class="w-5 h-5 mr-2"></i> 공지사항 상세</h3>
+                <button onclick="closeNoticeModal()" class="hover:bg-white/20 p-1 rounded transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div class="p-6">
+                <h2 id="modal-title" class="text-xl font-bold text-gray-900 mb-2 leading-tight"></h2>
+                <p id="modal-date" class="text-sm text-gray-500 mb-6 border-b pb-4"></p>
+                <div id="modal-content" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap min-h-[150px]"></div>
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="closeNoticeModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 동적 뷰 적용 스크립트 (탭 전환 및 모달) -->
+    <script>
+        // 필리핀어학과 전용 공지사항 데이터
+        const NOTICE_DATA = [
+            {
+                title: "[공지] 2026학년도 필리핀 마닐라(UP) 교환학생 선발 안내",
+                date: "2026.04.05",
+                content: "안녕하세요, 필리핀어학과 사무실입니다.\n\n2026학년도 2학기 파견 예정인 7+1 교환학생(필리핀 국립대학교 디리만 캠퍼스) 선발 일정을 아래와 같이 안내합니다.\n\n- 신청 기간: 2026.04.10 ~ 04.20\n- 자격 요건: 3학기 이상 수료자, 학점 3.0 이상\n- 지원 내역: 왕복 항공권 및 장학금 지급\n\n관심 있는 학생들의 많은 지원 바랍니다."
+            },
+            {
+                title: "[행사] 제30회 베르데 홀 망고 파티 개최 안내",
+                date: "2026.04.02",
+                content: "마부하이! 필리핀어학과 학생회입니다.\n\n우리 학과 최고의 축제, '베르데 홀 망고 파티'가 곧 개최됩니다.\n이번에는 특별히 필리핀 전통 춤 공연과 함께 진행될 예정입니다.\n\n- 일시: 2026.05.15 (금) 14:00\n- 장소: 베르데 홀 앞 잔디광장\n- 참가비: 무료 (망고 무제한 제공!)\n\n※ 교수님께 타갈로그어로 완벽한 인사 시 생망고 2배 지급 이벤트 진행!"
+            },
+            {
+                title: "[특강] 한-필리핀 수교 77주년 기념 대사 초청 특강",
+                date: "2026.03.28",
+                content: "한-필리핀 수교 77주년을 맞이하여, 현직 주한필리핀대사님을 모시고 특별 강연을 진행합니다.\n재학생 여러분의 필참을 권장합니다.\n\n- 주제: 아세안 시대의 필리핀과 한국의 미래 협력\n- 일시: 2026.04.15 (수) 15:00\n- 장소: 인문관 대강당\n- 기타: 참가자 전원 다과 및 기념품 증정"
+            }
+        ];
+
+        // 페이지 로드 시 공지사항 리스트 렌더링
+        document.addEventListener('DOMContentLoaded', () => {
+            const noticeList = document.getElementById('notice-list');
+            noticeList.innerHTML = NOTICE_DATA.map((item, index) => `
+                <li class="flex justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-blue-50 transition border border-transparent hover:border-blue-100 shadow-sm" onclick="openNoticeModal(${index})">
+                    <span class="truncate pr-4 font-bold text-gray-700 hover:text-[#3344aa] transition-colors">${item.title}</span>
+                    <span class="text-xs text-gray-500 whitespace-nowrap mt-0.5">${item.date}</span>
+                </li>
+            `).join('');
+            lucide.createIcons();
+        });
+
+        // 탭 전환 로직 (선생님이 원하신 동적 뷰)
+        function showTab(tabName) {
+            // 모든 탭 컨텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 선택된 탭 컨텐츠만 보이기
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            
+            // 모든 탭 버튼 스타일 초기화 (회색)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-[#3344aa]', 'font-bold', 'bg-blue-50');
+                btn.classList.add('text-gray-600');
+                // 버튼 안의 우측 화살표 숨기기
+                const arrow = btn.querySelector('.lucide-chevron-right');
+                if(arrow) arrow.classList.add('opacity-0');
+                
+                // 클릭된 버튼 스타일 활성화 (파란색)
+                if (btn.dataset.target === tabName) {
+                    btn.classList.remove('text-gray-600');
+                    btn.classList.add('text-[#3344aa]', 'font-bold', 'bg-blue-50');
+                    if(arrow) arrow.classList.remove('opacity-0');
+                }
+            });
+            // 아이콘 새로고침
+            lucide.createIcons();
+        }
+
+        // 공지사항 모달 열기
+        function openNoticeModal(index) {
+            const data = NOTICE_DATA[index];
+            const modal = document.getElementById('notice-modal');
+            
+            document.getElementById('modal-title').innerHTML = data.title;
+            document.getElementById('modal-date').textContent = data.date;
+            document.getElementById('modal-content').textContent = data.content;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 공지사항 모달 닫기
+        function closeNoticeModal(event) {
+            // 배경 클릭이거나 닫기 버튼 클릭일 때만 닫힘
+            if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON') return;
+            const modal = document.getElementById('notice-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
     <script src="common.js"></script>
 </body>
 </html>

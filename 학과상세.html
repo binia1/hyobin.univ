@@ -319,13 +319,13 @@
                 "일반": ["전공일반", "기초이론", "심화연구", "응용실습", "융합연구", "현장연구"]
             };
 
-            const images = [
-                "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100",
-                "https://images.unsplash.com/photo-1573496359-7013ac2bebb4?w=100",
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
-                "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100",
-                "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100",
-                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+            const 이미지 = [
+                "https://이미지.unsplash.com/photo-1560250097-0b93528c311a?w=100",
+                "https://이미지.unsplash.com/photo-1573496359-7013ac2bebb4?w=100",
+                "https://이미지.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
+                "https://이미지.unsplash.com/photo-1580489944761-15a19d654956?w=100",
+                "https://이미지.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100",
+                "https://이미지.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
             ];
 
             const majorList = majorsByType[type] || majorsByType["일반"];
@@ -338,7 +338,7 @@
                 const lName = lastNames[Math.floor(Math.random() * lastNames.length)];
                 const fullName = fName + lName;
                 const major = majorList[i % majorList.length]; // 순환하며 선택
-                const imgUrl = images[i % images.length]; // 순환하며 선택
+                const imgUrl = 이미지[i % 이미지.length]; // 순환하며 선택
                 
                 // 소개 멘트 생성
                 let bio = "";

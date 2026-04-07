@@ -6,160 +6,387 @@
     <title>일어일문학과 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .modal-enter { animation: modalFadeIn 0.3s ease-out; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* 동적 탭 내용 전환 애니메이션 */
+        .tab-content { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="flex-grow">
+    <main class="flex-grow w-full">
         <!-- 히어로 섹션 -->
         <div class="bg-pink-400 text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
+            <!-- 핵심 규칙 준수: 이미지 파일명을 한국어로 수정 -->
+            <div class="absolute inset-0 bg-[url('일본풍경_배경.png')] bg-cover bg-center opacity-30 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-white text-pink-500 font-bold text-xs mb-6 shadow-lg">인문대학 간판학과</span>
-                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md">일어일문학과</h1>
+                <span class="inline-block py-1 px-3 rounded-full bg-white text-pink-500 font-bold text-xs mb-6 shadow-lg animate-bounce">인문대학 간판학과</span>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md tracking-tight">일어일문학과</h1>
                 <p class="text-xl md:text-2xl opacity-90 font-light">"한일 문화 교류의 중심, 깊이 있는 일본 연구"</p>
                 <p class="mt-4 text-sm opacity-80 uppercase tracking-widest">Department of Japanese Language & Literature</p>
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-12">
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- 왼쪽 사이드바 (동적 탭 메뉴) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 font-bold text-gray-800 border-b flex items-center">
+                        <i data-lucide="menu" class="w-5 h-5 mr-2 text-pink-500"></i> 바로가기
+                    </div>
+                    <!-- 탭 버튼들 -->
+                    <ul class="divide-y divide-gray-100 text-sm font-medium">
+                        <li>
+                            <button onclick="showTab('intro')" class="w-full flex items-center justify-between p-4 bg-pink-50 text-pink-500 font-bold tab-btn transition-colors duration-300" data-target="intro">
+                                <span class="flex items-center"><i data-lucide="home" class="w-4 h-4 mr-3"></i> 학과 소개 및 과정</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('notice')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="notice">
+                                <span class="flex items-center"><i data-lucide="bell" class="w-4 h-4 mr-3"></i> 학과 공지사항</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('prof')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="prof">
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-3"></i> 교수진 상세 안내</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('career')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="career">
+                                <span class="flex items-center"><i data-lucide="briefcase" class="w-4 h-4 mr-3"></i> 취업 및 진로 게시판</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('student')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="student">
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-4 h-4 mr-3"></i> 학생회 및 전설</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <!-- 일반 링크 이동 (동적 탭 아님) -->
+                            <a href="입시요강.html" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 transition-colors duration-300">
+                                <span class="flex items-center"><i data-lucide="graduation-cap" class="w-4 h-4 mr-3"></i> 2026학년도 입시 요강</span>
+                                <i data-lucide="external-link" class="w-4 h-4 text-gray-400"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- 학과 사무실 -->
+                    <div class="p-5 bg-[#f8f9fa] border-t text-center relative overflow-hidden group">
+                        <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="phone-call" class="w-24 h-24 text-pink-500"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h4 class="font-bold text-pink-500 text-sm mb-2 flex items-center justify-center">
+                                <i data-lucide="building" class="w-4 h-4 mr-1"></i> 학과 사무실
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                인문관 2층 201호<br>
+                                <span class="font-black text-pink-500 text-base mt-2 inline-block bg-white px-3 py-1 rounded shadow-sm border border-gray-100">02-1234-5678</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 메인 탭 콘텐츠 영역 -->
+            <div class="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm p-8 min-h-[600px]">
                 
-                <!-- 1. 학과 소개 -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-pink-400 mr-3 rounded-full"></span> 학과 소개
+                <!-- 1. 학과 소개 & 교육과정 탭 (기본 노출) -->
+                <div id="tab-intro" class="tab-content">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-pink-400 pb-2 flex items-center inline-block">
+                        <i data-lucide="book-open" class="mr-2 text-pink-500"></i> 학과 소개 및 교육과정
                     </h2>
-                    <p class="text-gray-700 leading-relaxed text-lg mb-6">
-                        일본의 언어와 문학뿐만 아니라 정치, 경제, 사회, 대중문화(서브컬처) 등 일본학 전반을 심도 있게 연구합니다. 
-                        특히 효빈시가 <b>'오타쿠 문화의 성지'</b>로 부상함에 따라, 일본 지자체(누마즈, 치바 등)와의 교류 협력 및 통번역 지원의 중추적인 역할을 담당하고 있습니다.
-                    </p>
-                    <div class="p-4 bg-pink-50 border border-pink-100 rounded-lg text-pink-800 font-medium">
-                        💡 <b>특징:</b> 교수님과 학생 모두 '덕업일치'를 이룬 능력자들이 많아, 학술 연구와 서브컬처 탐구가 공존하는 자유로운 분위기입니다.
-                    </div>
-                </section>
-
-                <!-- 2. 교수진 소개 (NEW) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-pink-400 mr-3 rounded-full"></span> 교수진 소개
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-lg text-gray-800 mb-1">다나카 켄지 교수</h4>
-                            <p class="text-pink-500 text-sm font-medium mb-3">일본어학 박사 / 원어민</p>
-                            <p class="text-sm text-gray-600 mb-2"><b>전공:</b> 한일 대조 언어학, 경어법</p>
-                            <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded">"무례한 자에게는 문답무용(問答無用)! 예의를 중시하십니다."</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-lg text-gray-800 mb-1">이문화 교수</h4>
-                            <p class="text-pink-500 text-sm font-medium mb-3">일본문화 박사</p>
-                            <p class="text-sm text-gray-600 mb-2"><b>전공:</b> 일본 대중문화(애니메이션/게임), 한일 교류사</p>
-                            <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded">"수업 시간에 러브라이브 분석하심. 덕후들의 멘토."</p>
+                    <div class="text-gray-700 leading-relaxed mb-6">
+                        <p class="mb-4">
+                            일본의 언어와 문학뿐만 아니라 정치, 경제, 사회, 대중문화(서브컬처) 등 일본학 전반을 심도 있게 연구합니다. 
+                            특히 효빈시가 <b>'오타쿠 문화의 성지'</b>로 부상함에 따라, 일본 지자체(누마즈, 치바 등)와의 교류 협력 및 통번역 지원의 중추적인 역할을 담당하고 있습니다.
+                        </p>
+                        <div class="p-4 bg-pink-50 border border-pink-100 rounded-lg text-pink-800 font-medium">
+                            💡 <b>특징:</b> 교수님과 학생 모두 '덕업일치'를 이룬 능력자들이 많아, 학술 연구와 서브컬처 탐구가 공존하는 자유로운 분위기입니다.
                         </div>
                     </div>
-                </section>
 
-                <!-- 3. 교육과정 (NEW) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-pink-400 mr-3 rounded-full"></span> 교육과정 (Curriculum)
-                    </h2>
-                    <div class="overflow-hidden border rounded-xl shadow-sm">
-                        <table class="min-w-full text-sm text-left text-gray-600">
+                    <h3 class="text-xl font-bold text-gray-800 mt-10 mb-4 flex items-center">
+                        <i data-lucide="graduation-cap" class="mr-2 text-pink-400"></i> 학년별 교육 과정
+                    </h3>
+                    <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                        <table class="min-w-full text-sm text-left whitespace-nowrap">
                             <thead class="bg-gray-100 text-gray-700 font-bold uppercase">
                                 <tr>
-                                    <th class="px-6 py-3 border-b">학년</th>
-                                    <th class="px-6 py-3 border-b">주요 과목</th>
+                                    <th class="px-6 py-3 border-b text-center w-24">학년</th>
+                                    <th class="px-6 py-3 border-b text-pink-600">주요 과목</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-pink-500">1학년</td>
-                                    <td class="px-6 py-4">초급일본어회화, 일본문화의 이해, 일본어학개론</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-pink-500">1학년</td>
+                                    <td class="px-6 py-4 text-gray-700">초급일본어회화, 일본문화의 이해, 일본어학개론</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-pink-500">2학년</td>
-                                    <td class="px-6 py-4">중급일본어, 일본문학사, <span class="font-bold text-gray-800">일본대중문화론(인기)</span>, 한일번역기초</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-pink-500">2학년</td>
+                                    <td class="px-6 py-4 text-gray-700">중급일본어, 일본문학사, <span class="font-bold text-gray-900 bg-yellow-100 px-1 rounded">일본대중문화론(인기)</span>, 한일번역기초</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-pink-500">3학년</td>
-                                    <td class="px-6 py-4">비즈니스일본어, 시사일본어, <span class="font-bold text-gray-800">서브컬처비평</span>, 영상번역실습</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-pink-500">3학년</td>
+                                    <td class="px-6 py-4 text-gray-700">비즈니스일본어, 시사일본어, <span class="font-bold text-gray-900 bg-yellow-100 px-1 rounded">서브컬처비평</span>, 영상번역실습</td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-pink-500">4학년</td>
-                                    <td class="px-6 py-4">한일통역실습, 일본지역연구(누마즈 탐방), 졸업논문</td>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-pink-500">4학년</td>
+                                    <td class="px-6 py-4 text-gray-700">한일통역실습, 일본지역연구(누마즈 탐방), 졸업논문</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </section>
+                </div>
 
-                <!-- 4. 주요 사건 및 특징 (Legend) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-pink-400 mr-3 rounded-full"></span> 학과 전설 & 활동
+                <!-- 2. 학과 공지사항 탭 -->
+                <div id="tab-notice" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-pink-400 pb-2 flex items-center inline-block">
+                        <i data-lucide="bell" class="mr-2 text-pink-500"></i> 학과 공지사항
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4 text-right">제목을 클릭하면 상세 공지 내용을 확인할 수 있습니다.</p>
+                    
+                    <ul class="space-y-3" id="notice-list">
+                        <!-- JavaScript를 통해 동적으로 렌더링 됩니다. -->
+                    </ul>
+                </div>
+
+                <!-- 3. 교수진 상세 안내 탭 -->
+                <div id="tab-prof" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-pink-400 pb-2 flex items-center inline-block">
+                        <i data-lucide="users" class="mr-2 text-pink-500"></i> 교수진 상세 안내
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 교수 카드 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="다나카_교수.png" alt="다나카 켄지 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-pink-300">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-1">다나카 켄지</h3>
+                                <p class="text-sm text-pink-500 font-medium mb-2">일본어학 박사 / 원어민</p>
+                                <p class="text-xs text-gray-600 mb-2"><b>전공:</b> 한일 대조 언어학, 경어법</p>
+                                <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded border">"무례한 자에게는 문답무용(問答無用)! 예의를 중시하십니다."</p>
+                            </div>
+                        </div>
+                        <!-- 교수 카드 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="이문화_교수.png" alt="이문화 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-pink-300">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-1">이문화</h3>
+                                <p class="text-sm text-pink-500 font-medium mb-2">일본문화 박사</p>
+                                <p class="text-xs text-gray-600 mb-2"><b>전공:</b> 일본 대중문화(애니메이션/게임), 한일 교류사</p>
+                                <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded border">"수업 시간에 러브라이브 분석하심. 덕후들의 멘토."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 취업 및 진로 게시판 탭 -->
+                <div id="tab-career" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-pink-400 pb-2 flex items-center inline-block">
+                        <i data-lucide="briefcase" class="mr-2 text-pink-500"></i> 취업 및 진로 게시판
                     </h2>
                     
-                    <div class="bg-gray-100 p-6 rounded-xl border mb-6 hover:shadow-lg transition">
-                        <div class="flex items-start">
+                    <div class="bg-gray-50 border rounded-xl p-6 mb-8">
+                        <h3 class="font-bold text-lg mb-4 flex items-center text-gray-800">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-pink-500 mr-2"></i> 졸업 후 주요 진로
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border shadow-sm flex items-start">
+                                <i data-lucide="building" class="w-5 h-5 text-gray-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-700 text-sm">일본계 기업 및 무역 상사</h4>
+                                    <p class="text-xs text-gray-500 mt-1">현지 법인 파견 및 수출입 업무 담당</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border shadow-sm flex items-start">
+                                <i data-lucide="book-open" class="w-5 h-5 text-gray-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-700 text-sm">출판, 번역, 영상 자막 전문가</h4>
+                                    <p class="text-xs text-gray-500 mt-1">소설, 라이트노벨 번역 및 미디어 자막</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border shadow-sm flex items-start">
+                                <i data-lucide="monitor-play" class="w-5 h-5 text-gray-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-700 text-sm">문화 콘텐츠 기획</h4>
+                                    <p class="text-xs text-gray-500 mt-1">웹툰, 애니메이션, 게임 관련 로컬라이징</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border shadow-sm flex items-start">
+                                <i data-lucide="plane" class="w-5 h-5 text-gray-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-700 text-sm">항공사, 여행사, 호텔</h4>
+                                    <p class="text-xs text-gray-500 mt-1">관광 산업 전문 인력</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 학생회 및 학과 전설 탭 -->
+                <div id="tab-student" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-pink-400 pb-2 flex items-center inline-block">
+                        <i data-lucide="message-circle" class="mr-2 text-pink-500"></i> 학생회 및 학과 전설
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-pink-50 border border-pink-100 p-5 rounded-xl text-center">
+                            <i data-lucide="book-open" class="w-8 h-8 text-pink-500 mx-auto mb-2"></i>
+                            <h4 class="font-bold text-gray-800 text-lg">이문화연구회</h4>
+                            <p class="text-sm text-gray-600 mt-1">일본 서브컬처 비평 학회</p>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-100 p-5 rounded-xl text-center">
+                            <i data-lucide="globe-2" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
+                            <h4 class="font-bold text-gray-800 text-lg">한일가교</h4>
+                            <p class="text-sm text-gray-600 mt-1">일본 유학생 멘토링 봉사 동아리</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="sparkles" class="w-5 h-5 mr-2 text-yellow-500"></i> 학과 전설 (Legend)</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start bg-gray-50 p-6 rounded-xl border hover:shadow-md transition">
                             <div class="text-3xl mr-4">🎌</div>
                             <div>
-                                <h3 class="font-bold text-gray-800 text-xl mb-2">누마즈 성지 보호 협약의 주역</h3>
-                                <p class="text-gray-700 leading-relaxed mb-2">
+                                <h3 class="font-bold text-gray-800 text-lg mb-2">누마즈 성지 보호 협약의 주역</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-2">
                                     윤재훈이 일본 누마즈시에서 행패를 부려 '나라 망신'을 시켰을 때, 박효빈 시장과 함께 <b>'한·일 문화 성지 보호 공동 협약'</b>을 이끌어낸 숨은 공신들입니다. 
                                     이후 HAF(효빈 애니메이션 페스티벌)에 누마즈시 관계자가 방문하는 계기가 되었습니다.
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-pink-50 p-6 rounded-xl border border-pink-100 hover:shadow-lg transition">
-                        <div class="flex items-start">
+                        <div class="flex items-start bg-pink-50 p-6 rounded-xl border border-pink-100 hover:shadow-md transition">
                             <div class="text-3xl mr-4">🛡️</div>
                             <div>
-                                <h3 class="font-bold text-pink-800 text-xl mb-2">예의(오모테나시)를 지키는 자들</h3>
-                                <p class="text-gray-700 leading-relaxed mb-2">
+                                <h3 class="font-bold text-pink-800 text-lg mb-2">예의(오모테나시)를 지키는 자들</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-2">
                                     2024년 베르데 홀 빵 테러 사건 당시, 일본 성우들 앞에서 추태를 부리는 윤재훈에게 <b>"손님에 대한 예의(오모테나시)를 지켜라"</b>, <b>"무례한 자에겐 문답무용(問答無用)"</b>이라며 점잖지만 뼈아픈 팩트 폭격을 가했습니다.
                                 </p>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-
-            <!-- 오른쪽 사이드바 -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white border rounded-xl shadow-sm p-6 sticky top-24">
-                    <h3 class="font-bold text-lg mb-4 text-center border-b pb-2">🎓 졸업 후 진로</h3>
-                    <ul class="space-y-3 text-sm text-gray-700">
-                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 text-pink-500 mr-2"></i> 일본계 기업 및 무역 상사</li>
-                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 text-pink-500 mr-2"></i> 출판, 번역, 영상 자막 전문가</li>
-                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 text-pink-500 mr-2"></i> 문화 콘텐츠 기획 (웹툰/애니/게임)</li>
-                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 text-pink-500 mr-2"></i> 항공사, 여행사, 호텔</li>
-                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 text-pink-500 mr-2"></i> 일본 대학원 진학</li>
-                    </ul>
-                    <div class="mt-6 pt-4 border-t mb-4">
-                        <h4 class="font-bold mb-2">학회 및 동아리</h4>
-                        <ul class="text-xs text-gray-600 space-y-1">
-                            <li>- <b>이문화연구회:</b> 일본 서브컬처 비평 학회</li>
-                            <li>- <b>한일가교:</b> 일본 유학생 멘토링 봉사</li>
-                        </ul>
-                    </div>
-                    <!-- [NEW] 버튼 수정 -->
-                    <a href="hbnu_admission_guide.html?dept=일어일문학과&back=hbnu_dept_japanese.html" class="block w-full mt-6 bg-pink-500 text-white py-3 rounded-lg font-bold hover:bg-pink-600 transition text-center shadow-md">
-                        2025학년도 입시 요강
-                    </a>
                 </div>
+
             </div>
         </div>
     </main>
 
+    <!-- 동적 뷰: 공지사항 상세 모달 -->
+    <div id="notice-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeNoticeModal(event)">
+        <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl modal-enter relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-pink-500 p-4 flex justify-between items-center text-white">
+                <h3 class="font-bold text-lg flex items-center"><i data-lucide="bell" class="w-5 h-5 mr-2"></i> 공지사항 상세</h3>
+                <button onclick="closeNoticeModal()" class="hover:bg-white/20 p-1 rounded transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div class="p-6">
+                <h2 id="modal-title" class="text-xl font-bold text-gray-900 mb-2 leading-tight"></h2>
+                <p id="modal-date" class="text-sm text-gray-500 mb-6 border-b pb-4"></p>
+                <div id="modal-content" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap min-h-[150px]"></div>
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="closeNoticeModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 동적 뷰 적용 스크립트 (탭 전환 및 모달) -->
+    <script>
+        // 일어일문학과 전용 공지사항 데이터
+        const NOTICE_DATA = [
+            {
+                title: "[공지] 2026학년도 일본 누마즈시 현지 탐방 프로그램 선발",
+                date: "2026.04.05",
+                content: "안녕하세요, 일어일문학과 사무실입니다.\n\n매년 진행되는 일본 지역연구 현지 탐방 프로그램(올해 목적지: 누마즈) 참가자를 선발합니다.\n\n- 신청 기간: 2026.04.10 ~ 04.20\n- 자격 요건: 4학년 '일본지역연구' 수강생 우선 선발\n- 지원 내역: 항공료 및 현지 숙박비 일부 지원\n\n'한·일 문화 성지 보호 공동 협약'의 일환으로 누마즈시청 방문 일정이 포함되어 있습니다."
+            },
+            {
+                title: "[행사] 제20회 이문화연구회 서브컬처 비평제 개최",
+                date: "2026.04.02",
+                content: "일어일문학과 학술동아리 이문화연구회에서 제20회 서브컬처 비평제를 개최합니다.\n\n- 주제: 2000년대 이후 일본 애니메이션의 세계관 변화 분석\n- 일시: 2026.05.10 (수) 14:00\n- 장소: 인문관 1층 소강당\n- 특별 게스트: 이문화 교수님 (현장 질의응답 진행)\n\n학생들의 깊이 있는 분석과 토론이 준비되어 있으니 많은 참석 바랍니다."
+            },
+            {
+                title: "[특강] 다나카 켄지 교수 초청: 비즈니스 경어법과 오모테나시",
+                date: "2026.03.28",
+                content: "일본계 기업 취업을 준비하는 학생들을 위해, 다나카 켄지 교수님의 특강을 마련했습니다.\n\n- 주제: 실전 비즈니스 경어법과 일본의 오모테나시(환대) 문화\n- 일시: 2026.04.15 (금) 15:00\n- 장소: 인문관 201호\n- 비고: 무례한 태도로 수강 시 문답무용 퇴실 조치될 수 있으니 주의 바랍니다."
+            }
+        ];
+
+        // 페이지 로드 시 공지사항 리스트 렌더링
+        document.addEventListener('DOMContentLoaded', () => {
+            const noticeList = document.getElementById('notice-list');
+            noticeList.innerHTML = NOTICE_DATA.map((item, index) => `
+                <li class="flex justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-pink-50 transition border border-transparent hover:border-pink-100 shadow-sm" onclick="openNoticeModal(${index})">
+                    <span class="truncate pr-4 font-bold text-gray-700 hover:text-pink-500 transition-colors">${item.title}</span>
+                    <span class="text-xs text-gray-500 whitespace-nowrap mt-0.5">${item.date}</span>
+                </li>
+            `).join('');
+            lucide.createIcons();
+        });
+
+        // 탭 전환 로직 (일어일문학과 핑크 테마 적용)
+        function showTab(tabName) {
+            // 모든 탭 컨텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 선택된 탭 컨텐츠만 보이기
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            
+            // 모든 탭 버튼 스타일 초기화 (회색)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-pink-500', 'font-bold', 'bg-pink-50');
+                btn.classList.add('text-gray-600');
+                // 버튼 안의 우측 화살표 숨기기
+                const arrow = btn.querySelector('.lucide-chevron-right');
+                if(arrow) arrow.classList.add('opacity-0');
+                
+                // 클릭된 버튼 스타일 활성화 (핑크색)
+                if (btn.dataset.target === tabName) {
+                    btn.classList.remove('text-gray-600');
+                    btn.classList.add('text-pink-500', 'font-bold', 'bg-pink-50');
+                    if(arrow) arrow.classList.remove('opacity-0');
+                }
+            });
+            // 아이콘 새로고침
+            lucide.createIcons();
+        }
+
+        // 공지사항 모달 열기
+        function openNoticeModal(index) {
+            const data = NOTICE_DATA[index];
+            const modal = document.getElementById('notice-modal');
+            
+            document.getElementById('modal-title').innerHTML = data.title;
+            document.getElementById('modal-date').textContent = data.date;
+            document.getElementById('modal-content').textContent = data.content;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 공지사항 모달 닫기
+        function closeNoticeModal(event) {
+            // 배경 클릭이거나 닫기 버튼 클릭일 때만 닫힘
+            if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON') return;
+            const modal = document.getElementById('notice-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
     <script src="common.js"></script>
 </body>
 </html>

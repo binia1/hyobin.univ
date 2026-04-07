@@ -6,173 +6,378 @@
     <title>철도운전학과 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .modal-enter { animation: modalFadeIn 0.3s ease-out; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* 동적 탭 내용 전환 애니메이션 */
+        .tab-content { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="flex-grow">
-        <!-- 히어로 섹션 (색상: Mint/Turquoise - A선 트램 색상) -->
+    <main class="flex-grow w-full">
+        <!-- 히어로 섹션 (색상: Mint/Turquoise - 2호선 색상 #00ccaa) -->
         <div class="bg-[#00ccaa] text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542345596-3c0516768379?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
+            <!-- 핵심 규칙 준수: 이미지 파일명을 한국어로 수정 -->
+            <div class="absolute inset-0 bg-[url('철도_풍경.png')] bg-cover bg-center opacity-30 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-white text-[#00ccaa] font-bold text-xs mb-6 shadow-lg">교통대학 간판학과</span>
-                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md">철도운전학과</h1>
+                <span class="inline-block py-1 px-3 rounded-full bg-white text-[#00ccaa] font-bold text-xs mb-6 shadow-lg animate-bounce">교통대학 간판학과</span>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md tracking-tight">철도운전학과</h1>
                 <p class="text-xl md:text-2xl opacity-90 font-light">"입학과 동시에 경력직, 철도 덕후들의 꿈"</p>
                 <p class="mt-4 text-sm opacity-80 uppercase tracking-widest">Department of Railway Driving</p>
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-12">
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- 왼쪽 사이드바 (동적 탭 메뉴) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 font-bold text-gray-800 border-b flex items-center">
+                        <i data-lucide="menu" class="w-5 h-5 mr-2 text-[#00ccaa]"></i> 바로가기
+                    </div>
+                    <!-- 탭 버튼들 -->
+                    <ul class="divide-y divide-gray-100 text-sm font-medium">
+                        <li>
+                            <button onclick="showTab('intro')" class="w-full flex items-center justify-between p-4 bg-teal-50 text-[#00ccaa] font-bold tab-btn transition-colors duration-300" data-target="intro">
+                                <span class="flex items-center"><i data-lucide="home" class="w-4 h-4 mr-3"></i> 학과 소개 및 과정</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('notice')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="notice">
+                                <span class="flex items-center"><i data-lucide="bell" class="w-4 h-4 mr-3"></i> 학과 공지사항</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('prof')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="prof">
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-3"></i> 교수진 상세 안내</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('career')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="career">
+                                <span class="flex items-center"><i data-lucide="briefcase" class="w-4 h-4 mr-3"></i> 취업 및 진로 게시판</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showTab('student')" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 tab-btn transition-colors duration-300" data-target="student">
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-4 h-4 mr-3"></i> 학생회 및 전설</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 transition-opacity"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <!-- 일반 링크 이동 (동적 탭 아님) -->
+                            <a href="입시요강.html" class="w-full flex items-center justify-between p-4 text-gray-600 hover:bg-gray-50 transition-colors duration-300">
+                                <span class="flex items-center"><i data-lucide="graduation-cap" class="w-4 h-4 mr-3"></i> 2026학년도 입시 요강</span>
+                                <i data-lucide="external-link" class="w-4 h-4 text-gray-400"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- 학과 사무실 -->
+                    <div class="p-5 bg-[#f8f9fa] border-t text-center relative overflow-hidden group">
+                        <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="phone-call" class="w-24 h-24 text-[#00ccaa]"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h4 class="font-bold text-[#00ccaa] text-sm mb-2 flex items-center justify-center">
+                                <i data-lucide="building" class="w-4 h-4 mr-1"></i> 학과 사무실
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                교통관 1층 105호<br>
+                                <span class="font-black text-[#00ccaa] text-base mt-2 inline-block bg-white px-3 py-1 rounded shadow-sm border border-gray-100">02-1234-5678</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 메인 탭 콘텐츠 영역 -->
+            <div class="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm p-8 min-h-[600px]">
                 
-                <!-- 1. 학과 소개 -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-[#00ccaa] mr-3 rounded-full"></span> 학과 소개
+                <!-- 1. 학과 소개 & 교육과정 탭 (기본 노출) -->
+                <div id="tab-intro" class="tab-content">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#00ccaa] pb-2 flex items-center inline-block">
+                        <i data-lucide="book-open" class="mr-2 text-[#00ccaa]"></i> 학과 소개 및 교육과정
                     </h2>
-                    <p class="text-gray-700 leading-relaxed text-lg mb-6">
-                        국내 대학 중 유일하게 <b>교내 트램(A선)과 모노레일(B선) 실습 노선</b>을 보유하고 있습니다. 
-                        재학 중에 제2종 전기차량 운전면허를 취득하며, 실제 교내 대중교통을 직접 운전하며 실무 경력을 쌓을 수 있는 독보적인 커리큘럼을 자랑합니다.
-                        철도 동호인(철덕)들에게는 '꿈의 학과'로 통합니다.
-                    </p>
-                    <div class="p-4 bg-teal-50 border border-teal-100 rounded-lg text-teal-800 font-medium flex items-center">
-                        <i data-lucide="train-front" class="w-6 h-6 mr-3"></i>
-                        <span><b>특징:</b> 수업 끝나고 기숙사 갈 때, 과 동기가 운전하는 트램을 타고 갑니다.</span>
-                    </div>
-                </section>
-
-                <!-- 2. 교수진 소개 -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-[#00ccaa] mr-3 rounded-full"></span> 교수진 소개
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-lg text-gray-800 mb-1">박기관 교수</h4>
-                            <p class="text-[#00ccaa] text-sm font-medium mb-3">교통대학 학장 / 前 코레일 기관사</p>
-                            <p class="text-sm text-gray-600 mb-2"><b>전공:</b> 철도차량운전, 비상대응</p>
-                            <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded">"내 허락 없이 트램 선로 밟지 마라. 밀어버려도 책임 못 진다." (트램 앞을 막은 정치인에게)</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-lg text-gray-800 mb-1">최법규 교수</h4>
-                            <p class="text-[#00ccaa] text-sm font-medium mb-3">철도법학 박사</p>
-                            <p class="text-sm text-gray-600 mb-2"><b>전공:</b> 철도안전법, 교통사고 분석</p>
-                            <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded">"철도안전법 제48조 위반. 징역형 감일세. 자네는 국회보다 감옥이 어울려."</p>
+                    <div class="text-gray-700 leading-relaxed mb-6">
+                        <p class="mb-4">
+                            국내 대학 중 유일하게 <b>교내 트램(A선)과 모노레일(B선) 실습 노선</b>을 보유하고 있습니다. 
+                            재학 중에 제2종 전기차량 운전면허를 취득하며, 실제 교내 대중교통을 직접 운전하며 실무 경력을 쌓을 수 있는 독보적인 커리큘럼을 자랑합니다.
+                            철도 동호인(철덕)들에게는 '꿈의 학과'로 통합니다.
+                        </p>
+                        <div class="p-4 bg-teal-50 border border-teal-100 rounded-lg text-teal-800 font-medium flex items-center">
+                            <i data-lucide="train-front" class="w-6 h-6 mr-3"></i>
+                            <span><b>특징:</b> 수업 끝나고 기숙사 갈 때, 과 동기가 운전하는 트램을 타고 갑니다.</span>
                         </div>
                     </div>
-                </section>
 
-                <!-- 3. 교육과정 -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-[#00ccaa] mr-3 rounded-full"></span> 교육과정 (Curriculum)
-                    </h2>
-                    <div class="overflow-hidden border rounded-xl shadow-sm">
-                        <table class="min-w-full text-sm text-left text-gray-600">
+                    <h3 class="text-xl font-bold text-gray-800 mt-10 mb-4 flex items-center">
+                        <i data-lucide="graduation-cap" class="mr-2 text-[#00ccaa]"></i> 학년별 교육 과정
+                    </h3>
+                    <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                        <table class="min-w-full text-sm text-left whitespace-nowrap">
                             <thead class="bg-gray-100 text-gray-700 font-bold uppercase">
                                 <tr>
-                                    <th class="px-6 py-3 border-b">학년</th>
-                                    <th class="px-6 py-3 border-b">주요 과목 및 실습</th>
+                                    <th class="px-6 py-3 border-b text-center w-24">학년</th>
+                                    <th class="px-6 py-3 border-b text-[#00ccaa]">주요 과목 및 실습</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-teal-600">1학년</td>
-                                    <td class="px-6 py-4">철도안전법, 철도차량개론, 도시철도일반</td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-[#00ccaa]">1학년</td>
+                                    <td class="px-6 py-4 text-gray-700">철도안전법, 철도차량개론, 도시철도일반</td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-teal-600">2학년</td>
-                                    <td class="px-6 py-4">전기동차구조 및 기능, 운전이론, <b>기능 모의 비행(Simulator)</b></td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-[#00ccaa]">2학년</td>
+                                    <td class="px-6 py-4 text-gray-700">전기동차구조 및 기능, 운전이론, <span class="font-bold text-gray-900 bg-teal-100 px-1 rounded">기능 모의 비행(Simulator)</span></td>
                                 </tr>
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-teal-600">3학년</td>
-                                    <td class="px-6 py-4">철도관제시스템, 비상조치론, <b>교내 트램 부기관사 실습</b></td>
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-[#00ccaa]">3학년</td>
+                                    <td class="px-6 py-4 text-gray-700">철도관제시스템, 비상조치론, <span class="font-bold text-gray-900 bg-teal-100 px-1 rounded">교내 트램 부기관사 실습</span></td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-bold text-teal-600">4학년</td>
-                                    <td class="px-6 py-4"><b>교내 트램 정기관사 실습</b>, 철도운전면허 취득, 취업 전략</td>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-bold text-center bg-gray-50 border-r text-[#00ccaa]">4학년</td>
+                                    <td class="px-6 py-4 text-gray-700"><span class="font-bold text-gray-900 bg-teal-100 px-1 rounded">교내 트램 정기관사 실습</span>, 철도운전면허 취득, 취업 전략</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </section>
+                </div>
 
-                <!-- 4. 학과 전설 (Legend) -->
-                <section>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-[#00ccaa] mr-3 rounded-full"></span> 학과 전설 (Legend)
+                <!-- 2. 학과 공지사항 탭 -->
+                <div id="tab-notice" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#00ccaa] pb-2 flex items-center inline-block">
+                        <i data-lucide="bell" class="mr-2 text-[#00ccaa]"></i> 학과 공지사항
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4 text-right">제목을 클릭하면 상세 공지 내용을 확인할 수 있습니다.</p>
+                    
+                    <ul class="space-y-3" id="notice-list">
+                        <!-- JavaScript를 통해 동적으로 렌더링 됩니다. -->
+                    </ul>
+                </div>
+
+                <!-- 3. 교수진 상세 안내 탭 -->
+                <div id="tab-prof" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#00ccaa] pb-2 flex items-center inline-block">
+                        <i data-lucide="users" class="mr-2 text-[#00ccaa]"></i> 교수진 상세 안내
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 교수 카드 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="박기관_교수.png" alt="박기관 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-[#00ccaa]">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-1">박기관</h3>
+                                <p class="text-sm text-[#00ccaa] font-medium mb-2">교통대학 학장 / 前 코레일 기관사</p>
+                                <p class="text-xs text-gray-600 mb-2"><b>전공:</b> 철도차량운전, 비상대응</p>
+                                <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded border">"내 허락 없이 트램 선로 밟지 마라. 밀어버려도 책임 못 진다."</p>
+                            </div>
+                        </div>
+                        <!-- 교수 카드 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg">
+                            <img src="최법규_교수.png" alt="최법규 교수" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-[#00ccaa]">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-1">최법규</h3>
+                                <p class="text-sm text-[#00ccaa] font-medium mb-2">철도법학 박사</p>
+                                <p class="text-xs text-gray-600 mb-2"><b>전공:</b> 철도안전법, 교통사고 분석</p>
+                                <p class="text-xs text-gray-500 bg-gray-50 p-2 rounded border">"철도안전법 제48조 위반. 징역형 감일세. 자네는 국회보다 감옥이 어울려."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 취업 및 진로 게시판 탭 -->
+                <div id="tab-career" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#00ccaa] pb-2 flex items-center inline-block">
+                        <i data-lucide="briefcase" class="mr-2 text-[#00ccaa]"></i> 취업 및 진로 게시판
                     </h2>
                     
-                    <div class="bg-red-50 border border-red-100 p-6 rounded-xl mb-6 hover:shadow-lg transition">
-                        <div class="flex items-start">
-                            <div class="bg-red-100 p-3 rounded-full mr-4 text-red-600"><i data-lucide="siren" class="w-8 h-8"></i></div>
+                    <div class="bg-gray-50 border rounded-xl p-6 mb-8">
+                        <h3 class="font-bold text-lg mb-4 flex items-center text-gray-800">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-[#00ccaa] mr-2"></i> 졸업 후 주요 진출 분야 (취업 현황)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3">K</div>
+                                <h4 class="font-bold text-blue-900 text-base">코레일<br>(한국철도공사)</h4>
+                                <p class="text-xs text-gray-500 mt-2">기관사 최다 배출</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3">S</div>
+                                <h4 class="font-bold text-green-900 text-base">서울교통공사</h4>
+                                <p class="text-xs text-gray-500 mt-2">수도권 진출 활발</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-teal-500 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3">H</div>
+                                <h4 class="font-bold text-teal-900 text-base">효빈도시철도공사</h4>
+                                <p class="text-xs text-gray-500 mt-2">지역 인재 채용 1위</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-6 leading-relaxed">
+                            <i data-lucide="trending-up" class="w-4 h-4 inline text-[#00ccaa] mr-1"></i>
+                            최근 교내 트램 및 모노레일 실무 운행 경험이 공기업 블라인드 채용에서 강력한 스펙으로 작용하여, 매년 취업률 100%에 가까운 성과를 달성하고 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 5. 학생회 및 학과 전설 탭 -->
+                <div id="tab-student" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-[#00ccaa] pb-2 flex items-center inline-block">
+                        <i data-lucide="message-circle" class="mr-2 text-[#00ccaa]"></i> 학생회 및 학과 전설
+                    </h2>
+                    
+                    <div class="bg-[#00ccaa] text-white p-6 rounded-xl mb-8 flex items-center justify-between shadow-md">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">제15대 철도운전학과 학생회 '환승역(Transfer)'</h3>
+                            <p class="text-teal-100 text-sm">여러분들의 밝은 미래로 환승할 수 있도록 돕겠습니다!</p>
+                        </div>
+                        <i data-lucide="train-front" class="w-12 h-12 opacity-50"></i>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="sparkles" class="w-5 h-5 mr-2 text-yellow-500"></i> 학과 전설 (Legend)</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start bg-red-50 p-6 rounded-xl border border-red-100 hover:shadow-md transition">
+                            <div class="text-3xl mr-4"><i data-lucide="siren" class="w-8 h-8 text-red-500"></i></div>
                             <div>
-                                <h3 class="font-bold text-red-800 text-xl mb-2">1. 2024년 트램 자살 특공 미수 사건</h3>
-                                <p class="text-gray-700 leading-relaxed mb-3">
+                                <h3 class="font-bold text-red-800 text-lg mb-2">1. 2024년 트램 자살 특공 미수 사건</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-3">
                                     선거에 낙선한 정치인 윤재훈이 앙심을 품고 달리는 트램 앞을 막아섰으나, 당시 운전 중이던 4학년 실습생(과 수석)이 <b>기적적인 반사신경으로 비상제동을 체결</b>, 불과 5cm 앞에서 정차시켜 대형 참사를 막았습니다.
                                 </p>
-                                <p class="text-sm text-red-700 bg-white p-3 rounded border border-red-200">
-                                    "제동 거리 계산상 불가능한 거리였어. 자네의 반사 신경이 사람을 살렸네." - 교통대학 학장
+                                <p class="text-xs text-red-700 bg-white p-2 rounded border border-red-200 inline-block font-bold">
+                                    "제동 거리 계산상 불가능한 거리였어. 자네의 반사 신경이 사람을 살렸네." - 박기관 학장
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-gray-100 p-6 rounded-xl border hover:shadow-lg transition">
-                        <div class="flex items-start">
+                        <div class="flex items-start bg-gray-50 p-6 rounded-xl border hover:shadow-md transition">
                             <div class="text-3xl mr-4">👉</div>
                             <div>
-                                <h3 class="font-bold text-gray-800 text-xl mb-2">2. 지적확인 환호응답 (Point and Call)</h3>
-                                <p class="text-gray-700 leading-relaxed mb-2">
+                                <h3 class="font-bold text-gray-800 text-lg mb-2">2. 지적확인 환호응답 (Point and Call)</h3>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-2">
                                     안전이 최우선이므로 일상생활에서도 손가락질하며 "신호 확인!", "전방 주시!"를 외치는 직업병(?)이 있습니다. 
-                                    MT 가서 고기를 구울 때도 "불판 온도 확인! 고기 투입!"을 외칩니다.
+                                    MT 가서 고기를 구울 때도 "불판 온도 확인! 고기 투입!"을 외치고 술잔을 짠 할 때도 "잔 확인! 건배 이상무!"를 외치는 기행을 보여줍니다.
                                 </p>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-
-            <!-- 오른쪽 사이드바 -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white border rounded-xl shadow-sm p-6 sticky top-24">
-                    <h3 class="font-bold text-lg mb-4 text-center border-b pb-2">🚆 취업 현황</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center p-3 bg-blue-50 rounded border border-blue-100">
-                            <div class="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">K</div>
-                            <div>
-                                <p class="font-bold text-sm text-blue-900">코레일 (한국철도공사)</p>
-                                <p class="text-xs text-blue-600">기관사 최다 배출</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-3 bg-green-50 rounded border border-green-100">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">S</div>
-                            <div>
-                                <p class="font-bold text-sm text-green-900">서울교통공사</p>
-                                <p class="text-xs text-green-600">수도권 진출 활발</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-3 bg-teal-50 rounded border border-teal-100">
-                            <div class="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">H</div>
-                            <div>
-                                <p class="font-bold text-sm text-teal-900">효빈도시철도공사</p>
-                                <p class="text-xs text-teal-600">지역 인재 채용 1위</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full mt-6 bg-[#00ccaa] text-white py-3 rounded-lg font-bold hover:bg-[#00bb99] transition">
-                        학과 홈페이지
-                    </button>
                 </div>
+
             </div>
         </div>
     </main>
 
+    <!-- 동적 뷰: 공지사항 상세 모달 -->
+    <div id="notice-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm" onclick="closeNoticeModal(event)">
+        <div class="bg-white rounded-xl w-full max-w-lg shadow-2xl modal-enter relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-[#00ccaa] p-4 flex justify-between items-center text-white">
+                <h3 class="font-bold text-lg flex items-center"><i data-lucide="bell" class="w-5 h-5 mr-2"></i> 공지사항 상세</h3>
+                <button onclick="closeNoticeModal()" class="hover:bg-white/20 p-1 rounded transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div class="p-6">
+                <h2 id="modal-title" class="text-xl font-bold text-gray-900 mb-2 leading-tight"></h2>
+                <p id="modal-date" class="text-sm text-gray-500 mb-6 border-b pb-4"></p>
+                <div id="modal-content" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap min-h-[150px]"></div>
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="closeNoticeModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 동적 뷰 적용 스크립트 (탭 전환 및 모달) -->
+    <script>
+        // 철도운전학과 전용 공지사항 데이터
+        const NOTICE_DATA = [
+            {
+                title: "[실습] 2026학년도 1학기 교내 A선 트램 부기관사 실습생 모집",
+                date: "2026.02.25",
+                content: "교통대학 학사운영팀입니다.\n\n2026학년도 1학기 교내 A선 트램 운행을 보조할 3학년 부기관사 실습생을 모집합니다.\n\n- 신청 자격: 철도차량운전면허 필기시험 합격자 (또는 면제자)\n- 모집 인원: 00명\n- 혜택: 전공선택 3학점 인정 및 소정의 근로 장학금 지급\n\n안전 운행에 만전을 기해 주시기 바랍니다."
+            },
+            {
+                title: "[특강] 코레일 및 서울교통공사 현직자 초청 채용설명회",
+                date: "2026.02.20",
+                content: "철도운전학과 학생회 '환승역'에서 주관하는 2026년 상반기 채용설명회를 안내합니다.\n\n- 대상: 철도운전학과 3, 4학년 재학생\n- 일시: 2026.03.10 (화) 15:00\n- 장소: 교통관 1층 대강당\n- 연사: 코레일(19학번 선배), 서울교통공사(20학번 선배)\n\n※ NCS 직업기초능력평가 대비 팁 및 블라인드 면접 노하우 대방출!"
+            },
+            {
+                title: "[안내] 모의 운전 연습실(Simulator) 야간 연장 개방",
+                date: "2026.02.15",
+                content: "제2종 전기차량 운전면허 기능시험을 대비하는 4학년 학생들의 요청에 따라,\n모의 운전 연습실(교통관 205호) 개방 시간을 아래와 같이 연장합니다.\n\n- 기존: 평일 09:00 ~ 18:00\n- 변경: 평일 09:00 ~ 22:00 (주말 개방 불가)\n- 유의사항: 퇴실 시 반드시 기기 전원을 차단하고, 지적확인(전원 차단 확인!) 후 퇴실 바람."
+            }
+        ];
+
+        // 페이지 로드 시 공지사항 리스트 렌더링
+        document.addEventListener('DOMContentLoaded', () => {
+            const noticeList = document.getElementById('notice-list');
+            noticeList.innerHTML = NOTICE_DATA.map((item, index) => `
+                <li class="flex justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-teal-50 transition border border-transparent hover:border-teal-200 shadow-sm" onclick="openNoticeModal(${index})">
+                    <span class="truncate pr-4 font-bold text-gray-700 hover:text-[#00ccaa] transition-colors">${item.title}</span>
+                    <span class="text-xs text-gray-500 whitespace-nowrap mt-0.5">${item.date}</span>
+                </li>
+            `).join('');
+            lucide.createIcons();
+        });
+
+        // 탭 전환 로직 (철도운전학과 Mint/Turquoise 테마 적용)
+        function showTab(tabName) {
+            // 모든 탭 컨텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 선택된 탭 컨텐츠만 보이기
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            
+            // 모든 탭 버튼 스타일 초기화 (회색)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-[#00ccaa]', 'font-bold', 'bg-teal-50');
+                btn.classList.add('text-gray-600');
+                // 버튼 안의 우측 화살표 숨기기
+                const arrow = btn.querySelector('.lucide-chevron-right');
+                if(arrow) arrow.classList.add('opacity-0');
+                
+                // 클릭된 버튼 스타일 활성화 (Mint색)
+                if (btn.dataset.target === tabName) {
+                    btn.classList.remove('text-gray-600');
+                    btn.classList.add('text-[#00ccaa]', 'font-bold', 'bg-teal-50');
+                    if(arrow) arrow.classList.remove('opacity-0');
+                }
+            });
+            // 아이콘 새로고침
+            lucide.createIcons();
+        }
+
+        // 공지사항 모달 열기
+        function openNoticeModal(index) {
+            const data = NOTICE_DATA[index];
+            const modal = document.getElementById('notice-modal');
+            
+            document.getElementById('modal-title').innerHTML = data.title;
+            document.getElementById('modal-date').textContent = data.date;
+            document.getElementById('modal-content').textContent = data.content;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 공지사항 모달 닫기
+        function closeNoticeModal(event) {
+            // 배경 클릭이거나 닫기 버튼 클릭일 때만 닫힘
+            if (event && event.target !== event.currentTarget && event.target.tagName !== 'BUTTON') return;
+            const modal = document.getElementById('notice-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
     <script src="common.js"></script>
 </body>
 </html>

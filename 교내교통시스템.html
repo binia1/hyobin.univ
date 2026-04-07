@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교내 교통 시스템 - 효빈대학교</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .station-node {
+            position: absolute;
+            left: -9px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            border-width: 4px;
+            z-index: 10;
+        }
+        .line-A-border { border-color: #00E5FF; }
+        .line-B-border { border-color: #74F466; }
+        /* 전광판 폰트용 */
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        .led-font { font-family: 'Share Tech Mono', 'Noto Sans KR', monospace; }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
+    
+    <!-- 공통 헤더 자동 렌더링 영역 -->
+    <div id="header-area"></div>
+
+    <!-- 히어로 배너 -->
+    <div class="bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('캠퍼스_철도배경.png')] bg-cover bg-center opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90"></div>
+        <div class="max-w-6xl mx-auto px-4 py-20 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">교내 철도 시스템 <span class="text-[#A0FFF9]">(HBNU Rail)</span></h1>
+            <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                효빈대학교의 광활한 캠퍼스를 연결하는 두 개의 대동맥입니다.<br>
+                교통대학 철도운전학과 4학년 학생들의 생생한 실습장이자, 4만 효빈인의 소중한 발이 되어줍니다.
+            </p>
+            
+            <!-- 연계 교통수단 이동 버튼 -->
+            <div class="mt-8">
+                <button onclick="navigateTo('hbnu_traffic.html')" class="inline-flex items-center bg-[#FF8899] text-gray-900 px-6 py-3 rounded-full font-bold hover:bg-[#ff6b82] transition shadow-lg transform hover:-translate-y-1">
+                    <i data-lucide="map" class="w-5 h-5 mr-2"></i>
+                    운행 현황 및 연계 교통수단 상세 안내
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full">
+
+        <!-- 🚨 실시간 열차 도착 정보 전광판 🚨 -->
+        <div class="bg-[#111] p-6 rounded-2xl mb-12 border-[6px] border-gray-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50"></div>
+            <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                <h3 class="text-white font-bold flex items-center"><i data-lucide="radio" class="w-5 h-5 mr-2 text-red-500 animate-pulse"></i> 실시간 도착 정보 (Real-time Arrival)</h3>
+                <span class="text-gray-400 text-xs led-font" id="current-time"></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 led-font">
+                <!-- A선 전광판 -->
+                <div class="bg-[#000] p-4 rounded border border-gray-700 shadow-inner">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#00E5FF] font-bold tracking-widest">A선 (Tram)</span>
+                        <span class="text-orange-500 text-sm">효빈대중앙환승장 방면</span>
+                    </div>
+                    <div class="text-3xl text-orange-500 font-bold flex justify-between items-center">
+                        <span class="animate-pulse text-xl text-red-500">전역 출발</span>
+                        <span id="timer-a">02:15</span>
+                    </div>
+                </div>
+                <!-- B선 전광판 -->
+                <div class="bg-[#000] p-4 rounded border border-gray-700 shadow-inner">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#74F466] font-bold tracking-widest">B선 (Monorail)</span>
+                        <span class="text-orange-500 text-sm">북부 기숙사 방면</span>
+                    </div>
+                    <div class="text-3xl text-orange-500 font-bold flex justify-between items-center">
+                        <span class="text-xl">2정거장 전</span>
+                        <span id="timer-b">05:42</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            <!-- A선 (트램) -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 h-fit">
+                <div class="p-8 bg-gradient-to-r from-[#A0FFF9]/30 to-transparent border-b-4 border-[#A0FFF9]">
+                    <h2 class="text-3xl font-black text-gray-800 flex items-center">
+                        <i data-lucide="tram-front" class="w-8 h-8 mr-3 text-teal-500"></i> A선 (Tram)
+                    </h2>
+                    <p class="text-gray-600 font-medium mt-2">캠퍼스 남부 평지 순환 · 교내구간 개통: 2000년</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-sm text-gray-700 mb-6 bg-teal-50 p-4 rounded-lg border border-teal-100 leading-relaxed">
+                        캠퍼스 남쪽 평지 구간을 운행하며, 주요 단과대와 대학본부, 병원을 잇는 핵심 노선입니다. 평시 10분, 등하교 시간 5분 간격으로 운행되며 수업 시작 10분 전에는 발 디딜 틈 없는 콩나물시루가 됩니다.
+                    </p>
+
+                    <!-- 7호선 역사 안내 배지 -->
+                    <div class="bg-[#FF8899]/10 border border-[#FF8899] p-4 rounded-xl mb-8">
+                        <h4 class="font-bold text-[#EE0022] flex items-center mb-1"><i data-lucide="info" class="w-4 h-4 mr-1"></i> 효빈트램 (도시철도 7호선) 연계</h4>
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            A선은 시내 노선인 효빈트램 7호선과 연계됩니다. 7호선은 <b>1931년 첫 구간이 개통</b>되었으며 (효빈대 통과 구간은 1930년대 후반 개통), 2010년 공영화 및 대대적인 현대화를 거친 유서 깊은 노선입니다.
+                        </p>
+                    </div>
+                    
+                    <div class="relative border-l-4 border-[#A0FFF9] ml-4 space-y-10 pb-4">
+                        <!-- A01 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A01 수의대·동물병원</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">수의과대학, 동물병원</span>
+                            <span class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded font-bold">기점 (2006년 연장 개통)</span>
+                        </div>
+                        <!-- A02 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A02 효빈대병원</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">의과대학, 효빈병원 본관</span>
+                            <span class="text-xs text-white bg-[#FF8899] px-3 py-1 rounded-full font-bold shadow-sm">7호선 환승</span>
+                        </div>
+                        <!-- A03 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A03 간호대 - 한의관</span>
+                            <span class="text-sm text-gray-500 block font-medium">간호대, 한의학관</span>
+                        </div>
+                        <!-- A04 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A04 약대 보건대</span>
+                            <span class="text-sm text-gray-500 block font-medium">화학공업대, 약학대</span>
+                        </div>
+                        <!-- A05 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A05 화공 전기대</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">기계공업대, 전기공업대</span>
+                            <span class="text-xs text-[#0077DD] bg-blue-50 px-3 py-1 rounded border border-blue-100 font-bold">공대생 승하차 집중 구역</span>
+                        </div>
+                        <!-- A06 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A06 토목대 복지관</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">토목공업대, 학생복지회관</span>
+                        </div>
+                        <!-- A07 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A07 대학본부·충승당</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">대학본부, 지하철 2호선 입구</span>
+                            <span class="text-xs text-white bg-[#00CCAA] px-3 py-1 rounded-full font-bold shadow-sm">2호선 환승</span>
+                        </div>
+                        <!-- A08 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A08 상과대·학생회관</span>
+                            <span class="text-sm text-gray-500 block font-medium">학생회관, 상과대학</span>
+                        </div>
+                        <!-- A09 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-A-border"></div>
+                            <span class="font-black text-xl block text-gray-800">A09 효빈대 중앙환승장</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">효빈대중앙환승장</span>
+                            <span class="text-xs text-gray-800 bg-[#74F466] px-3 py-1 rounded-full font-bold shadow-sm">B선 환승</span>
+                            <p class="text-xs text-gray-500 mt-2">A선의 종점입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B선 (모노레일) -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 h-fit">
+                <div class="p-8 bg-gradient-to-r from-[#74F466]/20 to-transparent border-b-4 border-[#74F466]">
+                    <h2 class="text-3xl font-black text-gray-800 flex items-center">
+                        <i data-lucide="train-track" class="w-8 h-8 mr-3 text-[#52C444]"></i> B선 (Monorail)
+                    </h2>
+                    <p class="text-gray-600 font-medium mt-2">캠퍼스 고지대 및 외곽 순환 · 개통: 2018년</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-sm text-gray-700 mb-8 bg-green-50 p-4 rounded-lg border border-green-100 leading-relaxed">
+                        공중 고지대를 달리며 캠퍼스 전경을 조망할 수 있는 최첨단 모노레일입니다. <strong>일부 역은 건물 내부를 직접 관통하거나 연결 통로로 바로 이어지는 입체적인 구조</strong>를 자랑합니다.
+                    </p>
+                    
+                    <div class="relative border-l-4 border-[#74F466] ml-4 space-y-10 pb-4">
+                        <!-- B01 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B01 교통대학 기지</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">교통대학, 철도운전실습장</span>
+                            <div class="flex gap-2 mb-2">
+                                <span class="text-xs text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 font-bold">건물 연결통로</span>
+                                <span class="text-xs text-gray-600 bg-gray-100 px-2 py-0.5 rounded font-bold">기점</span>
+                            </div>
+                        </div>
+                        <!-- B02 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B02 중앙도서관</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">중앙도서관, 박물관</span>
+                            <span class="text-xs text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 font-bold mb-2 inline-block">건물 연결통로</span>
+                            <p class="text-xs text-[#EE0022] font-bold">시험 기간 심야 셔틀열차 및 셔틀버스(일부 한정) 운행</p>
+                        </div>
+                        <!-- B03 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B03 사회복지대</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">사회복지학대학, 지하철 소조역</span>
+                            <div class="flex gap-2 mb-2">
+                                <span class="text-xs text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 font-bold">건물 연결통로</span>
+                                <span class="text-xs text-white bg-[#EE0022] px-2 py-0.5 rounded-full font-bold shadow-sm">5호선 환승</span>
+                            </div>
+                            <p class="text-xs text-[#3344aa] font-bold">소조역과 직접 연결되는 메인 게이트입니다.</p>
+                        </div>
+                        <!-- B04 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B04 미술사회대</span>
+                            <span class="text-sm text-gray-500 block font-medium">미술대학, 음악대학, 디자인대학</span>
+                        </div>
+                        <!-- B05 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B05 법전원</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">법학전문대학원</span>
+                            <span class="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 font-bold inline-block">건물 내 관통역</span>
+                        </div>
+                        <!-- B06 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B06 효빈대중앙환승장</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">효빈대중앙환승장</span>
+                            <span class="text-xs text-gray-800 bg-[#00E5FF] px-3 py-1 rounded-full font-bold shadow-sm">A선 환승</span>
+                        </div>
+                        <!-- B07 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B07 예술대</span>
+                            <span class="text-sm text-gray-500 block font-medium">예술대학</span>
+                        </div>
+                        <!-- B08 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B08 자연대</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">자연과학대학</span>
+                            <span class="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 font-bold">건물 내 관통역</span>
+                        </div>
+                        <!-- B09 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B09 베르데 홀</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">대강당(베르데홀), 5호선 당선역</span>
+                            <div class="flex gap-2 mb-2">
+                                <span class="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 font-bold">건물 내 관통역</span>
+                                <span class="text-xs text-white bg-[#EE0022] px-2 py-0.5 rounded-full font-bold shadow-sm">5호선 환승</span>
+                            </div>
+                        </div>
+                        <!-- B10 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B10 북부 기숙사</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">학생생활관 (희다관, 후등관 등)</span>
+                            <span class="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 font-bold mb-2 inline-block">건물 내 관통역</span>
+                            <p class="text-xs text-gray-500">기숙사 로비와 연결된 기숙사생들의 생명줄입니다.</p>
+                        </div>
+                        <!-- B11 ~ B15 -->
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B11 보건진료소</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">보건진료소</span>
+                            <span class="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 font-bold">건물 내 관통역</span>
+                        </div>
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B12 대운동장</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">대운동장, 선샤인 노천극장</span>
+                            <span class="text-xs text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 font-bold">건물 연결통로</span>
+                        </div>
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B13 본부·충승당</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">대학본부, 2호선 효빈대역</span>
+                            <div class="flex gap-2">
+                                <span class="text-xs text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 font-bold">건물 연결통로</span>
+                                <span class="text-xs text-white bg-[#00CCAA] px-2 py-0.5 rounded-full font-bold shadow-sm">2호선 환승</span>
+                            </div>
+                        </div>
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B14 상과대 학생회관</span>
+                            <span class="text-sm text-gray-500 block font-medium">학생회관, 상과대학</span>
+                        </div>
+                        <div class="relative pl-8">
+                            <div class="station-node line-B-border"></div>
+                            <span class="font-black text-xl block text-gray-800">B15 효빈대중앙환승장</span>
+                            <span class="text-sm text-gray-500 block mb-2 font-medium">순환선 종착역</span>
+                            <span class="text-xs text-gray-800 bg-[#00E5FF] px-3 py-1 rounded-full font-bold shadow-sm">A선 환승</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 하단: 이용 수칙 및 안내 -->
+        <div class="mt-12 bg-white border-2 border-gray-200 p-8 rounded-2xl shadow-sm mb-16">
+            <h3 class="font-black text-gray-800 text-2xl mb-6 text-center">🎫 요금 및 이용 수칙 안내</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <div class="flex items-center mb-3">
+                        <i data-lucide="credit-card" class="text-blue-600 w-6 h-6 mr-2"></i>
+                        <h4 class="font-bold text-blue-900 text-lg">탑승 요금</h4>
+                    </div>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• <b>교내 구성원:</b> 무료 (재학생, 휴학생, 졸업생, 교직원) - 학생증(모바일 ID) 태그 필수</li>
+                        <li>• <b>일반 외부인:</b> 500원 (교통카드 태그)</li>
+                        <li>• <b>행사 기간:</b> HAF 축제 등 주요 행사 시 외부인 포함 <span class="text-red-600 font-bold">전면 무료 개방</span>됩니다.</li>
+                    </ul>
+                </div>
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                    <div class="flex items-center mb-3">
+                        <i data-lucide="alert-triangle" class="text-red-600 w-6 h-6 mr-2"></i>
+                        <h4 class="font-bold text-red-900 text-lg">탑승 주의사항</h4>
+                    </div>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• <b>철도안전법 제48조 준수:</b> 트램 선로를 무단으로 횡단하거나 막아서는 행위는 엄격히 처벌받습니다.</li>
+                        <li>• <b>운전 실습 진행 중:</b> 교통대학 4학년 실습생이 운행을 담당하므로 안전거리 유지가 필수입니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 공통 푸터 자동 렌더링 영역 -->
+    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+
+    <!-- 핵심: 공통 스크립트 연결 -->
+    <script src="common.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // 실시간 타이머 및 시간 표시 로직
+        function updateTimers() {
+            const now = new Date();
+            // 현재 시간 포맷팅
+            const timeString = now.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('current-time').innerText = timeString;
+
+            // A선 타이머 (초 단위 감소 로직 구현)
+            let aTimer = document.getElementById('timer-a');
+            let [aMin, aSec] = aTimer.innerText.split(':').map(Number);
+            if(aMin === 0 && aSec === 0) { aMin = 4; aSec = 59; } // 리셋
+            else if(aSec === 0) { aMin--; aSec = 59; }
+            else { aSec--; }
+            aTimer.innerText = `${String(aMin).padStart(2, '0')}:${String(aSec).padStart(2, '0')}`;
+
+            // B선 타이머
+            let bTimer = document.getElementById('timer-b');
+            let [bMin, bSec] = bTimer.innerText.split(':').map(Number);
+            if(bMin === 0 && bSec === 0) { bMin = 8; bSec = 30; } // 리셋
+            else if(bSec === 0) { bMin--; bSec = 59; }
+            else { bSec--; }
+            bTimer.innerText = `${String(bMin).padStart(2, '0')}:${String(bSec).padStart(2, '0')}`;
+        }
+        
+        // 1초마다 타이머 업데이트
+        setInterval(updateTimers, 1000);
+        updateTimers(); // 즉시 1회 실행
+    </script>
+</body>
+</html>
