@@ -3,114 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>효빈뉴스 - 효빈대학교</title>
+    <title>HBNU NEWS - 효빈대학교 공식 뉴스룸</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
     
+    <!-- 공통 헤더 자동 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="flex justify-between items-end mb-8 border-b-2 border-[#3344aa] pb-4">
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
+        <!-- 상단 헤더 및 검색 바 -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b-2 border-[#3344aa] pb-5 gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">HBNU NEWS</h1>
-                <p class="text-gray-500 text-sm">효빈대학교의 생생한 소식을 전해드립니다.</p>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="bg-[#3344aa] text-white text-xs font-black px-2.5 py-0.5 rounded">HBNU PRESS</span>
+                    <span class="text-xs text-gray-400 font-bold">홍보처 · 대외협력팀 공식 뉴스룸</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">HBNU NEWS (전체 뉴스 아카이브)</h1>
+                <p class="text-gray-600 text-sm mt-1">효빈대학교의 생생한 학사, 연구, 캠퍼스 문화 및 글로컬 혁신 소식을 전해드립니다.</p>
             </div>
-            <div class="flex border rounded overflow-hidden">
-                <input type="text" placeholder="뉴스 검색" class="p-2 text-sm outline-none w-48">
-                <button class="bg-gray-100 px-3 hover:bg-gray-200"><i data-lucide="search" class="w-4 h-4 text-gray-600"></i></button>
-            </div>
-        </div>
-
-        <div class="space-y-6">
-            <!-- 뉴스 1 (메인급) -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border flex flex-col md:flex-row gap-6 hover:shadow-md transition cursor-pointer" onclick="alert('뉴스 상세 페이지로 이동합니다.')">
-                <div class="md:w-1/3 h-48 bg-gray-200 rounded-lg overflow-hidden relative">
-                    <img src="이미지/https://이미지.unsplash.com/photo-1544531586-fde5298cdd40?w=600" class="w-full h-full object-cover">
-                    <div class="absolute top-2 left-2 bg-[#3344aa] text-white text-xs px-2 py-1 rounded">HOT</div>
+            <div class="flex items-center gap-2 w-full md:w-auto">
+                <div class="relative flex-grow md:w-64">
+                    <input type="text" id="news-search" oninput="filterNews(this.value)" placeholder="뉴스 키워드 검색 (예: 트램, 시장, HAF)..." class="w-full pl-9 pr-4 py-2.5 text-xs md:text-sm border border-gray-300 rounded-xl outline-none focus:border-[#3344aa] bg-white">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
                 </div>
-                <div class="md:w-2/3 flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-3 hover:text-[#3344aa]">박효빈 시장, 모교 방문해 "지방대학의 혁신" 특강</h2>
-                        <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                            박효빈 효빈광역시장이 지난 5일 모교인 효빈대학교를 방문하여 특별 강연을 진행했다. 박 시장은 "트램 7호선 개통은 시작일 뿐"이라며 대학과 도시의 상생 발전을 강조했다. 이날 강연에는 사회복지정책학과 후배들을 비롯해 500여 명의 학생이 몰려...
-                        </p>
-                    </div>
-                    <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-                        <span>대외협력팀</span>
-                        <span>2025.02.05</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 뉴스 2 -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border flex flex-col md:flex-row gap-6 hover:shadow-md transition cursor-pointer">
-                <div class="md:w-1/3 h-48 bg-gray-200 rounded-lg overflow-hidden">
-                    <img src="이미지/https://이미지.unsplash.com/photo-1523050854058-8df90110c9f1?w=600" class="w-full h-full object-cover">
-                </div>
-                <div class="md:w-2/3 flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-3 hover:text-[#3344aa]">효빈대, 개교 100주년 기념식 및 타임캡슐 봉인</h2>
-                        <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                            효빈대학교가 개교 100주년을 맞아 대운동장에서 기념식을 개최했다. 이날 행사에는 재학생과 동문, 지역 주민 등 1만여 명이 참석했으며, 향후 100년의 비전을 담은 타임캡슐 봉인식이 진행되었다.
-                        </p>
-                    </div>
-                    <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-                        <span>홍보실</span>
-                        <span>2025.02.14</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 뉴스 3 -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border flex flex-col md:flex-row gap-6 hover:shadow-md transition cursor-pointer">
-                <div class="md:w-1/3 h-48 bg-gray-200 rounded-lg overflow-hidden">
-                    <img src="이미지/https://이미지.unsplash.com/photo-1560264280-88b68371db39?w=600" class="w-full h-full object-cover">
-                </div>
-                <div class="md:w-2/3 flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-3 hover:text-[#3344aa]">도시공학과 연구팀, '트램과 도시재생' 우수 논문상</h2>
-                        <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                            도시공학과 김철도 교수팀이 한국교통학회 춘계학술대회에서 우수 논문상을 수상했다. 연구팀은 효빈 트램 7호선 도입에 따른 구도심 상권 활성화 효과를 실증적으로 분석하여...
-                        </p>
-                    </div>
-                    <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-                        <span>산학협력단</span>
-                        <span>2025.02.04</span>
-                    </div>
-                </div>
-            </div>
-
-             <!-- 뉴스 4 -->
-             <div class="bg-white p-6 rounded-lg shadow-sm border flex flex-col md:flex-row gap-6 hover:shadow-md transition cursor-pointer">
-                <div class="md:w-1/3 h-48 bg-gray-200 rounded-lg overflow-hidden">
-                    <img src="이미지/https://이미지.unsplash.com/photo-1596704017254-9b1b1f9b39b3?w=600" class="w-full h-full object-cover">
-                </div>
-                <div class="md:w-2/3 flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-3 hover:text-[#3344aa]">만화애니메이션학과, HAF 페스티벌 성공적 개최</h2>
-                        <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                            베르데 홀에서 열린 '2024 효빈 애니메이션 페스티벌(HAF)'이 성황리에 막을 내렸다. 일본 유명 성우 마에다 카오리 등의 내한으로 화제를 모았으며, 만화애니메이션학과 학생들이 주축이 되어...
-                        </p>
-                    </div>
-                    <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-                        <span>예술대학</span>
-                        <span>2024.08.20</span>
-                    </div>
-                </div>
+                <select id="category-filter" onchange="filterCategory(this.value)" class="py-2.5 px-3 text-xs md:text-sm border border-gray-300 rounded-xl outline-none bg-white font-bold text-gray-700">
+                    <option value="ALL">전체 분류</option>
+                    <option value="대학성과">대학성과</option>
+                    <option value="학술·연구">학술·연구</option>
+                    <option value="캠퍼스문화">캠퍼스문화</option>
+                    <option value="교통·시설">교통·시설</option>
+                    <option value="총장실">총장실</option>
+                </select>
             </div>
         </div>
 
-        <div class="flex justify-center mt-10">
-            <button class="px-4 py-2 border rounded hover:bg-gray-50 text-gray-600">더 보기</button>
+        <!-- 뉴스 카드 그리드 리스트 (총 20개) -->
+        <div id="news-container" class="space-y-5"></div>
+
+        <!-- 더보기 버튼 -->
+        <div class="flex justify-center mt-12">
+            <button onclick="loadMoreNews()" id="load-more-btn" class="px-6 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-100 text-gray-700 font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-4 h-4 text-[#3344aa]"></i> 뉴스 더 불러오기
+            </button>
         </div>
     </main>
 
+    <!-- 뉴스 상세 모달 (팝업용) -->
+    <div id="news-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4" onclick="closeNewsModal()">
+        <div class="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-gray-200 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+            <div class="bg-[#1e2a78] text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span id="modal-badge" class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-1 rounded">대학성과</span>
+                    <h3 id="modal-title" class="text-base md:text-lg font-black truncate max-w-lg"></h3>
+                </div>
+                <button onclick="closeNewsModal()" class="text-gray-300 hover:text-white p-1"><i data-lucide="x" width="22"></i></button>
+            </div>
+            <div class="bg-slate-100 px-6 py-2.5 text-xs text-gray-600 border-b flex justify-between">
+                <span id="modal-dept"></span>
+                <span id="modal-date"></span>
+            </div>
+            <div class="p-6 md:p-8 overflow-y-auto space-y-5">
+                <div id="modal-img-wrap" class="rounded-xl overflow-hidden bg-slate-900 max-h-80 hidden">
+                    <img id="modal-img" src="" alt="" class="w-full h-72 object-cover">
+                </div>
+                <div id="modal-summary" class="p-4 bg-blue-50 border-l-4 border-[#3344aa] font-bold text-xs md:text-sm text-[#1e2a78] rounded-r-lg"></div>
+                <div id="modal-body" class="text-gray-800 leading-7 text-sm md:text-[15px] whitespace-pre-line"></div>
+            </div>
+            <div class="bg-gray-50 px-6 py-3.5 border-t flex justify-between items-center text-xs text-gray-500">
+                <span>효빈대학교 홍보처 보도자료 (무단 전재 및 재배포 금지)</span>
+                <button onclick="closeNewsModal()" class="bg-[#3344aa] text-white px-5 py-2 rounded-xl font-bold">확인 및 닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 자동 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- 핵심: 공통 스크립트 연결 -->
     <script src="common.js"></script>
+    <script>
+        // ================= 효빈대학교 공식 뉴스 데이터베이스 (총 20건) =================
+        const HBNU_NEWS_20 = [
+            {
+                id: 1, category: "대학성과", hot: true,
+                title: "효빈대학교, 『중앙일보 대학평가 종합 8위』 달성… 국립대 최상위권 위상 및 3년 연속 유지취업률 1위",
+                summary: "2023년 11위 ➔ 2024년 9위 ➔ 2025~2026년 평가에서 8위 수직 상승. 사회복지학·철도교통학·서브컬처 문화융합·통합의학(메디컬 그랜드슬램) 전 분야 S등급 석권.",
+                date: "2026.11.05", dept: "홍보처 · 기획처",
+                img: "이미지/효빈대학교_본부.webp",
+                content: `효빈대학교(총장 민부선)가 중앙일보 대학평가에서 종합 8위를 기록하며 명실상부한 대한민국 대표 국가거점국립대학교로서의 절대적 위상을 다시 한번 입증했다. 본교는 2023년 종합 11위, 2024년 9위에 이어 2025~2026년 평가에서 8위로 도약하며 가파른 상승세를 이어가고 있다.\n\n이번 평가에서 효빈대학교는 ▲전국 유일의 단과대 규모 '사회복지학대학(S등급)'의 국가 정책 기여도 ▲국내 유일 교내철도(HBNU Rail)를 통한 '교통대학'의 실무형 Living Lab 교육 모델 ▲의·치·한·수 통합의과대학 및 약학·간호·보건대학이 결합된 'One Health 메디컬 그랜드슬램' 연구 실적 ▲100억 원 규모의 '효빈 콘텐츠 스타트업 펀드'와 HAF 공동 주관을 통한 대학 재정 자립 및 5년 연속 등록금 동결 부분에서 만점에 가까운 평가를 받았다.`
+            },
+            {
+                id: 2, category: "총장실", hot: true,
+                title: "박효빈 효빈광역시장(사회복지정책학 15), 모교 베르데 홀 4,950석 만석 특강… '연결의 행정' 강조",
+                summary: "『스쿨 아이돌 정신과 연결의 행정으로 효빈시를 혁신하다』 주제 강연… 사회복지대 학생회실 및 필리핀어학과·버추얼 프로듀서(V-Pro) 동방 격려 방문.",
+                date: "2026.10.28", dept: "대외협력처 · 사회복지학대학",
+                img: "이미지/박효빈_정책발표.webp",
+                content: `효빈대학교가 배출한 자랑스러운 동문이자 대한민국 헌정사상 최연소 광역자치단체장인 박효빈 효빈광역시장(사회복지학대학 사회복지정책학과 학·석사 졸업)이 모교 베르데 홀(29동) 대공연장에서 재학생 4,950명이 운집한 가운데 특별 강연을 성황리에 마쳤다.\n\n박 시장은 이날 강연에서 학부 시절 중앙도서관(23동)에서 밤잠을 줄이며 맥도날드·편의점 아르바이트를 병행했던 가족돌봄청년(영 케어러) 시절의 경험과, 과거 대중교통 독점 및 철도 공사 중단으로 겪었던 아픔을 어떻게 '대중교통 혁신(3세대 스타더스트 도색 및 도시철도망 확충)'과 '문화-복지 상생 정책'으로 승화시켰는지 생생하게 전달해 후배들의 뜨거운 기립박수를 받았다.`
+            },
+            {
+                id: 3, category: "교통·시설", hot: true,
+                title: "교통대학 철도운영시스템공학과, 강의실 『실물 3현시 신호기 & CTC 실시간 동기화 디오라마』 특허 기술 공개",
+                summary: "중앙관제실(CTC) 광케이블 실시간 미러링 시스템… 학부생이 강의실에서 실제 트램·모노레일 폐색 및 ATS 작동을 실시간 관제하는 독보적 인프라.",
+                date: "2026.10.21", dept: "교통대학 · 산학협력단",
+                img: "이미지/철도실습1.webp",
+                content: `효빈대학교 교통대학(35-1~3동) 철도운영시스템공학과가 구축한 『실시간 CTC 광케이블 미러링 실물 3현시 신호기 및 HO스케일 동기화 관제 디오라마 시스템』이 국내 철도 유관기관의 벤치마킹 대상 1순위로 떠올랐다.\n\n실제 A선 트램 운전 실습 중인 4학년 선배가 화공 전기대역(A05)에서 ATS 확인 버튼을 3초 내 누르지 않아 비상제동이 걸리면, 강의실 신호기에 적색 불이 점멸되고 디오라마 모형 트램이 급정거하여 강의실 직통 인터폰으로 지도교수의 실시간 피드백이 이루어지는 독보적 교육 시스템이다.`
+            },
+            {
+                id: 4, category: "캠퍼스문화", hot: false,
+                title: "S-35-4 공중 정비센터 『9.8kg 대차 교수님』과 미술대학 조소과의 『2.2m 초대형 식빵 고양이 벤치』 전국적 화제",
+                summary: "고탄성 우레탄 폼과 방수 인조 모피로 제작한 경차 크기의 극사실주의 야외 소파 벤치 위에서 실제 고양이 기지장님이 2단 식빵을 굽는 진풍경 연출.",
+                date: "2026.10.15", dept: "미술대학 조소과 · 모노레일 정비센터",
+                img: "이미지/미술사회대역_승강장.webp",
+                content: `B07 예술대역 옆 S-35-4 공중 모노레일 정비센터 광장에 설치된 미술대학 조소과 학생들의 졸업작품 『초대형 고등어태비 식빵 고양이 벤치(길이 2.2m, 폭 1.4m, 높이 1.1m)』가 캠퍼스 최고의 명물로 자리 잡았다.\n\n이 조형물은 2018년 B선 개통 이래 차량기지를 지켜온 명예 기지장 고양이 '대차(Bogie) 교수님(9.8kg)'을 15배 스케일로 형상화한 것으로, 딱딱한 석재 대신 고탄성 우레탄과 방수 인조 모피를 사용해 실제 앉을 수 있는 푹신한 야외 소파로 제작되었다.`
+            },
+            {
+                id: 5, category: "학술·연구", hot: false,
+                title: "국어국문학과 동문 송우진 작가(필명 트램라이더) 밀리언셀러 『아카데미의 철도 조종사가 되었다』 애니메이션화 확정",
+                summary: "작품 속 마법 아카데미의 배경이 된 당선캠퍼스 정문·충승당·방도도서관·중앙환승장 일대 글로벌 팬덤 성지순례 코스 급부상.",
+                date: "2026.10.07", dept: "언어문학대학 국어국문학과 · 응용예술대학",
+                img: "이미지/충승당.webp",
+                content: `본교 언어문학대학 국어국문학과 출신 웹소설 작가 송우진(필명: 트램라이더) 동문이 집필한 메가 히트 퓨전 판타지 소설 『아카데미의 철도 조종사가 되었다』가 한·일 합작 글로벌 애니메이션 제작이 확정되었다.\n\n특히 해당 작품에 등장하는 '마법 철도 아카데미'의 지형과 입체 환승역, 붉은 벽돌의 고풍스러운 건물이 본교 당선캠퍼스(정문 아치, 충승당 3동, 중앙환승장 A09/B06역)를 그대로 모티브로 삼은 것이 알려지면서 국내외 독자들의 캠퍼스 투어 신청이 쇄도하고 있다.`
+            },
+            {
+                id: 6, category: "대학성과", hot: false,
+                title: "정치외교·사회복지·교통대 학생회 삼각 동맹 『주권 수호 교내철도 투표 특급(Voting Express)』, 교육부 장관상 수상",
+                summary: "서구 당선1동·북구 소조동에 걸친 광활한 캠퍼스 한계를 A·B선 3분 배차 급행 열차와 차장 동승 브리핑으로 극복… 청년 투표율 89.4% 신화.",
+                date: "2026.09.29", dept: "사회과학대학 · 사회복지학대학 · 교통대학",
+                img: "이미지/중앙환승장_A선_승강장.webp",
+                content: `행정구역상 효빈광역시 서구 당선1동과 북구 소조동에 걸쳐 있는 당선캠퍼스의 지리적 특성을 극복하고 20대 청년 투표율 89.4%라는 전무후무한 기록을 세운 본교 학생자치기구의 『주권 수호 교내철도 투표 특급(Voting Express) 대작전』이 전국 대학 민주시민교육 최우수 모범 사례로 선정되었다.`
+            },
+            {
+                id: 7, category: "캠퍼스문화", hot: false,
+                title: "만화애니메이션학과, 제8회 HAF(효빈 애니메이션 페스티벌) 베르데 홀에서 성황리 개최… 5만 명 집결",
+                summary: "일본 인기 성우 사가라 마유, 마에다 카오리 내한 토크쇼 및 4,950석 전 좌석 매진… 이타샤 트램 운행으로 축제 열기 고조.",
+                date: "2026.08.22", dept: "응용예술대학 만화애니메이션학과 · HAF 조직위",
+                img: "이미지/마유치_단체사진.webp",
+                content: `전국 최대 규모의 서브컬처 축제인 제8회 HAF(효빈 애니메이션 페스티벌)가 당선캠퍼스 베르데 홀(29동)을 중심으로 3일간 성황리에 개최되었다.\n\n만화애니메이션학과 학생들이 주축이 된 HAF 기획위원회는 일본 유명 성우 초청 이벤트, 버추얼 프로듀서(V-Pro) 홀로그램 콘서트, 그리고 HBNU Rail A선 트램을 캐릭터 래핑한 '이타샤 트램' 특별 운행을 선보여 전국에서 몰려든 5만여 명의 관람객들에게 잊지 못할 추억을 선사했다.`
+            },
+            {
+                id: 8, category: "총장실", hot: false,
+                title: "민부선 총장, 『천원의 아침밥 엠마의 식탁』 기말고사 기간 주말 확대 운영 현장 점검",
+                summary: "아와관(52동) 및 학생복지타운(4동) 식당 불시 방문… '스위스식 감자 뢰스티' 및 제과제빵과 실습 빵 품질 직접 시식.",
+                date: "2026.07.12", dept: "총장실 · 학생복지처",
+                img: "이미지/아와관 식당.webp",
+                content: `제26대 민부선 총장이 교비 100% 지원으로 운영 중인 천원의 아침밥 『엠마의 식탁』 운영 현장을 불시 점검했다.\n\n민 총장은 아와관 기숙사 식당에서 학생들과 함께 스위스식 감자 뢰스티와 갓 구운 호밀빵을 아침 식사로 나누며 "학생들이 든든해야 베르데 정신과 샤이니 비전을 향해 힘차게 나아갈 수 있다"고 격려했다.`
+            },
+            {
+                id: 9, category: "학술·연구", hot: false,
+                title: "컴퓨터공학과 연구팀, LLM 기반 지능형 철도 관제 및 교내 무인 트램 자율주행 알고리즘 개발",
+                summary: "HBNU Rail CTC 서버와 연동하여 90초 상호 대기 연동 폐색 제어를 AI가 자동으로 최적화… 교통공사 기술 이전 협약.",
+                date: "2026.06.18", dept: "전기공업대학 컴퓨터공학과",
+                img: "이미지/효빈대_철도운전학과_강의실.webp",
+                content: `전기공업대학 컴퓨터공학과 및 인공지능학과 공동 연구팀이 대규모 언어모델(LLM)과 강화학습을 결합한 『지능형 교내철도(HBNU Rail) 자동 관제 및 트램 자율주행 알고리즘』 개발에 성공했다.\n\n해당 기술은 중앙환승장(A09-B06)의 '쿠쿠스미 연동 폐색' 로직을 AI가 실시간 수송 수요에 맞춰 동적으로 조절하는 시스템으로, 효빈교통공사 실무 노선에도 적용될 예정이다.`
+            },
+{
+                id: 10, category: "복지·정책", hot: true,
+                title: "[특보] 효빈시·효빈대 공동 『블루 버드 멘토단』 1기 출범… 중앙정부 근로장학 시급 삭감에 맞서 '생활임금 1.2배' 전액 보전 및 교육지원 트랙 가동",
+                summary: "정부의 대학생 청소년 교육지원사업 단가 인하 방침에 박효빈 시장 극대노… 시비 긴급 투입해 깎인 임금 전액 보전 및 지역아동센터 파견 대학생 멘토 전격 지원.",
+                date: "2023.09.15", dept: "효빈시청 청년정책과 · 사회복지학대학",
+                img: "이미지/블루버드1기_임명장수여.webp",
+                content: `효빈광역시(시장 박효빈)와 효빈대학교(총장 민부선)가 지역 청년들의 경제적 자립과 취약계층 아동 교육 격차 해소를 위해 공동으로 기획한 『블루 버드 멘토단(Blue Bird Mentor Group)』 제1기를 공식 출범하고 본격적인 운영에 돌입한다고 15일 밝혔다.\n\n이번 멘토단 출범은 최근 중앙정부의 '대학생 청소년 교육지원사업(대청교)' 단가 삭감 방침에 대응하여 추진된 파격적인 민관학 상생 조치다. 당시 중앙정부가 일방적으로 장학 단가를 삭감하면서 관내 지역아동센터에서 아이들을 가르치며 학비를 벌던 저소득층 대학생 멘토들이 생활고에 직면하자, 과거 엘린지역아동센터 근로장학생 출신인 박효빈 시장이 심야 비상대책회의를 소집해 시비 예산을 긴급 편성했다.\n\n효빈시는 깎인 임금 차액을 메워주는 것을 넘어, 시가 책정한 '생활임금의 1.2배'를 대학생 멘토 시급으로 확정하여 지급하기로 결정했다. 이에 따라 선발된 120명의 대학생 멘토들은 관내 지역아동센터 및 복지관에 배치되어 초·중·고 멘티들의 학습 지도와 정서 멘토링을 전담하며 안정적인 학업 수행과 실무 경험을 쌓게 된다.`
+            },
+            {
+                id: 11, category: "교통·시설", hot: false,
+                title: "시설관리처, 2027년 9월 개통 예정 『효빈 도시철도 창전선(#33AAFF)』 캠퍼스 직결 환승통로 착공식 거행",
+                summary: "효빈대병원역 및 소조역 지하 직결로 5개 도시철도 노선이 교차하는 명실상부한 대한민국 대중교통 허브 도약.",
+                date: "2026.04.14", dept: "시설관리처 · 토목공업대학",
+                img: "이미지/효빈대중앙환승장.webp",
+                content: `효빈대학교는 기존 캠퍼스 직결 3개 노선(2호선 효빈대역, 5호선 당선역·소조역, 7호선 효빈대입구역)에 더해, 2027년 9월 개통 예정인 효빈 도시철도 창전선(노선색 #33AAFF)의 효빈대병원역 및 소조역 환승 통로 공사 착공식을 가졌다.\n\n이번 공사가 완료되면 당선캠퍼스는 명실상부 국내 대학 중 가장 완벽한 다중 철도 환승 네트워크를 갖추게 된다.`
+            },
+            {
+                id: 12, category: "캠퍼스문화", hot: false,
+                title: "중앙 락 밴드 『H-Rock』, 제101주년 개교 기념 대동제 노천극장 야외 라이브 공연 성황리에 마쳐",
+                summary: "콜드플레이 커버곡 및 『카우보이 비밥』, 『방도리』 애니송 메들리 연주로 3천 명 관객 열광… 인스타 팔로워 폭증.",
+                date: "2026.04.02", dept: "총동아리연합회 공연예술분과",
+                img: "이미지/베르데홀.webp",
+                content: `제101주년 개교 기념 대동제 하이라이트로 중앙 락 밴드 'H-Rock'의 노천극장 야외 라이브 공연이 펼쳐졌다.\n\nH-Rock은 정통 락 음악과 함께 애니메이션 삽입곡 및 뱅드림 커버 곡을 압도적인 사운드로 연주하여 캠퍼스를 열광의 도가니로 몰아넣었다. 공연 직후 멤버들의 SNS 팔로워가 수천 명씩 증가하는 등 교내 아이돌급 인기를 누리고 있다.`
+            },
+            {
+                id: 13, category: "총장실", hot: false,
+                title: "민부선 총장, 『효빈 콘텐츠 스타트업 펀드』 제6기 선정 스타트업 대표들과 간담회… 'Shiny한 도전 응원'",
+                summary: "창상관(43동) 입주 15개 청년 창업팀 대상 시드머니 증정 및 '실패 책임 면책' 조항 강조.",
+                date: "2026.03.15", dept: "총장실 · 창업지원단",
+                img: "이미지/효빈대학교_본부.webp",
+                content: `민부선 총장은 창상관(43동) 창업보육센터를 방문하여 100억 원 규모의 '효빈 콘텐츠 스타트업 펀드' 지원을 받는 제6기 입주 기업 대표들과 간담회를 가졌다.\n\n민 총장은 오하라 마리의 도전 정신을 인용하며 "실패를 두려워하지 말고 세계를 향해 Lock-on 하는 멋진 콘텐츠를 만들어달라"며 청년 창업가들을 격려했다.`
+            },
+            {
+                id: 14, category: "학술·연구", hot: false,
+                title: "통합의과대학(1~4본부) · 약학대학, 천연물 신약 및 인수공통감염병 공동 연구소 신축 기공식",
+                summary: "메디컬 타운 내 연면적 1만 평 규모 첨단 바이오 연구동… 의·치·한·수 One Health 융합 연구 가속화.",
+                date: "2026.02.28", dept: "통합의과대학 · 약학대학",
+                img: "이미지/효빈대병원_전경.webp",
+                content: `효빈대학교 통합의과대학(의·치·한·수)과 약학대학이 공동으로 활용할 『One Health 바이오 첨단 연구동』 기공식이 효빈대병원 암센터(63동) 인근 부지에서 거행되었다.\n\n해당 연구동은 동서양 의학의 벽을 허물고 인수공통감염병 및 난치성 질환 치료제 개발의 전초기지 역할을 수행하게 된다.`
+            },
+            {
+                id: 15, category: "대학성과", hot: false,
+                title: "국제교류처, 2026 하반기 일본 누마즈·치바 권역 및 유럽 교환학생 파견 장학증서 수여식 개최",
+                summary: "샤이니(Shiny) 글로벌 기금에서 왕복 항공료 및 체재비 전액 지원… 120명 학생 선발.",
+                date: "2026.02.10", dept: "국제교류처",
+                img: "이미지/효빈대학교_본부.webp",
+                content: `효빈대학교 국제교류처는 학술문화회관(64동)에서 2026 하반기 해외 파견 교환학생 장학증서 수여식을 개최했다.\n\n이번 파견 학생들에게는 '샤이니 글로벌 기금'을 통해 왕복 항공료와 체재비(월 120만 원)가 전액 지원되며, 일본 누마즈 및 도쿄 아키하바라 권역 대학들과의 활발한 교류가 기대된다.`
+            },
+            {
+                id: 16, category: "교통·시설", hot: false,
+                title: "HBNU Rail 사업단, 설 명절 및 대축제 기간 대비 A선·B선 전동차 전수 정비 및 ATS 안전 점검 완료",
+                summary: "S-35-4 공중 정비센터에서 대차 초음파 탐상 검사 실시… 귀성객 및 축제 관광객 무사고 수송 만전.",
+                date: "2026.01.20", dept: "교통대학 HBNU Rail 사업단",
+                img: "이미지/교통대학_기지역_승강장.webp",
+                content: `교통대학 HBNU Rail 사업단은 S-35-4 공중 모노레일 정비센터 및 수의대 간이검수고에서 A선 트램 전 편성과 B선 모노레일 전 편성에 대한 대대적인 월동 및 안전 전수 정비를 완료했다.\n\n철도차량시스템공학과 학생들과 명예 기지장 대차 교수님의 엄격한 감시(?) 하에 브레이크 패드 및 ATS 제어 로직 검사가 완벽하게 진행되었다.`
+            },
+            {
+                id: 17, category: "캠퍼스문화", hot: false,
+                title: "중앙 봉사 동아리 『골뱅이 어울림학교』, 인근 지역 아동센터 초청 송년 체육대회 및 피자 파티 개최",
+                summary: "재학생 멘토 50명과 아이들 100명 참여… 흙바닥에서 구르고 뛰어놀며 훈훈한 내리사랑 실천.",
+                date: "2025.12.18", dept: "총동아리연합회 봉사분과",
+                img: "이미지/충승당.webp",
+                content: `효빈대학교 최고 전통의 중앙 봉사 동아리 '골뱅이 어울림학교'가 대운동장(21동)에서 인근 지역 아동센터 아이들을 초청해 송년 체육대회와 피자 파티를 개최했다.\n\n추운 날씨에도 불구하고 대학생 멘토들과 아이들은 릴레이 달리기와 이어달리기를 하며 잊지 못할 웃음꽃을 피웠다.`
+            },
+            {
+                id: 18, category: "총장실", hot: false,
+                title: "민부선 총장, 학내 구성원 소통 간담회 『민마마와 함께하는 샌드위치 토크』 베르데 홀 로비서 성황",
+                summary: "점심시간 학생회관 라운지 및 카페 베르데 출몰… '엠마의 샌드위치' 먹으며 학생 고충 청취.",
+                date: "2025.11.20", dept: "총장실 · 총학생회",
+                img: "이미지/베르데홀_엠마_.webp",
+                content: `민부선 총장이 베르데 홀(29동) 1층 카페 베르데에서 학생들과 격의 없는 소통을 나누는 '샌드위치 토크' 행사를 가졌다.\n\n학생들은 '민마마'라는 애칭으로 총장을 부르며 수강신청 서버 증설, 기숙사 편의시설 확충 등에 대해 유쾌하고 진솔한 대화를 나누었다.`
+            },
+            {
+                id: 19, category: "학술·연구", hot: false,
+                title: "자연과학대학 물리학과·천문학과 공동 연구팀, 효빈시 야간 광해 지도 제작 및 별빛 관측 명소 발표",
+                summary: "대기과학과 기상 데이터 결합하여 당선캠퍼스 및 방도도서관 옥상서 은하수 관측 성공.",
+                date: "2025.10.11", dept: "자연과학대학",
+                img: "이미지/방도도서관.webp",
+                content: `자연과학대학 물리학과와 천문학과 공동 연구팀이 대기과학과 협업을 통해 효빈광역시 전역의 야간 광해 지도를 완성하고, 당선캠퍼스 방도도서관(36동) 옥상 정원에서 가을철 은하수 관측에 성공했다.`
+            },
+            {
+                id: 20, category: "대학성과", hot: false,
+                title: "효빈대학교 박물관(22동), 개교 100주년 기념 특별 기획전 『효빈의 역사, 거점국립대의 1세기』 누적 관람객 3만 돌파",
+                summary: "1925년 효빈상업대학 창학 사료부터 2025년 미래 비전까지 한눈에… 지역 주민 필수 코스 자리매김.",
+                date: "2025.09.30", dept: "효빈대학교 박물관",
+                img: "이미지/철도애니박물관 1층.webp",
+                content: `효빈대학교 개교 100주년 기념관 및 박물관(22동)에서 열린 특별 기획전 『효빈의 역사, 거점국립대의 1세기』 누적 관람객 수가 3만 명을 돌파했다.\n\n이번 전시에서는 일제강점기 상업대학 시절의 희귀 문서부터 2000년대 두청운수 잔혹사 극복 과정, 그리고 오늘날 글로컬 혁신 S등급 대학으로 성장하기까지의 파란만장한 역사적 사료들이 생생하게 전시되어 큰 호평을 받고 있다.`
+            },
+            {
+                id: 21, category: "복지·정책", hot: true,
+                title: "[공지] 효빈시·효빈대 『블루 버드 멘토단』 2026년도 하반기 성과 보고… '교육지원-시정실무' 투트랙 정착 및 3단 계층 거버넌스 완성",
+                summary: "생활임금 1.2배 보장 및 시청·산하기관 실무 인턴십 확대… 졸업생 마서령·심나나 수석 수퍼바이저 승격 및 500명 멘티 밀착 돌봄 성황리 진행.",
+                date: "2026.11.08", dept: "효빈시청 청년정책과 · 사회복지학대학",
+                img: "이미지/블루버드1기_임명장수여.webp",
+                content: `효빈광역시와 효빈대학교가 공동으로 추진해 온 청년 일자리 및 아동 복지 통합 거버넌스 『블루 버드 멘토단(Blue Bird Mentor Group)』이 출범 4년 차를 맞아 관내 청년과 아동 모두를 아우르는 완전체 '투트랙(Two-Track) 시스템'으로 완전히 안착했다고 밝혔다.\n\n현재 블루 버드 멘토단은 관내 초·중·고교생 멘티들에게 학습 지도와 정서 멘토링을 제공하는 '교육지원 트랙'과, 시청 핵심 부서 및 협력 병원(안천병원 등)에 배치되어 현직 전문가들과 1:1로 실무를 익히는 '시정 실무 트랙'으로 고도화되었다. 특히 1~2기 수혜자였던 마서령(종합사회복지관 정식 사회복지사 겸 수석 임상 수퍼바이저)과 심나나((주)토에크 디렉터 겸 경제연구원 애널리스트) 동문이 전문 직업멘토로 금의환향해 후배들을 이끌고 있다.\n\n효빈시는 앞으로도 대학생 멘토들에게 생활임금의 1.2배 보상과 실전 행정 스펙을 아낌없이 제공하고, 지역 아동들에게는 나수민 셰프의 쿠킹클래스와 최후영 성우의 스피치 특강 등 초일류 직업멘토진의 혜택을 지속해서 확대해 나갈 방침이다.`
+            },
+            
+            {
+                id: 21, category: "총장실", hot: true,
+                title: "[단독] 민부선 총장, 집무실 책상 중앙에 『엠마 베르데 네소베리』 공식 안착 및 굿즈 진열장 전격 공개",
+                summary: "교육부 감사 대비 블라인드 해제… '덕업일치의 지성'을 표방하며 총장실을 애니메이션 뮤지엄 수준으로 꾸민 비화 화제.",
+                date: "2026.11.07", dept: "총장실 · 홍보처",
+                img: "이미지/민부선.webp",
+                content: `효빈대학교 민부선 총장이 본부(1동) 3층 집무실 내부를 전격 공개했다. 그동안 교육부 감사와 보수적 학계의 시선을 의식해 블라인드로 살짝 가려두었던 총장실 책상 중앙에는 거대한 '엠마 베르데 네소베리 인형'이 떡하니 자리를 잡았고, 뒤편 서가에는 전공 서적 대신 『러브라이브!』와 『애니메이션』 피규어들이 가득 진열되어 있었다.\n\n민 총장은 인터뷰를 통해 "고립된 상아탑을 부수고 학생들과 눈높이를 맞추는 것만큼 확실한 교육 혁신은 없다"며, "총장실을 찾는 학생들과 덕질 토크를 나누는 것이 가장 큰 낙"이라며 남다른 성덕(성공한 덕후) 면모를 과시했다.`
+            },
+            {
+                id: 22, category: "교통·시설", hot: true,
+                title: "[HBNU Rail] 교통대학(35동) 및 S-35-4 공중 정비센터, A선 트램·B선 모노레일 동절기 합동 종합 안전 점검 돌입",
+                summary: "철도운전 및 정비 실습생 200여 명 투입… 수의대 간이검수고 및 중앙환승장 루프선 일대 레일 연마 작업 시행.",
+                date: "2026.11.04", dept: "교통대학 HBNU Rail 사업단",
+                img: "이미지/교통대_차량기지.webp",
+                content: `동절기 폭설과 한파에 대비하여 효빈대학교 교내철도(HBNU Rail) 운영 주체인 교통대학(35동)과 S-35-4 공중 모노레일 정비센터가 A선(트램) 및 B선(모노레일) 전 노선에 대한 합동 종합 안전 점검에 돌입했다.\n\n철도차량시스템공학과 4학년 정비 실습생들과 명예 기지장 '대차(Bogie) 교수님'의 매서운(?) 감시 속에서 진행된 이번 점검에서는, 가을철 낙엽으로 인한 제동 마찰력 저하를 방지하기 위한 샌딩(모래 분사) 장치 정밀 검사와 선로 포인트 히터 작동 테스트가 완벽하게 수행되었다.`
+            },
+            {
+                id: 23, category: "캠퍼스문화", hot: false,
+                title: "[서브컬처] 버추얼 프로듀서(V-Pro) 동아리, 시청 지원 풀트래킹 모션 캡처 스튜디오서 제3대 교내 버튜버 라이브 데뷔",
+                summary: "공대 소프트웨어 전공과 예술대 시각디자인과의 초특급 협업… 에브리타임 실시간 시청자 5천 명 돌파 기염.",
+                date: "2026.10.31", dept: "총동아리연합회 서브컬처분과",
+                img: "이미지/2호선_역무원.webp",
+                content: `교내 중앙동아리 '버추얼 프로듀서(V-Pro)'가 학생복지회관(2동) 동아리관 내 전용 모션 캡처 스튜디오에서 제3대 교내 오리지널 버추얼 유튜버(VTuber) 라이브 데뷔 방송을 성황리에 송출했다.\n\n초기 2D 판때기 시절과 달리, 박효빈 시장이 직접 기증한 초정밀 풀트래킹 장비를 활용해 고품격 3D 아바타로 구현된 이번 방송은 에브리타임 실시간 핫게를 장악하며 폭발적인 반응을 이끌어냈다.`
+            },
+            {
+                id: 24, category: "학술·연구", hot: false,
+                title: "[인문·어문] 필리핀어학과(10-1동)·국어국문학과 공동 학술제 『효빈시 다문화 언어 지형도와 방언 아카이브』 발표",
+                summary: "시장 혈통 특전 학과답게 시청 외교 파트 및 현지 대학과 실시간 화상 세미나… 송우진 작가 특강 동시 개최.",
+                date: "2026.10.26", dept: "언어문학대학 필리핀어학과",
+                img: "이미지/필리핀어학과 과잠.webp",
+                content: `언어문학대학 동양언어관(10-1동) 마부하이 라운지에서 필리핀어학과와 국어국문학과가 공동 주관하는 학술제가 개최되었다.\n\n효빈시의 독특한 다문화 교류 현황과 지역 방언의 변천사를 다룬 이번 학술제에는 밀리언셀러 웹소설 작가인 송우진 동문(국어국문학과 졸)이 특별 연사로 초청되어 '장르 문학 속 지역 언어의 리얼리티'를 주제로 열띤 강연을 펼쳤다.`
+            },
+            {
+                id: 25, category: "캠퍼스문화", hot: false,
+                title: "[학생복지] 동아리관(5동) 및 학생회관(2동) 일대, 제2학기 중앙동아리 가두모집 『동방 쟁탈전』 성황리 마감",
+                summary: "베르데 홀 인근 1평을 사수하기 위한 89개 중앙동아리의 피 튀기는 홍보전… 철도사랑 및 락밴드 H-Rock 부스 인산인해.",
+                date: "2026.10.19", dept: "총동아리연합회",
+                img: "이미지/효빈대_과방.webp",
+                content: `당선캠퍼스 학생회관(2동) 앞 광장과 동아리관(5동) 일대가 2학기 신입생 가두모집에 나선 89개 중앙동아리들의 홍보 부스로 인산인해를 이뤘다.\n\n특히 베르데 홀(29동)과 가까운 동방 위치를 사수하기 위한 각 동아리들의 기싸움이 치열했던 가운데, 전통의 강호 'HBNU Rail(철도사랑)'과 중앙 락 밴드 'H-Rock' 부스 앞에는 수백 명의 신입생들이 몰려들어 엄청난 경쟁률을 기록했다.`
+            },
+            {
+                id: 26, category: "학술·연구", hot: false,
+                title: "[공학·기계] 기계공업대학 5호관(14-5동) 랩실, 수소 연료전지 및 하이브리드 트램 구동 장치 국산화 중간 평가 통과",
+                summary: "교통대학 트램(A선) 실증 노선과 연계하여 3,000도 용접 토치 활용 초정밀 시제품 테스트 성공.",
+                date: "2026.10.12", dept: "기계공업대학 · 산학협력단",
+                img: "이미지/철도실습1.webp",
+                content: `기계공업대학 5호관(14-5동) 첨단 기계 랩실 연구팀이 산업통상자원부와 효빈시가 공동 주관하는 '수소 하이브리드 트램 구동 장치 국산화 프로젝트' 중간 평가에서 최고 등급(A)을 획득했다.\n\n연구팀은 실제 교내철도 A선 선로에 시험 차량을 투입해 영하의 추위 속에서도 완벽한 출력을 내는 것을 입증해 내며 공대의 저력을 과시했다.`
+            },
+            {
+                id: 27, category: "복지·정책", hot: false,
+                title: "[도서관] 중앙도서관(23동) 및 방도도서관(36동), 중간고사 맞이 『심야 간식 어택: 총장님의 야식 샌드위치』 이벤트",
+                summary: "민부선 총장과 총학생회가 시험에 지친 학생들에게 '엠마의 샌드위치' 1,000개 직접 배포… 깜짝 피아노 연주.",
+                date: "2026.10.05", dept: "중앙도서관 · 총학생회",
+                img: "이미지/방도도서관.webp",
+                content: `중앙도서관(23동) 로비와 방도도서관(36동) 앞 광장에서 시험공부에 지친 학생들을 격려하기 위한 '심야 간식 어택' 이벤트가 열렸다.\n\n민부선 총장이 직접 학생복지회관 조리과학과 학생들이 구워낸 '엠마의 샌드위치' 1,000개를 열람실 좌석 번호표를 가진 학생들에게 나눠주며 따뜻한 응원을 건넸다.`
+            },
+            {
+                id: 28, category: "총장실", hot: false,
+                title: "[대외협력] 효빈대·효빈시청, 일본 누마즈시 및 도쿄 아키하바라 대학 연합과 『한·일 서브컬처 산학협력 협약』 체결",
+                summary: "베르데 홀서 체결식 거행… 애니메이션 공동 제작, 교환학생 쿼터 2배 확대 및 코스프레 문화 교류 활성화.",
+                date: "2026.09.28", dept: "대외협력처 · 국제교류처",
+                img: "이미지/김성민_요리시게_협약식.webp",
+                content: `효빈대학교와 효빈광역시청은 베르데 홀(29동) 컨벤션룸에서 일본 누마즈시 및 도쿄 아키하바라 권역의 주요 대학 및 콘텐츠 기업 협의회와 『한·일 서브컬처 융합 산학협력 협약(MOU)』을 체결했다.\n\n이번 협약을 통해 양국 대학생들은 방학 기간 상대 도시에 머물며 애니메이션 공동 제작 프로젝트에 참여하고, 교환학생 장학 혜택을 대폭 누릴 수 있게 되었다.`
+            },
+            {
+                id: 29, category: "캠퍼스문화", hot: false,
+                title: "[동아리] 중앙 댄스 동아리 D-Floor, 대학로 버스킹 광장서 신곡 칼군무 커버 영상 공개로 유튜브 트렌딩 장악",
+                summary: "최신 J-POP 및 K-POP 메들리 커버… 완벽한 동선과 표정 연기로 조회수 100만 뷰 돌파.",
+                date: "2026.09.19", dept: "총동아리연합회 공연예술분과",
+                img: "이미지/효빈대_축제_기념.webp",
+                content: `효빈대 중앙 댄스 크루 'D-Floor'가 학교 앞 대학로 버스킹 광장에서 펼친 신곡 칼군무 커버 영상이 유튜브 효빈대 채널 업로드 하루 만에 조회수 100만 회를 돌파하며 트렌딩에 올랐다.\n\n칼같이 떨어지는 동작과 프로 아이돌 뺨치는 표정 연기로 현장에 모인 500여 명의 재학생과 시민들의 환호성을 자아냈다.`
+            },
+            {
+                id: 30, category: "학술·연구", hot: false,
+                title: "[자연과학] 자연과학대학 화학과·생명과학과 연구팀, 효빈천 생태계 정화 효소 신소재 발견 및 논문 등재",
+                summary: "환경산업대학 환경공학과와 합동 연구… 캠퍼스 통과하는 효빈천 수질 개선에 직접 적용.",
+                date: "2026.09.10", dept: "자연과학대학 화학과",
+                img: "이미지/자연대역_승강장.webp",
+                content: `자연과학대학 화학과와 생명과학과 공동 연구팀이 환경산업대학 환경공학과와의 융합 연구를 통해 효빈천 일대의 수질을 획기적으로 개선할 수 있는 친환경 미생물 효소 신소재를 발견하고 세계적 권위의 학술지에 논문을 등재했다.\n\n해당 신소재는 당선캠퍼스를 관통하는 효빈천 생태 공원 정화 작업에 즉각 투입되어 맑고 깨끗한 물길을 되찾는 데 기여하고 있다.`
+            },
+            {
+                id: 31, category: "교통·시설", hot: false,
+                title: "[시설관리처] 학생생활관(기숙사) 아파트형 니나관(51동)·아와관(52동) 스마트 고속 엘리베이터 전면 교체 완료",
+                summary: "20층(니나관) 및 23층(아와관) 등반 속도 2배 향상… 출근·등교 시간대 엘리베이터 전쟁 대폭 완화.",
+                date: "2026.08.30", dept: "시설관리처 · 기숙사자치회",
+                img: "이미지/니나관.webp",
+                content: `효빈대학교 시설관리처는 아파트형 기숙사인 니나관(51동, 20층)과 아와관(52동, 23층)의 고속 엘리베이터 교체 공사를 성공적으로 완료했다고 밝혔다.\n\n기존 노후 승강기를 최신 AI 군관리 제어 시스템이 탑재된 고속 모델로 전면 교체함에 따라, 매일 아침 9시 수업 전 23층 고층에서 내려오던 기숙사생들의 '지옥의 대기 시간'이 절반 이하로 단축되었다.`
+            },
+            {
+                id: 32, category: "대학성과", hot: false,
+                title: "[취업지원센터] 경영학과·경제학과 취업 동아리, 전국 대학생 금융 모의투자 대회서 1~3위 싹쓸이",
+                summary: "상과대학(8동) 모의 주식 거래 랩실서 밤새워 분석… 수익률 300% 달성 기염.",
+                date: "2026.08.15", dept: "상과대학 취업지원센터",
+                img: "이미지/상과대 학생회관.webp",
+                content: `상과대학(8동) 경영학과 및 경제학과 재학생들로 구성된 취업 동아리 '불스(Bulls)' 팀이 전국 대학생 금융 모의투자 대회에서 대상, 최우수상, 우수상을 모두 싹쓸이하는 기염을 토했다.\n\n학생들은 상과대 모닝 랩실에서 밤낮으로 HTS 프로그램을 분석하며 다변화하는 글로벌 증시 흐름을 정확히 예측해 내며 금융 엘리트로서의 저력을 입증했다.`
+            },
+            {
+                id: 33, category: "캠퍼스문화", hot: false,
+                title: "[동아리] 중앙 사진동아리 『기록의 수호자』, 창립 40주년 기념교내 역사 사진전 『당선의 대평원, 그 100년의 기록』 개최",
+                summary: "박물관(22동) 로비서 진행… 1970년대 논밭이었던 당선캠퍼스 부지부터 현재의 트램·모노레일 도시까지 변천사 전시.",
+                date: "2026.07.25", dept: "중앙동아리 기록의 수호자 · 박물관",
+                img: "이미지/철도애니박물관 콜라보 카페.webp",
+                content: `중앙 사진동아리 '기록의 수호자'가 효빈대 박물관(22동) 로비에서 창립 40주년 기념 특별 사진전 『당선의 대평원, 그 100년의 기록』을 개막했다.\n\n1970년대 모래바람 날리던 평지 캠퍼스 부지 시절의 흑백 사진부터, 2000년 A선 트램 개통식, 그리고 오늘날 24개 철도역이 유기적으로 연결된 캠퍼스의 장엄한 야경까지 시대별 변천사를 고스란히 담아내어 관람객들의 감탄을 자아냈다.`
+            },
+            {
+                id: 34, category: "학술·연구", hot: false,
+                title: "[이공계열] 반도체공학과·신소재공학과 공동 연구팀, 3나노 이하 초미세 공정 수율 향상 차세대 웨이퍼 코팅 기술 개발",
+                summary: "낭원캠퍼스 반도체공정실습동(Fab)서 실증 완료… 국내 대기업에 특허 기술 이전 조율.",
+                date: "2026.07.02", dept: "전기공업대학 반도체공학과",
+                img: "이미지/화공_전기대역_승강장.webp",
+                content: `전기공업대학 반도체공학과와 화학공업대학 신소재공학과 공동 연구팀이 낭원캠퍼스 첨단 반도체공정실습동(Fab) 클린룸에서 3나노 이하 초미세 공정의 수율을 15% 이상 향상시키는 차세대 웨이퍼 코팅 신기술 개발에 성공했다.\n\n이 기술은 국내 반도체 소부장(소재·부품·장비) 국산화의 핵심적인 마일스톤이 될 것으로 기대를 모으고 있다.`
+            },
+            {
+                id: 35, category: "복지·정책", hot: false,
+                title: "[학생상담센터] 제2학기 맞이 『효빈톡(Hyobin-Talk)』 또래 상담사 워크숍 및 힐링 템플스테이 성황",
+                summary: "사회복지상담학과 학우 40명 참여… 타로 심리 상담 기법 연마 및 지친 멘탈 치유 시간.",
+                date: "2026.06.20", dept: "학생상담센터 · 사회복지상담학과",
+                img: "이미지/아고라.webp",
+                content: `학생상담센터와 사회복지학대학 사회복지상담학과는 학기 중 타인의 고민을 들어주느라 소진된 '효빈톡(Hyobin-Talk)' 또래 상담사 학우들을 격려하기 위한 힐링 워크숍을 개최했다.\n\n참가 학생들은 인근 전통 산사에서 템플스테이를 하며 명상을 즐기고, 하반기 학내 정신 건강 캠페인 운영 방안을 논의하며 재충전의 시간을 가졌다.`
+            },
+            {
+                id: 36, category: "교통·시설", hot: false,
+                title: "[시설관리처] 중앙도서관(23동) 앞 광장 및 대학본부(1동) 주변 옥외 무선 5G 와이파이 AP 대폭 증설",
+                summary: "동시 접속자 3만 명 수용 가능한 차세대 Wi-Fi 7 공유기 도입… 캠퍼스 전역 음영 지역 완전 해소.",
+                date: "2026.06.05", dept: "시설관리처 · 전산교육관(45동)",
+                img: "이미지/중앙도서관역_승강장.webp",
+                content: `효빈대학교 시설관리처와 전산교육관(45동) 정보화본부는 캠퍼스 내 모바일 트래픽 폭증에 대응하기 위해 중앙도서관(23동) 앞 광장, 학생회관(2동), 그리고 베르데 홀(29동) 주변에 차세대 와이파이 7(Wi-Fi 7) 전용 AP 공유기를 대거 증설했다.\n\n이로써 강의실 밖 야외 벤치나 교내철도 승강장에서 대용량 강의 자료 다운로드 및 실시간 스트리밍을 끊김 없이 즐길 수 있게 되었다.`
+            },
+            {
+                id: 37, category: "대학성과", hot: false,
+                title: "[국제교류처] 2026년도 정부인요청 외국인 장학생(GKS) 초청 연수 개회식, 베르데 홀서 거행",
+                summary: "세계 45개국에서 선발된 우수 유학생 150명 입국… 한국어 집중 교육 및 K-서브컬처 탐방 프로그램 시작.",
+                date: "2026.05.18", dept: "국제교류처 · 언어문학대학",
+                img: "이미지/동양언어관.webp",
+                content: `베르데 홀(29동) 대공연장에서 2026년도 정부초청 외국인 장학생(GKS) 초청 연수 개회식이 성대하게 거행됐다.\n\n미국, 독일, 필리핀, 프랑스 등 전 세계 45개국에서 선발된 150명의 우수 유학생들은 향후 1년간 언어문학대학(10동)에서 한국어 집중 과정을 수료하고 본교 각 전과에 진학해 글로벌 학업을 이어간다.`
+            },
+            {
+                id: 38, category: "캠퍼스문화", hot: false,
+                title: "[동아리] 중앙 보드게임 연구회 『다이스』, 제5회 전국 대학생 하드코어 전략 보드게임 챔피언십 우승",
+                summary: "룰 설명만 1시간 걸리는 서양 복잡 전략 게임서 완벽한 승률 기록… 동방서 샴페인 축하연.",
+                date: "2026.05.04", dept: "총동아리연합회 학술교양분과",
+                img: "이미지/보몽역_전경.webp",
+                content: `중앙 보드게임 연구회 '다이스(Dice)'가 서울에서 개최된 '전국 대학생 하드코어 전략 보드게임 챔피언십'에서 영예의 우승을 차지했다.\n\n단순한 파티 게임을 거부하고 룰북 두께가 백과사전 수준인 정통 헤비 유로 게임과 워게임을 파고들어 온 다이스 동아리원들은, 완벽한 자원 배분과 외교적 협상력으로 타 대학 강호들을 제압하고 동방에서 기쁨의 샴페인을 터뜨렸다.`
+            },
+            {
+                id: 39, category: "학술·연구", hot: false,
+                title: "[예체능] 미술대학 회화과·응용예술대학 만화애니메이션학과 합동 졸업 작품전 『디스토피아 속의 오아시스』 개막",
+                summary: "베르데 홀 로비 및 미술대 갤러리서 진행… 가상 마왕성 세계관을 유화와 디지털 아트로 융합.",
+                date: "2026.04.22", dept: "미술대학 · 응용예술대학",
+                img: "이미지/철도애니박물관 2층.webp",
+                content: `미술대학 서양화과와 응용예술대학 만화애니메이션학과가 공동 주관하는 합동 졸업 작품전 『디스토피아 속의 오아시스』가 베르데 홀(29동) 로비와 미술대 갤러리에서 화려한 막을 올렸다.\n\n효빈대의 캠퍼스 건물(공대 5호관, 중앙도서관 등)을 모티브로 삼은 다크 판타지 배경의 대형 캔버스 유화와 3D 홀로그램 디지털 아트워크가 어우러져 관람객들의 찬사를 받았다.`
+            },
+            {
+                id: 40, category: "복지·정책", hot: false,
+                title: "[학생처] 2026학년도 1학기 천원의 아침밥 『엠마의 식탁』 누적 이용객 30만 명 돌파 기념 만족도 조사 실시",
+                summary: "학생 이용자 만족도 98.4% 기록… 아침 식사 거르지 않아 학습 집중도 크게 향상 긍정 평가.",
+                date: "2026.04.11", dept: "학생처 후생복지팀",
+                img: "이미지/희다관 식당.webp",
+                content: `효빈대학교 학생처는 교비 100% 지원으로 운영 중인 천원의 아침밥 『엠마의 식탁』이 2026년 1학기 누적 이용객 30만 명을 돌파했다고 밝혔다.\n\n전국 대학 최고 수준의 메뉴 퀄리티와 스위스식 브런치·한식 뷔페 병행 운영 덕분에 실시된 학생 만족도 조사에서 무려 98.4%의 압도적인 긍정 응답률을 기록하며 대표적 복지 성공 신화로 자리매김했다.`
+            }
+        ];
+
+        let visibleCount = 8; // 처음에 8개 보여주고 '더 보기' 누르면 추가 로드
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNewsList();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        function getFilteredNews() {
+            const q = document.getElementById('news-search').value.trim().toLowerCase();
+            const cat = document.getElementById('category-filter').value;
+
+            return HBNU_NEWS_20.filter(n => {
+                const matchCat = (cat === 'ALL' || n.category === cat);
+                const matchQ = (!q || n.title.toLowerCase().includes(q) || n.summary.toLowerCase().includes(q) || n.dept.toLowerCase().includes(q));
+                return matchCat && matchQ;
+            });
+        }
+
+        function renderNewsList() {
+            const container = document.getElementById('news-container');
+            const filtered = getFilteredNews();
+            const sliced = filtered.slice(0, visibleCount);
+
+            if (sliced.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 rounded-2xl border text-center text-gray-500">
+                        <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i>
+                        <p class="font-bold text-base">검색 결과가 없습니다.</p>
+                        <p class="text-xs mt-1">다른 키워드로 검색하거나 분류를 변경해 보세요.</p>
+                    </div>
+                `;
+                document.getElementById('load-more-btn').style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = sliced.map(n => `
+                <div onclick="openNewsModal(${n.id})" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col md:flex-row gap-6 hover:shadow-md hover:border-[#3344aa] transition cursor-pointer group">
+                    <div class="md:w-1/3 h-48 bg-slate-800 rounded-xl overflow-hidden relative shrink-0 shadow-inner">
+                        <img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600'">
+                        <span class="absolute top-3 left-3 bg-[#3344aa] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow">${n.category}</span>
+                        ${n.hot ? '<span class="absolute top-3 right-3 bg-red-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow">HOT</span>' : ''}
+                    </div>
+                    <div class="md:w-2/3 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-gray-900 group-hover:text-[#3344aa] mb-2.5 leading-snug transition-colors">${n.title}</h2>
+                            <p class="text-gray-600 text-xs md:text-sm leading-relaxed line-clamp-3">${n.summary}</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500">
+                            <span class="font-bold text-gray-700">${n.dept}</span>
+                            <span>${n.date}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const loadBtn = document.getElementById('load-more-btn');
+            if (visibleCount >= filtered.length) {
+                loadBtn.style.display = 'none';
+            } else {
+                loadBtn.style.display = 'inline-flex';
+            }
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function filterNews(val) {
+            visibleCount = 8;
+            renderNewsList();
+        }
+
+        function filterCategory(val) {
+            visibleCount = 8;
+            renderNewsList();
+        }
+
+        function loadMoreNews() {
+            visibleCount += 6;
+            renderNewsList();
+        }
+
+        // 뉴스 상세 모달 제어
+        function openNewsModal(id) {
+            const item = HBNU_NEWS_20.find(n => n.id === id);
+            if (!item) return;
+
+            document.getElementById('modal-badge').innerText = item.category;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-dept').innerHTML = `<strong>취재·보도:</strong> ${item.dept}`;
+            document.getElementById('modal-date').innerHTML = `<strong>보도일자:</strong> ${item.date}`;
+            document.getElementById('modal-summary').innerText = item.summary;
+            document.getElementById('modal-body').innerText = item.content;
+
+            const imgWrap = document.getElementById('modal-img-wrap');
+            const imgEl = document.getElementById('modal-img');
+            if (item.img) {
+                imgEl.src = item.img;
+                imgWrap.classList.remove('hidden');
+            } else {
+                imgWrap.classList.add('hidden');
+            }
+
+            document.getElementById('news-modal').classList.remove('hidden');
+            document.getElementById('news-modal').classList.add('flex');
+        }
+
+        function closeNewsModal() {
+            document.getElementById('news-modal').classList.add('hidden');
+            document.getElementById('news-modal').classList.remove('flex');
+        }
+    </script>
 </body>
 </html>

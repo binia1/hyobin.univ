@@ -1,58 +1,176 @@
-// ================= 1. 실제 보유 파일(영문/한글 혼합) 기준 완벽 양방향 링크 매핑 로직 =================
+// ================= [완전판] 실제 보유 파일(50여 개) 기준 1:1 완벽 양방향 매핑 테이블 =================
 const OLD_URLS = {
-    // 메인 및 포털
-    "대문": "hbnu_main.html", "홈": "hbnu_main.html", "메인": "hbnu_main.html",
-    "종합정보시스템": "hbnu_portal.html", "HBNU 포털": "hbnu_portal.html", "포털": "hbnu_portal.html",
-    "사이트맵": "hbnu_sitemap.html", "전체메뉴": "hbnu_sitemap.html", "전화번호안내": "hbnu_directory.html",
+    // 1. 대학소개 / 총장실 관련
+    "총장인사말": "hbnu_intro.html",
+    "총장프로필": "hbnu_intro.html",
+    "서한문": "hbnu_intro.html",
+    "연설문": "hbnu_intro.html",
+    "현장스케치": "hbnu_intro.html",
+    "역대총장": "hbnu_history.html",
+    "만남신청": "hbnu_member_service.html",
+    "VISION 2030 플러스": "hbnu_about.html",
+    "VISION2030": "hbnu_about.html",
+    "글로컬대학30": "hbnu_about.html",
+    "대학연혁": "hbnu_history.html",
+    "헌장": "hbnu_about.html",
+    "상징": "hbnu_about.html",
+    "UI": "hbnu_about.html",
+    "학교현황": "hbnu_about.html",
+    "통계연보": "hbnu_about.html",
+    "대학정보공시": "hbnu_info_disclosure.html",
+    "조직도": "hbnu_about.html",
+    "대학본부": "hbnu_about.html",
+    "교육시설": "hbnu_campus.html",
+    "지원시설": "hbnu_campus.html",
+    "부속시설": "hbnu_campus.html",
+    "법인 기타": "hbnu_about.html",
+    "캠퍼스안내": "hbnu_campus.html",
+    "캠퍼스 지도": "hbnu_campus.html",
+    "캠퍼스지도": "hbnu_campus.html",
+    "캠퍼스 투어": "hbnu_campus.html",
+    "오시는길": "hbnu_location.html",
 
-    // 대학소개 (허브 및 주요 독립 페이지 매핑)
-    "대학소개": "hbnu_about.html", "총장실": "hbnu_about.html",
-    "대학연혁": "hbnu_history.html", "캠퍼스안내": "hbnu_campus.html", "캠퍼스 지도": "hbnu_campus.html", "캠퍼스지도": "hbnu_campus.html", "캠퍼스 투어": "hbnu_campus.html",
-    "오시는길": "hbnu_location.html", "대학정보공시": "hbnu_info_disclosure.html",
-    
-    // 입학정보
-    "입학정보": "hbnu_admissions.html", "입학처": "hbnu_admissions.html", "입학홈페이지": "hbnu_admissions.html",
-    "수시모집": "hbnu_admission_guide.html", "정시모집": "hbnu_admission_guide.html", "재외국민": "hbnu_admission_guide.html",
-    "편입학": "hbnu_transfer.html", "대학원입학": "hbnu_admissions.html", "시간제 등록생": "hbnu_admission_guide.html", "시간제등록생": "hbnu_admission_guide.html", "고교대학 연계": "hbnu_admission_guide.html", "고교대학연계": "hbnu_admission_guide.html",
-    "외국인전형": "hbnu_global.html", "GKS Program": "hbnu_global.html", "GKSProgram": "hbnu_global.html", "Exchange Students": "hbnu_global.html", "ExchangeStudents": "hbnu_global.html", "Student Support": "hbnu_global.html", "StudentSupport": "hbnu_global.html",
-    
-    // 대학/대학원 허브
-    "대학(단과대)": "hbnu_colleges.html", "대학/대학원": "hbnu_colleges.html",
-    
-    // 연구/산학
-    "연구/산학": "hbnu_research.html", "연구처": "hbnu_research.html", "연구뉴스": "hbnu_research.html", "연구뉴스/성과": "hbnu_research.html", "연구성과": "hbnu_research.html",
-    "연구소 현황": "hbnu_research.html", "연구소현황": "hbnu_research.html", "산학협력단": "hbnu_research.html", "현장실습지원센터": "hbnu_research.html",
-    "기술비즈니스센터": "hbnu_research.html", "창업교육센터": "hbnu_research.html", "사업단 현황": "hbnu_research.html", "학술DB": "hbnu_research.html", "공동실험실습관": "hbnu_research.html", "연구자 정보": "hbnu_research.html",
-    
-    // 학사안내
-    "학사안내": "hbnu_calendar.html", "학사일정": "hbnu_calendar.html", "학사일정안내": "hbnu_calendar.html",
-    "교양과목": "Hbnu_general_edu.html", "교양/전공과목": "Hbnu_general_edu.html", "전공과목": "Hbnu_general_edu.html",
-    "융합 연계전공": "Hbnu_general_edu.html", "복수전공": "Hbnu_general_edu.html", "복수/연계전공": "Hbnu_general_edu.html", "교직과정": "Hbnu_general_edu.html",
-    "수강신청": "hbnu_sugang.html", "시험성적": "hbnu_grade_check.html", "시험/성적": "hbnu_grade_check.html", "강의평가": "hbnu_grade_check.html",
-    "타대학교류": "hbnu_calendar.html", "졸업학점관리": "hbnu_grade_check.html", "졸업/논문심사": "hbnu_grade_check.html", "조기졸업": "hbnu_grade_check.html", "논문심사": "hbnu_grade_check.html",
-    "휴학 복학": "hbnu_calendar.html", "휴학복학": "hbnu_calendar.html", "휴학/복학": "hbnu_calendar.html",
-    "자퇴 제적": "hbnu_calendar.html", "자퇴제적": "hbnu_calendar.html", "자퇴/제적": "hbnu_calendar.html",
-    "전학 전과": "hbnu_calendar.html", "전학전과": "hbnu_calendar.html", "전학/전과": "hbnu_calendar.html",
-    "등록금": "hbnu_scholarship.html", "교내장학금": "hbnu_scholarship.html", "교외장학금": "hbnu_scholarship.html", "교내/외 장학금": "hbnu_scholarship.html", "학자금대출": "hbnu_scholarship.html",
-    
-    // 대학생활
-    "대학생활": "hbnu_life.html", "기숙형대학": "hbnu_dorm.html", "생활관": "hbnu_dorm.html", "생활관(기숙사)": "hbnu_dorm.html", "학생생활관(기숙사)": "hbnu_dorm.html",
-    "병무행정": "hbnu_military.html", "직장예비군": "hbnu_military.html", "신입생 안내": "hbnu_life.html",
-    "학생증발급": "hbnu_cert.html", "중앙도서관": "hbnu_library.html", "중앙·방도도서관": "hbnu_library.html", "방도도서관": "hbnu_library.html",
-    "보건진료소": "hbnu_welfare.html", "식단안내": "hbnu_welfare.html", "천원의아침(식단)": "hbnu_welfare.html", "인권센터": "hbnu_welfare.html", "생활협동조합": "hbnu_welfare.html", "캠퍼스타운": "hbnu_campus.html",
-    "교내교통시스템": "교내교통시스템.html", "교내철도(HBNU Rail)": "교내교통시스템.html", "셔틀/교통안내": "hbnu_traffic.html", "차량등록/셔틀": "차량등록.html",
-    "서브컬처 동아리": "hbnu_clubs.html", "서브컬처동아리": "hbnu_clubs.html", "교내 애니문화": "hbnu_clubs.html", "HAF 축제 안내": "HAF축제안내.html",
-    "자랑스러운 동문": "hbnu_alumni.html", "선배들의 이야기": "hbnu_alumni.html", "총동문회": "hbnu_alumni.html", "발전기금": "hbnu_fund.html",
-    
-    // 대학소식 및 기타
-    "대학소식": "hbnu_community.html", "공지사항": "hbnu_community.html", "자유게시판": "hbnu_board_free.html", "벼룩시장": "hbnu_market.html",
-    "분실물센터": "hbnu_community.html", "교직원게시판": "hbnu_community.html", "전자대자보": "hbnu_board_free.html",
-    "효빈뉴스": "hbnu_news_list.html", "HBNU News": "hbnu_news_list.html", "특강 세미나": "hbnu_news_list.html", "교육정책": "hbnu_news_list.html",
-    "정보공개": "hbnu_info_disclosure.html", "홈페이지운영지침": "hbnu_info_disclosure.html", "개인정보처리방침": "개인정보처리방침.html", "개인정보방침": "개인정보처리방침.html",
-    "이메일무단수집거부": "이메일무단수집거부.html", "국민신문고": "hbnu_qna.html"
+    // 2. 입학정보
+    "입학홈페이지": "hbnu_admissions.html",
+    "수시모집": "hbnu_admission_guide.html",
+    "정시모집": "hbnu_admission_guide.html",
+    "재외국민": "hbnu_admission_guide.html",
+    "편입학": "hbnu_transfer.html",
+    "대학원입학": "hbnu_grad.html",
+    "시간제 등록생": "hbnu_admissions.html",
+    "시간제등록생": "hbnu_admissions.html",
+    "고교대학 연계": "hbnu_admissions.html",
+    "고교대학연계": "hbnu_admissions.html",
+    "외국인전형": "hbnu_global.html",
+    "GKSProgram": "hbnu_global.html",
+    "ExchangeStudents": "hbnu_global.html",
+    "StudentSupport": "hbnu_global.html",
+
+    // 3. 연구 / 산학
+    "연구뉴스": "hbnu_research.html",
+    "연구뉴스/성과": "hbnu_research.html",
+    "연구성과": "hbnu_research.html",
+    "연구처": "hbnu_research.html",
+    "연구소 현황": "hbnu_research.html",
+    "연구소현황": "hbnu_research.html",
+    "산학협력단": "hbnu_research.html",
+    "현장실습지원센터": "hbnu_research.html",
+    "기술비즈니스센터": "hbnu_research.html",
+    "창업교육센터": "hbnu_research.html",
+    "사업단 현황": "hbnu_research.html",
+    "학술DB": "hbnu_library.html",
+    "공동실험실습관": "hbnu_research.html",
+    "연구자 정보": "hbnu_research.html",
+
+    // 4. 학사안내
+    "학사일정안내": "hbnu_calendar.html",
+    "교양과목": "Hbnu_general_edu.html",
+    "전공과목": "Hbnu_general_edu.html",
+    "교양/전공과목": "Hbnu_general_edu.html",
+    "융합 연계전공": "Hbnu_general_edu.html",
+    "복수전공": "Hbnu_general_edu.html",
+    "복수/연계전공": "Hbnu_general_edu.html",
+    "교직과정": "Hbnu_general_edu.html",
+    "수강신청": "hbnu_sugang.html",
+    "시험성적": "hbnu_grade_check.html",
+    "시험/성적": "hbnu_grade_check.html",
+    "강의평가": "hbnu_grade_check.html",
+    "타대학교류": "hbnu_calendar.html",
+    "졸업학점관리": "hbnu_grade_check.html",
+    "졸업/논문심사": "hbnu_grade_check.html",
+    "조기졸업": "hbnu_grade_check.html",
+    "논문심사": "hbnu_grade_check.html",
+    "휴학 복학": "hbnu_calendar.html",
+    "휴학복학": "hbnu_calendar.html",
+    "휴학/복학": "hbnu_calendar.html",
+    "자퇴 제적": "hbnu_calendar.html",
+    "자퇴제적": "hbnu_calendar.html",
+    "자퇴/제적": "hbnu_calendar.html",
+    "전학 전과": "hbnu_calendar.html",
+    "전학전과": "hbnu_calendar.html",
+    "전학/전과": "hbnu_calendar.html",
+    "등록금": "hbnu_scholarship.html",
+    "교내장학금": "hbnu_scholarship.html",
+    "교외장학금": "hbnu_scholarship.html",
+    "교내/외 장학금": "hbnu_scholarship.html",
+    "학자금대출": "hbnu_scholarship.html",
+
+    // 5. 대학생활 및 복지
+    "식단안내": "hbnu_welfare.html",
+    "천원의아침(식단)": "hbnu_welfare.html",
+    "기숙형대학": "hbnu_dorm.html",
+    "생활관": "hbnu_dorm.html",
+    "생활관(기숙사)": "hbnu_dorm.html",
+    "학생생활관(기숙사)": "hbnu_dorm.html",
+    "병무행정": "hbnu_military.html",
+    "직장예비군": "hbnu_military.html",
+    "신입생 안내": "hbnu_life.html",
+    "학생증발급": "hbnu_cert.html",
+    "중앙도서관": "hbnu_library.html",
+    "중앙·방도도서관": "hbnu_library.html",
+    "방도도서관": "hbnu_library.html",
+    "보건진료소": "hbnu_welfare.html",
+    "인권센터": "hbnu_welfare.html",
+    "생활협동조합": "hbnu_welfare.html",
+    "캠퍼스타운": "hbnu_campus.html",
+    "교내교통시스템": "교내교통시스템.html",
+    "교내철도(HBNU Rail)": "교내교통시스템.html",
+    "셔틀/교통안내": "hbnu_traffic.html",
+    "차량등록": "차량등록.html",
+    "차량등록/셔틀": "차량등록.html",
+    "통학버스": "hbnu_traffic.html",
+    "교내 애니문화": "hbnu_clubs.html",
+    "서브컬처 동아리": "hbnu_clubs.html",
+    "서브컬처동아리": "hbnu_clubs.html",
+    "HAF 축제 안내": "HAF축제안내.html",
+    "자랑스러운 동문": "hbnu_alumni.html",
+    "선배들의 이야기": "hbnu_alumni.html",
+    "총동문회": "hbnu_alumni.html",
+    "발전기금": "hbnu_fund.html",
+
+    // 6. 대학소식 및 커뮤니티
+    "공지사항": "hbnu_community.html",
+    "자유게시판": "hbnu_board_free.html",
+    "벼룩시장": "hbnu_market.html",
+    "분실물센터": "hbnu_community.html",
+    "교직원게시판": "hbnu_community.html",
+    "전자대자보": "hbnu_board_free.html",
+    "효빈뉴스": "hbnu_news_list.html",
+    "HBNU News": "hbnu_news_list.html",
+    "특강 세미나": "hbnu_news_list.html",
+    "교육정책": "hbnu_news_list.html",
+    "정보공개": "hbnu_info_disclosure.html",
+    "홈페이지운영지침": "hbnu_info_disclosure.html",
+    "개인정보처리방침": "개인정보처리방침.html",
+    "개인정보방침": "개인정보처리방침.html",
+    "이메일무단수집거부": "이메일무단수집거부.html",
+    "국민신문고": "hbnu_qna.html",
+    "전화번호안내": "hbnu_directory.html",
+    "사이트맵": "hbnu_sitemap.html",
+    "전체메뉴": "hbnu_sitemap.html",
+    "웹메일": "hbnu_webmail.html",
+    "HBNU 포털": "hbnu_portal.html",
+    "종합정보시스템": "hbnu_portal.html",
+
+    // 7. SNS 및 HBNU anis (위키)
+    "인스타그램": "hbnu_community.html",
+    "유튜브": "hbnu_community.html",
+    "페이스북": "hbnu_community.html",
+    "네이버블로그": "hbnu_community.html",
+    "엑스": "hbnu_community.html",
+    "HBNU anis": "HBNUanis.html",
+    "HBNU anis 홈": "HBNUanis.html",
+    "개요": "HBNUanis.html",
+    "캠퍼스 특징": "HBNUanis.html",
+    "주요 학과 (S등급)": "HBNUanis.html",
+    "학부 대학원": "hbnu_colleges.html",
+    "부속 시설": "hbnu_campus.html",
+    "학내 문화": "HBNUanis.html",
+    "사건 및 사고": "HBNUanis.html",
+    "여담": "HBNUanis.html",
+    "도시철도 마스코트": "교내교통시스템.html"
 };
 
-// 단과대학 및 대학원 전체 명단 (한글 파일명 클릭 시에도 무조건 단과대.html?col= 로 자동 변환)
 const COLLEGE_NAMES = [
     "언어문학대학", "인문대학", "사회복지학대학", "사회과학대학", "상과대학",
     "농업대학", "생명대학", "생활과학대학", "자연과학대학", "해양대학", "환경산업대학",
@@ -66,33 +184,25 @@ const COLLEGE_NAMES = [
 function getMenuUrl(label) {
     if (!label) return "hbnu_main.html";
     const clean = label.trim().replace(/\.html$/i, '');
-
-    // 1. 하드코딩된 영문/한글 매핑 테이블에 있으면 최우선 반환
     if (OLD_URLS[clean]) return OLD_URLS[clean];
     const noSpace = clean.replace(/\s+/g, '');
     if (OLD_URLS[noSpace]) return OLD_URLS[noSpace];
 
-    // 2. 단과대 및 대학원 자동 동적 라우팅 (핵심!)
     const normalizedCol = clean === "의과대학(통합)" ? "의과대학" : clean;
     if (COLLEGE_NAMES.includes(normalizedCol) || normalizedCol.endsWith("대학") || normalizedCol.endsWith("학부") || normalizedCol.endsWith("대학원")) {
         return `단과대.html?col=${encodeURIComponent(normalizedCol)}`;
     }
-
-    // 3. 그 외 나머지는 공백과 특수문자 제거 후 이름.html 로 연결
     return clean.replace(/\//g, '_').replace(/\s+/g, '') + ".html";
 }
 
-// ★ 페이지 내 하드코딩된 한글 <a href="수시모집.html"> 태그도 클릭 시 자동으로 올바른 영문 파일로 라우팅해주는 전역 인터셉터 ★
 document.addEventListener('click', (e) => {
     const anchor = e.target.closest('a');
     if (!anchor) return;
     const rawHref = anchor.getAttribute('href');
     if (!rawHref || rawHref.startsWith('http') || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.includes('?')) return;
 
-    // 이미 hbnu_ 로 시작하는 영문 파일명이면 그대로 통과
-    if (rawHref.toLowerCase().startsWith('hbnu_')) return;
+    if (rawHref.toLowerCase().startsWith('hbnu_') || rawHref === '교내교통시스템.html' || rawHref === '단과대.html' || rawHref === '학과상세.html' || rawHref === '웹메일.html' || rawHref === '차량등록.html') return;
 
-    // 한글로 된 .html 링크(예: 수시모집.html, 사회복지학대학.html)인 경우 getMenuUrl로 변환
     if (rawHref.endsWith('.html')) {
         const labelKey = decodeURIComponent(rawHref.replace(/\.html$/i, ''));
         const resolved = getMenuUrl(labelKey);
@@ -103,17 +213,17 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// ================= 2. 전북대 스타일 메가 메뉴 마스터 데이터 =================
+// 전북대 스타일 메가 메뉴
 const MEGA_MENU = [
     { title: "대학소개", url: "hbnu_about.html", groups: [
-        { name: "총장실", items: ["총장인사말", "총장프로필", "서한문", "연설문", "현장스케치", "역대총장", "만남 신청"] },
+        { name: "총장실", items: ["총장인사말", "총장프로필", "서한문", "연설문", "현장스케치", "역대총장", "만남신청"] },
         { name: "대학소개", items: ["VISION 2030 플러스", "글로컬대학30", "대학연혁", "헌장", "상징", "UI", "학교현황", "통계연보", "대학정보공시"] },
         { name: "대학조직", items: ["조직도", "대학본부", "교육시설", "지원시설", "부속시설", "법인 기타"] },
         { name: "캠퍼스안내", items: ["캠퍼스안내", "캠퍼스 지도", "캠퍼스 투어", "오시는길"] }
     ]},
     { title: "입학정보", url: "hbnu_admissions.html", groups: [
         { name: "학부/대학원", items: ["입학홈페이지", "수시모집", "정시모집", "재외국민", "편입학", "대학원입학", "시간제 등록생", "고교대학 연계"] },
-        { name: "International", items: ["외국인전형", "GKS Program", "Exchange Students", "Student Support"] }
+        { name: "International", items: ["외국인전형", "GKSProgram", "ExchangeStudents", "StudentSupport"] }
     ]},
     { title: "대학/대학원", url: "hbnu_colleges.html", groups: [
         { name: "대학 (인문·사회)", items: ["언어문학대학", "인문대학", "사회복지학대학", "사회과학대학", "상과대학"] },
@@ -155,10 +265,8 @@ const MEGA_MENU = [
 const TEXT_CONTENT = {
     KOR: {
         universityName: "효빈대학교", universitySub: "Hyobin National University", slogan: "불굴(不屈)의 역사, 혁신(革新)으로 미래를 열다",
-        slider2Title: "Evergreen & Shiny Campus", slider2Desc: "고립을 추방하고 연결(Connecting)을 가르치는 글로컬 혁신 선도 대학",
-        slider3Title: "HBNU Rail Living Lab", slider3Desc: "국내 유일 교내철도 A선(트램) 9역 · B선(모노레일) 15역 실시간 학부생 관제·운행",
-        menu: MEGA_MENU,
         utility: { staff: "교직원", student: "학생", alumni: "동문", fund: "발전기금", portal: "HBNU 포털", mail: "웹메일", admission: "입학처" },
+        menu: MEGA_MENU,
         quickLinks: [
             { text: "종합정보시스템", url: "hbnu_portal.html", type: "PORTAL" },
             { text: "중앙·방도도서관", url: "hbnu_library.html", type: "LIBRARY" },
@@ -167,24 +275,15 @@ const TEXT_CONTENT = {
             { text: "학생생활관(기숙사)", url: "hbnu_dorm.html", type: "DORM" },
             { text: "천원의아침(식단)", url: "hbnu_welfare.html", type: "PHONE" }
         ],
-        tabs: { notice: "일반공지", academic: "학사공지", recruit: "채용공지" },
         footer: {
-            addresses: {
-                main: "효빈광역시 서구 대학로 1 (당선1동 / 북구 소조동)",
-                ija: "효빈광역시 안천구 원세로 22 (신동, 빈효선 리의역)",
-                cheonju: "덕빈북도 천주시 궁하구 세동로 13 (빈효선 궁하역)",
-                nangwon: "덕빈북도 낭원군 전포읍 도경로 213 (덕빈선 전포역)",
-                gangju: "덕빈북도 강주시 서류로 11 (빈주권광역철도 강주항역)"
-            },
+            addresses: { main: "효빈광역시 서구 대학로 1 (당선1동 / 북구 소조동)" },
             rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
         }
     },
     ENG: {
         universityName: "Hyobin University", universitySub: "Hyobin National University", slogan: "Unbending History, Opening the Future with Innovation",
-        slider2Title: "Evergreen & Shiny Campus", slider2Desc: "A Glocal Flagship National University Teaching Inclusion and Connection",
-        slider3Title: "HBNU Rail Living Lab", slider3Desc: "Korea's Only Campus Tram (Line A) & Monorail (Line B) Operated by Students",
-        menu: MEGA_MENU,
         utility: { staff: "Staff", student: "Student", alumni: "Alumni", fund: "Giving", portal: "HBNU Portal", mail: "Webmail", admission: "Admissions" },
+        menu: MEGA_MENU,
         quickLinks: [
             { text: "HBNU Portal", url: "hbnu_portal.html", type: "PORTAL" },
             { text: "Central/Bangdo Lib", url: "hbnu_library.html", type: "LIBRARY" },
@@ -193,40 +292,26 @@ const TEXT_CONTENT = {
             { text: "Dormitory", url: "hbnu_dorm.html", type: "DORM" },
             { text: "Emma's Table", url: "hbnu_welfare.html", type: "PHONE" }
         ],
-        tabs: { notice: "General", academic: "Academic", recruit: "Recruit" },
         footer: {
-            addresses: {
-                main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City (Dangseon-dong)",
-                ija: "22 Wonse-ro, Ancheon-gu, Hyobin Metropolitan City",
-                cheonju: "13 Sedong-ro, Gungha-gu, Cheonju-si, Deokbinbuk-do",
-                nangwon: "213 Dogyeong-ro, Jeonpo-eup, Nangwon-gun, Deokbinbuk-do",
-                gangju: "11 Seoryu-ro, Gangju-si, Deokbinbuk-do"
-            },
+            addresses: { main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City" },
             rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
         }
     }
 };
 
-// ================= 3. 전역 상태 관리 =================
 const globalState = { language: localStorage.getItem('hbnu_lang') || 'KOR', scrolled: false, isMenuOpen: false };
 
 function navigateTo(url) {
     if (!url) return;
-    // 만약 url이 메뉴 라벨이나 한글 파일명이면 getMenuUrl로 한번 더 안전하게 해석
     const target = (url.includes('.html') && !url.startsWith('hbnu_') && !url.includes('?'))
         ? getMenuUrl(url.replace(/\.html$/i, ''))
         : url;
-    try { window.location.href = target; } catch (error) { console.warn('Navigation blocked:', error); }
+    try { window.location.href = target; } catch (e) { console.warn('Navigation:', e); }
 }
 
 function getIcon(type) {
     const icons = { 'PORTAL': 'monitor', 'LIBRARY': 'book-open', 'CALENDAR': 'calendar', 'BUS': 'tram-front', 'DORM': 'building-2', 'PHONE': 'utensils' };
     return icons[type] || 'monitor';
-}
-
-function closeModal() {
-    const overlay = document.getElementById('modal-overlay');
-    if (overlay) overlay.classList.add('hidden');
 }
 
 function toggleMenu() {
@@ -245,7 +330,12 @@ function changeLang(l) {
     if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ================= 4. 공통 헤더 렌더링 (스크롤 시 화면 가리지 않도록 슬림화) =================
+// ★★★ 핵심 추가: 모달 닫기 함수 영구 박제 (Uncaught ReferenceError 원천 차단) ★★★
+function closeModal() {
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay) overlay.classList.add('hidden');
+}
+
 function renderHeader() {
     const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
     const root = document.getElementById('header-area');
@@ -331,7 +421,6 @@ function renderHeader() {
     `;
 }
 
-// ================= 5. 공통 푸터 렌더링 =================
 function renderFooter() { 
     const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
     const root = document.getElementById('footer-area');
@@ -359,10 +448,6 @@ function renderFooter() {
                         <h4 class="text-white font-bold mb-3 text-sm">5대 캠퍼스 안내</h4>
                         <ul class="text-xs text-gray-400 space-y-1.5">
                             <li><b class="text-gray-200">당선(본):</b> ${T.footer.addresses.main}</li>
-                            <li><b class="text-gray-200">이자캠:</b> ${T.footer.addresses.ija}</li>
-                            <li><b class="text-gray-200">천주캠:</b> ${T.footer.addresses.cheonju}</li>
-                            <li><b class="text-gray-200">낭원캠:</b> ${T.footer.addresses.nangwon}</li>
-                            <li><b class="text-gray-200">강주캠:</b> ${T.footer.addresses.gangju}</li>
                         </ul>
                     </div>
                     <div>
@@ -390,7 +475,6 @@ function renderFooter() {
     `; 
 }
 
-// ================= 6. 페이지 공통 초기화 =================
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('header-area')) renderHeader();
     if (document.getElementById('footer-area')) renderFooter();
