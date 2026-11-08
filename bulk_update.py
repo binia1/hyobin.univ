@@ -3,7 +3,7 @@ import re
 
 def update_html_files(directory):
     # 1. 현재 폴더 내의 모든 html 파일 찾기 (메인 페이지 제외)
-    html_files = [f for f in os.listdir(directory) if f.endswith(".html") and f != "hbnu_main.html"]
+    html_files = [f for f in os.listdir(directory) if f.endswith(".html") and f != "index.html"]
     
     if not html_files:
         print("❌ 현재 폴더에 변경할 HTML 파일이 없습니다.")

@@ -3,39 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>효빈대학교 - HBNU</title>
+    <title>효빈대학교 - HBNU (공식 포털 & HBNU Rail 통합관제센터)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; }
-        .slide-fade { transition: opacity 1s ease-in-out; }
-        .fade-in-up { animation: fadeInUp 0.5s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+        
+        /* ★ 로고 이미지 폭주 절대 방지 강제 락(Lock) ★ */
+        #header-area img {
+            max-height: 44px !important;
+            width: auto !important;
+            object-fit: contain !important;
+            margin-right: 12px !important;
+        }
+        #footer-area img {
+            max-height: 36px !important;
+            width: auto !important;
+            object-fit: contain !important;
+        }
+
+        .slide-fade { transition: opacity 0.8s ease-in-out; }
+        .fade-in-up { animation: fadeInUp 0.4s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 교내철도 전광판(PIS) LED 스타일 */
+        .led-board {
+            background-color: #090d16;
+            background-image: radial-gradient(#1e293b 1px, transparent 0);
+            background-size: 4px 4px;
+            border: 2px solid #334155;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.9);
+        }
+        .train-marker {
+            transition: left 0.45s linear, top 0.45s linear;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #3344aa; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2a3a9a; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e2a78; }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
 
-    <!-- 헤더 영역 -->
+    <!-- 헤더 영역 (common.js 렌더링) -->
     <div id="header-area"></div>
+
+    <!-- 상단 포털 모드 스위처 바 (대문 종합포털 ↔ HBNU Rail 실시간 관제 시뮬레이터 ↔ 공지사항 전체센터) -->
+    <div class="bg-[#1e2a78] text-white border-b border-blue-900 shadow-inner relative z-10">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-1.5 overflow-x-auto py-0.5">
+                <button onclick="switchMode('portal')" id="tab-btn-portal" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-extrabold bg-[#99dd88] text-[#1e2a78] flex items-center gap-1.5 transition-all">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> 효빈대 메인 대문 (종합포털)
+                </button>
+                <button onclick="switchMode('simulator')" id="tab-btn-simulator" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-white/10 hover:bg-white/20 text-[#a0fff9] flex items-center gap-1.5 transition-all border border-[#a0fff9]/30">
+                    <span class="w-2 h-2 rounded-full bg-[#74f466] animate-ping"></span> HBNU Rail 실시간 관제 시뮬레이터 (A선 9역·B선 15역)
+                </button>
+                <button onclick="switchMode('all_notices')" id="tab-btn-all_notices" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold hover:bg-white/15 text-gray-200 flex items-center gap-1.5 transition-all">
+                    <i data-lucide="file-check-2" class="w-4 h-4"></i> 학사·행정 공문서 아카이브 (24건)
+                </button>
+                <button onclick="switchMode('colleges')" id="tab-btn-colleges" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold hover:bg-white/15 text-gray-200 flex items-center gap-1.5 transition-all">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> 17개 단과대·64개 건물 총람
+                </button>
+            </div>
+            <div class="hidden xl:flex items-center space-x-3 text-xs text-blue-200">
+                <span>🐆 명예기지장 <strong>대차(Bogie) 교수님(9.8kg)</strong> S-35-4 상주중</span>
+                <span>|</span>
+                <span class="text-[#99dd88] font-bold">등록금 5년 연속 동결 · 중앙일보 대학평가 종합 8위</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 메인 컨텐츠 영역 -->
     <main id="main-root" class="flex-grow fade-in-up"></main>
 
-    <!-- 푸터 영역 -->
-    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+    <!-- 푸터 영역 (common.js 렌더링) -->
+    <footer id="footer-area" class="bg-[#1e2433] text-gray-400 py-12 text-sm mt-auto border-t-4 border-[#3344aa]"></footer>
 
-    <!-- 모달 (팝업용) -->
-    <div id="modal-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 hidden" onclick="closeModal()">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative" onclick="event.stopPropagation()">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-black"><i data-lucide="x" width="24"></i></button>
-            <h3 id="modal-title" class="text-2xl font-bold text-[#3344aa] mb-4 flex items-center"></h3>
-            <div id="modal-content" class="text-gray-700 whitespace-pre-line leading-relaxed max-h-[70vh] overflow-y-auto"></div>
-            <div class="mt-6 text-center"><button onclick="closeModal()" class="bg-[#3344aa] text-white px-6 py-2 rounded hover:bg-[#2a3a9a] transition-colors">닫기</button></div>
+    <!-- 공식 공문서 / 상세 뉴스 모달 (팝업용) -->
+    <div id="modal-overlay" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden" onclick="closeModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden border border-gray-200 flex flex-col max-h-[88vh]" onclick="event.stopPropagation()">
+            <div class="bg-[#1e2a78] text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span id="modal-cat-badge" class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-1 rounded shrink-0">공식공문</span>
+                    <h3 id="modal-title" class="text-base md:text-lg font-extrabold truncate"></h3>
+                </div>
+                <button onclick="closeModal()" class="text-gray-300 hover:text-white p-1"><i data-lucide="x" width="22"></i></button>
+            </div>
+            <div id="modal-meta" class="bg-slate-100 px-6 py-2.5 text-xs text-gray-600 border-b flex flex-wrap justify-between gap-2"></div>
+            <div id="modal-content" class="p-6 md:p-8 text-gray-800 whitespace-pre-line leading-relaxed overflow-y-auto text-sm md:text-[15px] space-y-4"></div>
+            <div class="bg-gray-50 px-6 py-3.5 border-t flex items-center justify-between">
+                <div id="modal-files" class="text-xs text-[#3344aa] font-bold truncate"></div>
+                <div class="flex gap-2 shrink-0">
+                    <button onclick="window.print()" class="border border-gray-300 bg-white text-gray-700 px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-100">공문 인쇄</button>
+                    <button onclick="closeModal()" class="bg-[#3344aa] text-white px-6 py-1.5 rounded-lg text-xs font-bold hover:bg-[#1e2a78] transition-colors">확인 및 닫기</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -43,95 +107,974 @@
     <script src="common.js"></script>
 
     <script>
-        // ================= 메인 페이지 전용 상태 및 로직 =================
-        const mainState = { currentSlide: 0, activeTab: 'notice', noticePage: 1 };
+        // ================= 1. 초고밀도 효빈대학교 학사·행정·교내철도 통합 데이터베이스 =================
+        const HBNU_PORTAL_DATA = {
+            slides: [
+                {
+                    sub: "SINCE 1925 · 국가거점국립대학교 · 2025 중앙일보 대학평가 종합 8위",
+                    title: "어려움에 굴하지 않는\n불굴(不屈)의 효빈대",
+                    desc: "17개 단과대학 207개 학과, 의·치·한·약·수 '메디컬 그랜드슬램(One Health)'과 국내 유일 교내 도시철도(HBNU Rail)를 보유한 대한민국 대표 명문 국립대학",
+                    img: "이미지/효빈대학교 정문.webp",
+                    fallbackBg: "linear-gradient(135deg, #0f172a 0%, #1e2a78 60%, #1e3a8a 100%)",
+                    btn1: { text: "HBNU Rail 실시간 관제 시뮬레이터 가동", mode: "simulator" },
+                    btn2: { text: "17개 단과대·207개 학과 총람", url: "hbnu_colleges.html" }
+                },
+                {
+                    sub: "제26대 민부선 총장 교육철학 · Evergreen & Shiny Vision",
+                    title: "고립을 추방하고\n연결(Connecting)을 가르칩니다",
+                    desc: "내치의 '베르데(Verde: 포용·치유·연결)' 정신과 외치의 '샤이니(Shiny: 100억 콘텐츠 스타트업 펀드·글로벌 도전)' 비전으로 등록금 5년 연속 동결 및 유지취업률 1위 달성",
+                    img: "이미지/베르데홀.webp",
+                    fallbackBg: "linear-gradient(135deg, #064e3b 0%, #047857 55%, #1e2a78 100%)",
+                    btn1: { text: "총장실 및 대학소개 바로가기", url: "hbnu_about.html" },
+                    btn2: { text: "천원의 아침밥 '엠마의 식탁' 공문 보기", noticeId: 1002 }
+                },
+                {
+                    sub: "DOMESTIC ONLY LIVING LAB · 교통대학(35동) 학부생 직접 운전·관제·정비",
+                    title: "대지를 가르는 트램(A선),\n하늘을 달리는 은하수 모노레일(B선)",
+                    desc: "A선 9개 역(#a0fff9 쿠쿠선) · B선 15개 역(#74f466 스미레선) · 도시철도 2·5·7호선 4개 역 캠퍼스 직결. 매주 토요일 12시 정문 아치 '백년호 골든 크로스' 진행",
+                    img: "이미지/중앙환승장_A선_승강장.webp",
+                    fallbackBg: "linear-gradient(135deg, #0f172a 0%, #134e4a 55%, #1e2a78 100%)",
+                    btn1: { text: "교내철도 실시간 관제실(CTC) 입장", mode: "simulator" },
+                    btn2: { text: "교내교통시스템 안내 페이지", url: "교내교통시스템.html" }
+                }
+            ],
+
+            // 4대 탭 총 24건의 실제 대학 공문서급 공지사항
+            notices: {
+                notice: [
+                    {
+                        id: 1001, cat: "법무·총장실", new: true,
+                        title: "[법무감사실] 본교 교표(사범대 체육교육과 과잠·학생증) 무단 도용 및 학력 사칭 성범죄자 법적 단죄 완료 공고",
+                        date: "2026.11.06", dept: "법무감사실 · 학생처", docNo: "법무감사 제2026-1106호", views: 24890,
+                        file: "대학사칭_무관용원칙_및_대법원확정판결(징역15년)_안내문.pdf",
+                        content: `1. 관련: 대법원 2026도11482 판결 확정 및 제26대 민부선 총장 특별 지시사항(「학내 구성원 보호를 위한 무관용 Lock-On 원칙」).
+
+2. 최근 타 부실 대학(치고대 제적) 소속 외부인(추 모 씨, 2003년 9월 21일생)이 중고 거래 사이트에서 본교 사범대학 체육교육과 학과 점퍼(과잠)와 위조 학생증을 불법 구매하여 본교생을 사칭하고, 주민등록증 생년월일까지 스티커로 위조(9월 12일생 사칭)하여 본교 사회복지학대학 재학생(현 부설 종합사회복지관 전임 사회복지사 마 모 학우)을 상대로 중대 범죄 및 에브리타임 계정 매수를 통한 허위사실 유포를 자행한 사건의 최종 사법 처리 결과를 공고합니다.
+
+3. 본교 법무감사실과 효빈광역시청의 원스톱 공조 결과:
+  가. 가해자 추 모 씨: 체육교육과 유도부 주장(강현우 학우)의 현행범 제압 및 본교 로스쿨 출신 검사·법대 출신 재판부의 엄정한 심판을 거쳐 2026년 9월 대법원에서 【징역 15년, 전자발찌 부착 15년, 신상공개 10년】이 최종 확정되어 곡천교도소에 수감되었습니다. (원 소속 대학에서도 즉시 영구 출교 조치 완료)
+  나. 에브리타임 2차 가해자: 악성 루머를 유포한 학내외 IP를 전수 색출하여 전원 무기정학 및 영구 출교(제적) 처분하고 형사 고소를 완료하였습니다.
+  다. 피해 학우 보호: 총장 직권 전액 특별보호 장학금 지원 및 졸업과 동시에 본교 산하 『효빈대학교 부설 종합사회복지관(7-3동)』 정식 사회복지사로 특별 채용하여 완벽한 보호 체계를 구축하였습니다.
+
+4. 본교는 과거 안 모 전 교수 파면(징역 30년) 및 조 모·이 모·전 모 씨 출교(징역 19년 및 30억 민사 가압류), 부동산학과 고립주의 난동자 A씨 영구 제적과 마찬가지로, 학우의 존엄과 교표를 더럽히는 행위에 대해 단 1원의 합의도 없이 끝까지 추적·단죄할 것임을 엄중히 천명합니다.`
+                    },
+                    {
+                        id: 1002, cat: "후생복지", new: true,
+                        title: "[학생복지처] 2026-2학기 교비 100% 지원 천원의 아침밥 『엠마의 식탁』 기말고사 기간 주말 확대 및 스위스식 브런치 편성",
+                        date: "2026.11.04", dept: "학생복지처 · 식품영양학과", docNo: "학생복지 제2026-0892호", views: 18320,
+                        file: "2026-2학기_엠마의식탁_아와관_학생복지타운_주간식단표.pdf",
+                        content: `1. "학생들이 굶는 것은 베르데(Verde: 치유와 포용) 정신에 어긋난다"는 민부선 총장님의 철학에 따라 교비 100% 지원으로 운영 중인 『엠마의 식탁 (천원의 아침밥)』을 기말고사 기간 중 주말·공휴일까지 전면 확대 운영합니다.
+
+2. 운영 식당 및 시간: 매일 07:30 ~ 09:30
+  - 학생복지타운(4동) 한식뷔페 / 아파트형 기숙사 B동(아와관, 52동) 식당 / 기숙사 1단지(희다관·후등관, 53동) 식당
+3. 특식 안내 (생활과학대학 조리과학과·제과제빵과·식품영양학과 감수)
+  - 화·목요일: 제과제빵과 갓 구운 호밀빵 & 스위스식 감자 뢰스티와 에멘탈 치즈 수프
+  - 월·수·금요일: 이자캠퍼스 농대 직송 햅쌀밥, 한우 사골 해장국, 축산학과 수제 요구르트 및 소비자학과 홍콩 유학생회 감수 수제 소롱포 특식.`
+                    },
+                    {
+                        id: 1003, cat: "재정·공시", new: true,
+                        title: "[기획처] 전국 거점국립대 유일 『등록금 5년 연속 전면 동결』 확정 및 HAF Zone 4 문화수익금 장학 환원 내역 공시",
+                        date: "2026.10.30", dept: "기획처 예산총괄팀", docNo: "기획예산 제2026-0519호", views: 14500,
+                        file: "2026_등록금심의위원회_동결의결서_및_HAF수익환원내역.pdf",
+                        content: `1. 본교는 효빈 애니메이션 페스티벌(HAF) 공식 학술·문화 본부(Zone 4, 베르데 홀 29동) 공동 주관 수익, 공식 굿즈 로열티, 호텔형 기숙사(소금하우스 56동) 하계 운영 수익 및 낭원캠퍼스 산학협력 기술료를 통해 연간 185억 원의 자체 재원을 확보하여 『학부 등록금 5년 연속 동결』을 확정하였습니다.
+2. 확보된 재원은 전액 장학금 확충, 기숙사 셰어하우스형 커뮤니티 라운지 리모델링, 교내철도(HBNU Rail) 재학생 무임 수송 유지비로 사용됩니다.`
+                    },
+                    {
+                        id: 1004, cat: "생협·매점", new: false,
+                        title: "[생활협동조합] 학내 PB 『엠마의 트램 탑승 통단팥빵 & 녹차크림빵』 훼손 행위 시 교내철도 코드 레드(Code Red) 발령 안내",
+                        date: "2026.10.25", dept: "생활협동조합 · 교통대학 CTC", docNo: "생협 제2026-0315호", views: 27400,
+                        file: "HBNU_Rail_홀로그램_띠부띠부씰_45종_도감_및_기부내역.pdf",
+                        content: `1. 학생회관 매점(A08/B14역), 중앙환승장 CU(A09역), 베르데 홀 카페(B09역)에서 판매 중인 『엠마의 트램 탑승 통단팥빵 & 녹차크림빵(1,500원, 수익금 전액 결식아동 멘토링 기부)』의 건전한 구매 문화를 안내합니다.
+2. 과거 외부 어그로꾼이 빵 윗면의 'A선 트램 화이트초콜릿 명판'을 손가락으로 찔러 파손하고 홀로그램 띠부띠부씰(SSR 백년호 황금 트램 씰 등 45종)만 절취해 A선 104열차로 도주하려다, 중앙관제실(CTC) '코드 레드' 발령 및 A07 대학본부·충승당역 출입문 봉쇄 작전으로 민부선 총장님과 경찰행정학과 학생들에게 현행범 검거(100배 징벌적 손해배상 청구)된 바 있습니다.
+3. 모든 매점 진열대에는 『경고: 트램과 빵은 효빈대의 영혼입니다. 훼손 시 교내철도 전 노선 포위망이 가동됩니다』 직인 경고문이 부착되어 있으니 유의하시기 바랍니다.`
+                    },
+                    {
+                        id: 1005, cat: "학내언론", new: false,
+                        title: "[효빈대 방송국 HBUS] 금요일 정오 라디오 『캠퍼스 아이돌 & 서브컬처 대전』 사연 접수 및 송출 안내 (학생복지회관 4층)",
+                        date: "2026.10.18", dept: "학내언론4사 · HBUS 방송국", docNo: "HBUS 제2026-088호", views: 9820,
+                        file: "HBUS_정오라디오_사연신청서.docx",
+                        content: `1. 매일 낮 12:00~13:00 캠퍼스 전역 스피커로 송출되는 HBUS 라디오의 금요일 특별 코너 『캠퍼스 아이돌 대전』 사연을 접수합니다.
+2. 본교는 전체 선곡의 30% 이상이 애니메이션 OST, J-POP, 버추얼 유튜버(V-Pro 동아리 자체 제작곡 포함) 및 오케스트라 편곡 버전으로 송출되는 개방적 학풍을 지니고 있으니 신입생 및 방문객 여러분께서는 점심 식사 중 놀라지 마시기 바랍니다.`
+                    },
+                    {
+                        id: 1006, cat: "박물관·전시", new: false,
+                        title: "[박물관·애니철도박물관] 개교 101주년 특별전 『민주주의의 철마(투표 특급 89.4%)와 침입자의 최후』 사료 전시",
+                        date: "2026.10.12", dept: "박물관(22동) · 애니-철도박물관(58동)", docNo: "박물관 제2026-071호", views: 11200,
+                        file: "개교101주년_특별전_도록.pdf",
+                        content: `1. 2024년 제22대 총선 당시 서구 당선1동·북구 소조동 청년 투표율 89.4% 대기록을 세운 정치외교·사회복지·교통대 삼각 동맹의 『주권 수호 교내철도 투표 특급(Voting Express)』 전면 헤드마크 실물과, 애니-철도 박물관(58동 2층) 철도 모델러 동아리의 초대형 N/HO게이지 디오라마를 상설 전시합니다.`
+                    }
+                ],
+                academic: [
+                    {
+                        id: 2001, cat: "수강·융합", new: true,
+                        title: "[교무처] 2026 동계 계절수업 및 융합학부(메타버스·IAB·반도체·소부장) 마이크로디그리 수강신청 안내",
+                        date: "2026.11.05", dept: "교무처 학사관리팀 · 융합학부", docNo: "교무학사 제2026-1095호", views: 16400,
+                        file: "2026_동계계절수업_207개학과_개설강좌일람.xlsx",
+                        content: `1. 17개 단과대학 207개 학과 재학생을 대상으로 동계 계절수업 및 독립 융합학부(메타버스/엔터테인먼트, IAB 인문·예술·경영, 예술융합창작, 에너지신산업, 반도체융합, 반도체 소부장 전공) 수강신청을 실시합니다.
+2. 민부선 총장님 직강 『사회복지경영론』 및 교양 『서브컬처로 배우는 지역사회학』은 0.1초 마감에 따른 서버 폭주를 막기 위해 베르데 홀 대강의실 분반을 추가 증설하였습니다.`
+                    },
+                    {
+                        id: 2002, cat: "실습·교통대", new: true,
+                        title: "[교통대학] 2027-1학기 교내철도(HBNU Rail A선·B선) 4학년 실전 기관사·관제사 실습생 선발 및 정복 지급 공고",
+                        date: "2026.11.02", dept: "교통대학 교학팀(35동)", docNo: "교통대 제2026-0412호", views: 12300,
+                        file: "HBNU_Rail_운전관제실습_평가기준표(ATS취급_및_정위치정차).pdf",
+                        content: `1. 철도운전시스템공학과(1분반 A선 트램 / 2분반 B선 모노레일), 철도운영시스템공학과(CTC 중앙관제실), 철도차량시스템공학과(S-35-4 정비센터) 실전 실습생을 선발합니다.
+2. 실습 중 화공 전기대역(A05) 등에서 ATS 확인 버튼을 3초 내 누르지 않아 비상제동 체결 시, 철도운영과 전용 강의실의 '실물 3현시 신호기'에 적색 경보가 점멸되며 창가 HO스케일 모형 디오라마로 후배 40명에게 실시간 공개 처형(생중계)되오니 엄중히 주의 바랍니다.`
+                    },
+                    {
+                        id: 2003, cat: "메디컬타운", new: false,
+                        title: "[통합의과대학] 2026 추계 『One Health (의·치·한·수·약·간·보건)』 메디컬 그랜드슬램 합동 임상 심포지엄",
+                        date: "2026.10.24", dept: "통합의과대학(1~4본부) · 약학대 · 간호대", docNo: "통합의대 제2026-091호", views: 8900,
+                        file: "One_Health_통합의학_공동연구과제집.pdf",
+                        content: `1. 1999년 국내 최초로 의학과(1본부)·치의학과(2본부)·한의학과(3본부)·수의학과(4본부)를 단일 학제로 통합한 본교 메디컬 타운(47~63동)에서 인수공통감염병 및 중증외상·천연물 신약 합동 심포지엄을 학술문화회관(64동)에서 개최합니다.`
+                    },
+                    {
+                        id: 2004, cat: "도서관·심야", new: false,
+                        title: "[중앙·방도도서관] 기말고사 기간 열람실 24시간 개방 및 B02 중앙도서관역 모노레일 심야 연장 운행 안내",
+                        date: "2026.10.19", dept: "중앙도서관(23동) · 방도도서관(36동)", docNo: "도서관 제2026-310호", views: 15200,
+                        file: "방도도서관_지하터널_디지털일러스트전시_및_심야모노레일시간표.pdf",
+                        content: `1. 중앙도서관(23동) 및 이공·예체능 전문 방도도서관(36동, 별칭 '방도리') 열람실을 24시간 개방하며, B선 모노레일 B02(중앙도서관) ↔ B10(북부기숙사) 구간을 심야 연장 운행합니다.
+2. 시험 기간 중 방도도서관 근처에서 개인 핫스팟 이름을 'Popipa_Pipopa', 'Emma_Verde_Love'로 설정하는 유쾌한 전통이 있으나 공식 학내망은 HBNU_5G_Official입니다.`
+                    },
+                    {
+                        id: 2005, cat: "고시·자격증", new: false,
+                        title: "[성가관·성운관] 2026 동계 행정고시·CPA·감정평가사·임용고시·로스쿨 준비반 입실생 선발 공고",
+                        date: "2026.10.10", dept: "사범대학 · 상과대학 · 학생생활관(53동)", docNo: "고시반 제2026-062호", views: 9400,
+                        file: "성가관(세이카관)_및_성운관_입실원서.hwp",
+                        content: `1. 엄격한 생활 관리로 유명한 고시반 전용 기숙사 '성가관(53동, 별칭 세이카관)' 및 고시 전용 열람관 '성운관(46동)' 입실생을 모집합니다.`
+                    },
+                    {
+                        id: 2006, cat: "글로벌·어문", new: false,
+                        title: "[국제교류처·언어문학대] 2027-1학기 일본(누마즈·치바·아키하바라 권역) 및 필리핀(UP)·유럽 교환학생 선발",
+                        date: "2026.10.04", dept: "국제교류처 · 동양언어관(10-1동)", docNo: "국제교류 제2026-415호", views: 11800,
+                        file: "샤이니(Shiny)_글로벌장학금_및_자매대학목록.pdf",
+                        content: `1. 오하라 마리의 글로벌 도전 정신을 반영한 '샤이니(Shiny) 글로벌 장학금'을 통해 파견 교환학생 전원에게 항공료 및 체재비를 대폭 증액 지원합니다. 동양언어관 10-1동 필리핀어학과 '마부하이 라운지'에서 설명회가 진행됩니다.`
+                    }
+                ],
+                recruit: [
+                    {
+                        id: 3001, cat: "창업·펀드", new: true,
+                        title: "[창업지원단] 거점국립대 최초 100억 원 규모 『효빈 콘텐츠 스타트업 펀드(Shiny Fund)』 입주기업 모집 (성실실패 100% 면책)",
+                        date: "2026.11.05", dept: "창업지원단(창상관 43동) · LINC 3.0", docNo: "창업지원 제2026-0718호", views: 14900,
+                        file: "효빈콘텐츠스타트업펀드_사업계획서양식.hwp",
+                        content: `1. 애니메이션·웹툰·인디게임·버추얼 프로듀싱(V-Pro)·AI 음성합성(동문 기업 '뉴럴-모에' 및 '오타쿠피아' 멘토링)·자율주행 트램 센서 분야 학내 창업팀에 최대 3억 원을 무담보 투자하며, 실패하더라도 책임을 묻지 않는 '마리 쌤의 무한 도전(100% 성실 실패 면책)' 조항이 적용됩니다.`
+                    },
+                    {
+                        id: 3002, cat: "공공기관채용", new: true,
+                        title: "[취업지원센터 빛날관] 2026 하반기 효빈교통공사·효빈도시공사·한국부동산원·HIPA 지역인재 우선채용 합동 설명회",
+                        date: "2026.10.31", dept: "취업지원센터(빛날관 44동)", docNo: "취업지원 제2026-512호", views: 21500,
+                        file: "효빈시_공공기관_지역인재우선채용_직무기술서.pdf",
+                        content: `1. 3년 연속 거점국립대 유지취업률 1위 달성을 견인하는 효빈광역시 산하 공공기관 및 지역 대기업(회주기업그룹, 칠양여객고속, 치킨무림 등) 합동 채용설명회가 빛날관(44동, 2·5호선 당선역 인근)에서 개최됩니다.`
+                    },
+                    {
+                        id: 3003, cat: "산학·낭원캠", new: false,
+                        title: "[낭원캠퍼스] 첨단 반도체공정실습동(Fab) 클린룸 유급 산학장학생 모집 (전포물류단지 야간 상하차 대체 근로)",
+                        date: "2026.10.21", dept: "낭원캠퍼스 융합학부 행정실", docNo: "낭원행정 제2026-119호", views: 7800,
+                        file: "낭원캠퍼스_클린룸_산학인턴십_신청서.pdf",
+                        content: `1. 논밭 뷰와 최첨단 클린룸이 공존하는 낭원캠퍼스(덕빈북도 낭원군 전포읍 도경로 213) 반도체 Fab에서 유급 산학장학생(시급 15,000원)을 모집합니다. 전포물류단지 야간 상하차 알바로 아침 수업에 지장을 겪는 학우들의 많은 지원 바랍니다.`
+                    },
+                    {
+                        id: 3004, cat: "의료원채용", new: false,
+                        title: "[효빈대학교병원] 본원(59동)·어린이병원(62동)·암센터(63동) 및 천주·중구·강주·약산분원 보건·간호직 공개채용",
+                        date: "2026.10.15", dept: "효빈대학교병원 인사팀", docNo: "효빈병원 제2026-890호", views: 13100,
+                        file: "2027_효빈대학교의료원_신규채용공고.pdf",
+                        content: `1. 권역응급의료센터(59동), 치과병원(60동), 동물병원(61동), 어린이병원(62동), 암센터(63동) 및 각 지역 분원에서 근무할 간호사·약사·보건직을 공개 채용합니다.`
+                    },
+                    {
+                        id: 3005, cat: "교원초빙", new: false,
+                        title: "[교무처] 2027학년도 1학기 전임교원 및 만화애니메이션학과 해외 객원교수(일본 도쿄·누마즈) 초빙 공고",
+                        date: "2026.10.08", dept: "교무처 교원인사팀", docNo: "교원인사 제2026-302호", views: 8400,
+                        file: "2027-1_전임및객원교원_초빙분야.pdf",
+                        content: `1. 전 단과대학 전임교원 및 응용예술대학 만화애니메이션학과·문화콘텐츠학과 실무 특강을 담당할 해외 저명 애니메이터 객원교수를 초빙합니다.`
+                    },
+                    {
+                        id: 3006, cat: "부설기관", new: false,
+                        title: "[부설 종합사회복지관] 사회복지학대학 연계 『블루버드 멘토단』 및 『꿈나래』 위기청소년 멘토 장학생 추가 선발",
+                        date: "2026.10.01", dept: "효빈대 부설 종합사회복지관(7-3동)", docNo: "종합복지관 제2026-104호", views: 7650,
+                        file: "블루버드멘토단_활동지원서.hwp",
+                        content: `1. 사회복지학대학(7-1동) 옆 종합사회복지관(7-3동, 담당: 마서령 전임 사회복지사)에서 지역 아동·청소년 멘토링을 수행할 장학생을 모집합니다.`
+                    }
+                ],
+                rail: [
+                    {
+                        id: 4001, cat: "CTC관제·연동", new: true,
+                        title: "[HBNU Rail 사업단] 중앙환승장역(A09-B06) 수업 교대 시간 『90초 상호 대기 연동 폐색(쿠쿠스미 평화 협정)』 정식 가동",
+                        date: "2026.11.06", dept: "교통대학 HBNU Rail 사업단 · CTC", docNo: "HBNU-CTC 제2026-101호", views: 29400,
+                        file: "중앙환승장_1층트램_3층모노레일_90초상호대기_신호연동도.pdf",
+                        content: `1. 매시 50분~정각 연강 이동 시간대에 1층 지상 A선 트램(민트색 #a0fff9, 쿠쿠선)과 3층 고가 B선 모노레일(연두색 #74f466, 스미레선) 간 30초 배차 어긋남으로 인해 학생들이 3층 초장대 에스컬레이터를 전력 질주하던 불편을 해소하기 위해 『쿠쿠스미 평화 협정 알고리즘(상호 대기 연동 폐색)』을 상시 가동합니다.
+2. 1층 A09역에 트램이 도착해 출입문이 열린 순간부터 3층 B06역 모노레일은 최소 90초간 출발 신호가 대기 상태로 고정되오니, 에스컬레이터에서 세 칸씩 뛰지 마시고 안전하게 이동하시기 바랍니다.`
+                    },
+                    {
+                        id: 4002, cat: "PIS문화유산", new: true,
+                        title: "[HBNU Rail 사업단] 전광판(PIS) 『휴빈 휴빈·SMYRE LINE·얀전·종점(호계)』 문구 교내 무형문화유산 영구 보존 공고",
+                        date: "2026.11.01", dept: "교통대학 · 컴퓨터공학과 · 총학생회", docNo: "HBNU-PIS 제2026-045호", views: 34100,
+                        file: "2021동계_72시간무수면코딩_오타보존_총장특별재가문.pdf",
+                        content: `1. A선·B선 차내 및 승강장 전광판에 표출되는 아래 문구들은 시스템 고장이 아니라, 2021년 겨울방학 외주비(3억 원) 절감을 위해 72시간 무수면 핫식스·몬스터 야근 코딩을 수행한 컴퓨터공학과 박 학우·철도운영과 최 학우의 땀방울이 서린 역사적 산물입니다.
+  - A선 신형 천장 모니터: 『다음 역: 휴빈 휴빈 대학교 센터 (Hyobin Univ. Center)』
+  - A선 구형 LED 전광판: 『A09 종점(호계)』 (납품업체 본사 안양 호계동 테스트 ROM 데이터)
+  - B10 북부기숙사역 전광판: 『현재 9시 수업 전 가축수송 중. 혼잡하니 얀전에 유의바랍니다.』
+  - B13 본부.충승당역 행선판: 『(SMYRE LINE) B선 복선 승강장』
+2. 재학생 94.8% 찬성 청원 및 민부선 총장님의 특별 재가에 따라 한글 오타는 교내 문화유산으로 영구 보존됩니다.`
+                    },
+                    {
+                        id: 4003, cat: "S-35-4정비기지", new: true,
+                        title: "[모노레일 정비센터] 명예 기지장 고양이 『대차(Bogie) 교수님(9.8kg)』 동절기 열선 하우스 가동 및 조소과 벤치 안내",
+                        date: "2026.10.28", dept: "S-35-4 정비센터 · 미술대학 조소과", docNo: "정비센터 제2026-074호", views: 22150,
+                        file: "대차교수님_수의대동물병원(61동)_건강검진표.pdf",
+                        content: `1. B07 예술대역 옆 S-35-4 공중 모노레일 정비센터에 상주하며 학생들의 대차 분해 실습을 감시하는 12세 고등어태비 『대차(Bogie) 교수님(체중 9.8kg)』의 비만 방지를 위해 1일 1회 외 임의 츄르 급여를 제한합니다.
+2. 정비센터 앞 광장에 설치된 미술대학 조소과 졸업작품 『15배 스케일(2.2m) 초거대 고등어태비 식빵 고양이 우레탄 인조모피 벤치』 머리 위에 실제 대차 교수님이 올라가 '2단 마트료시카 식빵'을 굽고 있을 때는 플래시 촬영을 삼가 주시기 바랍니다.`
+                    },
+                    {
+                        id: 4004, cat: "정문출사·백년호", new: false,
+                        title: "[교통대학·레일루미네] 매주 토요일 낮 12:00 정문 아치 『구형 클래식 트램(백년호) × B선 모노레일 골든 크로스』 포토타임",
+                        date: "2026.10.20", dept: "교통대학 관제실 · 동아리 레일루미네", docNo: "교통관제 제2026-068호", views: 15600,
+                        file: "당선캠퍼스_정문_골든크로스_출사안전구역도.pdf",
+                        content: `1. 하루 4회(09:00, 12:00, 15:00, 17:00) 운행하는 1968년 구 효빈전차 복원 클래식 트램 『백년호』와 상공 B선 모노레일이 정문 사각 아치에서 0.1초 오차 없이 동시 교차하는 '골든 크로스(Golden Cross)'가 매주 토요일 12시 정각 관제실 정밀 유도로 연출됩니다.`
+                    },
+                    {
+                        id: 4005, cat: "광역철도·창전선", new: false,
+                        title: "[시설관리처] 2027년 9월 개통 예정 『효빈도시철도 창전선(#33AAFF)』 효빈대병원역·소조역 캠퍼스 직결 환승통로 공사 안내",
+                        date: "2026.10.14", dept: "시설관리처(1동) · 토목공업대학", docNo: "시설 제2026-495호", views: 10900,
+                        file: "창전선_효빈대병원역_소조역_환승연결도면.pdf",
+                        content: `1. 기존 캠퍼스 직결 3개 노선(2호선 효빈대역, 5호선 당선역·소조역, 7호선 효빈대입구역)에 더해, 2027년 9월 개통 예정인 창전선(#33AAFF, 마스코트 심세이)의 효빈대병원역(급행 정차) 및 소조역 환승 통로 공사가 순조롭게 진행 중입니다.`
+                    },
+                    {
+                        id: 4006, cat: "이원화캠퍼스교통", new: false,
+                        title: "[학생복지처] 이자캠퍼스(빈효선 리의역)·천주캠퍼스(궁하역)·낭원캠퍼스(전포역)·강주캠퍼스(강주항역) 셔틀 연계 시간표",
+                        date: "2026.10.05", dept: "학생복지처 교통지원팀", docNo: "교통지원 제2026-211호", views: 8700,
+                        file: "5대캠퍼스_광역전철역_연계셔틀시간표.pdf",
+                        content: `1. 과거 두청운수 시절의 살인적인 요금 폭리와 과적('인간 테트리스')의 흑역사를 넘어, 현재 모든 이원화 캠퍼스는 빈효선 광역전철(#6677CC) 및 빈주권 광역철도(#005BAC) 역에서 무료 전기 셔틀버스가 5분 간격으로 연계 운행됩니다.`
+                    }
+                ]
+            },
+
+            // 보도자료 뉴스 6건
+            news: [
+                {
+                    id: 501, badge: "대학평가·종합8위", date: "2026.11.05", dept: "홍보처 · 기획처", img: "이미지/효빈대학교 본부.webp",
+                    title: "효빈대학교, 『중앙일보 대학평가 종합 8위』 쾌거… 3년 연속 거점국립대 유지취업률 1위 달성",
+                    summary: "2023년 11위 ➔ 2024년 9위 ➔ 2025년 8위 수직 상승. 사회복지학대학·교통대학·메디컬 그랜드슬램·서브컬처 산학협력 전 부문 최우수 평가.",
+                    content: `효빈대학교(총장 민부선)가 중앙일보 대학평가에서 종합 8위를 달성하며 서울대·카이스트 등과 어깨를 나란히 하는 국가거점국립대 최상위권 위상을 확고히 했다.\n\n특히 전국 유일의 단과대 규모 '사회복지학대학(S등급)', 국내 유일 학부생 직영 도시철도 Living Lab을 갖춘 '교통대학(S등급)', 1999년 의·치·한·수를 통합한 'One Health 통합의과대학', 그리고 HAF 공동 주관과 100억 원 규모의 콘텐츠 스타트업 펀드를 통한 '등록금 5년 연속 동결'이 핵심 동력으로 꼽혔다.`
+                },
+                {
+                    id: 502, badge: "특강·동문네트워크", date: "2026.10.29", dept: "대외협력처 · 사회복지학대학", img: "이미지/베르데홀 전경.webp",
+                    title: "박효빈 효빈광역시장(사회복지정책학 15), 모교 베르데 홀 4,950석 만석 특강… 후배들에게 발전기금 쾌척",
+                    summary: "『스쿨 아이돌 정신과 연결의 행정으로 효빈시를 혁신하다』 주제 강연… 사회복지대 학생회실 및 필리핀어학과·버추얼 프로듀서(V-Pro) 동방 격려 방문.",
+                    content: `본교 사회복지학대학 사회복지정책학과 학·석사 출신인 박효빈 효빈광역시장이 베르데 홀(29동) 대공연장에서 4,950명의 재학생이 운집한 가운데 모교 특강을 성료했다.\n\n박 시장은 학부 시절 중앙도서관(23동)에서 밤잠을 줄이며 맥도날드·편의점 아르바이트를 병행했던 영 케어러 시절의 일화와, 2022년 토론회 당시 후배들이 사회복지대 건물(7-1동) 앞에 붙여준 수천 장의 응원 포스트잇('선배님 울지 마세요, 교통과 복지는 사람을 구합니다')이 현재 시청 시장실 벽면에 그대로 보존되어 있음을 밝혀 큰 감동을 자아냈다.`
+                },
+                {
+                    id: 503, badge: "철도기술·특허", date: "2026.10.22", dept: "교통대학 철도운영시스템공학과", img: "이미지/철도운영시스템공학과 전용 강의실.webp",
+                    title: "철도운영시스템공학과 강의실 『실물 3현시 신호기 & CTC 실시간 동기화 디오라마』, 산학 교육 혁신 대상 수상",
+                    summary: "야외 A선 트램·B선 모노레일의 실제 GPS·궤도회로 신호가 강의실 내 실물 신호기 및 모형 기차와 100% 연동… 초보 실습생 ATS 미취급 시 강의실에 실시간 경보.",
+                    content: `교통대학(35동) 철도운영시스템공학과 전용 강의실에 구축된 '실물 3현시 색등 신호기 및 연동 제어반(Relay Rack) + HO스케일 교내철도 미러링 디오라마'가 전국 공과대학 실험실습 혁신 대상을 수상했다.\n\n실제 A선 트램 운전 실습 중인 4학년 선배가 화공 전기대역(A05)에서 ATS 확인 버튼을 3초 내 누르지 않아 비상제동이 걸리면, 강의실 신호기에 적색 불이 점멸되고 디오라마 모형 트램이 급정거하여 강의실 직통 인터폰으로 지도교수의 실시간 피드백이 이루어지는 독보적 교육 시스템이다.`
+                },
+                {
+                    id: 504, badge: "캠퍼스명물·조소과", date: "2026.10.15", dept: "미술대학 조소과 · S-35-4 정비센터", img: "이미지/S-35-4 모노레일 정비센터.webp",
+                    title: "예술대역(B07) 광장 『2.2m 초대형 식빵 고양이 소파 벤치』와 실제 『9.8kg 대차 교수님』의 2단 합체 식빵 화제",
+                    summary: "미술대학 조소과 학우들이 고탄성 우레탄과 방수 인조 모피로 제작한 경차 크기 고양이 벤치… 시험기간 만점 기원 성지로 등극.",
+                    content: `S-35-4 공중 모노레일 정비센터 앞 광장에 설치된 조소과 졸업작품 '초대형 고등어태비 식빵 고양이 벤치(길이 2.2m)' 위에 실제 모델인 9.8kg 길고양이 '대차(Bogie) 교수님'이 올라앉아 2단 마트료시카 식빵을 굽는 광경이 SNS 조회수 500만 회를 돌파했다.`
+                }
+            ]
+        };
+
+        // ================= 2. 교내철도(HBNU Rail) A선 9역 · B선 15역 실시간 관제 시뮬레이터 엔진 =================
+        const RAIL_SIM_DATA = {
+            lineA: [
+                { code: "A01", name: "수의대·동물병원", x: 7, y: 78, transfer: null, desc: "수의과대학(49-3동)·부속동물병원(61동)·수의대 간이검수고" },
+                { code: "A02", name: "효빈대병원", x: 17, y: 78, transfer: "7호선 효빈대입구역", desc: "통합의과대(49동)·본원(59동)·치과병원(60동) / 7호선 트램 환승" },
+                { code: "A03", name: "간호대 - 한의관", x: 28, y: 78, transfer: null, desc: "간호대(48동)·한의학관(49-1동) [역명판 하이픈(-) 공식 표기]" },
+                { code: "A04", name: "약대 보건대", x: 39, y: 78, transfer: null, desc: "약학대(50동)·보건대(47동) [기호 없이 띄어쓰기 표기]" },
+                { code: "A05", name: "화공 전기대", x: 50, y: 78, transfer: "ATS 중점구간", desc: "기계대(14동)·전기대(15동)·화공대(17동) 공대생 승하차 폭주역" },
+                { code: "A06", name: "토목대 복지관", x: 61, y: 78, transfer: null, desc: "토목대(16동)·학생복지회관(2동 푸드코트·언론4사) 식권 전쟁터" },
+                { code: "A07", name: "대학본부·충승당", x: 72, y: 78, transfer: "2호선 효빈대역 / B13", desc: "대학본부(1동)·충승당(3동)·박물관(22동) / 코드레드 봉쇄 작전역" },
+                { code: "A08", name: "상과대. 학생회관", x: 83, y: 78, transfer: "B14 환승", desc: "상과대(8동)·학생회관 매점(트램 팥빵) [역명판 마침표(.) 표기]" },
+                { code: "A09", name: "효빈대 중앙환승장", x: 93, y: 78, transfer: "B06/B15 입체환승", desc: "1층 트램-3층 모노레일 에스컬레이터 / [A씨 참교육 기념비] 소재" }
+            ],
+            lineB: [
+                { code: "B01", name: "교통대학 기지", x: 14, y: 48, transfer: "GALAXY!! 발원지", desc: "교통대학(35-1~3동)·방도도서관(36동)·부설고(57동)" },
+                { code: "B02", name: "중앙도서관", x: 14, y: 28, transfer: "심야 24시 운행", desc: "중앙도서관(23동)·음악대학(25동)" },
+                { code: "B03", name: "사회복지대", x: 27, y: 16, transfer: "5호선 소조역", desc: "사회복지학대학(7-1~3동)·사회대(6동)·인문대(9동)·어문대(10동)·사범대(11동)" },
+                { code: "B04", name: "미술사회대", x: 42, y: 16, transfer: null, desc: "미술대학(27동)·사회과학대 1호관(6-1동)·종합사회복지관(7-3동)" },
+                { code: "B05", name: "법전원", x: 56, y: 24, transfer: "정숙 의무구간", desc: "법학전문대학원(31동 정의의 탑 18층)·교수회관(32동)" },
+                { code: "B06", name: "효빈대중앙환승장", x: 93, y: 55, transfer: "A09 환승(중간경유)", desc: "3층 고가 모노레일 승강장 · 쿠쿠스미 90초 상호대기 연동역" },
+                { code: "B07", name: "예술대", x: 84, y: 36, transfer: "S-35-4 공중기지", desc: "예술대(26동)·S-35-4 정비센터·9.8kg 대차 교수님 & 2.2m 식빵고양이 벤치" },
+                { code: "B08", name: "자연대", x: 72, y: 22, transfer: null, desc: "자연과학대학(28-1~3동)" },
+                { code: "B09", name: "베르데홀", x: 60, y: 12, transfer: "2·5호선 당선역", desc: "베르데 홀(29동 4,950석)·애니-철도박물관(58동)·소금하우스(56동)" },
+                { code: "B10", name: "북부 기숙사", x: 45, y: 34, transfer: "얀전에 유의!", desc: "희다관·후등관·성가관(53동)·니나관(51동)·아와관(52동) 아침 가축수송역" },
+                { code: "B11", name: "보건진료소", x: 33, y: 42, transfer: "GALAXY!! Area", desc: "보건진료소(30동)·생명과학관 [역명판 스미레선 공식 표기]" },
+                { code: "B12", name: "대운동장", x: 48, y: 55, transfer: null, desc: "대운동장(21동)·실내체육관(18동)·야구부 외야 3중 안전그물망 구간" },
+                { code: "B13", name: "본부. 충승당", x: 72, y: 55, transfer: "2호선 효빈대역 / A07", desc: "대학본부(1동)·충승당(3동) [(SMYRE LINE) B선 복선 승강장 오타 보존역]" },
+                { code: "B14", name: "상과대 학생회관", x: 83, y: 55, transfer: "A08 환승", desc: "상과대학(8동)·학생회관 매점" },
+                { code: "B15", name: "효빈대중앙환승장(종착)", x: 93, y: 63, transfer: "A09 종착환승", desc: "B선 순환 종착 및 회차 승강장" }
+            ]
+        };
+
+        // 시뮬레이터 실시간 열차 편성 상태
+        const simState = {
+            running: true,
+            speedMultiplier: 1,
+            kekeSumireSync: true,     // 90초 상호 대기 연동 폐색
+            codeRedActive: false,     // 코드 레드 (트램 팥빵 테러범 봉쇄)
+            goldenCrossActive: false, // 정문 백년호 골든 크로스 모드
+            selectedStation: RAIL_SIM_DATA.lineA[8], // 기본 선택: A09 중앙환승장
+            signalAspect: "GREEN",    // 철도운영과 강의실 실물 3현시 신호기 ('GREEN' | 'YELLOW' | 'RED')
+            pisMessageA: "다음 역: 휴빈 휴빈 대학교 센터 (Hyobin Univ. Center) | A09 종점(호계)",
+            pisMessageB: "[SMYRE LINE] 현재 9시 수업 전 가축수송 중. 혼잡하니 얀전에 유의바랍니다.",
+            ctcLogs: [
+                "[12:00:01] [HBNU-CTC] 중앙관제실 광케이블 미러링 정상 가동 중 (철도운영시스템공학과 강의실 3현시 신호기 녹색 점등)",
+                "[12:00:05] [A선-101편성] 화공 전기대역(A05) 진입 전 ATS 확인 버튼 1.8초 내 정상 취급 완료 (운전실습생: 4학년 김학우)",
+                "[12:00:12] [B선-GALAXY호] B01 교통대학 기지역 출발 경적 'GALAXY!!' 송출 완료",
+                "[12:00:18] [S-35-4 기지] 명예 기지장 '대차(Bogie) 교수님(9.8kg)' 2층 정비 테라스 순찰 후 식빵 자세 돌입"
+            ],
+            trains: [
+                { id: "A-101", name: "A선 T1001편성 (쿠쿠호)", line: "A", idx: 1, dir: 1, color: "#a0fff9", driver: "철도운전 4학년 이학우", status: "정상운행" },
+                { id: "A-104", name: "A선 T1004편성 (개량형)", line: "A", idx: 6, dir: -1, color: "#a0fff9", driver: "철도운전 4학년 박학우", status: "정상운행" },
+                { id: "A-100", name: "정문 백년호 (1968 복원 클래식)", line: "A", idx: 2, dir: 1, color: "#fde047", driver: "레일루미네 수석기관사", status: "특수운행" },
+                { id: "B-205", name: "B선 제5편성 (GALAXY!!호)", line: "B", idx: 0, dir: 1, color: "#74f466", driver: "철도운전 4학년 최학우", status: "정상운행" },
+                { id: "B-206", name: "B선 제6편성 (STAR!!호)", line: "B", idx: 8, dir: 1, color: "#c084fc", driver: "철도운전 4학년 정학우", status: "정상운행" }
+            ]
+        };
+
+        // ================= 3. 메인 페이지 상태 및 렌더링 로직 =================
+        const mainState = {
+            mode: 'portal', // 'portal' | 'simulator' | 'all_notices' | 'colleges'
+            currentSlide: 0,
+            activeTab: 'notice',
+            noticePage: 1
+        };
         const ITEMS_PER_PAGE = 5;
 
         document.addEventListener('DOMContentLoaded', () => {
+            // URL이 교내교통시스템.html 이거나 해시가 #rail 이면 즉시 시뮬레이터 탭으로 시작
+            if (window.location.pathname.includes('교내교통') || window.location.hash === '#rail') {
+                mainState.mode = 'simulator';
+            }
             renderMain();
             setInterval(autoSlide, 5000);
+            setInterval(tickRailSimulator, 1800);
         });
 
-        function autoSlide() { mainState.currentSlide = (mainState.currentSlide + 1) % 3; updateHomeSlider(); }
-        function setTab(t) { mainState.activeTab = t; mainState.noticePage = 1; renderMain(); lucide.createIcons(); }
-        function changeNoticePage(d) { mainState.noticePage += d; renderMain(); lucide.createIcons(); }
+        function switchMode(m) {
+            mainState.mode = m;
+            ['portal', 'simulator', 'all_notices', 'colleges'].forEach(key => {
+                const btn = document.getElementById('tab-btn-' + key);
+                if (!btn) return;
+                if (key === m) {
+                    btn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-extrabold bg-[#99dd88] text-[#1e2a78] flex items-center gap-1.5 transition-all shadow";
+                } else {
+                    btn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold hover:bg-white/15 text-gray-200 flex items-center gap-1.5 transition-all";
+                }
+            });
+            renderMain();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function autoSlide() {
+            if (mainState.mode !== 'portal') return;
+            mainState.currentSlide = (mainState.currentSlide + 1) % HBNU_PORTAL_DATA.slides.length;
+            updateHomeSlider();
+        }
+        function setTab(t) { mainState.activeTab = t; mainState.noticePage = 1; renderMain(); }
+        function changeNoticePage(d) { mainState.noticePage += d; renderMain(); }
 
         function renderMain() {
-            // common.js에 있는 TEXT_CONTENT와 globalState를 활용합니다.
-            const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
             const root = document.getElementById('main-root');
-            const list = T.notices[mainState.activeTab] || [];
+            if (!root) return;
+
+            if (mainState.mode === 'simulator') {
+                renderSimulatorView(root);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+            if (mainState.mode === 'all_notices') {
+                renderAllNoticesView(root);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+            if (mainState.mode === 'colleges') {
+                renderCollegesDirectoryView(root);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
+            // 기본: 대문 종합포털 뷰
+            const T = (typeof TEXT_CONTENT !== 'undefined' && TEXT_CONTENT[globalState.language]) ? TEXT_CONTENT[globalState.language] : TEXT_CONTENT['KOR'];
+            const list = HBNU_PORTAL_DATA.notices[mainState.activeTab] || [];
             const start = (mainState.noticePage - 1) * ITEMS_PER_PAGE;
             const viewList = list.slice(start, start + ITEMS_PER_PAGE);
             const totalPages = Math.ceil(list.length / ITEMS_PER_PAGE);
             
             const noticesHTML = viewList.map(n => `
-                <li onclick="navigateTo('공지사항상세.html?id=${n.id}')" class="flex justify-between cursor-pointer hover:bg-blue-50 p-2 rounded items-center border-b border-dashed border-gray-100 transition-colors">
-                    <span class="truncate text-gray-700 w-3/4 flex items-center">
-                        ${n.new ? '<span class="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold mr-2">NEW</span>' : ''}
-                        ${n.title}
+                <li onclick="openPortalNotice(${n.id})" class="flex justify-between cursor-pointer hover:bg-blue-50/90 p-2.5 rounded-lg items-center border-b border-dashed border-gray-200 transition-colors group">
+                    <span class="truncate text-gray-800 group-hover:text-[#3344aa] font-medium text-sm w-4/5 flex items-center">
+                        <span class="text-[11px] bg-slate-100 text-[#3344aa] border border-blue-200 px-2 py-0.5 rounded font-extrabold mr-2 shrink-0">${n.cat}</span>
+                        ${n.new ? '<span class="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-extrabold mr-1.5 shrink-0">NEW</span>' : ''}
+                        <span class="truncate">${n.title}</span>
                     </span>
-                    <span class="text-xs text-gray-400 whitespace-nowrap">${n.date}</span>
+                    <span class="text-xs text-gray-400 whitespace-nowrap font-mono">${n.date}</span>
                 </li>
             `).join('');
 
+            const tabLabels = {
+                notice: "일반·행정",
+                academic: "학사·장학",
+                recruit: "채용·창업",
+                rail: "교통(HBNU Rail)"
+            };
+
             root.innerHTML = `
-                <section class="relative h-[450px] bg-gray-200 cursor-pointer overflow-hidden" onclick="navigateTo('hbnu_about.html')">
+                <!-- 1. 메인 비주얼 슬라이더 -->
+                <section class="relative h-[440px] md:h-[490px] bg-slate-900 overflow-hidden">
                     <div id="slider-root" class="absolute inset-0"></div>
-                    <div id="slider-dots" class="absolute bottom-10 left-0 right-0 flex justify-center space-x-2"></div>
+                    <div id="slider-dots" class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2.5 z-20"></div>
                 </section>
-                <div class="bg-[#3344aa] text-white py-6 relative z-10 -mt-1 shadow-lg">
+
+                <!-- 2. 퀵링크 바 (common.js 연동) -->
+                <div class="bg-[#3344aa] text-white py-5 relative z-10 shadow-lg border-b-4 border-[#99dd88]">
                     <div class="max-w-7xl mx-auto px-4 grid grid-cols-3 md:grid-cols-6 gap-4 text-center">
-                        ${T.quickLinks.map(l => `<button onclick="navigateTo('${l.url}')" class="flex flex-col items-center group hover:text-[#99dd88] transition-colors"><div class="mb-2 p-2 rounded-full bg-white bg-opacity-10 group-hover:bg-opacity-20"><i data-lucide="${getIcon(l.type)}" width="24"></i></div><span class="text-sm font-medium">${l.text}</span></button>`).join('')}
+                        ${T.quickLinks.map(l => `
+                            <button onclick="${l.url === '교내교통시스템.html' ? "switchMode('simulator')" : `navigateTo('${l.url}')`}" class="flex flex-col items-center group hover:text-[#99dd88] transition-colors py-1">
+                                <div class="mb-2 p-2.5 rounded-full bg-white bg-opacity-10 group-hover:bg-opacity-20 transition-all">
+                                    <i data-lucide="${getIcon(l.type)}" width="24"></i>
+                                </div>
+                                <span class="text-xs md:text-sm font-bold">${l.text}</span>
+                            </button>
+                        `).join('')}
                     </div>
                 </div>
-                <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="bg-white p-8 rounded-lg border shadow-sm h-full flex flex-col">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl font-bold text-[#3344aa] tracking-tighter">HBNU NOTICE</h3>
-                            <div class="flex space-x-1">
-                                ${['notice', 'academic', 'recruit'].map(tab => `<button onclick="setTab('${tab}')" class="px-3 py-1 text-xs rounded-full transition-colors ${mainState.activeTab===tab?'bg-[#3344aa] text-white':'bg-gray-100 text-gray-500 hover:bg-gray-200'}">${T.tabs[tab]}</button>`).join('')}
+
+                <!-- 3. HBNU NOTICE & HBNU NEWS (SPA 상세 모달 연동) -->
+                <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- 공지사항 (7칸) -->
+                    <div class="lg:col-span-7 bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm h-full flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-wrap justify-between items-center gap-2 mb-5 pb-3 border-b-2 border-[#3344aa]">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-xl font-black text-[#3344aa] tracking-tight">HBNU NOTICE</h3>
+                                    <span class="text-xs text-gray-400 font-medium">| 클릭 시 공문서 전문 열람</span>
+                                </div>
+                                <div class="flex flex-wrap gap-1">
+                                    ${Object.keys(tabLabels).map(tab => `
+                                        <button onclick="setTab('${tab}')" class="px-3 py-1 text-xs font-bold rounded-full transition-colors ${mainState.activeTab===tab?'bg-[#3344aa] text-white shadow-sm':'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
+                                            ${tabLabels[tab]}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <ul class="space-y-2 flex-grow min-h-[250px]">
+                                ${noticesHTML}
+                            </ul>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500">
+                            <button onclick="switchMode('all_notices')" class="text-[#3344aa] font-extrabold hover:underline flex items-center gap-1">
+                                + 전체 24건 공문서 검색·열람 센터
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                ${totalPages > 0 ? `<button onclick="changeNoticePage(-1)" ${mainState.noticePage===1?'disabled':''} class="p-1 rounded hover:bg-gray-100 disabled:opacity-30"><i data-lucide="chevron-left" width="16"></i></button><span class="font-bold text-gray-700">${mainState.noticePage} / ${totalPages}</span><button onclick="changeNoticePage(1)" ${mainState.noticePage===totalPages?'disabled':''} class="p-1 rounded hover:bg-gray-100 disabled:opacity-30"><i data-lucide="chevron-right" width="16"></i></button>` : ''}
                             </div>
                         </div>
-                        <ul class="space-y-3 flex-grow min-h-[220px]">
-                            ${noticesHTML}
-                        </ul>
-                         <div class="flex justify-center items-center space-x-2 mt-4 text-sm text-gray-500">
-                             ${totalPages > 0 ? `<button onclick="changeNoticePage(-1)" ${mainState.noticePage===1?'disabled':''} class="p-1 hover:bg-gray-100 disabled:opacity-30"><i data-lucide="chevron-left" width="16"></i></button><span>${mainState.noticePage} / ${totalPages}</span><button onclick="changeNoticePage(1)" ${mainState.noticePage===totalPages?'disabled':''} class="p-1 hover:bg-gray-100 disabled:opacity-30"><i data-lucide="chevron-right" width="16"></i></button>` : ''}
-                         </div>
                     </div>
-                    <div class="bg-white p-8 rounded-lg border shadow-sm h-full">
-                         <div class="flex justify-between items-center mb-6"><h3 class="text-xl font-bold text-[#3344aa] tracking-tighter">HBNU NEWS</h3><button onclick="navigateTo('hbnu_news_list.html')" class="text-sm text-gray-500 hover:text-[#3344aa] font-bold">더보기 +</button></div>
-                         ${T.news.map((n, i) => `
-                             <div onclick="navigateTo('효빈뉴스상세.html?id=${n.id}')" class="cursor-pointer group ${i!==0?'mt-4 pt-4 border-t':''}">
-                                ${i===0 && n.img ? `<div class="h-44 bg-gray-200 rounded-md mb-3 overflow-hidden shadow-inner"><img src="${n.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'"></div>` : ''}
-                                <h4 class="font-bold text-gray-800 group-hover:text-[#3344aa] mb-1 transition-colors">${n.title}</h4>
-                                <p class="text-xs text-gray-500">${n.date} · ${n.dept}</p>
-                             </div>
-                         `).join('')}
+
+                    <!-- 효빈뉴스 (5칸) -->
+                    <div class="lg:col-span-5 bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm h-full flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-5 pb-3 border-b-2 border-[#37B484]">
+                                <h3 class="text-xl font-black text-[#3344aa] tracking-tight">HBNU FOCUS NEWS</h3>
+                                <button onclick="navigateTo('hbnu_news_list.html')" class="text-xs text-gray-500 hover:text-[#3344aa] font-bold">더보기 +</button>
+                            </div>
+                            ${HBNU_PORTAL_DATA.news.map((n, i) => `
+                                <div onclick="openPortalNews(${n.id})" class="cursor-pointer group ${i!==0?'mt-3.5 pt-3.5 border-t border-gray-100':''}">
+                                    ${i===0 ? `
+                                        <div class="h-40 bg-slate-800 rounded-xl mb-3 overflow-hidden relative shadow-inner">
+                                            <img src="${n.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'">
+                                            <span class="absolute top-2.5 left-2.5 bg-[#3344aa] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">${n.badge}</span>
+                                        </div>
+                                    ` : ''}
+                                    <h4 class="font-bold text-sm text-gray-800 group-hover:text-[#3344aa] mb-1 transition-colors leading-snug">${n.title}</h4>
+                                    <p class="text-[11px] text-gray-400">${n.date} · ${n.dept}</p>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
+
+                <!-- 4. 대문 내장형 『HBNU Rail 교내철도 미니 관제 프리뷰 배너』 -->
+                <section class="max-w-7xl mx-auto px-4 pb-12">
+                    <div class="bg-gradient-to-r from-slate-900 via-[#1e2a78] to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl border border-blue-800 flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <div class="space-y-2 max-w-2xl">
+                            <div class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-[#a0fff9]">
+                                <span class="w-2 h-2 rounded-full bg-[#74f466] animate-ping"></span> 국내 유일 학부생 직영 도시철도 (Living Lab)
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-black">🚃 A선 트램(9개 역) & 🚟 B선 모노레일(15개 역) 실시간 열차 관제 시뮬레이터</h3>
+                            <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+                                정문 아치 <strong>'백년호 클래식 트램 × 모노레일 골든 크로스'</strong> 수동 발령, 중앙환승장(A09-B06) <strong>'90초 쿠쿠스미 상호 대기 연동'</strong>, 철도운영과 강의실 <strong>'실물 3현시 신호기 & ATS 비상제동'</strong>, 그리고 <strong>'트램 팥빵 수호 코드 레드'</strong>를 직접 조작해 보세요!
+                            </p>
+                        </div>
+                        <button onclick="switchMode('simulator')" class="bg-[#99dd88] hover:bg-white text-[#1e2a78] font-black px-6 py-4 rounded-xl text-sm shadow-lg shrink-0 flex items-center gap-2 transition-transform hover:scale-105">
+                            <i data-lucide="radio" class="w-5 h-5"></i> 실시간 관제 시뮬레이터 열기 ➔
+                        </button>
+                    </div>
+                </section>
             `;
             updateHomeSlider();
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function updateHomeSlider() {
             const root = document.getElementById('slider-root');
-            if(!root) return;
-            const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
-            const slides = [
-                {t: T.slogan, s: "Since 1925", img: "슬라이드_배경1.webp"},
-                {t: T.slider2Title, s: T.slider2Desc, img: "슬라이드_배경2.webp"},
-                {t: T.slider3Title, s: T.slider3Desc, img: "슬라이드_배경3.webp"}
-            ];
-            const s = slides[mainState.currentSlide];
-            root.innerHTML = `<div class="absolute inset-0 bg-cover bg-center slide-fade opacity-100 animate-in fade-in" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('${s.img}')"><div class="h-full max-w-7xl mx-auto px-4 flex flex-col justify-center text-white"><h2 class="text-xl md:text-2xl font-light text-[#99dd88] drop-shadow-md">${s.s}</h2><h1 class="text-4xl md:text-6xl font-black drop-shadow-lg leading-tight whitespace-pre-line tracking-tighter">${s.t}</h1></div></div>`;
-            
+            if (!root) return;
+            const s = HBNU_PORTAL_DATA.slides[mainState.currentSlide];
+            root.innerHTML = `
+                <div class="absolute inset-0 bg-cover bg-center slide-fade" style="background-image:linear-gradient(90deg, rgba(15,23,42,0.86) 0%, rgba(30,42,120,0.68) 60%, rgba(15,23,42,0.4) 100%), url('${s.img}'); background-color:#1e2a78;">
+                    <div class="h-full max-w-7xl mx-auto px-4 flex flex-col justify-center text-white">
+                        <h2 class="text-sm md:text-lg font-bold text-[#99dd88] drop-shadow mb-2">${s.sub}</h2>
+                        <h1 class="text-3xl md:text-5xl font-black drop-shadow-lg leading-tight whitespace-pre-line tracking-tight mb-4">${s.title}</h1>
+                        <p class="text-xs md:text-sm text-gray-200 max-w-2xl leading-relaxed mb-6">${s.desc}</p>
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="${s.btn1.mode ? `switchMode('${s.btn1.mode}')` : `navigateTo('${s.btn1.url}')`}" class="bg-[#99dd88] hover:bg-white text-[#1e2a78] font-black px-5 py-2.5 rounded-xl text-xs md:text-sm shadow-lg transition-all">
+                                ${s.btn1.text} ➔
+                            </button>
+                            <button onclick="${s.btn2.noticeId ? `openPortalNotice(${s.btn2.noticeId})` : `navigateTo('${s.btn2.url}')`}" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-5 py-2.5 rounded-xl text-xs md:text-sm transition-all">
+                                ${s.btn2.text}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
             const dots = document.getElementById('slider-dots');
-            if(dots) {
-                dots.innerHTML = slides.map((_, i) => `<button onclick="event.stopPropagation(); mainState.currentSlide=${i}; updateHomeSlider();" class="w-3 h-3 rounded-full transition-all duration-500 ${mainState.currentSlide === i ? 'bg-[#99dd88] w-8' : 'bg-white bg-opacity-50'}"></button>`).join('');
+            if (dots) {
+                dots.innerHTML = HBNU_PORTAL_DATA.slides.map((_, i) => `
+                    <button onclick="event.stopPropagation(); mainState.currentSlide=${i}; updateHomeSlider();" class="h-3 rounded-full transition-all duration-500 ${mainState.currentSlide === i ? 'bg-[#99dd88] w-8' : 'bg-white/50 w-3'}"></button>
+                `).join('');
             }
+        }
+
+        // ================= 4. [핵심 요청 기능] HBNU Rail 실시간 관제 시뮬레이터 뷰 =================
+        function tickRailSimulator() {
+            if (!simState.running || simState.codeRedActive) return;
+
+            simState.trains.forEach(t => {
+                const stations = t.line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+                if (t.line === 'A') {
+                    // 왕복 운행
+                    t.idx += t.dir;
+                    if (t.idx >= stations.length - 1) { t.idx = stations.length - 1; t.dir = -1; }
+                    if (t.idx <= 0) { t.idx = 0; t.dir = 1; }
+                } else {
+                    // B선 순환 운행
+                    t.idx = (t.idx + 1) % stations.length;
+                }
+            });
+
+            if (mainState.mode === 'simulator') {
+                updateSimulatorDOM();
+            }
+        }
+
+        // 특수 작전 1: 정문 아치 '백년호 클래식 트램 × B선 모노레일 골든 크로스' 강제 발령
+        function triggerGoldenCross() {
+            simState.goldenCrossActive = true;
+            simState.codeRedActive = false;
+            simState.signalAspect = "GREEN";
+            // 백년호(A-100)를 정문 인접 A02역으로, B선 GALAXY호를 정문 상공 B01-B13 교차점으로 동기화
+            simState.trains[2].idx = 1; // A02 정문/효빈대병원
+            simState.trains[3].idx = 0; // B01 교통대학기지 (정문 상공 진입)
+            const now = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+            simState.ctcLogs.unshift(`[${now}] 📸 [골든 크로스 발령!] 정문 아치 지상 '백년호(1968 클래식 트램)' 타종 진입 & 상공 'B선 GALAXY!!호' 0.1초 싱크로나이즈드 동시 교차 성공! (레일루미네 출사단 셔터 폭죽)`);
+            simState.pisMessageA = "★ [개교 101주년 기념호 '백년호'] 정문 아치 골든 크로스 통과 중 (시속 18km 정속 타행)";
+            simState.pisMessageB = "★ [GALAXY!! 편성] 정문 상공 고가 궤도 골든 크로스 통과 중 - GALAXY!! 외침 환영!";
+            renderMain();
+        }
+
+        // 특수 작전 2: 화공 전기대역(A05) 초보 실습생 ATS 미취급 비상제동 & 철도운영과 강의실 3현시 신호기 적색 연동
+        function triggerAtsEmergency() {
+            simState.signalAspect = "RED";
+            simState.trains[0].idx = 4; // A05 화공 전기대역
+            simState.trains[0].status = "ATS 비상제동 체결!";
+            const now = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+            simState.ctcLogs.unshift(`[${now}] 🚨 [ATS 비상제동 체결!] A선 101열차(4학년 실습생) A05 화공 전기대역 진입 중 ATS 확인 버튼 3초 미취급! ➔ 철도운영과 강의실 실물 3현시 신호기 '적색 점멸' 및 창가 모형 디오라마 급정거 생중계 발동!`);
+            simState.pisMessageA = "[실습생 조리돌림 방송] 아~ A선 101열차 또 급정거입니까? 내 아메리카노 날아갔다 ㅋㅋㅋ";
+            renderMain();
+        }
+
+        // 특수 작전 3: 코드 레드 (엠마의 트램 팥빵 훼손범 검거를 위한 A07 대학본부·충승당역 출입문 봉쇄)
+        function triggerCodeRedBread() {
+            simState.codeRedActive = !simState.codeRedActive;
+            const now = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+            if (simState.codeRedActive) {
+                simState.signalAspect = "RED";
+                simState.trains[1].idx = 6; // A07 대학본부·충승당역 고정
+                simState.trains[1].status = "출입문 봉쇄 (총장님 출격)";
+                simState.ctcLogs.unshift(`[${now}] 🛑 [CODE RED 발령: 성물 트램 팥빵 훼손범 도주!] A선 104열차 A07 대학본부·충승당역 출입문 강제 잠금! 양복 상의 벗은 민부선 총장님 및 경찰행정학과 체포조 승강장 포위 완료!`);
+                simState.pisMessageA = "🚨 [CODE RED] 트램과 빵은 효빈대의 영혼입니다! A07 대학본부·충승당역 출입문 봉쇄 중";
+            } else {
+                simState.signalAspect = "GREEN";
+                simState.trains.forEach(t => t.status = "정상운행");
+                simState.ctcLogs.unshift(`[${now}] ✅ [CODE RED 해제] 팥빵 테러범 검거 완료 (총장님 사비 빵 300개 승객 전원 배포 및 SSR 황금 트램 씰 획득!). 전 노선 정상 운행 재개.`);
+                simState.pisMessageA = "다음 역: 휴빈 휴빈 대학교 센터 (Hyobin Univ. Center) | A09 종점(호계)";
+            }
+            renderMain();
+        }
+
+        // 특수 작전 4: 중앙환승장(A09-B06) 90초 쿠쿠스미 상호 대기 연동 토글
+        function toggleCookSumiSync() {
+            simState.kekeSumireSync = !simState.kekeSumireSync;
+            const now = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+            simState.ctcLogs.unshift(`[${now}] 🤝 [쿠쿠스미 평화 협정 알고리즘] A09(1층 트램) ↔ B06(3층 모노레일) 90초 상호 출발 대기 연동이 [${simState.kekeSumireSync ? 'ON 가동' : 'OFF 해제'}] 되었습니다.`);
+            renderMain();
+        }
+
+        function selectSimStation(line, code) {
+            const list = line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+            const found = list.find(s => s.code === code);
+            if (found) {
+                simState.selectedStation = { ...found, line };
+                renderMain();
+            }
+        }
+
+        function renderSimulatorView(root) {
+            const st = simState.selectedStation || RAIL_SIM_DATA.lineA[8];
+
+            // 맵 위의 역 노드 생성
+            const lineANodesHTML = RAIL_SIM_DATA.lineA.map(s => `
+                <div onclick="selectSimStation('A', '${s.code}')" style="left:${s.x}%; top:${s.y}%;" class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20 flex flex-col items-center">
+                    <div class="w-4 h-4 rounded-full border-2 border-slate-900 shadow-md transition-transform group-hover:scale-125 ${st.code === s.code ? 'ring-4 ring-white scale-125' : ''}" style="background-color:#a0fff9;"></div>
+                    <span class="mt-1 px-1.5 py-0.5 rounded bg-slate-900/90 text-[#a0fff9] font-mono-tech text-[10px] font-bold whitespace-nowrap border border-[#a0fff9]/40">${s.code} ${s.name}</span>
+                </div>
+            `).join('');
+
+            const lineBNodesHTML = RAIL_SIM_DATA.lineB.map(s => `
+                <div onclick="selectSimStation('B', '${s.code}')" style="left:${s.x}%; top:${s.y}%;" class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20 flex flex-col items-center">
+                    <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-900 shadow-md transition-transform group-hover:scale-125 ${st.code === s.code ? 'ring-4 ring-white scale-125' : ''}" style="background-color:#74f466;"></div>
+                    <span class="mt-1 px-1.5 py-0.5 rounded bg-slate-900/90 text-[#74f466] font-mono-tech text-[10px] font-bold whitespace-nowrap border border-[#74f466]/40">${s.code} ${s.name}</span>
+                </div>
+            `).join('');
+
+            // 맵 위의 실시간 이동 열차 마커 생성
+            const trainMarkersHTML = simState.trains.map(t => {
+                const stations = t.line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+                const curSt = stations[t.idx] || stations[0];
+                return `
+                    <div id="train-marker-${t.id}" style="left:${curSt.x}%; top:${curSt.y - 6}%;" class="train-marker absolute -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none flex flex-col items-center">
+                        <div class="px-2 py-0.5 rounded-full text-[10px] font-black text-slate-950 shadow-lg flex items-center gap-1 border border-white" style="background-color:${t.color};">
+                            <span>${t.line === 'A' ? '🚃' : '🚟'} ${t.id}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            root.innerHTML = `
+                <div class="bg-slate-950 text-white py-8 border-b-4 border-[#3344aa]">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <!-- 상단 타이틀 및 운전 제어 콘솔 -->
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                            <div>
+                                <div class="flex items-center gap-2 text-xs font-mono-tech text-[#a0fff9] mb-1">
+                                    <span class="w-2.5 h-2.5 rounded-full ${simState.codeRedActive ? 'bg-red-500 animate-ping' : 'bg-emerald-400 animate-pulse'}"></span>
+                                    <span>HBNU RAIL INTEGRATED CTC SIMULATOR v2026.11 (교통대학 35동 중앙관제실 & 철도운영과 강의실 미러링)</span>
+                                </div>
+                                <h1 class="text-2xl md:text-3xl font-black tracking-tight">효빈대학교 교내철도(HBNU Rail) 실시간 열차 관제 시뮬레이터</h1>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="simState.running = !simState.running; renderMain();" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${simState.running ? 'bg-amber-500 text-slate-950' : 'bg-emerald-500 text-slate-950'}">
+                                    ${simState.running ? '⏸ 실시간 주행 일시정지' : '▶ 실시간 주행 재개'}
+                                </button>
+                                <button onclick="triggerGoldenCross()" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-yellow-300 hover:bg-yellow-200 text-slate-950 shadow">
+                                    📸 정문 '백년호 × 모노레일' 골든 크로스 발령
+                                </button>
+                                <button onclick="triggerAtsEmergency()" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-orange-500 hover:bg-orange-400 text-white shadow">
+                                    🚨 A05역 초보 실습생 ATS 비상제동 테스트
+                                </button>
+                                <button onclick="triggerCodeRedBread()" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${simState.codeRedActive ? 'bg-red-600 ring-2 ring-white' : 'bg-rose-800 hover:bg-rose-700'} text-white shadow">
+                                    🍞 코드 레드 (트램 팥빵 테러범 A07 봉쇄)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 전광판(PIS) 오타 문화유산 실시간 LED 보드 & 철도운영과 강의실 3현시 신호기 -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-6">
+                            <div class="lg:col-span-5 led-board rounded-xl p-4">
+                                <div class="flex justify-between items-center text-[11px] text-gray-400 mb-1 font-mono-tech">
+                                    <span>🚃 A선 (쿠쿠선 #a0fff9) 차내·승강장 PIS (2021 야근코딩 보존유산)</span>
+                                    <button onclick="openPortalNotice(4002)" class="text-[#a0fff9] underline">사연보기</button>
+                                </div>
+                                <div class="text-sm md:text-base font-extrabold text-amber-400 font-mono-tech tracking-wide truncate" id="sim-pis-a">
+                                    ${simState.pisMessageA}
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 led-board rounded-xl p-4">
+                                <div class="flex justify-between items-center text-[11px] text-gray-400 mb-1 font-mono-tech">
+                                    <span>🚟 B선 (스미레선 #74f466) 승강장 PIS (B10 북부기숙사·B13 본부)</span>
+                                    <button onclick="toggleCookSumiSync()" class="text-[#74f466] underline">90초 연동: ${simState.kekeSumireSync ? 'ON' : 'OFF'}</button>
+                                </div>
+                                <div class="text-sm md:text-base font-extrabold text-lime-400 font-mono-tech tracking-wide truncate" id="sim-pis-b">
+                                    ${simState.pisMessageB}
+                                </div>
+                            </div>
+                            <!-- 철도운영과 전용 강의실 실물 3현시 색등 신호기 -->
+                            <div class="lg:col-span-2 bg-slate-900 border border-slate-700 rounded-xl p-3 flex flex-col items-center justify-center">
+                                <span class="text-[10px] text-gray-400 font-bold mb-1.5">철도운영과 강의실 3현시 신호기</span>
+                                <div class="flex items-center space-x-2.5 bg-black px-3.5 py-2 rounded-full border border-gray-600">
+                                    <span onclick="simState.signalAspect='RED'; renderMain();" class="w-4 h-4 rounded-full cursor-pointer ${simState.signalAspect==='RED' ? 'bg-red-500 shadow-[0_0_12px_#ef4444] animate-ping' : 'bg-red-950'}"></span>
+                                    <span onclick="simState.signalAspect='YELLOW'; renderMain();" class="w-4 h-4 rounded-full cursor-pointer ${simState.signalAspect==='YELLOW' ? 'bg-amber-400 shadow-[0_0_12px_#fbbf24]' : 'bg-amber-950'}"></span>
+                                    <span onclick="simState.signalAspect='GREEN'; renderMain();" class="w-4 h-4 rounded-full cursor-pointer ${simState.signalAspect==='GREEN' ? 'bg-emerald-400 shadow-[0_0_12px_#34d399]' : 'bg-emerald-950'}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 메인 인터랙티브 관제 다이어그램 맵 (A선 9개 역 + B선 15개 역 + 랜드마크) -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <div class="lg:col-span-8 relative h-[480px] bg-[#0b1324] rounded-2xl border-2 border-slate-700 overflow-hidden shadow-2xl">
+                                <!-- 캠퍼스 서구/북구 행정구역 경계선 표시 -->
+                                <div class="absolute inset-y-0 left-[46%] border-l border-dashed border-blue-500/30 z-0"></div>
+                                <div class="absolute top-3 left-4 text-[11px] font-bold text-blue-300/60">◀ 효빈광역시 서구 당선1동 / 북구 소조동 구역 ▶</div>
+                                <div class="absolute top-3 right-4 text-[11px] font-mono-tech text-emerald-300">💡 역 노드를 클릭하면 세부 시설 및 레전드 일화가 표시됩니다</div>
+
+                                <!-- SVG 궤도 라인 -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <!-- B선 모노레일 고가 순환 궤도 (#74f466) -->
+                                    <polyline points="14,48 14,28 27,16 42,16 56,24 93,55 84,36 72,22 60,12 45,34 33,42 48,55 72,55 83,55 93,63 14,48"
+                                        fill="none" stroke="#74f466" stroke-width="0.9" stroke-dasharray="2,1" opacity="0.75" />
+                                    <!-- A선 트램 지상 직선 궤도 (#a0fff9) -->
+                                    <line x1="7" y1="78" x2="93" y2="78" stroke="#a0fff9" stroke-width="1.6" opacity="0.9" />
+                                    <!-- 중앙환승장(A09-B06/B15) 3층 에스컬레이터 수직 연결선 -->
+                                    <line x1="93" y1="55" x2="93" y2="78" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="1,1" />
+                                </svg>
+
+                                <!-- 정문 골든크로스 포토존 배지 -->
+                                <div onclick="triggerGoldenCross()" style="left:16%; top:63%;" class="absolute -translate-x-1/2 -translate-y-1/2 z-20 bg-yellow-400/20 border border-yellow-300 text-yellow-200 px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer hover:bg-yellow-400/40">
+                                    🏛️ 정문 아치 (백년호 골든크로스존)
+                                </div>
+
+                                <!-- S-35-4 공중기지 대차 교수님 배지 -->
+                                <div onclick="openPortalNotice(4003)" style="left:84%; top:25%;" class="absolute -translate-x-1/2 -translate-y-1/2 z-20 bg-amber-500/20 border border-amber-300 text-amber-200 px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer hover:bg-amber-500/40">
+                                    🐱 S-35-4 대차 교수님(9.8kg) & 2.2m 고양이벤치
+                                </div>
+
+                                ${lineANodesHTML}
+                                ${lineBNodesHTML}
+                                ${trainMarkersHTML}
+                            </div>
+
+                            <!-- 우측: 선택된 역 상세 정보 & 실시간 편성 현황판 (4칸) -->
+                            <div class="lg:col-span-4 flex flex-col justify-between space-y-4">
+                                <!-- 선택된 역 상세 카드 -->
+                                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-700">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="px-2.5 py-1 rounded text-xs font-black text-slate-950" style="background-color:${st.code.startsWith('A') ? '#a0fff9' : '#74f466'}">
+                                            ${st.code.startsWith('A') ? '🚃 A선 (트램)' : '🚟 B선 (모노레일)'}
+                                        </span>
+                                        <span class="text-xs font-mono-tech text-gray-400">역번호: ${st.code}</span>
+                                    </div>
+                                    <h3 class="text-xl font-black text-white mb-2">${st.code} ${st.name}</h3>
+                                    <p class="text-xs text-gray-300 leading-relaxed mb-3">${st.desc}</p>
+                                    <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1">
+                                        <div><strong class="text-[#99dd88]">환승 및 특기사항:</strong> ${st.transfer || '단독 역사 (학생증 태그 무료)'}</div>
+                                        <div><strong class="text-[#a0fff9]">연강 환승 알고리즘:</strong> ${simState.kekeSumireSync ? 'A09-B06 90초 상호 대기 연동 정상 작동중' : '수동 관제 모드'}</div>
+                                    </div>
+                                </div>
+
+                                <!-- 운행 중인 5개 열차 편성 실시간 리스트 -->
+                                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-700 flex-grow">
+                                    <h4 class="text-sm font-black text-[#99dd88] mb-3 flex items-center justify-between">
+                                        <span>운행 열차 편성 및 담당 실습생 현황</span>
+                                        <span class="text-[11px] text-gray-400 font-normal">교수 동승 평가중</span>
+                                    </h4>
+                                    <div class="space-y-2.5 text-xs" id="sim-train-list">
+                                        ${simState.trains.map(t => {
+                                            const stList = t.line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+                                            const cur = stList[t.idx] || stList[0];
+                                            return `
+                                                <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                                                    <div>
+                                                        <div class="font-bold text-white flex items-center gap-1.5">
+                                                            <span class="w-2.5 h-2.5 rounded-full" style="background-color:${t.color}"></span>
+                                                            <span>${t.name}</span>
+                                                        </div>
+                                                        <div class="text-[11px] text-gray-400 mt-0.5">기관사: ${t.driver}</div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="font-mono-tech font-bold text-[#a0fff9]">${cur.code} ${cur.name}</div>
+                                                        <div class="text-[10px] ${t.status.includes('비상') || t.status.includes('봉쇄') ? 'text-red-400 font-bold' : 'text-emerald-400'}">${t.status}</div>
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 하단: CTC 실시간 관제 로그 콘솔 -->
+                        <div class="mt-6 bg-black rounded-xl p-4 border border-slate-800 font-mono-tech text-xs">
+                            <div class="text-gray-400 mb-2 font-bold flex justify-between">
+                                <span>📡 HBNU-CTC 실시간 관제 및 7대 레전드 이벤트 로그</span>
+                                <span class="text-[#74f466]">철도운영시스템공학과 전용 강의실 디오라마 광케이블 동기화율 100%</span>
+                            </div>
+                            <div id="sim-log-box" class="space-y-1 max-h-28 overflow-y-auto text-gray-200">
+                                ${simState.ctcLogs.map(log => `<div class="truncate hover:text-white">${log}</div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateSimulatorDOM() {
+            // 전체 리렌더링 없이 열차 마커 좌표와 편성 현황만 부드럽게 갱신
+            simState.trains.forEach(t => {
+                const el = document.getElementById('train-marker-' + t.id);
+                const stations = t.line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+                const curSt = stations[t.idx] || stations[0];
+                if (el) {
+                    el.style.left = curSt.x + '%';
+                    el.style.top = (curSt.y - 6) + '%';
+                }
+            });
+            const listEl = document.getElementById('sim-train-list');
+            if (listEl) {
+                listEl.innerHTML = simState.trains.map(t => {
+                    const stList = t.line === 'A' ? RAIL_SIM_DATA.lineA : RAIL_SIM_DATA.lineB;
+                    const cur = stList[t.idx] || stList[0];
+                    return `
+                        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-white flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full" style="background-color:${t.color}"></span>
+                                    <span>${t.name}</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 mt-0.5">기관사: ${t.driver}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-mono-tech font-bold text-[#a0fff9]">${cur.code} ${cur.name}</div>
+                                <div class="text-[10px] ${t.status.includes('비상') || t.status.includes('봉쇄') ? 'text-red-400 font-bold' : 'text-emerald-400'}">${t.status}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ================= 5. 전체 공문서 24건 아카이브 뷰 & 단과대/건물 총람 뷰 =================
+        function renderAllNoticesView(root) {
+            const all = [
+                ...HBNU_PORTAL_DATA.notices.notice,
+                ...HBNU_PORTAL_DATA.notices.academic,
+                ...HBNU_PORTAL_DATA.notices.recruit,
+                ...HBNU_PORTAL_DATA.notices.rail
+            ];
+            root.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-10">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b-2 border-[#3344aa]">
+                        <div>
+                            <h1 class="text-2xl font-black text-[#1e2a78]">효빈대학교 공식 공문서 아카이브 (전체 ${all.length}건)</h1>
+                            <p class="text-xs text-gray-500 mt-1">각 항목을 클릭하면 결재 직인과 첨부파일이 포함된 공문서 전문이 열립니다.</p>
+                        </div>
+                        <button onclick="switchMode('portal')" class="bg-[#3344aa] text-white px-4 py-2 rounded-xl text-xs font-bold self-start">← 메인 대문으로 돌아가기</button>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-200 shadow-sm">
+                        ${all.map(n => `
+                            <div onclick="openPortalNotice(${n.id})" class="p-4 md:p-5 hover:bg-blue-50/70 cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-2 transition-colors">
+                                <div class="space-y-1 max-w-3xl">
+                                    <div class="flex items-center gap-2">
+                                        <span class="bg-[#3344aa] text-white text-[11px] font-bold px-2 py-0.5 rounded">${n.cat}</span>
+                                        <span class="text-xs font-mono text-gray-500">${n.docNo}</span>
+                                        ${n.new ? '<span class="bg-red-100 text-red-600 text-[10px] font-extrabold px-1.5 py-0.5 rounded">NEW</span>' : ''}
+                                    </div>
+                                    <h3 class="font-bold text-gray-900 text-sm md:text-base">${n.title}</h3>
+                                </div>
+                                <div class="text-xs text-gray-500 md:text-right shrink-0">
+                                    <div class="font-bold text-gray-700">${n.dept}</div>
+                                    <div>${n.date} · 조회 ${n.views.toLocaleString()}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCollegesDirectoryView(root) {
+            const collegeGroups = MEGA_MENU.find(m => m.title === "대학/대학원")?.groups || [];
+            root.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-10 space-y-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b-2 border-[#3344aa]">
+                        <div>
+                            <h1 class="text-2xl font-black text-[#1e2a78]">17개 단과대학 · 10개 대학원 · 5대 캠퍼스 동적 라우팅 총람</h1>
+                            <p class="text-xs text-gray-500 mt-1">단과대학 클릭 시 <code>단과대.html?col=단과대명</code>으로 즉시 이동합니다.</p>
+                        </div>
+                        <button onclick="switchMode('portal')" class="bg-[#3344aa] text-white px-4 py-2 rounded-xl text-xs font-bold self-start">← 메인 대문으로 돌아가기</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${collegeGroups.map(g => `
+                            <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                <h3 class="text-base font-black text-[#3344aa] border-b pb-2 mb-4">${g.name}</h3>
+                                <div class="grid grid-cols-2 gap-2">
+                                    ${g.items.map(col => `
+                                        <button onclick="navigateTo('${getMenuUrl(col)}')" class="text-left px-3 py-2 rounded-lg bg-slate-50 hover:bg-[#3344aa] hover:text-white text-xs font-bold transition-colors flex items-center justify-between">
+                                            <span>${col}</span>
+                                            <span>➔</span>
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ================= 6. 공문서 및 뉴스 상세 모달 오픈 함수 =================
+        function openPortalNotice(id) {
+            const all = [
+                ...HBNU_PORTAL_DATA.notices.notice,
+                ...HBNU_PORTAL_DATA.notices.academic,
+                ...HBNU_PORTAL_DATA.notices.recruit,
+                ...HBNU_PORTAL_DATA.notices.rail
+            ];
+            const item = all.find(n => n.id === id);
+            if (!item) return;
+
+            document.getElementById('modal-cat-badge').innerText = item.cat;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-meta').innerHTML = `
+                <span><strong>문서번호:</strong> ${item.docNo}</span>
+                <span><strong>담당부서:</strong> ${item.dept}</span>
+                <span><strong>등록일:</strong> ${item.date} · <strong>조회:</strong> ${item.views.toLocaleString()}</span>
+            `;
+            document.getElementById('modal-content').innerHTML = `
+                <div class="text-center border-b-2 border-gray-800 pb-3 mb-4">
+                    <div class="text-xs text-gray-500 font-bold">어려움에 굴하지 않는 불굴의 효빈대</div>
+                    <div class="text-lg font-black text-[#1e2a78]">국립 효빈대학교 공식 공문서</div>
+                </div>
+                <div class="leading-7 text-gray-800">${item.content}</div>
+                <div class="mt-6 pt-4 border-t border-gray-200 text-center font-black text-base tracking-widest text-gray-900">
+                    효 빈 대 학 교 총 장 <span class="inline-block border-2 border-red-600 text-red-600 text-[10px] px-1.5 py-0.5 rounded ml-1">관인생략</span>
+                </div>
+            `;
+            document.getElementById('modal-files').innerHTML = `📎 첨부파일: <span class="underline cursor-pointer">${item.file}</span>`;
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openPortalNews(id) {
+            const item = HBNU_PORTAL_DATA.news.find(n => n.id === id);
+            if (!item) return;
+
+            document.getElementById('modal-cat-badge').innerText = item.badge;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-meta').innerHTML = `
+                <span><strong>소속:</strong> ${item.dept}</span>
+                <span><strong>보도일:</strong> ${item.date}</span>
+            `;
+            document.getElementById('modal-content').innerHTML = `
+                <div class="p-3.5 bg-blue-50 border-l-4 border-[#3344aa] font-bold text-xs md:text-sm text-[#1e2a78] rounded-r-lg mb-4">${item.summary}</div>
+                <div class="leading-7 text-gray-800">${item.content}</div>
+            `;
+            document.getElementById('modal-files').innerHTML = `📰 효빈대학교 공식 보도자료 (홍보처)`;
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
     </script>
 </body>

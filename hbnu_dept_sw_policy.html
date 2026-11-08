@@ -114,7 +114,7 @@
                         </div>
                         <div class="flex flex-col md:flex-row gap-6 items-start relative z-10">
                             <div class="w-24 h-24 rounded-full bg-white flex-shrink-0 overflow-hidden border-4 border-[#99dd88] shadow-md">
-                                 <img src="최현우_교수.webp" onerror="this.src='기본프로필_이미지.webp'" alt="학과장" class="w-full h-full object-cover">
+                                 <img src="이미지/최현우_교수.webp" onerror="this.src='기본프로필_이미지.webp'" alt="학과장" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-gray-800 mb-1">학과장 인사말</h3>
@@ -587,7 +587,7 @@
             const profContainer = document.getElementById('prof-list');
             profContainer.innerHTML = PROF_DATA.map((prof, index) => `
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg cursor-pointer" onclick="openProfModal(${index})">
-                    <img src="${prof.img}" onerror="this.src='기본프로필_이미지.webp'" class="w-16 h-16 rounded-full object-cover border-2 border-[#99dd88] bg-gray-50 flex-shrink-0">
+                    <img src="이미지/${prof.img}" onerror="this.src='기본프로필_이미지.webp'" class="w-16 h-16 rounded-full object-cover border-2 border-[#99dd88] bg-gray-50 flex-shrink-0">
                     <div>
                         <h3 class="font-bold text-lg text-gray-800 mb-1 flex items-center">${prof.name} <i data-lucide="zoom-in" class="w-4 h-4 ml-1 text-[#3344aa] opacity-80"></i></h3>
                         <p class="text-xs text-[#3344aa] font-bold mb-1">${prof.role}</p>

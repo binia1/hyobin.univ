@@ -204,7 +204,7 @@
                 <div onclick="openModal(${club.id})" class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition group cursor-pointer transform hover:-translate-y-1 duration-300 relative">
                     ${isJoined ? '<div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full z-10 font-bold">가입됨</div>' : ''}
                     <div class="h-40 bg-gray-200 relative overflow-hidden">
-                        <img src="${club.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="이미지/${club.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition"></div>
                         <h3 class="absolute bottom-4 left-4 text-white font-bold text-xl flex items-center shadow-sm">
                             <i data-lucide="${club.icon}" class="mr-2"></i> ${club.name}

@@ -1,45 +1,109 @@
-// ================= 실제 보유 파일 기준 완벽 링크 매핑 로직 =================
+// ================= 1. 실제 보유 파일(영문/한글 혼합) 기준 완벽 양방향 링크 매핑 로직 =================
 const OLD_URLS = {
+    // 메인 및 포털
+    "대문": "hbnu_main.html", "홈": "hbnu_main.html", "메인": "hbnu_main.html",
+    "종합정보시스템": "hbnu_portal.html", "HBNU 포털": "hbnu_portal.html", "포털": "hbnu_portal.html",
+    "사이트맵": "hbnu_sitemap.html", "전체메뉴": "hbnu_sitemap.html", "전화번호안내": "hbnu_directory.html",
+
     // 대학소개 (허브 및 주요 독립 페이지 매핑)
-    "대학연혁": "hbnu_history.html", "캠퍼스안내": "hbnu_campus.html", "오시는길": "hbnu_location.html", "대학정보공시": "hbnu_info_disclosure.html",
+    "대학소개": "hbnu_about.html", "총장실": "hbnu_about.html",
+    "대학연혁": "hbnu_history.html", "캠퍼스안내": "hbnu_campus.html", "캠퍼스 지도": "hbnu_campus.html", "캠퍼스지도": "hbnu_campus.html", "캠퍼스 투어": "hbnu_campus.html",
+    "오시는길": "hbnu_location.html", "대학정보공시": "hbnu_info_disclosure.html",
     
     // 입학정보
-    "입학홈페이지": "hbnu_admissions.html", "수시모집": "hbnu_admission_guide.html", "정시모집": "hbnu_admission_guide.html", "편입학": "hbnu_transfer.html", "외국인전형": "hbnu_global.html",
+    "입학정보": "hbnu_admissions.html", "입학처": "hbnu_admissions.html", "입학홈페이지": "hbnu_admissions.html",
+    "수시모집": "hbnu_admission_guide.html", "정시모집": "hbnu_admission_guide.html", "재외국민": "hbnu_admission_guide.html",
+    "편입학": "hbnu_transfer.html", "대학원입학": "hbnu_admissions.html", "시간제 등록생": "hbnu_admission_guide.html", "시간제등록생": "hbnu_admission_guide.html", "고교대학 연계": "hbnu_admission_guide.html", "고교대학연계": "hbnu_admission_guide.html",
+    "외국인전형": "hbnu_global.html", "GKS Program": "hbnu_global.html", "GKSProgram": "hbnu_global.html", "Exchange Students": "hbnu_global.html", "ExchangeStudents": "hbnu_global.html", "Student Support": "hbnu_global.html", "StudentSupport": "hbnu_global.html",
     
-    // (대학/대학원 세부 항목들은 아래 getMenuUrl 함수에서 동적 라우팅으로 완벽 자동 처리됩니다)
-    "대학(단과대)": "hbnu_colleges.html", // 전체 단과대 일람 페이지
+    // 대학/대학원 허브
+    "대학(단과대)": "hbnu_colleges.html", "대학/대학원": "hbnu_colleges.html",
     
     // 연구/산학
-    "연구처": "hbnu_research.html",
+    "연구/산학": "hbnu_research.html", "연구처": "hbnu_research.html", "연구뉴스": "hbnu_research.html", "연구뉴스/성과": "hbnu_research.html", "연구성과": "hbnu_research.html",
+    "연구소 현황": "hbnu_research.html", "연구소현황": "hbnu_research.html", "산학협력단": "hbnu_research.html", "현장실습지원센터": "hbnu_research.html",
+    "기술비즈니스센터": "hbnu_research.html", "창업교육센터": "hbnu_research.html", "사업단 현황": "hbnu_research.html", "학술DB": "hbnu_research.html", "공동실험실습관": "hbnu_research.html", "연구자 정보": "hbnu_research.html",
     
     // 학사안내
-    "학사일정안내": "hbnu_calendar.html", "교양과목": "Hbnu_general_edu.html", "수강신청": "hbnu_sugang.html", "시험성적": "hbnu_grade_check.html", "등록금": "hbnu_scholarship.html", "교내장학금": "hbnu_scholarship.html", "학자금대출": "hbnu_scholarship.html",
+    "학사안내": "hbnu_calendar.html", "학사일정": "hbnu_calendar.html", "학사일정안내": "hbnu_calendar.html",
+    "교양과목": "Hbnu_general_edu.html", "교양/전공과목": "Hbnu_general_edu.html", "전공과목": "Hbnu_general_edu.html",
+    "융합 연계전공": "Hbnu_general_edu.html", "복수전공": "Hbnu_general_edu.html", "복수/연계전공": "Hbnu_general_edu.html", "교직과정": "Hbnu_general_edu.html",
+    "수강신청": "hbnu_sugang.html", "시험성적": "hbnu_grade_check.html", "시험/성적": "hbnu_grade_check.html", "강의평가": "hbnu_grade_check.html",
+    "타대학교류": "hbnu_calendar.html", "졸업학점관리": "hbnu_grade_check.html", "졸업/논문심사": "hbnu_grade_check.html", "조기졸업": "hbnu_grade_check.html", "논문심사": "hbnu_grade_check.html",
+    "휴학 복학": "hbnu_calendar.html", "휴학복학": "hbnu_calendar.html", "휴학/복학": "hbnu_calendar.html",
+    "자퇴 제적": "hbnu_calendar.html", "자퇴제적": "hbnu_calendar.html", "자퇴/제적": "hbnu_calendar.html",
+    "전학 전과": "hbnu_calendar.html", "전학전과": "hbnu_calendar.html", "전학/전과": "hbnu_calendar.html",
+    "등록금": "hbnu_scholarship.html", "교내장학금": "hbnu_scholarship.html", "교외장학금": "hbnu_scholarship.html", "교내/외 장학금": "hbnu_scholarship.html", "학자금대출": "hbnu_scholarship.html",
     
-    // 대학생활 (차량등록, 통학버스 등은 하드코딩 삭제 -> 각자 독립된 '이름.html'로 직행)
-    "기숙형대학": "hbnu_dorm.html", "생활관": "hbnu_dorm.html", "병무행정": "hbnu_military.html", "학생증발급": "hbnu_cert.html", "중앙도서관": "hbnu_library.html", "보건진료소": "hbnu_welfare.html", "식단안내": "hbnu_welfare.html",
-    "교내교통시스템": "교내교통시스템.html",
-    "서브컬처 동아리": "hbnu_clubs.html", "자랑스러운 동문": "hbnu_alumni.html", "총동문회": "hbnu_alumni.html",
+    // 대학생활
+    "대학생활": "hbnu_life.html", "기숙형대학": "hbnu_dorm.html", "생활관": "hbnu_dorm.html", "생활관(기숙사)": "hbnu_dorm.html", "학생생활관(기숙사)": "hbnu_dorm.html",
+    "병무행정": "hbnu_military.html", "직장예비군": "hbnu_military.html", "신입생 안내": "hbnu_life.html",
+    "학생증발급": "hbnu_cert.html", "중앙도서관": "hbnu_library.html", "중앙·방도도서관": "hbnu_library.html", "방도도서관": "hbnu_library.html",
+    "보건진료소": "hbnu_welfare.html", "식단안내": "hbnu_welfare.html", "천원의아침(식단)": "hbnu_welfare.html", "인권센터": "hbnu_welfare.html", "생활협동조합": "hbnu_welfare.html", "캠퍼스타운": "hbnu_campus.html",
+    "교내교통시스템": "교내교통시스템.html", "교내철도(HBNU Rail)": "교내교통시스템.html", "셔틀/교통안내": "hbnu_traffic.html", "차량등록/셔틀": "차량등록.html",
+    "서브컬처 동아리": "hbnu_clubs.html", "서브컬처동아리": "hbnu_clubs.html", "교내 애니문화": "hbnu_clubs.html", "HAF 축제 안내": "HAF축제안내.html",
+    "자랑스러운 동문": "hbnu_alumni.html", "선배들의 이야기": "hbnu_alumni.html", "총동문회": "hbnu_alumni.html", "발전기금": "hbnu_fund.html",
     
     // 대학소식 및 기타
-    "공지사항": "hbnu_community.html", "자유게시판": "hbnu_board_free.html", "벼룩시장": "hbnu_market.html", "효빈뉴스": "hbnu_news_list.html",
-    "정보공개": "hbnu_info_disclosure.html", "개인정보처리방침": "개인정보처리방침.html", "이메일무단수집거부": "이메일무단수집거부.html", "국민신문고": "hbnu_qna.html"
+    "대학소식": "hbnu_community.html", "공지사항": "hbnu_community.html", "자유게시판": "hbnu_board_free.html", "벼룩시장": "hbnu_market.html",
+    "분실물센터": "hbnu_community.html", "교직원게시판": "hbnu_community.html", "전자대자보": "hbnu_board_free.html",
+    "효빈뉴스": "hbnu_news_list.html", "HBNU News": "hbnu_news_list.html", "특강 세미나": "hbnu_news_list.html", "교육정책": "hbnu_news_list.html",
+    "정보공개": "hbnu_info_disclosure.html", "홈페이지운영지침": "hbnu_info_disclosure.html", "개인정보처리방침": "개인정보처리방침.html", "개인정보방침": "개인정보처리방침.html",
+    "이메일무단수집거부": "이메일무단수집거부.html", "국민신문고": "hbnu_qna.html"
 };
 
+// 단과대학 및 대학원 전체 명단 (한글 파일명 클릭 시에도 무조건 단과대.html?col= 로 자동 변환)
+const COLLEGE_NAMES = [
+    "언어문학대학", "인문대학", "사회복지학대학", "사회과학대학", "상과대학",
+    "농업대학", "생명대학", "생활과학대학", "자연과학대학", "해양대학", "환경산업대학",
+    "의과대학", "의과대학(통합)", "약학대학", "간호대학", "보건대학",
+    "기계공업대학", "전기공업대학", "토목공업대학", "화학공업대학", "응용과학대학", "교통대학",
+    "응용예술대학", "미술대학", "디자인대학", "음악대학", "예술대학", "무용대학", "사범대학", "융합학부",
+    "일반대학원", "법학전문대학원", "의학전문대학원", "치의학전문대학원", "사회복지대학원",
+    "경영대학원", "해양대학원", "행정대학원", "교육대학원", "보건대학원"
+];
+
 function getMenuUrl(label) {
-    // 1. 하드코딩된 예외 URL이 있으면 최우선으로 연결
-    if (OLD_URLS[label]) return OLD_URLS[label];
+    if (!label) return "hbnu_main.html";
+    const clean = label.trim().replace(/\.html$/i, '');
+
+    // 1. 하드코딩된 영문/한글 매핑 테이블에 있으면 최우선 반환
+    if (OLD_URLS[clean]) return OLD_URLS[clean];
+    const noSpace = clean.replace(/\s+/g, '');
+    if (OLD_URLS[noSpace]) return OLD_URLS[noSpace];
 
     // 2. 단과대 및 대학원 자동 동적 라우팅 (핵심!)
-    // 메뉴 이름이 '대학', '학부', '대학원'으로 끝나면 모두 단과대.html 로 파라미터를 물고 직행합니다.
-    if (label.endsWith("대학") || label.endsWith("학부") || label.endsWith("대학원")) {
-        return `단과대.html?col=${encodeURIComponent(label)}`;
+    const normalizedCol = clean === "의과대학(통합)" ? "의과대학" : clean;
+    if (COLLEGE_NAMES.includes(normalizedCol) || normalizedCol.endsWith("대학") || normalizedCol.endsWith("학부") || normalizedCol.endsWith("대학원")) {
+        return `단과대.html?col=${encodeURIComponent(normalizedCol)}`;
     }
 
-    // 3. 그 외 나머지는 공백과 특수문자 제거 후 자동으로 이름.html 로 연결 (차량등록.html 등)
-    return label.replace(/\//g, '_').replace(/ /g, '') + ".html";
+    // 3. 그 외 나머지는 공백과 특수문자 제거 후 이름.html 로 연결
+    return clean.replace(/\//g, '_').replace(/\s+/g, '') + ".html";
 }
 
-// ================= 전북대 스타일 메가 메뉴 적용 마스터 데이터 =================
+// ★ 페이지 내 하드코딩된 한글 <a href="수시모집.html"> 태그도 클릭 시 자동으로 올바른 영문 파일로 라우팅해주는 전역 인터셉터 ★
+document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a');
+    if (!anchor) return;
+    const rawHref = anchor.getAttribute('href');
+    if (!rawHref || rawHref.startsWith('http') || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.includes('?')) return;
+
+    // 이미 hbnu_ 로 시작하는 영문 파일명이면 그대로 통과
+    if (rawHref.toLowerCase().startsWith('hbnu_')) return;
+
+    // 한글로 된 .html 링크(예: 수시모집.html, 사회복지학대학.html)인 경우 getMenuUrl로 변환
+    if (rawHref.endsWith('.html')) {
+        const labelKey = decodeURIComponent(rawHref.replace(/\.html$/i, ''));
+        const resolved = getMenuUrl(labelKey);
+        if (resolved && resolved !== rawHref) {
+            e.preventDefault();
+            window.location.href = resolved;
+        }
+    }
+});
+
+// ================= 2. 전북대 스타일 메가 메뉴 마스터 데이터 =================
 const MEGA_MENU = [
     { title: "대학소개", url: "hbnu_about.html", groups: [
         { name: "총장실", items: ["총장인사말", "총장프로필", "서한문", "연설문", "현장스케치", "역대총장", "만남 신청"] },
@@ -90,45 +154,79 @@ const MEGA_MENU = [
 
 const TEXT_CONTENT = {
     KOR: {
-        universityName: "효빈대학교", universitySub: "Hyobin National University", slogan: "불굴(不屈)의 역사, 혁신(革 신)으로 미래를 열다",
-        slider2Title: "Global Campus", slider2Desc: "세계를 향한 큰 울림, 효빈에서 시작됩니다", slider3Title: "Innovative Research", slider3Desc: "개천(改天)의 의지로 세상을 변화시키는 연구",
+        universityName: "효빈대학교", universitySub: "Hyobin National University", slogan: "불굴(不屈)의 역사, 혁신(革新)으로 미래를 열다",
+        slider2Title: "Evergreen & Shiny Campus", slider2Desc: "고립을 추방하고 연결(Connecting)을 가르치는 글로컬 혁신 선도 대학",
+        slider3Title: "HBNU Rail Living Lab", slider3Desc: "국내 유일 교내철도 A선(트램) 9역 · B선(모노레일) 15역 실시간 학부생 관제·운행",
         menu: MEGA_MENU,
         utility: { staff: "교직원", student: "학생", alumni: "동문", fund: "발전기금", portal: "HBNU 포털", mail: "웹메일", admission: "입학처" },
-        quickLinks: [ { text: "종합정보시스템", url: "hbnu_portal.html", type: "PORTAL" }, { text: "중앙도서관", url: "hbnu_library.html", type: "LIBRARY" }, { text: "학사일정", url: "hbnu_calendar.html", type: "CALENDAR" }, { text: "셔틀/교통안내", url: "hbnu_traffic.html", type: "BUS" }, { text: "생활관", url: "hbnu_dorm.html", type: "DORM" }, { text: "전화번호안내", url: "hbnu_directory.html", type: "PHONE" } ],
+        quickLinks: [
+            { text: "종합정보시스템", url: "hbnu_portal.html", type: "PORTAL" },
+            { text: "중앙·방도도서관", url: "hbnu_library.html", type: "LIBRARY" },
+            { text: "학사일정안내", url: "hbnu_calendar.html", type: "CALENDAR" },
+            { text: "교내철도(HBNU Rail)", url: "교내교통시스템.html", type: "BUS" },
+            { text: "학생생활관(기숙사)", url: "hbnu_dorm.html", type: "DORM" },
+            { text: "천원의아침(식단)", url: "hbnu_welfare.html", type: "PHONE" }
+        ],
         tabs: { notice: "일반공지", academic: "학사공지", recruit: "채용공지" },
-        footer: { addresses: { main: "효빈광역시 서구 대학로 1 (당선동 1-1)" }, rights: "COPYRIGHT © 2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED." },
-        notices: { notice: [ { id: 1001, title: "[교통] 효빈 트램(7호선) 효빈대입구역 운행 시간표", date: "2026.04.06", new: true }, { id: 1002, title: "[행사] 개교 101주년 기념 '효빈 타임캡슐' 개봉식", date: "2026.04.05", new: true } ], academic: [ { id: 2001, title: "[수강] 2026-1학기 수강신청 취소 기간 안내", date: "2026.04.02", new: true } ], recruit: [ { id: 3001, title: "[교원] 2026학년도 하반기 전임교원 초빙 공고", date: "2026.04.06", new: true } ] },
-        news: [ { id: 1, title: "박효빈 시장, 효빈대 특강서 '지방분권과 대학의 역할' 강조", date: "2026.04.03", dept: "대외협력팀", img: "뉴스_특강.webp" }, { id: 2, title: "[학술] 인공지능학과 연구팀, 글로벌 AI 해커톤 대상 수상", date: "2026.03.20", dept: "산학협력단", img: "뉴스_학술.webp" } ]
+        footer: {
+            addresses: {
+                main: "효빈광역시 서구 대학로 1 (당선1동 / 북구 소조동)",
+                ija: "효빈광역시 안천구 원세로 22 (신동, 빈효선 리의역)",
+                cheonju: "덕빈북도 천주시 궁하구 세동로 13 (빈효선 궁하역)",
+                nangwon: "덕빈북도 낭원군 전포읍 도경로 213 (덕빈선 전포역)",
+                gangju: "덕빈북도 강주시 서류로 11 (빈주권광역철도 강주항역)"
+            },
+            rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
+        }
     },
     ENG: {
         universityName: "Hyobin University", universitySub: "Hyobin National University", slogan: "Unbending History, Opening the Future with Innovation",
-        slider2Title: "Global Campus", slider2Desc: "A grand resonance to the world begins at Hyobin", slider3Title: "Innovative Research", slider3Desc: "Research that changes the world with the will of innovation",
-        menu: MEGA_MENU, 
-        utility: { staff: "Staff", student: "Student", alumni: "Alumni", fund: "Fund", portal: "HBNU Portal", mail: "Webmail", admission: "Admissions" },
-        quickLinks: [ { text: "Portal", url: "hbnu_portal.html", type: "PORTAL" }, { text: "Library", url: "hbnu_library.html", type: "LIBRARY" }, { text: "Calendar", url: "hbnu_calendar.html", type: "CALENDAR" }, { text: "Shuttle", url: "hbnu_traffic.html", type: "BUS" }, { text: "Dormitory", url: "hbnu_dorm.html", type: "DORM" }, { text: "Directory", url: "hbnu_directory.html", type: "PHONE" } ],
+        slider2Title: "Evergreen & Shiny Campus", slider2Desc: "A Glocal Flagship National University Teaching Inclusion and Connection",
+        slider3Title: "HBNU Rail Living Lab", slider3Desc: "Korea's Only Campus Tram (Line A) & Monorail (Line B) Operated by Students",
+        menu: MEGA_MENU,
+        utility: { staff: "Staff", student: "Student", alumni: "Alumni", fund: "Giving", portal: "HBNU Portal", mail: "Webmail", admission: "Admissions" },
+        quickLinks: [
+            { text: "HBNU Portal", url: "hbnu_portal.html", type: "PORTAL" },
+            { text: "Central/Bangdo Lib", url: "hbnu_library.html", type: "LIBRARY" },
+            { text: "Academic Calendar", url: "hbnu_calendar.html", type: "CALENDAR" },
+            { text: "HBNU Rail CTC", url: "교내교통시스템.html", type: "BUS" },
+            { text: "Dormitory", url: "hbnu_dorm.html", type: "DORM" },
+            { text: "Emma's Table", url: "hbnu_welfare.html", type: "PHONE" }
+        ],
         tabs: { notice: "General", academic: "Academic", recruit: "Recruit" },
-        footer: { addresses: { main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City (Dangseon-dong 1-1)" }, rights: "COPYRIGHT © 2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED." },
-        notices: { notice: [ { id: 1001, title: "[Traffic] HBNU Tram (Line 7) Timetable", date: "2026.04.06", new: true }, { id: 1002, title: "[Event] 101st Anniversary 'Time Capsule' Opening", date: "2026.04.05", new: true } ], academic: [ { id: 2001, title: "[Course] 2026-1 Course Cancellation Period", date: "2026.04.02", new: true } ], recruit: [ { id: 3001, title: "[Faculty] Fall 2026 Full-time Faculty Openings", date: "2026.04.06", new: true } ] },
-        news: [ { id: 1, title: "Mayor Park emphasizes 'Decentralization and the Role of Universities' at HBNU", date: "2026.04.03", dept: "External Affairs", img: "뉴스_특강.webp" }, { id: 2, title: "[Academic] AI Dept Research Team wins Grand Prize at Global AI Hackathon", date: "2026.03.20", dept: "Industry-Academic Coop", img: "뉴스_학술.webp" } ]
+        footer: {
+            addresses: {
+                main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City (Dangseon-dong)",
+                ija: "22 Wonse-ro, Ancheon-gu, Hyobin Metropolitan City",
+                cheonju: "13 Sedong-ro, Gungha-gu, Cheonju-si, Deokbinbuk-do",
+                nangwon: "213 Dogyeong-ro, Jeonpo-eup, Nangwon-gun, Deokbinbuk-do",
+                gangju: "11 Seoryu-ro, Gangju-si, Deokbinbuk-do"
+            },
+            rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
+        }
     }
 };
 
-// ================= 전역 상태 관리 =================
-const globalState = { language: 'KOR', scrolled: false, isMenuOpen: false };
+// ================= 3. 전역 상태 관리 =================
+const globalState = { language: localStorage.getItem('hbnu_lang') || 'KOR', scrolled: false, isMenuOpen: false };
 
 function navigateTo(url) {
     if (!url) return;
-    try { window.location.href = url; } catch (error) { console.warn('Navigation blocked:', error); }
+    // 만약 url이 메뉴 라벨이나 한글 파일명이면 getMenuUrl로 한번 더 안전하게 해석
+    const target = (url.includes('.html') && !url.startsWith('hbnu_') && !url.includes('?'))
+        ? getMenuUrl(url.replace(/\.html$/i, ''))
+        : url;
+    try { window.location.href = target; } catch (error) { console.warn('Navigation blocked:', error); }
 }
 
 function getIcon(type) {
-    const icons = { 'PORTAL': 'monitor', 'LIBRARY': 'book-open', 'CALENDAR': 'calendar', 'BUS': 'bus', 'DORM': 'building-2', 'PHONE': 'phone' };
+    const icons = { 'PORTAL': 'monitor', 'LIBRARY': 'book-open', 'CALENDAR': 'calendar', 'BUS': 'tram-front', 'DORM': 'building-2', 'PHONE': 'utensils' };
     return icons[type] || 'monitor';
 }
 
 function closeModal() {
     const overlay = document.getElementById('modal-overlay');
-    if(overlay) overlay.classList.add('hidden');
+    if (overlay) overlay.classList.add('hidden');
 }
 
 function toggleMenu() {
@@ -139,36 +237,41 @@ function toggleMenu() {
 
 function changeLang(l) {
     globalState.language = l;
+    localStorage.setItem('hbnu_lang', l);
     if (document.getElementById('header-area')) renderHeader();
     if (document.getElementById('footer-area')) renderFooter();
-    // 메인 페이지 전용 렌더링 함수가 있다면 호출
     if (typeof renderMain === 'function') renderMain();
+    if (typeof renderSitemap === 'function') renderSitemap();
     if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ================= 공통 헤더 렌더링 =================
+// ================= 4. 공통 헤더 렌더링 (스크롤 시 화면 가리지 않도록 슬림화) =================
 function renderHeader() {
     const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
     const root = document.getElementById('header-area');
     if (!root) return;
     
     root.innerHTML = `
-        <div class="bg-gray-100 border-b text-xs py-2 px-4 hidden md:block">
+        <div class="bg-gray-100 border-b text-xs py-1.5 px-4 hidden md:block">
             <div class="max-w-7xl mx-auto flex justify-between items-center text-gray-600">
-                <div class="flex space-x-4">
-                    <button class="hover:text-[#3344aa]">${T.utility.staff}</button>
-                    <button class="hover:text-[#3344aa]">${T.utility.student}</button>
-                    <button onclick="navigateTo('hbnu_alumni.html')" class="hover:text-[#3344aa]">${T.utility.alumni}</button>
-                    <button onclick="navigateTo('hbnu_fund.html')" class="hover:text-[#3344aa] font-bold">${T.utility.fund}</button>
-                </div>
                 <div class="flex space-x-4 items-center">
-                    <button onclick="navigateTo('hbnu_portal.html')" class="hover:text-[#3344aa] font-black text-[#3344aa] border border-[#3344aa] px-2 py-0.5 rounded">${T.utility.portal}</button>
+                    <span class="font-extrabold text-[#3344aa]">국가거점국립대학교</span>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="navigateTo('hbnu_portal.html')" class="hover:text-[#3344aa]">${T.utility.staff}</button>
+                    <button onclick="navigateTo('hbnu_portal.html')" class="hover:text-[#3344aa]">${T.utility.student}</button>
+                    <button onclick="navigateTo('hbnu_alumni.html')" class="hover:text-[#3344aa]">${T.utility.alumni}</button>
+                    <button onclick="navigateTo('hbnu_fund.html')" class="hover:text-[#3344aa] font-bold text-emerald-700">${T.utility.fund}</button>
+                </div>
+                <div class="flex space-x-3 items-center">
+                    <button onclick="navigateTo('hbnu_portal.html')" class="hover:bg-[#3344aa] hover:text-white font-black text-[#3344aa] border border-[#3344aa] px-2.5 py-0.5 rounded transition-colors">${T.utility.portal}</button>
                     <span class="text-gray-300">|</span>
                     <button onclick="navigateTo('웹메일.html')" class="hover:text-[#3344aa]">${T.utility.mail}</button>
                     <span class="text-gray-300">|</span>
                     <button onclick="navigateTo('hbnu_admissions.html')" class="hover:text-[#3344aa] font-bold">${T.utility.admission}</button>
-                    <div class="flex items-center ml-2 space-x-2 bg-white px-2 py-0.5 rounded border border-gray-200">
-                        <i data-lucide="globe" width="14" class="text-[#3344aa]"></i>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="navigateTo('hbnu_sitemap.html')" class="hover:text-[#3344aa] font-bold">사이트맵</button>
+                    <div class="flex items-center ml-2 space-x-1 bg-white px-2 py-0.5 rounded border border-gray-200">
+                        <i data-lucide="globe" width="13" class="text-[#3344aa]"></i>
                         <select onchange="changeLang(this.value)" class="bg-transparent text-xs font-bold text-gray-700 outline-none cursor-pointer">
                             <option value="KOR" ${globalState.language==='KOR'?'selected':''}>KOR</option>
                             <option value="ENG" ${globalState.language==='ENG'?'selected':''}>ENG</option>
@@ -177,24 +280,24 @@ function renderHeader() {
                 </div>
             </div>
         </div>
-        <header class="sticky top-0 z-50 transition-all duration-300 bg-white ${globalState.scrolled ? 'shadow-md py-2' : 'py-4 border-b'}">
+        <header class="bg-white border-b shadow-sm relative z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
-                    <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
-                        <img src="효빈대학교_로고.webp" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-10 h-10 mr-3 rounded-md">
+                    <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="navigateTo('hbnu_main.html')">
+                        <img src="이미지/효빈대_로고.webp" alt="HBNU 로고" class="w-10 h-10 mr-3 object-contain shrink-0" style="max-height:40px; width:auto;" onerror="this.src='https://imgur.com/Uvf0SqH.png'">
                         <div class="flex flex-col">
-                            <span class="font-bold text-2xl tracking-tight leading-none text-[#3344aa]">${T.universityName}</span>
-                            <span class="text-[10px] text-gray-500 tracking-widest uppercase font-bold">${T.universitySub}</span>
+                            <span class="font-black text-2xl tracking-tight leading-none text-[#3344aa] group-hover:text-[#1e2a78] transition-colors">${T.universityName}</span>
+                            <span class="text-[10px] text-gray-500 tracking-widest uppercase font-bold mt-0.5">${T.universitySub}</span>
                         </div>
                     </div>
-                    <nav class="hidden lg:flex space-x-3 xl:space-x-6">
+                    <nav class="hidden lg:flex space-x-2 xl:space-x-5 items-center">
                         ${T.menu.map((item) => `
                             <div class="group relative">
-                                <button onclick="navigateTo('${item.url}')" class="text-gray-800 font-bold hover:text-[#3344aa] py-2 text-[14px] xl:text-[15px] transition-colors whitespace-nowrap">${item.title}</button>
-                                <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-max max-w-[90vw] bg-white shadow-2xl rounded-lg overflow-hidden hidden group-hover:flex border-t-4 border-[#3344aa] z-[100] p-6 gap-8">
+                                <button onclick="navigateTo('${item.url}')" class="text-gray-800 font-bold hover:text-[#3344aa] py-2 px-1 text-[14px] xl:text-[15px] transition-colors whitespace-nowrap">${item.title}</button>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 mt-0 w-max max-w-[92vw] bg-white shadow-2xl rounded-xl overflow-hidden hidden group-hover:flex border-t-4 border-[#3344aa] z-[100] p-6 gap-7">
                                     ${item.groups.map(g => `
-                                        <div class="flex flex-col min-w-[120px]">
-                                            <h4 class="font-bold text-[#3344aa] border-b border-gray-200 pb-2 mb-3 text-sm flex items-center"><i data-lucide="chevron-right" width="14" class="mr-1"></i>${g.name}</h4>
+                                        <div class="flex flex-col min-w-[130px]">
+                                            <h4 class="font-extrabold text-[#3344aa] border-b border-gray-200 pb-2 mb-3 text-sm flex items-center"><i data-lucide="chevron-right" width="14" class="mr-1"></i>${g.name}</h4>
                                             <ul class="${g.items.length > 8 ? 'grid grid-cols-2 gap-x-6 gap-y-1.5' : 'space-y-1.5'}">
                                                 ${g.items.map(sub => `<li><button onclick="navigateTo('${getMenuUrl(sub)}')" class="text-[13px] text-gray-600 hover:text-[#3344aa] hover:font-bold hover:translate-x-1 transition-all text-left w-full whitespace-nowrap">${sub}</button></li>`).join('')}
                                             </ul>
@@ -207,16 +310,16 @@ function renderHeader() {
                     <div class="flex lg:hidden"><button onclick="toggleMenu()" class="text-gray-800 p-2"><i data-lucide="${globalState.isMenuOpen ? 'x' : 'menu'}" width="28"></i></button></div>
                 </div>
             </div>
-            ${globalState.isMenuOpen ? `<div class="lg:hidden bg-white border-t absolute w-full shadow-2xl z-[100] h-screen overflow-y-auto pb-32"><div class="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+            ${globalState.isMenuOpen ? `<div class="lg:hidden bg-white border-t absolute w-full shadow-2xl z-[100] max-h-[80vh] overflow-y-auto pb-12"><div class="px-4 pt-3 pb-6 space-y-3">
                 ${T.menu.map((item) => `
                     <div class="border-b border-gray-200 pb-3">
-                        <button onclick="navigateTo('${item.url}')" class="block w-full text-left px-3 py-2 text-lg font-black text-[#3344aa] bg-blue-50 rounded">${item.title}</button>
-                        <div class="pl-4 space-y-3 mt-3">
+                        <button onclick="navigateTo('${item.url}')" class="block w-full text-left px-3 py-2 text-base font-black text-[#3344aa] bg-blue-50 rounded-lg">${item.title}</button>
+                        <div class="pl-3 space-y-3 mt-3">
                             ${item.groups.map(g => `
                                 <div class="mb-2">
-                                    <h5 class="text-[13px] font-bold text-gray-800 mb-1 px-2 border-l-2 border-[#3344aa] pl-2">${g.name}</h5>
+                                    <h5 class="text-[13px] font-bold text-gray-800 mb-1.5 border-l-2 border-[#3344aa] pl-2">${g.name}</h5>
                                     <div class="grid grid-cols-2 gap-1">
-                                        ${g.items.map(sub => `<button onclick="navigateTo('${getMenuUrl(sub)}')" class="text-left px-2 py-1 text-[13px] text-gray-600 hover:text-[#3344aa] hover:bg-gray-50 rounded">${sub}</button>`).join('')}
+                                        ${g.items.map(sub => `<button onclick="navigateTo('${getMenuUrl(sub)}')" class="text-left px-2 py-1 text-[12px] text-gray-600 hover:text-[#3344aa] hover:bg-gray-50 rounded">${sub}</button>`).join('')}
                                     </div>
                                 </div>
                             `).join('')}
@@ -228,7 +331,7 @@ function renderHeader() {
     `;
 }
 
-// ================= 공통 푸터 렌더링 =================
+// ================= 5. 공통 푸터 렌더링 =================
 function renderFooter() { 
     const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
     const root = document.getElementById('footer-area');
@@ -238,59 +341,58 @@ function renderFooter() {
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 border-b border-gray-700 pb-8">
                 <div class="col-span-1">
-                    <div class="text-white font-bold text-xl mb-4 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
-                        <img src="효빈대학교_로고.webp" class="w-8 h-8 mr-2 bg-white rounded-md p-0.5" />
-                        ${T.universityName}
+                    <div class="text-white font-bold text-xl mb-3 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
+                        <img src="이미지/효빈대_로고.webp" class="w-9 h-9 mr-2.5 bg-white rounded-lg p-1 object-contain" style="max-height:36px; width:auto;" onerror="this.src='https://imgur.com/Uvf0SqH.png'" />
+                        <div>
+                            <div>${T.universityName}</div>
+                            <div class="text-[10px] text-[#99dd88] font-normal tracking-wider">SINCE 1925 · 101ST ANNIVERSARY</div>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs leading-relaxed">
-                        1925-2025 (100th Anniversary)<br>
-                        ${T.slogan}
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                        교시: 불굴(不屈) · 혁신(革新) · 개천(改天)<br>
+                        슬로건: 어려움에 굴하지 않는 불굴의 효빈대<br>
+                        제26대 총장 민부선 (Evergreen & Shiny)
                     </p>
                 </div>
                 <div class="col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
                     <div>
-                        <h4 class="text-white font-bold mb-4 text-sm">캠퍼스 안내</h4>
-                        <ul class="text-xs text-gray-400 space-y-2">
-                            <li><b>본(당선)캠퍼스:</b> ${T.footer.addresses.main}</li>
-                            <li><button onclick="navigateTo('hbnu_location.html')" class="text-[#99dd88] hover:underline flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> 오시는 길 상세보기</button></li>
+                        <h4 class="text-white font-bold mb-3 text-sm">5대 캠퍼스 안내</h4>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li><b class="text-gray-200">당선(본):</b> ${T.footer.addresses.main}</li>
+                            <li><b class="text-gray-200">이자캠:</b> ${T.footer.addresses.ija}</li>
+                            <li><b class="text-gray-200">천주캠:</b> ${T.footer.addresses.cheonju}</li>
+                            <li><b class="text-gray-200">낭원캠:</b> ${T.footer.addresses.nangwon}</li>
+                            <li><b class="text-gray-200">강주캠:</b> ${T.footer.addresses.gangju}</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="text-white font-bold mb-4 text-sm">정보 보러가기</h4>
+                        <h4 class="text-white font-bold mb-3 text-sm">대학 행정 · 법규 공시</h4>
                         <ul class="text-xs text-gray-400 space-y-2">
-                            <li><button onclick="navigateTo('개인정보처리방침.html')" class="hover:text-white">개인정보처리방침</button></li>
+                            <li><button onclick="navigateTo('개인정보처리방침.html')" class="text-[#99dd88] font-bold hover:underline">개인정보처리방침</button></li>
+                            <li><button onclick="navigateTo('hbnu_info_disclosure.html')" class="hover:text-white">대학정보공시 (등록금 5년 동결)</button></li>
                             <li><button onclick="navigateTo('이메일무단수집거부.html')" class="hover:text-white">이메일무단수집거부</button></li>
-                            <li><button onclick="navigateTo('hbnu_info_disclosure.html')" class="hover:text-white">대학정보공개</button></li>
+                            <li><button onclick="navigateTo('교내교통시스템.html')" class="hover:text-white">HBNU Rail 중앙관제실(CTC)</button></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="text-white font-bold mb-4 text-sm">빠른 메뉴</h4>
+                        <h4 class="text-white font-bold mb-3 text-sm">빠른 메뉴</h4>
                         <ul class="text-xs text-gray-400 space-y-2">
-                            <li><button onclick="navigateTo('hbnu_sitemap.html')" class="hover:text-white">사이트맵</button></li>
-                            <li><button onclick="navigateTo('hbnu_calendar.html')" class="hover:text-white">학사일정</button></li>
-                            <li><button onclick="navigateTo('hbnu_directory.html')" class="hover:text-white">전화번호안내</button></li>
+                            <li><button onclick="navigateTo('hbnu_sitemap.html')" class="text-white font-bold hover:underline">전체 사이트맵</button></li>
+                            <li><button onclick="navigateTo('hbnu_calendar.html')" class="hover:text-white">학사일정안내</button></li>
+                            <li><button onclick="navigateTo('hbnu_directory.html')" class="hover:text-white">교내 전화번호안내</button></li>
+                            <li><button onclick="navigateTo('hbnu_portal.html')" class="hover:text-white text-[#a0fff9] font-bold">HBNU 종합정보시스템(포털)</button></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="text-center text-gray-500 text-[10px] tracking-widest">${T.footer.rights}</div>
+            <div class="text-center text-gray-500 text-[11px] tracking-widest">${T.footer.rights}</div>
         </div>
     `; 
 }
 
-// ================= 페이지 공통 초기화 로직 =================
+// ================= 6. 페이지 공통 초기화 =================
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('header-area')) renderHeader();
     if (document.getElementById('footer-area')) renderFooter();
     if (typeof lucide !== 'undefined') lucide.createIcons();
-    
-    // 스크롤 이벤트 감지하여 헤더 모양 변경
-    window.addEventListener('scroll', () => {
-        const isScrolled = window.scrollY > 50;
-        if (globalState.scrolled !== isScrolled) {
-            globalState.scrolled = isScrolled;
-            if (document.getElementById('header-area')) renderHeader();
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-    });
 });
