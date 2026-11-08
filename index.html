@@ -121,9 +121,9 @@
             if(!root) return;
             const T = TEXT_CONTENT[globalState.language] || TEXT_CONTENT['KOR'];
             const slides = [
-                {t: T.slogan, s: "Since 1925", img: "슬라이드_배경1.png"},
-                {t: T.slider2Title, s: T.slider2Desc, img: "슬라이드_배경2.png"},
-                {t: T.slider3Title, s: T.slider3Desc, img: "슬라이드_배경3.png"}
+                {t: T.slogan, s: "Since 1925", img: "슬라이드_배경1.webp"},
+                {t: T.slider2Title, s: T.slider2Desc, img: "슬라이드_배경2.webp"},
+                {t: T.slider3Title, s: T.slider3Desc, img: "슬라이드_배경3.webp"}
             ];
             const s = slides[mainState.currentSlide];
             root.innerHTML = `<div class="absolute inset-0 bg-cover bg-center slide-fade opacity-100 animate-in fade-in" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('${s.img}')"><div class="h-full max-w-7xl mx-auto px-4 flex flex-col justify-center text-white"><h2 class="text-xl md:text-2xl font-light text-[#99dd88] drop-shadow-md">${s.s}</h2><h1 class="text-4xl md:text-6xl font-black drop-shadow-lg leading-tight whitespace-pre-line tracking-tighter">${s.t}</h1></div></div>`;

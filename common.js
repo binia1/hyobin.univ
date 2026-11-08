@@ -98,7 +98,7 @@ const TEXT_CONTENT = {
         tabs: { notice: "일반공지", academic: "학사공지", recruit: "채용공지" },
         footer: { addresses: { main: "효빈광역시 서구 대학로 1 (당선동 1-1)" }, rights: "COPYRIGHT © 2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED." },
         notices: { notice: [ { id: 1001, title: "[교통] 효빈 트램(7호선) 효빈대입구역 운행 시간표", date: "2026.04.06", new: true }, { id: 1002, title: "[행사] 개교 101주년 기념 '효빈 타임캡슐' 개봉식", date: "2026.04.05", new: true } ], academic: [ { id: 2001, title: "[수강] 2026-1학기 수강신청 취소 기간 안내", date: "2026.04.02", new: true } ], recruit: [ { id: 3001, title: "[교원] 2026학년도 하반기 전임교원 초빙 공고", date: "2026.04.06", new: true } ] },
-        news: [ { id: 1, title: "박효빈 시장, 효빈대 특강서 '지방분권과 대학의 역할' 강조", date: "2026.04.03", dept: "대외협력팀", img: "뉴스_특강.png" }, { id: 2, title: "[학술] 인공지능학과 연구팀, 글로벌 AI 해커톤 대상 수상", date: "2026.03.20", dept: "산학협력단", img: "뉴스_학술.png" } ]
+        news: [ { id: 1, title: "박효빈 시장, 효빈대 특강서 '지방분권과 대학의 역할' 강조", date: "2026.04.03", dept: "대외협력팀", img: "뉴스_특강.webp" }, { id: 2, title: "[학술] 인공지능학과 연구팀, 글로벌 AI 해커톤 대상 수상", date: "2026.03.20", dept: "산학협력단", img: "뉴스_학술.webp" } ]
     },
     ENG: {
         universityName: "Hyobin University", universitySub: "Hyobin National University", slogan: "Unbending History, Opening the Future with Innovation",
@@ -109,7 +109,7 @@ const TEXT_CONTENT = {
         tabs: { notice: "General", academic: "Academic", recruit: "Recruit" },
         footer: { addresses: { main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City (Dangseon-dong 1-1)" }, rights: "COPYRIGHT © 2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED." },
         notices: { notice: [ { id: 1001, title: "[Traffic] HBNU Tram (Line 7) Timetable", date: "2026.04.06", new: true }, { id: 1002, title: "[Event] 101st Anniversary 'Time Capsule' Opening", date: "2026.04.05", new: true } ], academic: [ { id: 2001, title: "[Course] 2026-1 Course Cancellation Period", date: "2026.04.02", new: true } ], recruit: [ { id: 3001, title: "[Faculty] Fall 2026 Full-time Faculty Openings", date: "2026.04.06", new: true } ] },
-        news: [ { id: 1, title: "Mayor Park emphasizes 'Decentralization and the Role of Universities' at HBNU", date: "2026.04.03", dept: "External Affairs", img: "뉴스_특강.png" }, { id: 2, title: "[Academic] AI Dept Research Team wins Grand Prize at Global AI Hackathon", date: "2026.03.20", dept: "Industry-Academic Coop", img: "뉴스_학술.png" } ]
+        news: [ { id: 1, title: "Mayor Park emphasizes 'Decentralization and the Role of Universities' at HBNU", date: "2026.04.03", dept: "External Affairs", img: "뉴스_특강.webp" }, { id: 2, title: "[Academic] AI Dept Research Team wins Grand Prize at Global AI Hackathon", date: "2026.03.20", dept: "Industry-Academic Coop", img: "뉴스_학술.webp" } ]
     }
 };
 
@@ -181,7 +181,7 @@ function renderHeader() {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
-                        <img src="효빈대학교_로고.png" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-10 h-10 mr-3 rounded-md">
+                        <img src="효빈대학교_로고.webp" onerror="this.src='https://via.placeholder.com/32?text=H'" class="w-10 h-10 mr-3 rounded-md">
                         <div class="flex flex-col">
                             <span class="font-bold text-2xl tracking-tight leading-none text-[#3344aa]">${T.universityName}</span>
                             <span class="text-[10px] text-gray-500 tracking-widest uppercase font-bold">${T.universitySub}</span>
@@ -239,7 +239,7 @@ function renderFooter() {
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 border-b border-gray-700 pb-8">
                 <div class="col-span-1">
                     <div class="text-white font-bold text-xl mb-4 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
-                        <img src="효빈대학교_로고.png" class="w-8 h-8 mr-2 bg-white rounded-md p-0.5" />
+                        <img src="효빈대학교_로고.webp" class="w-8 h-8 mr-2 bg-white rounded-md p-0.5" />
                         ${T.universityName}
                     </div>
                     <p class="text-gray-500 text-xs leading-relaxed">

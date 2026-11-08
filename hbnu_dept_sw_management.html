@@ -24,7 +24,7 @@
     <main class="flex-grow w-full">
         <!-- 히어로 섹션 (색상: 네이비/청록 - 비즈니스 느낌) -->
         <div class="bg-slate-700 text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('사회복지경영_배경.png')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
+            <div class="absolute inset-0 bg-[url('사회복지경영_배경.webp')] bg-cover bg-center opacity-20 transform scale-105 hover:scale-100 transition duration-1000"></div>
             <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
                 <span class="inline-block py-1 px-3 rounded-full bg-teal-400 text-slate-900 font-bold text-xs mb-6 shadow-lg animate-bounce">사회복지학대학 CEO 트랙</span>
                 <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-md tracking-tight">사회복지경영학과</h1>
@@ -415,7 +415,7 @@
                     "논문: <가상 공동체(Fandom)의 정서적 유대가 사회적 자본 형성에 미치는 영향>"
                 ],
                 quote: "\"고립을 추방하고 연결을 가르칩니다. 우리 대학의 미래는 에버그린(Evergreen)입니다!\"",
-                img: "민부선_총장.png"
+                img: "민부선_총장.webp"
             },
             {
                 name: "이도윤 교수",
@@ -428,7 +428,7 @@
                     "보건복지부 사회복지시설 평가위원"
                 ],
                 quote: "\"복지도 결국 경영입니다. 한정된 자원이 효율적으로 배분될 때, 비로소 더 많은 사람을 도울 수 있습니다.\"",
-                img: "이도윤_교수.png"
+                img: "이도윤_교수.webp"
             },
             {
                 name: "박서연 교수",
@@ -441,7 +441,7 @@
                     "주요 사회복지법인 및 재단 외부감사역"
                 ],
                 quote: "\"선한 의도만으로는 부족합니다. 1원의 후원금도 헛되이 쓰이지 않도록 투명한 재무 시스템을 가르칩니다.\"",
-                img: "박서연_교수.png"
+                img: "박서연_교수.webp"
             },
             {
                 name: "김준호 교수",
@@ -454,7 +454,7 @@
                     "한국모금가협회(KAFP) 수석연구위원"
                 ],
                 quote: "\"사람의 마음을 지갑으로 연결하는 것은 동정심이 아니라, 정확한 데이터와 확실한 비전 제시입니다.\"",
-                img: "김준호_교수.png"
+                img: "김준호_교수.webp"
             },
             {
                 name: "최민아 교수",
@@ -467,7 +467,7 @@
                     "KAIST 기술경영학 석사"
                 ],
                 quote: "\"세상을 바꾸는 가장 강력하고 지속가능한 방법은, 바로 자생할 수 있는 비즈니스 모델을 구축하는 것입니다.\"",
-                img: "최민아_교수.png"
+                img: "최민아_교수.webp"
             }
         ];
 
@@ -486,7 +486,7 @@
             const profContainer = document.getElementById('prof-list');
             profContainer.innerHTML = PROF_DATA.map((prof, index) => `
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-start gap-4 hover:-translate-y-1 transition hover:shadow-lg cursor-pointer" onclick="openProfModal(${index})">
-                    <img src="${prof.img}" onerror="this.src='기본프로필_이미지.png'" class="w-20 h-20 rounded-full object-cover border-2 border-teal-400 bg-gray-50">
+                    <img src="${prof.img}" onerror="this.src='기본프로필_이미지.webp'" class="w-20 h-20 rounded-full object-cover border-2 border-teal-400 bg-gray-50">
                     <div>
                         <h3 class="font-bold text-lg text-gray-800 mb-1 flex items-center">${prof.name} <i data-lucide="zoom-in" class="w-4 h-4 ml-1 text-teal-500 opacity-80"></i></h3>
                         <p class="text-sm text-teal-600 font-bold mb-2">${prof.role}</p>
@@ -552,7 +552,7 @@
             const modal = document.getElementById('prof-modal');
             
             document.getElementById('p-modal-img').src = prof.img;
-            document.getElementById('p-modal-img').onerror = function() { this.src='기본프로필_이미지.png'; };
+            document.getElementById('p-modal-img').onerror = function() { this.src='기본프로필_이미지.webp'; };
             document.getElementById('p-modal-name').textContent = prof.name;
             document.getElementById('p-modal-role').textContent = prof.role;
             document.getElementById('p-modal-major').textContent = prof.major;
