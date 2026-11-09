@@ -135,10 +135,10 @@
                     <div class="lg:col-span-7 space-y-2.5 leading-relaxed">
                         <p class="font-bold text-slate-800">1. 상대평가 배점 비율 기준 (학사운영규정 제38조)</p>
                         <p>모든 전공 및 교양 강좌는 수강인원을 기준으로 <strong>A등급(A+, A0) 30% 이내, A~B등급 합산 70% 이내, C등급 이하 30% 이상</strong>을 원칙으로 합니다. 단, 실험·실습·실기 과목, 교직 과목, 원어(영어 등) 강의 및 수강인원 10명 미만 소규모 강좌는 교무처 승인하에 절대평가를 적용할 수 있습니다.</p>
-                        <p class="font-bold text-slate-800 pt-1">2. 재수강 및 학점 세탁 규정 (학칙 제45조)</p>
+                        <p class="font-bold text-slate-800 pt-1">2. 재수강 규정 (학칙 제45조)</p>
                         <p>기이수한 교과목의 성적이 <strong>C+ 이하(C+, C0, D+, D0, F)</strong>인 경우에 한하여 동일 과목 재수강이 허용됩니다. 재수강 완료 시 기존에 취득한 성적은 성적원부에서 삭제되어 누적 평점 계산에서 제외되며, 재수강으로 취득할 수 있는 최고 등급은 <strong>A0 등급</strong>으로 제한됩니다(성적표에 <code>R</code> 표기).</p>
                         <p class="font-bold text-slate-800 pt-1">3. 성적 정정 및 이의신청 절차 (학사운영규정 제44조)</p>
-                        <p>성적 공시 기간 중 채점 착오, 성적 누락, 전산 입력 오류 등 객관적 사유가 있는 학생은 과목 우측 <code>[상세·이의신청]</code> 버튼을 통해 담당 교원에게 소명서를 제출할 수 있습니다. 정당한 사유가 없는 단순 성적 상향 요청(청탁)은 김영란법 및 학칙에 위배되오니 유의하시기 바랍니다.</p>
+                        <p>성적 공시 기간 중 채점 착오, 성적 누락, 전산 입력 오류 등 객관적 사유가 있는 학생은 과목 우측 <code>[상세·이의신청]</code> 버튼을 통해 담당 교원에게 소명서를 제출할 수 있습니다. 정당한 사유가 없는 단순 성적 상향 요청은 학칙에 위배되오니 유의하시기 바랍니다.</p>
                     </div>
                     <div class="lg:col-span-5">
                         <div class="font-bold text-slate-800 mb-2">4. 등급별 평점 및 백분위 환산 기준표</div>
@@ -229,7 +229,7 @@
         <div id="view-thesis" class="grade-view hidden fade-in space-y-6">
             <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8" id="thesis-review-container"></div>
 
-            <!-- [탭 5 하단 공식 안내] 졸업종합시험 및 학위논문 대체인증제(자격증·실습프로포절·캡스톤·실기) 공식 규정 -->
+            <!-- [탭 5 하단 공식 안내] 졸업종합시험 및 학위논문 대체인증제 공식 규정 -->
             <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-4 text-xs text-slate-600 leading-relaxed">
                 <h4 class="font-black text-slate-900 text-sm md:text-base flex items-center gap-2 border-b pb-3">
                     <i data-lucide="award" class="w-5 h-5 text-[#3344aa]"></i> 효빈대학교 졸업종합시험 및 학위논문 대체인증제 시행 지침 (학사운영규정 제55조)
@@ -280,35 +280,175 @@
 
     <script src="common.js"></script>
     <script>
-        // ================= 1. 전 학기(1학년~졸업까지 모든 수강과목 100% 수록) 학사 데이터베이스 =================
-        const ACADEMIC_STUDENTS_DB = [
-            // [1] 박효빈 (15학번 졸업생 · 사회복지정책학과 본전공 + 경영학과 복수전공 · 8개 전 학기 140학점 4.05 완벽 반영!)
-            {
-                id: "STU-07",
+        /**
+         * 효빈대학교 통합학사정보시스템 — 박효빈 학생 학적 및 전체학기 성적 데이터베이스 (최종 수정본 100% 반영)
+         * - 성명 / 학번: 박효빈 (朴孝彬) / 201507009
+         * - 제1전공 (본전공): 사회복지학대학 사회복지정책학과
+         * - 제2전공 (복수전공): 상과대학 경영학과 (복수전공)
+         * - 학적 상태: 졸업 (2021년 2월 학위수여 · 사회복지학사 / 경영학사 복수학위 취득)
+         * - 전체 평점평균 (GPA): 4.05 / 4.50 (백분위 환산: 94.6점)
+         * - 취득학점 / 졸업기준: 131 / 130학점 (이수율 100.8% · 8개 정규학기 완수)
+         * - 사회복지현장실습: 3학년 2학기(2017학년도 2학기) 정규 교육과정 반영 (160시간 · 130쪽 제본록 제출, A+)
+         * - 마지막 학기(4학년 2학기): 9학점 이수 반영 완료
+         */
+        const HBNU_STUDENT_RECORD_DB = {
+            studentInfo: {
+                id: "201507009",
                 name: "박효빈 (朴孝彬)",
-                studentNo: "201507009",
                 college: "사회복지학대학",
                 dept: "사회복지정책학과",
                 doubleMajor: "상과대학 경영학과 (복수전공)",
                 status: "졸업 (2021.02 학위수여 · 사회복지학사 / 경영학사)",
                 isGraduated: true,
-                isLeave: false,
                 semCount: 8,
                 totalReqCredits: 130,
-                earnedCredits: 140,
+                earnedCredits: 131,
                 gpa: 4.05,
                 percentile: 94.6,
                 rank: "14 / 115명",
                 warnings: 0,
-                advisor: "민부선 교수 (사회복지학대학) · 박정우 교수 (경영학과)",
+                advisor: "민부선 교수 (사회복지학대학) · 박정우 교수 (경영학과)"
+            },
+            semesters: [
+                {
+                    semName: "2020학년도 2학기 (4학년 2학기 · 졸업학기 · 9학점 이수)",
+                    semGpa: "4.50",
+                    semRank: "1 / 115",
+                    totalCredits: 9,
+                    courses: [
+                        { code: "SWM-402", type: "전선", title: "사회복지경영론", prof: "민부선", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "문화적 스토리텔링과 가상 공동체의 사회적 자본을 복지 경영에 접목한 명강의였습니다." },
+                        { code: "SWP-405", type: "전선", title: "대중교통 복지와 이동권 보장이론", prof: "백승호", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "대중교통 공공성 강화가 청년층의 시간 빈곤 해소에 미치는 영향을 실증적으로 배웠습니다." },
+                        { code: "BUS-401", type: "복전", title: "경영전략론 (캡스톤디자인)", prof: "박정우", credits: 3, score: 95, grade: "A+", evalDone: true, evalComment: "공공기관과 사회적기업의 지속가능한 경영전략 수립 모델을 완성했습니다." }
+                    ]
+                },
+                {
+                    semName: "2020학년도 1학기 (4학년 1학기)",
+                    semGpa: "4.00",
+                    semRank: "16 / 115",
+                    totalCredits: 12,
+                    courses: [
+                        { code: "ACC-302", type: "복전", title: "원가회계", prof: "조원희", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "원가배부와 손익분기점 분석을 정밀하게 학습했습니다." },
+                        { code: "BUS-308", type: "복전", title: "리더십", prof: "박정우", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "조직 내 갈등 관리와 변혁적 리더십 이론을 배웠습니다." },
+                        { code: "BUS-310", type: "복전", title: "경영수학", prof: "김상훈", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "경영 의사결정에 필요한 수리적 기초를 다졌습니다." },
+                        { code: "SWP-303", type: "전선", title: "사회복지법제와 실천", prof: "강석윤", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "사회보장급여법과 국민기초생활보장법의 조문과 판례를 완벽히 분석했습니다." }
+                    ]
+                },
+                {
+                    semName: "2017학년도 2학기 (3학년 2학기 · 현장실습 반영)",
+                    semGpa: "4.25",
+                    semRank: "8 / 116",
+                    totalCredits: 18,
+                    courses: [
+                        { code: "SWG-301", type: "전선", title: "지역사회복지론", prof: "신정훈", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "지역사회보장협의체와 주민 조직화 전략을 학습했습니다." },
+                        { code: "SWC-308", type: "전필", title: "사회복지실습", prof: "여연훈", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "가족돌봄청년 여가활동 지원 프로포절(예산 13,491,000원) 작성과 현장 실습을 통해 실무 역량을 극대화했습니다." },
+                        { code: "BUS-306", type: "복전", title: "파생금융상품론", prof: "김상훈", credits: 3, score: 95, grade: "A+", evalDone: true, evalComment: "선물·옵션·스왑 등 파생상품의 가격결정 메커니즘과 리스크 헤지 전략을 완벽히 습득했습니다." },
+                        { code: "BUS-315", type: "복전", title: "빅데이터마케팅", prof: "정현우", credits: 3, score: 95, grade: "A+", evalDone: true, evalComment: "데이터 기반 고객 세분화와 타겟 마케팅 기법을 실습했습니다." },
+                        { code: "BUS-304", type: "복전", title: "경영통계분석", prof: "김상훈", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "회귀분석과 시계열 데이터 분석 역량을 길렀습니다." },
+                        { code: "BUS-301", type: "복전", title: "조직행동론", prof: "박정우", credits: 3, score: 95, grade: "A+", evalDone: true, evalComment: "조직문화 혁신과 동기부여 이론을 체계적으로 학습했습니다." }
+                    ]
+                },
+                {
+                    semName: "2017학년도 1학기 (3학년 1학기)",
+                    semGpa: "4.00",
+                    semRank: "15 / 116",
+                    totalCredits: 17,
+                    courses: [
+                        { code: "SWP-301", type: "전필", title: "사회복지실천기술론", prof: "윤명순", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "가출 위기 청소년(오가영)의 복합적 심리 역동을 로컬라이징 사례로 발표하며 실전 상담 기법을 체득했습니다." },
+                        { code: "SWP-305", type: "전선", title: "사회복지자료분석론", prof: "여연훈", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "SPSS 통계 분석 실습을 통해 사회조사분석사 2급 취득의 토대를 완성했습니다." },
+                        { code: "SWP-309", type: "전필", title: "사회복지행정론", prof: "이성민", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "신청주의 행정의 한계를 넘어선 발굴형 복지 전달체계를 깊이 있게 연구했습니다." },
+                        { code: "BUS-302", type: "복전", title: "생산운영관리", prof: "정원석", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "공정 최적화와 공급망 관리(SCM) 모델을 완벽히 이해했습니다." },
+                        { code: "BUS-303", type: "복전", title: "재무관리", prof: "김상훈", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "현금흐름할인법과 자본예산 타당성 분석을 마스터했습니다." },
+                        { code: "PAD-201", type: "교선", title: "공공갈등관리와 행정법 사례", prof: "진현목", credits: 2, score: 92, grade: "A0", evalDone: true, evalComment: "공익사업 추진 과정에서의 갈등 조정과 행정법 판례를 학습했습니다." }
+                    ]
+                },
+                {
+                    semName: "2016학년도 2학기 (2학년 2학기)",
+                    semGpa: "4.17",
+                    semRank: "11 / 118",
+                    totalCredits: 18,
+                    courses: [
+                        { code: "SWP-201", type: "전필", title: "사회복지실천론", prof: "민부선", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "내담자의 강점 관점과 임파워먼트 이론을 배웠습니다." },
+                        { code: "SWP-202", type: "전필", title: "사회복지정책론", prof: "강석윤", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "거시 복지 정책 설계의 핵심 원리를 정립한 최고의 전공 수업이었습니다." },
+                        { code: "SWP-204", type: "전선", title: "사회복지조사론", prof: "진신열", credits: 3, score: 84, grade: "B0", evalDone: true, evalComment: "양적·질적 조사방법론과 설문지 설계 기법을 익혔습니다." },
+                        { code: "SWG-203", type: "전선", title: "의료사회복지론", prof: "이소안", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "병원 임상 현장에서의 의료사회복지사 역할을 이해했습니다." },
+                        { code: "BUS-205", type: "복전", title: "경영과학", prof: "정원석", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "선형계획법과 수리적 의사결정 모델을 학습했습니다." },
+                        { code: "ACC-201", type: "복전", title: "중급회계", prof: "조원희", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "한국채택국제회계기준(K-IFRS) 기반 재무제표 분석과 회계처리를 완벽히 마스터했습니다." }
+                    ]
+                },
+                {
+                    semName: "2016학년도 1학기 (2학년 1학기)",
+                    semGpa: "4.00",
+                    semRank: "15 / 118",
+                    totalCredits: 18,
+                    courses: [
+                        { code: "GEN-201", type: "교양", title: "초급일본어", prof: "김마리아", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "실전 일본어 회화와 문법 체계를 탄탄히 다졌습니다." },
+                        { code: "SWP-208", type: "전필", title: "사회복지윤리와철학", prof: "민부선", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "인간의 존엄성과 사회적 연대의 철학적 기초를 깊이 성찰했습니다." },
+                        { code: "SWP-212", type: "전선", title: "사회보장론", prof: "강석윤", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "사회보험과 공공부조의 재정 원리를 완벽히 체득했습니다." },
+                        { code: "SWG-201", type: "전선", title: "정신건강론", prof: "이충민", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "청년기의 정신건강과 스트레스 대처 기제를 학습했습니다." },
+                        { code: "BUS-204", type: "복전", title: "마케팅관리론", prof: "정현우", credits: 3, score: 84, grade: "B0", evalDone: true, evalComment: "STP 전략과 브랜드 관리의 기초를 배웠습니다." },
+                        { code: "ACC-101", type: "복전", title: "회계원리", prof: "조원희", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "맨 앞자리에서 집중 수강하며 복식부기와 결산 회계처리의 기초를 완벽히 닦았습니다." }
+                    ]
+                },
+                {
+                    semName: "2015학년도 2학기 (1학년 2학기)",
+                    semGpa: "4.08",
+                    semRank: "13 / 120",
+                    totalCredits: 18,
+                    courses: [
+                        { code: "GEN-103", type: "교양", title: "고전·명저읽기", prof: "박건우", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "동서양 고전 강독을 통해 비판적 독해력을 길렀습니다." },
+                        { code: "LAW-101", type: "교양", title: "법학의이해", prof: "하성휘", credits: 3, score: 92, grade: "A0", evalDone: true, evalComment: "헌법과 민법, 행정법의 기본 법리를 이해했습니다." },
+                        { code: "POL-101", type: "교양", title: "정치학의이해", prof: "강민석", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "민주주의와 정당정치, 지방자치의 원리를 배웠습니다." },
+                        { code: "GEN-106", type: "교양", title: "통계적사고와사회", prof: "박재현", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "사회 현상을 통계 데이터로 검증하는 방법론을 익혔습니다." },
+                        { code: "SWP-108", type: "전선", title: "사회문제론", prof: "서정민", credits: 3, score: 92, grade: "A0", evalDone: true, evalComment: "빈곤과 불평등 문제를 구조적 시각에서 분석했습니다." },
+                        { code: "SWG-105", type: "전필", title: "인간행동과사회환경", prof: "이현대", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "인간 발달 단계와 생태체계이론을 완벽히 학습했습니다." }
+                    ]
+                },
+                {
+                    semName: "2015학년도 1학기 (1학년 1학기 · 입학학기)",
+                    semGpa: "3.92",
+                    semRank: "20 / 120",
+                    totalCredits: 18,
+                    courses: [
+                        { code: "GEN-101", type: "교양", title: "글쓰기", prof: "박건우", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "논리적 글쓰기와 정책 논술 작성 역량을 길렀습니다." },
+                        { code: "GEN-102", type: "교양", title: "실용영어", prof: "아이게이야 족구라우스", credits: 3, score: 75, grade: "C+", evalDone: true, evalComment: "영어 독해 및 문법 기초를 복습했습니다.근데 왜 점수가..." },
+                        { code: "GEN-104", type: "교양", title: "컴퓨터과학과코딩", prof: "최동현", credits: 3, score: 75, grade: "C+", evalDone: true, evalComment: "컴퓨터 알고리즘의 기본 개념을 배웠습니다." },
+                        { code: "HIS-101", type: "교양", title: "한국사의이해", prof: "윤동주", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "한국 근현대사의 흐름을 깊이 있게 이해했습니다." },
+                        { code: "PAD-101", type: "교양", title: "행정학의이해", prof: "진현목", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "공공행정의 기본 가치와 정책 집행 과정을 배웠습니다." },
+                        { code: "SWP-101", type: "전필", title: "사회복지학개론", prof: "강석윤", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "사회복지학의 전반적인 학문 체계를 확립했습니다." }
+                    ]
+                }
+            ]
+        };
+
+        // ================= 통합 학사 데이터베이스 (박효빈 HBNU_STUDENT_RECORD_DB 100% 연동 + 재학생 6인) =================
+        const ACADEMIC_STUDENTS_DB = [
+            // [1] 박효빈 (주신 HBNU_STUDENT_RECORD_DB 데이터 100% 직결!)
+            {
+                id: "STU-07",
+                name: HBNU_STUDENT_RECORD_DB.studentInfo.name,
+                studentNo: HBNU_STUDENT_RECORD_DB.studentInfo.id,
+                college: HBNU_STUDENT_RECORD_DB.studentInfo.college,
+                dept: HBNU_STUDENT_RECORD_DB.studentInfo.dept,
+                doubleMajor: HBNU_STUDENT_RECORD_DB.studentInfo.doubleMajor,
+                status: HBNU_STUDENT_RECORD_DB.studentInfo.status,
+                isGraduated: HBNU_STUDENT_RECORD_DB.studentInfo.isGraduated,
+                isLeave: false,
+                semCount: HBNU_STUDENT_RECORD_DB.studentInfo.semCount,
+                totalReqCredits: HBNU_STUDENT_RECORD_DB.studentInfo.totalReqCredits,
+                earnedCredits: HBNU_STUDENT_RECORD_DB.studentInfo.earnedCredits,
+                gpa: HBNU_STUDENT_RECORD_DB.studentInfo.gpa,
+                percentile: HBNU_STUDENT_RECORD_DB.studentInfo.percentile,
+                rank: HBNU_STUDENT_RECORD_DB.studentInfo.rank,
+                warnings: HBNU_STUDENT_RECORD_DB.studentInfo.warnings,
+                advisor: HBNU_STUDENT_RECORD_DB.studentInfo.advisor,
                 gradAudit: {
-                    geReq: { cur: 14, req: 12 },
-                    geElec: { cur: 24, req: 24 },
-                    majReq: { cur: 30, req: 27 },
-                    majElec: { cur: 36, req: 33 },
-                    doubleMaj: { cur: 36, req: 36 },
-                    practice: "사회복지현장실습 160시간(130쪽 실습제본록 제출) 및 지역아동센터 교육봉사 580시간 이수 완료",
-                    foreignLang: "OPiC AL 취득 · 필리핀어(타갈로그어)/일본어 회화 인증 통과 (졸업인증 완료)",
+                    geReq: { cur: 15, req: 12 },
+                    geElec: { cur: 20, req: 20 },
+                    majReq: { cur: 24, req: 24 },
+                    majElec: { cur: 30, req: 30 },
+                    doubleMaj: { cur: 42, req: 36 },
+                    practice: "사회복지실습 160시간(2017-2학기 정규과정 · 130쪽 실습제본록 제출, A+) 및 지역아동센터 멘토링 이수 완료",
+                    foreignLang: "OPiC 취득 · 초급일본어(A+) 이수 (졸업인증 완료)",
                     itCert: "사회복지사 1급 · ADsP(78점) · SQLD(68점) · 사회조사분석사 2급 · 사무자동화산업기사 · 컴활 2급 · 한국사 1급 (졸업인증 완료)"
                 },
                 thesis: {
@@ -320,101 +460,12 @@
                     committee: ["민부선 (위원장)", "강석윤 (사회복지정책학)", "박정우 (경영학)"],
                     plagiarism: "0.8% (카피킬러 검증 통과 · 중앙도서관 영구보존 우수논문 지정)",
                     status: "최종 합격 (2021년 2월 사회복지학사 및 경영학사 복수학위 수여 완료)",
-                    comment: "사회복지정책학의 거시적 분배 정의와 경영학의 재무·조직관리 기법을 결합하여, 취약계층 청년 돌봄과 대중교통 공공성을 동시에 달성할 수 있는 실증 모델을 제시함. 130페이지 분량의 현장실습 분석보고서 역시 학부 수준을 뛰어넘는 완결성을 보여 복수학위 수여를 만장일치로 승인함."
+                    comment: "사회복지정책론·사회보장론·사회복지법제와실천 등 거시 복지 3대장 과목과 회계원리·중급회계·원가회계·파생금융상품론·빅데이터마케팅 등 상과대학 재무·회계·통계 핵심 과목을 모두 A0~A+로 석권한 압도적 전공 역량이 집약된 논문임. 2017년 2학기 제출된 130페이지 분량의 현장실습 제본록 역시 학부 수준을 뛰어넘는 완결성을 보여 복수학위 수여를 만장일치로 승인함."
                 },
-                semesters: [
-                    {
-                        semName: "2020학년도 2학기 (4학년 2학기 · 졸업학기)", semGpa: "4.17", semRank: "10 / 115",
-                        courses: [
-                            { code: "SWP-401", title: "지방분권과 지역사회복지계획", type: "전필", cr: 3, prof: "강석윤", mid: 98, fin: 99, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "지방자치단체의 사회보장기본계획 수립과 복지 재정 배분 원리를 깊이 체득했습니다." },
-                            { code: "SWM-402", title: "사회복지경영론", type: "전선", cr: 3, prof: "민부선", mid: 97, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "문화적 스토리텔링과 가상 공동체(Fandom)의 사회적 자본을 복지 경영에 접목한 명강의였습니다." },
-                            { code: "SWP-405", title: "대중교통 복지와 이동권 보장이론", type: "전선", cr: 3, prof: "백승호", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "대중교통 공공성 강화가 청년층의 시간 빈곤 해소에 미치는 영향을 실증적으로 배웠습니다." },
-                            { code: "BUS-401", title: "경영전략론 (캡스톤디자인)", type: "복전", cr: 3, prof: "박정우", mid: 93, fin: 95, hw: 96, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "공공기관과 사회적기업의 지속가능한 경영전략 수립 모델을 완성했습니다." },
-                            { code: "BUS-408", title: "계량경영분석 및 비즈니스애널리틱스", type: "복전", cr: 3, prof: "김상훈", mid: 88, fin: 91, hw: 94, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "데이터 기반 의사결정 기법을 익히는 데 큰 도움이 되었습니다." },
-                            { code: "PAD-304", title: "공공갈등관리와 행정법 사례", type: "교선", cr: 3, prof: "진현목", mid: 84, fin: 86, hw: 90, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "행정처분의 적법절차와 공익 갈등 조정 판례를 폭넓게 학습했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2020학년도 1학기 (4학년 1학기 · 복학학기)", semGpa: "4.00", semRank: "16 / 115",
-                        courses: [
-                            { code: "SWP-301", title: "사회보장론", type: "전필", cr: 3, prof: "강석윤", mid: 96, fin: 98, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "공적연금과 국민건강보험 등 사회안전망의 구조적 원리를 완벽히 이해했습니다." },
-                            { code: "SWC-308", title: "사회복지현장실습 (160시간 · 130쪽 제본록)", type: "전필", cr: 3, prof: "신정훈", mid: 98, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "가족돌봄청년 지원 프로포절 작성과 현장 사례관리를 통해 실무 역량을 극대화했습니다." },
-                            { code: "SWM-305", title: "사회복지행정론", type: "전필", cr: 3, prof: "이성민", mid: 87, fin: 88, hw: 92, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "현장의 신청주의 행정 모순을 극복하기 위한 발굴형 전달체계를 깊이 고민했습니다." },
-                            { code: "BUS-305", title: "인적자원관리(HRM) 및 노사관계론", type: "복전", cr: 3, prof: "이재현", mid: 91, fin: 93, hw: 94, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "조직 내 공정한 보상체계와 노동인권 보호의 조화를 배웠습니다." },
-                            { code: "BUS-312", title: "경영정보시스템(MIS) 및 데이터베이스", type: "복전", cr: 3, prof: "최동현", mid: 90, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "SQLD 자격 취득과 연계하여 관계형 데이터베이스 설계를 숙달했습니다." },
-                            { code: "FIL-201", title: "필리핀 사회문화와 다문화정책", type: "교선", cr: 3, prof: "김마리아", mid: 92, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "다문화 가정을 향한 낙인을 없애고 보편적 복지로 포용하는 시각을 넓혔습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2017학년도 2학기 (3학년 2학기 · 군휴학 직전)", semGpa: "4.08", semRank: "13 / 116",
-                        courses: [
-                            { code: "SWP-305", title: "복지국가비교연구", type: "전필", cr: 3, prof: "김원석", mid: 95, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "사민주의와 자유주의 복지모델의 조세·재정 구조를 비교 분석했습니다." },
-                            { code: "SWP-309", title: "사회복지재정과 지방예산분석", type: "전선", cr: 3, prof: "서정민", mid: 96, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "지자체 예산서와 추경 편성 구조를 해독하는 실전 능력을 길렀습니다." },
-                            { code: "SWC-205", title: "사회복지실천기술론 (오가영 사례발표)", type: "전필", cr: 3, prof: "이현대", mid: 86, fin: 88, hw: 94, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "가출 위기 청소년의 심리 역동을 로컬라이징 사례로 발표하며 뜻깊은 피드백을 받았습니다." },
-                            { code: "BUS-301", title: "재무관리(Corporate Finance)", type: "복전", cr: 3, prof: "김상훈", mid: 90, fin: 92, hw: 93, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "현금흐름할인법(DCF)과 자본예산 타당성 분석을 마스터했습니다." },
-                            { code: "BUS-304", title: "생산운영관리(SCM)", type: "복전", cr: 3, prof: "정원석", mid: 91, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "물류 및 대기행렬 최적화 모델을 이해했습니다." },
-                            { code: "GEC-201", title: "트램과 도시문명사", type: "교선", cr: 3, prof: "오다구", mid: 98, fin: 99, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "노면전차와 도시 재생의 역사를 다룬 최고의 교양 명강의였습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2017학년도 1학기 (3학년 1학기)", semGpa: "4.00", semRank: "15 / 116",
-                        courses: [
-                            { code: "SWP-208", title: "사회복지법제와 인권", type: "전필", cr: 3, prof: "강석윤", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "사회보장급여법과 국민기초생활보장법의 판례 및 조문을 정밀 분석했습니다." },
-                            { code: "SWC-209", title: "지역사회복지론", type: "전필", cr: 3, prof: "신정훈", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "지역사회보장협의체와 주민 조직화 전략을 학습했습니다." },
-                            { code: "SWP-212", title: "빈곤론과 소득보장정책", type: "전선", cr: 3, prof: "김원석", mid: 91, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "부양의무자 기준 폐지와 근로유인형 급여 설계를 탐구했습니다." },
-                            { code: "BUS-204", title: "마케팅원론 및 브랜드전략", type: "복전", cr: 3, prof: "정현우", mid: 92, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "공공 캠페인과 도시 브랜딩에 적용할 수 있는 마케팅 기법을 배웠습니다." },
-                            { code: "ACC-202", title: "원가관리회계", type: "복전", cr: 3, prof: "조원희", mid: 82, fin: 85, hw: 88, att: 100, score: 84, grade: "B0", evalDone: true, evalComment: "원가배부와 손익분기점(CVP) 분석을 연습했습니다." },
-                            { code: "GEN-210", title: "현대정치와 지방자치", type: "교선", cr: 3, prof: "강민석", mid: 87, fin: 89, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "지방의회와 집행부 간의 견제와 균형 원리를 배웠습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2016학년도 2학기 (2학년 2학기)", semGpa: "4.11", semRank: "12 / 118",
-                        courses: [
-                            { code: "SWP-204", title: "사회복지조사론 및 통계분석(SPSS)", type: "전필", cr: 3, prof: "강석윤", mid: 98, fin: 99, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "사회조사분석사 2급 취득의 밑거름이 된 완벽한 통계 실습 강의였습니다." },
-                            { code: "SWC-201", title: "사회복지실천론", type: "전필", cr: 3, prof: "민부선", mid: 96, fin: 97, hw: 100, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "내담자의 강점 관점(Strengths Perspective)과 임파워먼트 이론을 배웠습니다." },
-                            { code: "SWG-203", title: "아동·청소년복지론", type: "전선", cr: 3, prof: "이현대", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "지역아동센터 멘토링 현장 경험과 이론을 접목할 수 있었습니다." },
-                            { code: "BUS-201", title: "조직행동론", type: "복전", cr: 3, prof: "박정우", mid: 91, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "리더십 유형과 조직문화 혁신 이론을 체계적으로 학습했습니다." },
-                            { code: "BUS-203", title: "경영통계학", type: "복전", cr: 3, prof: "김상훈", mid: 88, fin: 91, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "가설검정과 회귀분석의 수리적 기초를 다졌습니다." },
-                            { code: "ECO-102", title: "거시경제학 입문", type: "교선", cr: 3, prof: "윤성호", mid: 81, fin: 83, hw: 85, att: 100, score: 83, grade: "B0", evalDone: true, evalComment: "재정정책과 통화정책의 거시적 파급경로를 이해했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2016학년도 1학기 (2학년 1학기)", semGpa: "4.00", semRank: "15 / 118",
-                        courses: [
-                            { code: "SWP-201", title: "사회복지정책론", type: "전필", cr: 3, prof: "강석윤", mid: 99, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "제 인생의 진로를 사회복지 정책 전문가로 확정한 최고의 전공 강의입니다." },
-                            { code: "SWP-202", title: "사회복지발달사", type: "전선", cr: 3, prof: "김원석", mid: 94, fin: 96, hw: 96, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "구빈법부터 베버리지 보고서까지 복지 역사의 흐름을 꿰뚫었습니다." },
-                            { code: "BUS-101", title: "경영학원론", type: "복전", cr: 3, prof: "박정우", mid: 92, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "경영학 복수전공의 첫걸음을 탄탄히 떼었습니다." },
-                            { code: "ACC-101", title: "회계원리", type: "복전", cr: 3, prof: "조원희", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "재무제표의 구성요소와 복식부기 원리를 익혔습니다." },
-                            { code: "GEC-108", title: "문화인류학과 현대사회", type: "교선", cr: 3, prof: "이수아", mid: 91, fin: 93, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "하위문화(서브컬처)와 도시 공동체의 다양성을 탐구했습니다." },
-                            { code: "SOC-201", title: "도시사회학", type: "교선", cr: 3, prof: "장동현", mid: 85, fin: 87, hw: 88, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "도시 공간 분리와 젠트리피케이션 문제를 분석했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2015학년도 2학기 (1학년 2학기)", semGpa: "4.06", semRank: "14 / 120",
-                        courses: [
-                            { code: "SWG-105", title: "인간행동과 사회환경", type: "전필", cr: 3, prof: "이현대", mid: 95, fin: 97, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "인간 발달과 사회체계이론의 기초를 확립했습니다." },
-                            { code: "SWP-108", title: "사회문제론", type: "전선", cr: 3, prof: "서정민", mid: 96, fin: 95, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "불평등, 고령화, 청년 실업 문제를 구조적으로 분석했습니다." },
-                            { code: "GEN-105", title: "데이터리터러시와 통계기초", type: "교필", cr: 3, prof: "박재현", mid: 91, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "데이터를 읽고 해석하는 기초 소양을 길렀습니다." },
-                            { code: "GEN-109", title: "실용영어커뮤니케이션", type: "교필", cr: 2, prof: "김수현", mid: 88, fin: 91, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "영어 말하기(OPiC) 발표 자신감을 얻었습니다." },
-                            { code: "HIS-102", title: "한국근현대사의 이해", type: "교선", cr: 3, prof: "윤동주", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "한국사능력검정 1급 취득과 연계하여 근현대사를 깊이 공부했습니다." },
-                            { code: "ECO-101", title: "미시경제학 입문", type: "교선", cr: 3, prof: "윤성호", mid: 80, fin: 83, hw: 85, att: 100, score: 82, grade: "B0", evalDone: true, evalComment: "수요·공급의 원리와 시장실패 개념을 학습했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2015학년도 1학기 (1학년 1학기 · 입학학기)", semGpa: "4.00", semRank: "16 / 120",
-                        courses: [
-                            { code: "SWP-101", title: "사회복지학개론", type: "전필", cr: 3, prof: "강석윤", mid: 96, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "사회복지학도로서의 사명감을 일깨워준 입문 강의였습니다." },
-                            { code: "SWC-102", title: "자원봉사론 및 멘토링실습", type: "전선", cr: 3, prof: "신정훈", mid: 97, fin: 99, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "엘린지역아동센터 멘토링 활동과 연계하여 뜻깊게 이수했습니다." },
-                            { code: "GEN-001", title: "효빈학의 이해", type: "교필", cr: 2, prof: "민부선", mid: 98, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "효빈시의 역사와 대학의 사회적 책임을 배웠습니다." },
-                            { code: "GEN-102", title: "창의적 사고와 학술적 글쓰기", type: "교필", cr: 2, prof: "박건우", mid: 87, fin: 89, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "논리적 글쓰기와 정책 보고서 작성의 기초를 다졌습니다." },
-                            { code: "GEN-104", title: "시민사회와 헌법가치", type: "교필", cr: 2, prof: "진현목", mid: 91, fin: 93, hw: 95, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "기본권과 사회적 법치국가의 원리를 학습했습니다." },
-                            { code: "PSY-101", title: "심리학의 이해", type: "교선", cr: 3, prof: "이현대", mid: 82, fin: 84, hw: 86, att: 100, score: 83, grade: "B0", evalDone: true, evalComment: "인간 심리와 행동의 기초 이론을 배웠습니다." }
-                        ]
-                    }
-                ]
+                semesters: HBNU_STUDENT_RECORD_DB.semesters
             },
 
-            // [2] 강하애 (23학번 4학년 재학 · 사회복지정책학과 본전공 + 정책학과 부전공 · 7개 학기 126학점 4.11)
+            // [2] 강하애 (23학번 4학년 재학 · 사회복지정책학과 본전공 + 정책학과 부전공 · 126학점 4.11)
             {
                 id: "STU-02",
                 name: "강하애 (姜下愛)",
@@ -456,87 +507,31 @@
                 },
                 semesters: [
                     {
-                        semName: "2026학년도 1학기 (4학년 1학기)", semGpa: "4.17", semRank: "49 / 112",
+                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "4.14", semRank: "51 / 112", totalCredits: 18,
                         courses: [
-                            { code: "SWP-401", title: "지방분권과 지역사회복지계획", type: "전필", cr: 3, prof: "강석윤", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "지자체 복지계획 수립 과정을 체계적으로 학습했습니다." },
-                            { code: "SWC-402", title: "사회복지현장실습 세미나", type: "전필", cr: 3, prof: "신정훈", mid: 96, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "종합사회복지관 실습 사례를 깊이 있게 슈퍼비전 받았습니다." },
-                            { code: "PLC-401", title: "규제정책과 공공선택론", type: "부전", cr: 3, prof: "강민석", mid: 93, fin: 95, hw: 95, att: 100, score: 94, grade: "A0", evalDone: true, evalComment: "정책 결정 모형에 대한 이해를 높였습니다." },
-                            { code: "SWP-409", title: "국제사회보장 비교세미나", type: "전선", cr: 3, prof: "김원석", mid: 89, fin: 90, hw: 92, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "OECD 주요국 복지 지표를 비교 분석했습니다." },
-                            { code: "GEC-301", title: "일본어원서강독 및 문화비평", type: "교선", cr: 3, prof: "박지훈", mid: 98, fin: 99, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "일본 지역사회 복지 문헌을 원서로 강독하며 유익한 시간을 보냈습니다." },
-                            { code: "GEN-305", title: "직업윤리와 공직가치", type: "교선", cr: 3, prof: "유정호", mid: 91, fin: 93, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "공공부문 종사자로서의 윤리관을 정립했습니다." }
+                            { code: "SWP-312", type: "전필", title: "빈곤과 불평등 정책세미나", prof: "강석윤", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "공공부조와 아동 급식 예산의 법적 보호 장치에 대해 깊이 있게 탐구할 수 있었습니다." },
+                            { code: "SWP-318", type: "전선", title: "청년돌봄(영케어러) 정책설계", prof: "백승호", credits: 3, score: 96, grade: "A+", evalDone: true, evalComment: "가족돌봄청년 지원 조례 제정 과정을 실무적으로 분석한 강의였습니다." },
+                            { code: "SWC-304", type: "전필", title: "사례관리론(Case Management)", prof: "신정훈", credits: 3, score: 89, grade: "B+", evalDone: true, evalComment: "통합 사례관리 절차를 체계적으로 실습했습니다." },
+                            { code: "SWG-306", type: "전선", title: "심리외상(Trauma) 치유실습", prof: "이현대", credits: 3, score: 93, grade: "A0", evalDone: true, evalComment: "위기 개입 및 내담자 정서 지지 기법을 실습했습니다." },
+                            { code: "GEC-201", type: "교선", title: "트램과 도시문명사", prof: "오다구", credits: 3, score: 98, grade: "A+", evalDone: false, evalComment: "" },
+                            { code: "PUB-208", type: "부전", title: "공기업경영론 및 대중교통 준공영제 분석", prof: "유정호", credits: 3, score: 92, grade: "A0", evalDone: true, evalComment: "효빈시 대중교통 준공영제 재정 효율성 사례를 연구했습니다." }
                         ]
                     },
                     {
-                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "4.14", semRank: "51 / 112",
+                        semName: "2025학년도 1학기 (3학년 1학기)", semGpa: "4.08", semRank: "56 / 112", totalCredits: 18,
                         courses: [
-                            { code: "SWP-312", title: "빈곤과 불평등 정책세미나", type: "전필", cr: 3, prof: "강석윤", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "공공부조와 아동 급식 예산의 법적 보호 장치에 대해 깊이 있게 탐구할 수 있었습니다." },
-                            { code: "SWP-318", title: "청년돌봄(영케어러) 정책설계", type: "전선", cr: 3, prof: "백승호", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "가족돌봄청년 지원 조례 제정 과정을 실무적으로 분석한 강의였습니다." },
-                            { code: "SWC-304", title: "사례관리론(Case Management)", type: "전필", cr: 3, prof: "신정훈", mid: 91, fin: 89, hw: 90, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "통합 사례관리 절차를 체계적으로 실습했습니다." },
-                            { code: "SWG-306", title: "심리외상(Trauma) 치유실습", type: "전선", cr: 3, prof: "이현대", mid: 92, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "위기 개입 및 내담자 정서 지지 기법을 실습했습니다." },
-                            { code: "GEC-201", title: "트램과 도시문명사", type: "교선", cr: 3, prof: "오다구", mid: 98, fin: 97, hw: 100, att: 100, score: 98, grade: "A+", evalDone: false, evalComment: "" },
-                            { code: "PUB-208", title: "공기업경영론 및 대중교통 준공영제 분석", type: "부전", cr: 3, prof: "유정호", mid: 93, fin: 91, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "효빈시 대중교통 준공영제 재정 효율성 사례를 연구했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2025학년도 1학기 (3학년 1학기)", semGpa: "4.08", semRank: "56 / 112",
-                        courses: [
-                            { code: "SWP-301", title: "사회보장론", type: "전필", cr: 3, prof: "강석윤", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "4대 사회보험 및 공공부조 체계를 완벽히 정립하는 핵심 전공 수업입니다." },
-                            { code: "SWP-305", title: "복지국가비교연구", type: "전필", cr: 3, prof: "김원석", mid: 92, fin: 93, hw: 94, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "북유럽 및 동아시아 복지 레짐 비교 분석이 체계적이었습니다." },
-                            { code: "SWP-309", title: "사회복지재정과 예산분석", type: "전선", cr: 3, prof: "서정민", mid: 88, fin: 89, hw: 90, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "지자체 사회복지 예산서 해독 및 결산 검사 실무를 배웠습니다." },
-                            { code: "PLC-302", title: "정책평가 및 비용편익분석(B/C)", type: "부전", cr: 3, prof: "강민석", mid: 95, fin: 96, hw: 96, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "계량적 정책 평가 기법을 습득하는 데 큰 도움이 되었습니다." },
-                            { code: "SWM-301", title: "비영리조직(NPO) 운영전략", type: "전선", cr: 3, prof: "민부선", mid: 91, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "사회복지 조직의 인사·재무·마케팅 전략을 폭넓게 다뤘습니다." },
-                            { code: "PHE-104", title: "호신술과 웨이트트레이닝", type: "교선", cr: 3, prof: "마동철", mid: 100, fin: 100, hw: 100, att: 100, score: 100, grade: "A+", evalDone: true, evalComment: "기초 체력 증진과 실전 호신술 습득에 매우 유익한 실기 강의였습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2024학년도 2학기 (2학년 2학기)", semGpa: "4.11", semRank: "53 / 114",
-                        courses: [
-                            { code: "SWP-204", title: "사회복지조사론 및 통계분석", type: "전필", cr: 3, prof: "강석윤", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "사회조사분석사 2급 취득에 직결되는 유익한 수업이었습니다." },
-                            { code: "SWP-208", title: "사회복지법제와 인권", type: "전필", cr: 3, prof: "김원석", mid: 94, fin: 95, hw: 96, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "사회복지 관련 법령 체계를 명확히 이해했습니다." },
-                            { code: "SWC-205", title: "사회복지실천기술론", type: "전선", cr: 3, prof: "신정훈", mid: 88, fin: 89, hw: 90, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "상담 기법과 기록 작성법을 훈련했습니다." },
-                            { code: "PLC-204", title: "공공데이터 분석과 정책설계", type: "부전", cr: 3, prof: "강민석", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "R과 엑셀을 활용한 정책 데이터 분석을 실습했습니다." },
-                            { code: "PLC-209", title: "지방재정론", type: "부전", cr: 3, prof: "서정민", mid: 91, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "지방교부세와 국고보조금 매칭 구조를 이해했습니다." },
-                            { code: "GEC-205", title: "가상공동체와 사회적자본", type: "교선", cr: 3, prof: "민부선", mid: 92, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "문화 공동체의 연대 효과를 사회과학적으로 분석했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2024학년도 1학기 (2학년 1학기)", semGpa: "4.06", semRank: "57 / 114",
-                        courses: [
-                            { code: "SWP-201", title: "사회복지정책론", type: "전필", cr: 3, prof: "강석윤", mid: 95, fin: 97, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "정책 형성 과정과 아젠다 설정 이론을 깊이 배웠습니다." },
-                            { code: "SWC-201", title: "사회복지실천론", type: "전필", cr: 3, prof: "신정훈", mid: 91, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "현장 실천가의 윤리와 자세를 배웠습니다." },
-                            { code: "SWM-202", title: "사회복지경영론", type: "전선", cr: 3, prof: "민부선", mid: 96, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "복지 조직의 혁신적 경영 기법을 배웠습니다." },
-                            { code: "PLC-201", title: "정책학원론", type: "부전", cr: 3, prof: "강민석", mid: 92, fin: 93, hw: 94, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "부전공 기초를 탄탄히 다졌습니다." },
-                            { code: "PLC-202", title: "행정계량분석", type: "부전", cr: 3, prof: "유정호", mid: 87, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "통계적 정책 분석 방법을 익혔습니다." },
-                            { code: "ECO-101", title: "경제학원론", type: "교선", cr: 3, prof: "윤성호", mid: 90, fin: 92, hw: 92, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "복지 경제학의 기초가 되는 미시·거시 이론을 습득했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2023학년도 2학기 (1학년 2학기)", semGpa: "4.14", semRank: "50 / 115",
-                        courses: [
-                            { code: "SWG-105", title: "인간행동과 사회환경", type: "전필", cr: 3, prof: "이현대", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "인간 발달 단계와 사회환경의 상호작용을 이해했습니다." },
-                            { code: "SWP-108", title: "사회문제론", type: "전선", cr: 3, prof: "서정민", mid: 92, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "현대 사회의 구조적 문제들을 다각도로 조망했습니다." },
-                            { code: "PLC-102", title: "공공정책입문", type: "부전", cr: 3, prof: "강민석", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "정책학 부전공 진입에 큰 도움이 되었습니다." },
-                            { code: "GEN-105", title: "데이터리터러시와 파이썬기초", type: "교필", cr: 3, prof: "박재현", mid: 91, fin: 92, hw: 95, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "파이썬 데이터 처리 기초를 배웠습니다." },
-                            { code: "GEN-109", title: "대학영어회화 2", type: "교필", cr: 2, prof: "김수현", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "영어 토론 및 발표 역량을 높였습니다." },
-                            { code: "SOC-102", title: "현대사회학의 이해", type: "교선", cr: 4, prof: "장동현", mid: 88, fin: 89, hw: 90, att: 100, score: 89, grade: "B+", evalDone: true, evalComment: "사회학적 상상력을 기를 수 있었습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2023학년도 1학기 (1학년 1학기 · 입학학기)", semGpa: "4.08", semRank: "55 / 115",
-                        courses: [
-                            { code: "SWP-101", title: "사회복지학개론", type: "전필", cr: 3, prof: "강석윤", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "사회복지학의 기본 가치와 체계를 배웠습니다." },
-                            { code: "SWC-102", title: "자원봉사론", type: "전선", cr: 3, prof: "신정훈", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "지역사회 자원봉사 관리 체계를 학습했습니다." },
-                            { code: "GEN-001", title: "효빈학의 이해", type: "교필", cr: 2, prof: "민부선", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "대학과 지역사회의 연결 가치를 이해했습니다." },
-                            { code: "GEN-102", title: "창의적 사고와 학술적 글쓰기", type: "교필", cr: 2, prof: "박건우", mid: 91, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "학술적 에세이 작성 기초를 다졌습니다." },
-                            { code: "GEN-108", title: "대학영어회화 1", type: "교필", cr: 2, prof: "김수현", mid: 92, fin: 93, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "원어민 교수님과의 회화 수업이 유익했습니다." },
-                            { code: "PSY-101", title: "심리학개론", type: "교선", cr: 3, prof: "이현대", mid: 87, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "인간 심리의 기초를 학습했습니다." },
-                            { code: "PHI-101", title: "철학개론", type: "교선", cr: 3, prof: "류성민", mid: 90, fin: 92, hw: 93, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "윤리학과 인식론의 기초를 배웠습니다." }
+                            { code: "SWP-301", type: "전필", title: "사회보장론", prof: "강석윤", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "4대 사회보험 및 공공부조 체계를 완벽히 정립하는 핵심 전공 수업입니다." },
+                            { code: "SWP-305", type: "전필", title: "복지국가비교연구", prof: "김원석", credits: 3, score: 93, grade: "A0", evalDone: true, evalComment: "북유럽 및 동아시아 복지 레짐 비교 분석이 체계적이었습니다." },
+                            { code: "SWP-309", type: "전선", title: "사회복지재정과 예산분석", prof: "서정민", credits: 3, score: 89, grade: "B+", evalDone: true, evalComment: "지자체 사회복지 예산서 해독 및 결산 검사 실무를 배웠습니다." },
+                            { code: "PLC-302", type: "부전", title: "정책평가 및 비용편익분석(B/C)", prof: "강민석", credits: 3, score: 96, grade: "A+", evalDone: true, evalComment: "계량적 정책 평가 기법을 습득하는 데 큰 도움이 되었습니다." },
+                            { code: "SWM-301", type: "전선", title: "비영리조직(NPO) 운영전략", prof: "민부선", credits: 3, score: 93, grade: "A0", evalDone: true, evalComment: "사회복지 조직의 인사·재무·마케팅 전략을 폭넓게 다뤘습니다." },
+                            { code: "PHE-104", type: "교선", title: "호신술과 웨이트트레이닝", prof: "마동철", credits: 3, score: 100, grade: "A+", evalDone: true, evalComment: "기초 체력 증진과 실전 호신술 습득에 매우 유익한 실기 강의였습니다." }
                         ]
                     }
                 ]
             },
 
-            // [3] 한승우 (22학번 3학년 휴학 · 사회복지경영학과 본전공 + 경영학과 복수전공 · 5개 학기 90학점 3.62)
+            // [3] 한승우 (22학번 3학년 휴학 · 사회복지경영학과 본전공 + 경영학과 복수전공 · 90학점 3.62)
             {
                 id: "STU-01",
                 name: "한승우 (韓承祐)",
@@ -578,65 +573,20 @@
                 },
                 semesters: [
                     {
-                        semName: "2024학년도 1학기 (3학년 1학기 · 휴학 직전)", semGpa: "3.67", semRank: "17 / 51",
+                        semName: "2023학년도 1학기 (2학년 1학기)", semGpa: "3.75", semRank: "14 / 52", totalCredits: 18,
                         courses: [
-                            { code: "SWM-301", title: "사회복지행정론", type: "전필", cr: 3, prof: "이성민", mid: 91, fin: 93, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "복지기관 조직관리와 전달체계를 배웠습니다." },
-                            { code: "SWC-308", title: "사회복지현장실습 (160시간)", type: "전필", cr: 3, prof: "신정훈", mid: 95, fin: 97, hw: 100, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "현장실습을 통해 실무 역량을 길렀습니다." },
-                            { code: "SWP-301", title: "사회보장론", type: "전선", cr: 3, prof: "강석윤", mid: 88, fin: 90, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "사회보험 제도의 원리를 이해했습니다." },
-                            { code: "BUS-301", title: "인적자원관리", type: "복전", cr: 3, prof: "이재현", mid: 85, fin: 87, hw: 88, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "인사평가와 직무분석을 학습했습니다." },
-                            { code: "BUS-304", title: "생산운영관리", type: "복전", cr: 3, prof: "정원석", mid: 79, fin: 82, hw: 84, att: 100, score: 81, grade: "B0", evalDone: true, evalComment: "공정 관리 기법을 배웠습니다." },
-                            { code: "GEC-208", title: "공공데이터와 빅데이터분석", type: "교선", cr: 3, prof: "박재현", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "ADsP 자격 취득에 큰 도움이 되었습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2023학년도 2학기 (2학년 2학기)", semGpa: "3.58", semRank: "20 / 52",
-                        courses: [
-                            { code: "SWP-208", title: "사회복지법제와 인권", type: "전필", cr: 3, prof: "김원석", mid: 90, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "사회복지 법령 체계를 학습했습니다." },
-                            { code: "SWC-205", title: "사회복지실천기술론", type: "전선", cr: 3, prof: "이현대", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "상담 기법을 실습했습니다." },
-                            { code: "SWM-208", title: "사회적기업과 협동조합 창업", type: "전선", cr: 3, prof: "민부선", mid: 94, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "사회적경제 조직의 비즈니스 모델을 배웠습니다." },
-                            { code: "BUS-201", title: "조직행동론", type: "복전", cr: 3, prof: "박정우", mid: 85, fin: 87, hw: 88, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "조직 내 동기부여 이론을 배웠습니다." },
-                            { code: "ACC-202", title: "관리회계", type: "복전", cr: 3, prof: "조원희", mid: 74, fin: 77, hw: 80, att: 100, score: 77, grade: "C+", evalDone: true, evalComment: "원가 계산 파트가 다소 어려웠습니다." },
-                            { code: "GEN-204", title: "실용화법과 프레젠테이션", type: "교선", cr: 3, prof: "박건우", mid: 88, fin: 91, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "발표 역량을 강화했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2023학년도 1학기 (2학년 1학기)", semGpa: "3.75", semRank: "14 / 52",
-                        courses: [
-                            { code: "SWM-202", title: "사회복지경영론", type: "전필", cr: 3, prof: "민부선", mid: 96, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "문화콘텐츠 산업의 수익 모델을 비영리 조직 경영에 접목한 사례 연구가 매우 유익했습니다." },
-                            { code: "SWM-205", title: "비영리조직(NPO) 운영전략", type: "전필", cr: 3, prof: "이성민", mid: 92, fin: 95, hw: 95, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "효빈시 관내 복지법인 실무 사례를 깊이 있게 다뤄주셨습니다." },
-                            { code: "SWP-204", title: "사회복지조사론 및 통계분석", type: "전선", cr: 3, prof: "강석윤", mid: 88, fin: 93, hw: 92, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "SPSS 통계 패키지 실습과 설문 설계 과정이 체계적이었습니다." },
-                            { code: "BUS-204", title: "마케팅원론", type: "복전", cr: 3, prof: "정현우", mid: 85, fin: 87, hw: 88, att: 100, score: 87, grade: "B+", evalDone: true, evalComment: "팀 프로젝트를 통해 브랜드 전략 수립 과정을 배울 수 있었습니다." },
-                            { code: "BUS-210", title: "재무관리", type: "복전", cr: 3, prof: "김상훈", mid: 78, fin: 82, hw: 85, att: 100, score: 81, grade: "B0", evalDone: false, evalComment: "" },
-                            { code: "SWM-209", title: "비영리 모금(Fundraising) 전략론", type: "전선", cr: 3, prof: "최유진", mid: 80, fin: 84, hw: 82, att: 100, score: 82, grade: "B0", evalDone: true, evalComment: "후원 캠페인 기획 실습이 실무 이해에 도움이 되었습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2022학년도 2학기 (1학년 2학기)", semGpa: "3.58", semRank: "20 / 53",
-                        courses: [
-                            { code: "SWP-105", title: "인간행동과 사회환경", type: "전필", cr: 3, prof: "이현대", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "생애주기별 발달 이론과 성격 심리학 이론을 명확히 이해했습니다." },
-                            { code: "SWC-108", title: "사회복지실천론", type: "전필", cr: 3, prof: "신정훈", mid: 90, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "상담 면접 기법과 관계 형성 원리를 충실히 학습했습니다." },
-                            { code: "BUS-101", title: "경영학원론", type: "복전", cr: 3, prof: "박정우", mid: 89, fin: 91, hw: 92, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "복수전공 진입 기초 과목으로 적합했습니다." },
-                            { code: "ACC-101", title: "회계원리", type: "복전", cr: 3, prof: "조원희", mid: 72, fin: 76, hw: 80, att: 100, score: 76, grade: "C+", evalDone: true, evalComment: "분개와 재무제표 작성 실습 난이도가 높았습니다." },
-                            { code: "ECO-101", title: "경제학원론", type: "교선", cr: 3, prof: "윤성호", mid: 80, fin: 83, hw: 82, att: 100, score: 82, grade: "B0", evalDone: true, evalComment: "미시·거시경제의 기본 원리를 배웠습니다." },
-                            { code: "GEC-105", title: "데이터리터러시와 파이썬기초", type: "교필", cr: 3, prof: "박재현", mid: 88, fin: 90, hw: 95, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "데이터 분석 기초 문법을 익히는 데 유익했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2022학년도 1학기 (1학년 1학기 · 입학학기)", semGpa: "3.53", semRank: "22 / 54",
-                        courses: [
-                            { code: "SWM-101", title: "사회복지학개론", type: "전필", cr: 3, prof: "강석윤", mid: 90, fin: 92, hw: 94, att: 100, score: 92, grade: "A0", evalDone: true, evalComment: "사회복지학의 전반적인 체계를 잡을 수 있었습니다." },
-                            { code: "GEN-001", title: "효빈학의 이해", type: "교필", cr: 2, prof: "민부선", mid: 97, fin: 99, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "지역사회와 대학의 상생 철학을 깊이 이해했습니다." },
-                            { code: "GEN-102", title: "창의적 사고와 학술적 글쓰기", type: "교필", cr: 2, prof: "박건우", mid: 85, fin: 87, hw: 88, att: 100, score: 87, grade: "B+", evalDone: true, evalComment: "보고서 및 논문 작성법을 체계적으로 배웠습니다." },
-                            { code: "GEN-108", title: "대학영어회화 1", type: "교필", cr: 2, prof: "김수현", mid: 84, fin: 86, hw: 90, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "실용 영어 회화 실습 위주로 진행되었습니다." },
-                            { code: "PHI-104", title: "기호논리학 및 비판적 논증", type: "교선", cr: 3, prof: "류성민", mid: 74, fin: 78, hw: 80, att: 100, score: 77, grade: "C+", evalDone: true, evalComment: "논리식 증명 과정이 다소 어려웠으나 사고력 향상에 도움이 되었습니다." },
-                            { code: "SOC-102", title: "현대사회학의 이해", type: "교선", cr: 3, prof: "장동현", mid: 88, fin: 90, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "사회구조와 불평등 문제를 다각도로 고찰했습니다." },
-                            { code: "HIS-101", title: "한국사의 이해", type: "교필", cr: 3, prof: "윤동주", mid: 92, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "한국사능력검정 1급 취득에 도움이 되었습니다." }
+                            { code: "SWM-202", type: "전필", title: "사회복지경영론", prof: "민부선", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "문화콘텐츠 산업의 수익 모델을 비영리 조직 경영에 접목한 사례 연구가 매우 유익했습니다." },
+                            { code: "SWM-205", type: "전필", title: "비영리조직(NPO) 운영전략", prof: "이성민", credits: 3, score: 95, grade: "A+", evalDone: true, evalComment: "효빈시 관내 복지법인 실무 사례를 깊이 있게 다뤄주셨습니다." },
+                            { code: "SWP-204", type: "전선", title: "사회복지조사론 및 통계분석", prof: "강석윤", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "SPSS 통계 패키지 실습과 설문 설계 과정이 체계적이었습니다." },
+                            { code: "BUS-204", type: "복전", title: "마케팅관리론", prof: "정현우", credits: 3, score: 87, grade: "B+", evalDone: true, evalComment: "팀 프로젝트를 통해 브랜드 전략 수립 과정을 배울 수 있었습니다." },
+                            { code: "BUS-210", type: "복전", title: "재무관리", prof: "김상훈", credits: 3, score: 81, grade: "B0", evalDone: false, evalComment: "" },
+                            { code: "SWM-209", type: "전선", title: "비영리 모금(Fundraising) 전략론", prof: "최유진", credits: 3, score: 82, grade: "B0", evalDone: true, evalComment: "후원 캠페인 기획 실습이 실무 이해에 도움이 되었습니다." }
                         ]
                     }
                 ]
             },
 
-            // [4] 오이슬 (23학번 4학년 재학 · 당선본캠 응용예술대학 만화애니메이션학과 성우전공 + 연극학과 부전공 · 118학점 3.28)
+            // [4] 오이슬 (23학번 4학년 재학 · 만화애니메이션학과 성우전공 + 연극학과 부전공 · 118학점 3.28)
             {
                 id: "STU-03",
                 name: "오이슬 (吳伊瑟)",
@@ -678,48 +628,20 @@
                 },
                 semesters: [
                     {
-                        semName: "2026학년도 1학기 (4학년 1학기)", semGpa: "3.41", semRank: "15 / 48",
+                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "3.33", semRank: "16 / 48", totalCredits: 16,
                         courses: [
-                            { code: "ANI-401", title: "졸업더빙프로젝트 및 오디오연출", type: "전필", cr: 3, prof: "이가람", mid: 98, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "졸업 리사이틀 작품을 완성하며 실전 성우 연기의 정수를 배웠습니다." },
-                            { code: "ART-402", title: "무대음향 및 폴리(Foley) 녹음실습", type: "부전", cr: 3, prof: "박재현", mid: 92, fin: 94, hw: 95, att: 100, score: 93, grade: "A0", evalDone: true, evalComment: "효과음 제작과 믹싱 공정을 이해했습니다." },
-                            { code: "ANI-405", title: "애니메이션 비즈니스와 저작권법", type: "전선", cr: 3, prof: "이수아", mid: 78, fin: 80, hw: 82, att: 95, score: 80, grade: "B0", evalDone: true, evalComment: "성우 표준계약서와 저작인접권을 배웠습니다." },
-                            { code: "GEC-302", title: "일본대중문화와 성우산업론", type: "교선", cr: 3, prof: "최지훈", mid: 95, fin: 96, hw: 98, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "한·일 성우 산업 시스템을 비교 분석했습니다." },
-                            { code: "GEN-208", title: "생활법률과 시민사회", type: "교선", cr: 3, prof: "진현목", mid: 72, fin: 75, hw: 80, att: 90, score: 75, grade: "C+", evalDone: true, evalComment: "법률 용어가 다소 생소했으나 유익했습니다." },
-                            { code: "EDL-201", title: "고급일본어회화", type: "교선", cr: 2, prof: "박지훈", mid: 94, fin: 96, hw: 95, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "원어 대본 연기 발음을 교정받았습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "3.33", semRank: "16 / 48",
-                        courses: [
-                            { code: "ANI-301", title: "성우 화술 및 애니메이션 마이크워크 실습", type: "전필", cr: 3, prof: "이가람", mid: 99, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "현직 성우 교수님의 1:1 부스 디렉팅을 통해 호흡과 딕션을 정교하게 교정받았습니다." },
-                            { code: "ART-204", title: "무대연기 및 방송 화술", type: "부전", cr: 3, prof: "조승우", mid: 96, fin: 98, hw: 95, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "대극장 발성과 마이크로폰 수음 연기의 차이를 명확히 체득했습니다." },
-                            { code: "ART-302", title: "희곡분석과 정통연극 메소드연기", type: "부전", cr: 3, prof: "한지민", mid: 90, fin: 92, hw: 91, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "고전 희곡 캐릭터 해석 역량을 기를 수 있었습니다." },
-                            { code: "ANI-305", title: "캐릭터 원화 및 동화 작화실습", type: "전필", cr: 3, prof: "최지훈", mid: 74, fin: 78, hw: 76, att: 90, score: 76, grade: "C+", evalDone: false, evalComment: "" },
-                            { code: "GEN-102", title: "창의적 사고와 학술적 글쓰기", type: "교필", cr: 2, prof: "박건우", mid: 75, fin: 72, hw: 80, att: 75, score: 73, grade: "C0", evalDone: true, evalComment: "오전 1교시 출결 관리에 아쉬움이 남으나 학술 에세이 작성법을 배웠습니다." },
-                            { code: "GEN-001", title: "효빈학의 이해", type: "교필", cr: 2, prof: "민부선", mid: 82, fin: 85, hw: 85, att: 100, score: 84, grade: "B0", evalDone: true, evalComment: "베르데 홀에서 진행된 문화 융합 특강이 인상 깊었습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2025학년도 1학기 (3학년 1학기)", semGpa: "3.24", semRank: "20 / 49",
-                        courses: [
-                            { code: "ANI-209", title: "오디오드라마 및 내레이션 제작실습", type: "전필", cr: 3, prof: "이가람", mid: 97, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "다큐멘터리 내레이션 톤앤매너를 익혔습니다." },
-                            { code: "ART-208", title: "뮤지컬 보컬 및 호흡발성", type: "부전", cr: 3, prof: "조승우", mid: 94, fin: 95, hw: 96, att: 100, score: 95, grade: "A+", evalDone: true, evalComment: "복식호흡과 성량 확장 훈련이 매우 유익했습니다." },
-                            { code: "ANI-204", title: "3D 애니메이션 리깅 기초", type: "전필", cr: 3, prof: "최지훈", mid: 68, fin: 72, hw: 75, att: 90, score: 71, grade: "C0", evalDone: true, evalComment: "3D 그래픽 툴 조작이 다소 어려웠습니다." },
-                            { code: "ANI-212", title: "스토리보드 및 연출론", type: "전선", cr: 3, prof: "나승현", mid: 80, fin: 82, hw: 85, att: 95, score: 82, grade: "B0", evalDone: true, evalComment: "콘티 연출 기법을 이해했습니다." },
-                            { code: "GEC-105", title: "서브컬처 비평과 문화산업", type: "교선", cr: 3, prof: "이수아", mid: 88, fin: 90, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "문화콘텐츠 비평 시각을 넓혔습니다." },
-                            { code: "GEN-105", title: "데이터리터러시 기초", type: "교필", cr: 2, prof: "박재현", mid: 65, fin: 68, hw: 75, att: 90, score: 68, grade: "D+", evalDone: true, evalComment: "코딩 파트가 어려웠으나 출석과 과제로 이수했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2024학년도 1~2학기 및 2023학년도 1~2학기 (1~2학년 이수학기 통합요약 · 68학점)", semGpa: "3.21", semRank: "19 / 50",
-                        courses: [
-                            { code: "ANI-101", title: "만화애니메이션학 개론 및 기초연기 (외 21과목)", type: "전필/교양", cr: 68, prof: "최지훈 외", mid: 86, fin: 88, hw: 90, att: 95, score: 87, grade: "B+", evalDone: true, evalComment: "1~2학년 기초 전공 및 교양필수·부전공 68학점 정상 이수 완료." }
+                            { code: "ANI-301", type: "전필", title: "성우 화술 및 애니메이션 마이크워크 실습", prof: "이가람", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "현직 성우 교수님의 1:1 부스 디렉팅을 통해 호흡과 딕션을 정교하게 교정받았습니다." },
+                            { code: "ART-204", type: "부전", title: "무대연기 및 방송 화술", prof: "조승우", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "대극장 발성과 마이크로폰 수음 연기의 차이를 명확히 체득했습니다." },
+                            { code: "ART-302", type: "부전", title: "희곡분석과 정통연극 메소드연기", prof: "한지민", credits: 3, score: 91, grade: "A0", evalDone: true, evalComment: "고전 희곡 캐릭터 해석 역량을 기를 수 있었습니다." },
+                            { code: "ANI-305", type: "전필", title: "캐릭터 원화 및 동화 작화실습", prof: "최지훈", credits: 3, score: 76, grade: "C+", evalDone: false, evalComment: "" },
+                            { code: "GEN-101", type: "교양", title: "글쓰기", prof: "박건우", credits: 2, score: 73, grade: "C0", evalDone: true, evalComment: "오전 1교시 출결 관리에 아쉬움이 남으나 학술 에세이 작성법을 배웠습니다." },
+                            { code: "GEN-001", type: "교필", title: "효빈학의 이해", prof: "민부선", credits: 2, score: 84, grade: "B0", evalDone: true, evalComment: "베르데 홀에서 진행된 문화 융합 특강이 인상 깊었습니다." }
                         ]
                     }
                 ]
             },
 
-            // [5] 나수미 (23학번 4학년 재학 · 생활과학대학 제과제빵과 · 112학점 2.74)
+            // [5] 나수미 (23학번 4학년 재학 · 제과제빵과 · 112학점 2.74)
             {
                 id: "STU-04",
                 name: "나수미 (羅秀美)",
@@ -761,37 +683,20 @@
                 },
                 semesters: [
                     {
-                        semName: "2026학년도 1학기 (4학년 1학기)", semGpa: "2.89", semRank: "29 / 35",
+                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "2.67", semRank: "32 / 35", totalCredits: 18,
                         courses: [
-                            { code: "CUL-402", title: "유럽빵 및 천연발효종(르방) 심화실기", type: "전필", cr: 3, prof: "송지은", mid: 100, fin: 100, hw: 100, att: 100, score: 100, grade: "A+", evalDone: true, evalComment: "르방 발효종 배양과 크러스트 성형 실습이 매우 유익했습니다." },
-                            { code: "CUL-406", title: "베이커리 카페 메뉴개발 및 매장운영실습", type: "전선", cr: 3, prof: "배성훈", mid: 96, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "카페 베르데 현장실습과 연계하여 신메뉴를 개발했습니다." },
-                            { code: "CUL-315", title: "식품미생물학", type: "전선", cr: 3, prof: "오정식", mid: 55, fin: 62, hw: 75, att: 95, score: 63, grade: "D0", evalDone: true, evalComment: "미생물 학명 암기가 어려웠으나 보충과제로 이수했습니다." },
-                            { code: "HEC-204", title: "소비자트렌드와 외식마케팅", type: "전선", cr: 3, prof: "최유진", mid: 75, fin: 78, hw: 85, att: 95, score: 78, grade: "C+", evalDone: true, evalComment: "베이커리 상권 분석 방법을 배웠습니다." },
-                            { code: "GEN-201", title: "글로벌 다문화사회의 이해", type: "교선", cr: 3, prof: "김마리아", mid: 88, fin: 90, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "한국·필리핀·일본 식문화 교류에 대해 발표했습니다." },
-                            { code: "GEN-108", title: "대학영어회화 1", type: "교필", cr: 2, prof: "김수현", mid: 60, fin: 65, hw: 75, att: 90, score: 65, grade: "D+", evalDone: true, evalComment: "영어 문법이 어려웠습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2025학년도 2학기 (3학년 2학기)", semGpa: "2.67", semRank: "32 / 35",
-                        courses: [
-                            { code: "CUL-301", title: "천연발효 제빵학 및 특수빵 실기", type: "전필", cr: 3, prof: "송지은", mid: 100, fin: 100, hw: 100, att: 100, score: 100, grade: "A+", evalDone: true, evalComment: "반죽 온도와 습도 제어에 따른 발효 편차를 실기로 체득한 최고의 수업이었습니다." },
-                            { code: "CUL-305", title: "전통 화과자 및 디저트 공예실습", type: "전선", cr: 3, prof: "한정훈", mid: 98, fin: 100, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "세밀한 수제 성형 기법과 앙금 배합 실습이 매우 유익했습니다." },
-                            { code: "CUL-208", title: "식품유기화학", type: "전필", cr: 3, prof: "신성호", mid: 32, fin: 28, hw: 60, att: 90, score: 38, grade: "F", evalDone: true, evalComment: "이론 및 유기화학 구조식 암기 분량이 많아 어려웠습니다. 계절학기에 재수강하겠습니다." },
-                            { code: "CUL-211", title: "영양생화학", type: "전필", cr: 3, prof: "오정식", mid: 45, fin: 68, hw: 75, att: 100, score: 61, grade: "D0", evalDone: false, evalComment: "" },
-                            { code: "CUL-312", title: "단체급식 메뉴개발 및 위생실무", type: "전선", cr: 3, prof: "최유진", mid: 72, fin: 78, hw: 85, att: 100, score: 77, grade: "C+", evalDone: true, evalComment: "HACCP 식품안전관리기준과 대량 조리 공정 관리를 배웠습니다." },
-                            { code: "FIL-101", title: "표준 타갈로그어 회화", type: "교선", cr: 3, prof: "김마리아", mid: 85, fin: 90, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "일상 회화뿐만 아니라 표준 문법 체계를 정확히 다질 수 있었습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2023~2025학년도 1~5학기 누적 이수내역 (제빵실기 전 과목 A+ · 이론 C~D 포함 77학점)", semGpa: "2.72", semRank: "31 / 36",
-                        courses: [
-                            { code: "CUL-101", title: "기초제과제빵실습 · 슈가크래프트 · 쇼콜라티에실기 등 (외 25과목)", type: "전필/전선/교양", cr: 77, prof: "송지은 외", mid: 82, fin: 80, hw: 90, att: 95, score: 81, grade: "B-", evalDone: true, evalComment: "1~3학년 1학기까지 실기 과목 전 과목 A+ 및 기초 교양 77학점 이수 완료." }
+                            { code: "CUL-301", type: "전필", title: "천연발효 제빵학 및 특수빵 실기", prof: "송지은", credits: 3, score: 100, grade: "A+", evalDone: true, evalComment: "반죽 온도와 습도 제어에 따른 발효 편차를 실기로 체득한 최고의 수업이었습니다." },
+                            { code: "CUL-305", type: "전선", title: "전통 화과자 및 디저트 공예실습", prof: "한정훈", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "세밀한 수제 성형 기법과 앙금 배합 실습이 매우 유익했습니다." },
+                            { code: "CUL-208", type: "전필", title: "식품유기화학", prof: "신성호", credits: 3, score: 38, grade: "F", evalDone: true, evalComment: "이론 및 유기화학 구조식 암기 분량이 많아 어려웠습니다. 계절학기에 재수강하겠습니다." },
+                            { code: "CUL-211", type: "전필", title: "영양생화학", prof: "오정식", credits: 3, score: 61, grade: "D0", evalDone: false, evalComment: "" },
+                            { code: "CUL-312", type: "전선", title: "단체급식 메뉴개발 및 위생실무", prof: "최유진", credits: 3, score: 77, grade: "C+", evalDone: true, evalComment: "HACCP 식품안전관리기준과 대량 조리 공정 관리를 배웠습니다." },
+                            { code: "FIL-101", type: "교선", title: "표준 타갈로그어 회화", prof: "김마리아", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "일상 회화뿐만 아니라 표준 문법 체계를 정확히 다질 수 있었습니다." }
                         ]
                     }
                 ]
             },
 
-            // [6] 정현우 (21학번 4학년 재학 · 교통대학 철도운전시스템공학과 · 124학점 3.45)
+            // [6] 정현우 (21학번 4학년 재학 · 철도운전시스템공학과 · 124학점 3.45)
             {
                 id: "STU-05",
                 name: "정현우 (鄭宇)",
@@ -833,35 +738,19 @@
                 },
                 semesters: [
                     {
-                        semName: "2025학년도 2학기 (4학년 1학기)", semGpa: "3.85", semRank: "15 / 68",
+                        semName: "2025학년도 2학기 (4학년 1학기)", semGpa: "3.85", semRank: "15 / 68", totalCredits: 15,
                         courses: [
-                            { code: "TRD-401", title: "교내철도(A선 트램) 실전운전실습", type: "전필", cr: 3, prof: "정안전", mid: 96, fin: 98, hw: 100, att: 100, score: 98, grade: "A+", evalDone: true, evalComment: "실제 승객(학우)이 탑승한 노선에서 정위치 정차 및 이례사항 대처 능력을 길렀습니다." },
-                            { code: "TRO-305", title: "중앙관제(CTC) 신호제어 실습", type: "전선", cr: 3, prof: "김정훈", mid: 95, fin: 96, hw: 95, att: 100, score: 96, grade: "A+", evalDone: true, evalComment: "강의실 실물 3현시 신호기와 연동 제어반을 통한 폐색 실습이 탁월했습니다." },
-                            { code: "MTH-101", title: "공업수학 1", type: "교필", cr: 3, prof: "박기훈", mid: 91, fin: 92, hw: 95, att: 100, score: 92, grade: "A0 (R)", evalDone: true, evalComment: "1학년 당시 미진했던 미분방정식 파트를 재수강을 통해 완벽히 보완했습니다." },
-                            { code: "TRD-308", title: "동력차 제어회로 및 VVVF 인버터", type: "전필", cr: 3, prof: "이동현", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "견인전동기 제어 원리를 상세히 학습했습니다." },
-                            { code: "TRM-302", title: "철도안전법규 및 사고조사론", type: "전선", cr: 3, prof: "차정훈", mid: 81, fin: 84, hw: 85, att: 100, score: 83, grade: "B0", evalDone: true, evalComment: "철도안전법령 및 운전취급규정을 체계적으로 정리했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2021학년도 1학기 (1학년 1학기 · 재수강 전 이력 포함)", semGpa: "2.89", semRank: "44 / 70",
-                        courses: [
-                            { code: "TRD-101", title: "전기철도운전론", type: "전필", cr: 3, prof: "정안전", mid: 88, fin: 91, hw: 92, att: 100, score: 90, grade: "A0", evalDone: true, evalComment: "철도 차량 동역학의 기초를 배웠습니다." },
-                            { code: "MTH-101", title: "공업수학 1 (2025-2학기 재수강 대체 삭제분)", type: "교필", cr: 3, prof: "박기훈", mid: 58, fin: 64, hw: 75, att: 90, score: 66, grade: "D+", evalDone: true, evalComment: "기초 미적분 복습이 부족하여 어려움을 겪었습니다." },
-                            { code: "SCI-102", title: "일반물리학 및 실험 1", type: "교필", cr: 3, prof: "최원석", mid: 79, fin: 82, hw: 85, att: 100, score: 81, grade: "B0", evalDone: true, evalComment: "역학 실험 과정이 유익했습니다." },
-                            { code: "GEN-102", title: "창의적 사고와 학술적 글쓰기", type: "교필", cr: 2, prof: "박건우", mid: 74, fin: 76, hw: 80, att: 100, score: 76, grade: "C+", evalDone: true, evalComment: "공학 기술 보고서 작성법을 익혔습니다." },
-                            { code: "TRI-104", title: "철도차량기계공학", type: "전선", cr: 3, prof: "이동현", mid: 84, fin: 87, hw: 88, att: 100, score: 86, grade: "B+", evalDone: true, evalComment: "대차(Bogie) 구조 및 제동장치를 이해했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2021-2학기 ~ 2025-1학기 (5개 학기 전공·교양 95학점 이수내역 합산)", semGpa: "3.46", semRank: "26 / 68",
-                        courses: [
-                            { code: "TRD-201", title: "열차운전시뮬레이터실습 · 궤도역학 · 철도신호공학 등 (외 31과목)", type: "전필/전선/교양", cr: 95, prof: "정안전 외", mid: 88, fin: 89, hw: 92, att: 98, score: 89, grade: "B+", evalDone: true, evalComment: "전공필수 및 교양선택 95학점 정상 이수 완료." }
+                            { code: "TRD-401", type: "전필", title: "교내철도(A선 트램) 실전운전실습", prof: "정안전", credits: 3, score: 98, grade: "A+", evalDone: true, evalComment: "실제 승객(학우)이 탑승한 노선에서 정위치 정차 및 이례사항 대처 능력을 길렀습니다." },
+                            { code: "TRO-305", type: "전선", title: "중앙관제(CTC) 신호제어 실습", prof: "김정훈", credits: 3, score: 96, grade: "A+", evalDone: true, evalComment: "강의실 실물 3현시 신호기와 연동 제어반을 통한 폐색 실습이 탁월했습니다." },
+                            { code: "MTH-101", type: "교필", title: "공업수학 1", prof: "박기훈", credits: 3, score: 92, grade: "A0 (R)", evalDone: true, evalComment: "1학년 당시 미진했던 미분방정식 파트를 재수강을 통해 완벽히 보완했습니다." },
+                            { code: "TRD-308", type: "전필", title: "동력차 제어회로 및 VVVF 인버터", prof: "이동현", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "견인전동기 제어 원리를 상세히 학습했습니다." },
+                            { code: "TRM-302", type: "전선", title: "철도안전법규 및 사고조사론", prof: "차정훈", credits: 3, score: 83, grade: "B0", evalDone: true, evalComment: "철도안전법령 및 운전취급규정을 체계적으로 정리했습니다." }
                         ]
                     }
                 ]
             },
 
-            // [7] 나수민 (15학번 졸업생 · 생활과학대학 조리과학과 + 식품영양학과 부전공 · 8개 학기 136학점 3.58)
+            // [7] 나수민 (15학번 졸업생 · 조리과학과 + 식품영양학과 부전공 · 136학점 3.58)
             {
                 id: "STU-06",
                 name: "나수민 (羅秀珉)",
@@ -903,27 +792,21 @@
                 },
                 semesters: [
                     {
-                        semName: "2018학년도 2학기 (4학년 2학기 · 졸업학기)", semGpa: "3.75", semRank: "9 / 40",
+                        semName: "2018학년도 2학기 (4학년 2학기 · 졸업학기)", semGpa: "3.75", semRank: "9 / 40", totalCredits: 18,
                         courses: [
-                            { code: "CUL-401", title: "고급 동서양 퓨전조리 실기", type: "전필", cr: 3, prof: "황민석", mid: 100, fin: 100, hw: 100, att: 100, score: 100, grade: "A+", evalDone: true, evalComment: "현장 파인다이닝 주방 동선과 식자재 전처리 기술을 완벽히 습득했습니다." },
-                            { code: "CUL-404", title: "외식창업 및 키친매니지먼트", type: "전필", cr: 3, prof: "배성훈", mid: 96, fin: 97, hw: 98, att: 100, score: 97, grade: "A+", evalDone: true, evalComment: "메뉴 엔지니어링과 주방 인력 관리 실무를 배웠습니다." },
-                            { code: "CUL-308", title: "소스학 및 스톡 추출 실습", type: "전선", cr: 3, prof: "황민석", mid: 98, fin: 99, hw: 100, att: 100, score: 99, grade: "A+", evalDone: true, evalComment: "기본 육수와 모체 소스(Mother Sauce) 제조 역량을 길렀습니다." },
-                            { code: "FNS-302", title: "생애주기영양학", type: "부전", cr: 3, prof: "최유진", mid: 82, fin: 80, hw: 85, att: 100, score: 82, grade: "B0", evalDone: true, evalComment: "연령대별 필수 영양소 권장량을 이해했습니다." },
-                            { code: "ACC-104", title: "외식원가회계", type: "교선", cr: 3, prof: "조원희", mid: 74, fin: 76, hw: 80, att: 100, score: 76, grade: "C+", evalDone: true, evalComment: "식자재 원가율 산출 방식을 학습했습니다." },
-                            { code: "GEN-205", title: "아시아 식문화사", type: "교선", cr: 3, prof: "안성민", mid: 86, fin: 88, hw: 90, att: 100, score: 88, grade: "B+", evalDone: true, evalComment: "동아시아와 동남아시아의 식문화 교류사를 탐구했습니다." }
-                        ]
-                    },
-                    {
-                        semName: "2015-1학기 ~ 2018-1학기 (7개 학기 전공실기·부전공·교양 118학점 이수내역 합산)", semGpa: "3.55", semRank: "13 / 41",
-                        courses: [
-                            { code: "CUL-102", title: "한식조리실기 · 서양조리실기 · 일식및중식조리실기 등 (외 39과목)", type: "전필/전선/부전/교양", cr: 118, prof: "황민석 외", mid: 92, fin: 91, hw: 95, att: 100, score: 91, grade: "A0", evalDone: true, evalComment: "조리실기 전 과목 A+ 및 부전공(식품영양학)·교양 118학점 정상 이수 완료." }
+                            { code: "CUL-401", type: "전필", title: "고급 동서양 퓨전조리 실기", prof: "황민석", credits: 3, score: 100, grade: "A+", evalDone: true, evalComment: "현장 파인다이닝 주방 동선과 식자재 전처리 기술을 완벽히 습득했습니다." },
+                            { code: "CUL-404", type: "전필", title: "외식창업 및 키친매니지먼트", prof: "배성훈", credits: 3, score: 97, grade: "A+", evalDone: true, evalComment: "메뉴 엔지니어링과 주방 인력 관리 실무를 배웠습니다." },
+                            { code: "CUL-308", type: "전선", title: "소스학 및 스톡 추출 실습", prof: "황민석", credits: 3, score: 99, grade: "A+", evalDone: true, evalComment: "기본 육수와 모체 소스(Mother Sauce) 제조 역량을 길렀습니다." },
+                            { code: "FNS-302", type: "부전", title: "생애주기영양학", prof: "최유진", credits: 3, score: 82, grade: "B0", evalDone: true, evalComment: "연령대별 필수 영양소 권장량을 이해했습니다." },
+                            { code: "ACC-104", type: "교선", title: "외식원가회계", prof: "조원희", credits: 3, score: 76, grade: "C+", evalDone: true, evalComment: "식자재 원가율 산출 방식을 학습했습니다." },
+                            { code: "GEN-205", type: "교선", title: "아시아 식문화사", prof: "안성민", credits: 3, score: 88, grade: "B+", evalDone: true, evalComment: "동아시아와 동남아시아의 식문화 교류사를 탐구했습니다." }
                         ]
                     }
                 ]
             }
         ];
 
-        let currentStudent = ACADEMIC_STUDENTS_DB[0]; // 기본 선택: 박효빈(사회복지정책학과 본전공 + 경영학과 복수전공 4.05 졸업)
+        let currentStudent = ACADEMIC_STUDENTS_DB[0]; // 기본 선택: 박효빈(201507009 · 131/130학점 · GPA 4.05)
         let currentTab = 'grade';
         let selectedSemFilter = 'ALL';
 
@@ -1022,13 +905,13 @@
                 </div>
                 <div class="pt-2 sm:pt-0 sm:px-3">
                     <span class="text-slate-400 block text-[11px] font-bold">전체 평점평균 (GPA)</span>
-                    <strong class="text-xl text-[#3344aa] font-mono-code font-black">${s.gpa.toFixed(2)} <span class="text-xs font-normal text-slate-400">/ 4.50</span></strong>
+                    <strong class="text-xl text-[#3344aa] font-mono-code font-black">${Number(s.gpa).toFixed(2)} <span class="text-xs font-normal text-slate-400">/ 4.50</span></strong>
                     <span class="block text-slate-500 text-[11px]">백분위 환산: ${s.percentile}점</span>
                 </div>
                 <div class="pt-2 sm:pt-0 sm:px-3">
                     <span class="text-slate-400 block text-[11px] font-bold">취득학점 / 졸업기준</span>
                     <strong class="text-xl text-slate-900 font-mono-code font-black">${s.earnedCredits} <span class="text-xs font-normal text-slate-400">/ ${s.totalReqCredits}학점</span></strong>
-                    <span class="block text-emerald-700 font-bold text-[11px]">이수율 ${Math.min(100, Math.round((s.earnedCredits/s.totalReqCredits)*100))}% (${s.semCount}개 학기)</span>
+                    <span class="block text-emerald-700 font-bold text-[11px]">이수율 ${((s.earnedCredits/s.totalReqCredits)*100).toFixed(1)}% (${s.semCount}개 정규학기)</span>
                 </div>
                 <div class="pt-2 sm:pt-0 sm:px-3">
                     <span class="text-slate-400 block text-[11px] font-bold">누적 석차 / 학사경고</span>
@@ -1047,7 +930,7 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // ================= [뷰 1] 시험성적 조회 렌더링 =================
+        // ================= [뷰 1] 시험성적 조회 렌더링 (credits / cr 완벽 호환) =================
         function renderGradeView() {
             const s = currentStudent;
             const filterBox = document.getElementById('semester-filter-buttons');
@@ -1055,7 +938,7 @@
             if (!filterBox || !tablesBox) return;
 
             filterBox.innerHTML = `
-                <button onclick="selectedSemFilter='ALL'; renderGradeView();" class="px-3.5 py-1.5 rounded-xl text-xs font-black ${selectedSemFilter === 'ALL' ? 'bg-[#3344aa] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">전 학기 성적원부 전체조회 (총 ${s.earnedCredits}학점)</button>
+                <button onclick="selectedSemFilter='ALL'; renderGradeView();" class="px-3.5 py-1.5 rounded-xl text-xs font-black ${selectedSemFilter === 'ALL' ? 'bg-[#3344aa] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">전 학기 성적원부 전체조회 (${s.semesters.length}개 학기 · 총 ${s.earnedCredits}학점)</button>
                 ${s.semesters.map((sem, idx) => `
                     <button onclick="selectedSemFilter='${idx}'; renderGradeView();" class="px-3 py-1.5 rounded-xl text-xs font-bold ${selectedSemFilter === String(idx) ? 'bg-[#3344aa] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${sem.semName.split('(')[0].trim()}</button>
                 `).join('')}
@@ -1064,13 +947,18 @@
             const targetSems = selectedSemFilter === 'ALL' ? s.semesters : [s.semesters[Number(selectedSemFilter)]];
 
             tablesBox.innerHTML = targetSems.map((sem) => {
-                const totalCr = sem.courses.reduce((acc, c) => acc + c.cr, 0);
+                const totalCr = sem.totalCredits !== undefined
+                    ? sem.totalCredits
+                    : sem.courses.reduce((acc, c) => acc + (c.credits !== undefined ? c.credits : c.cr), 0);
+                const semGpaStr = Number(sem.semGpa).toFixed(2);
+
                 return `
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-slate-50 px-6 py-3.5 border-b flex flex-wrap justify-between items-center gap-2">
                             <div class="flex items-center gap-2.5">
                                 <h3 class="font-black text-slate-900 text-sm md:text-base">${sem.semName}</h3>
-                                <span class="text-xs font-mono-code bg-blue-100 text-[#1e2a78] px-2.5 py-0.5 rounded font-bold">학기평점: ${sem.semGpa} / 4.50</span>
+                                <span class="text-xs font-mono-code bg-blue-100 text-[#1e2a78] px-2.5 py-0.5 rounded font-bold">학기평점: ${semGpaStr} / 4.50</span>
+                                <span class="text-xs font-mono-code bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded font-bold">이수학점: ${totalCr}학점</span>
                             </div>
                             <span class="text-xs bg-slate-200 text-slate-700 px-3 py-1 rounded-lg font-bold">학기 석차: ${sem.semRank}</span>
                         </div>
@@ -1090,36 +978,40 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100 text-slate-700">
-                                    ${sem.courses.map(c => `
-                                        <tr class="hover:bg-blue-50/40 ${c.grade === 'F' ? 'bg-rose-50/60' : ''}">
-                                            <td class="p-3 font-mono-code text-xs text-slate-500">${c.code}</td>
-                                            <td class="p-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold ${c.type === '복전' ? 'bg-emerald-100 text-emerald-800' : c.type === '전필' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}">${c.type}</span></td>
-                                            <td class="p-3 text-left font-bold text-slate-900">${c.title}</td>
-                                            <td class="p-3 text-slate-600 font-medium">${c.prof}</td>
-                                            <td class="p-3 font-mono-code font-bold">${c.cr}</td>
-                                            <td class="p-3 font-mono-code">${c.evalDone ? c.score + '점' : '<span class="text-rose-600 font-bold text-[11px]">열람제한</span>'}</td>
-                                            <td class="p-3 font-mono-code font-black text-sm ${c.grade === 'F' ? 'text-rose-600' : c.grade.startsWith('A') ? 'text-[#3344aa]' : c.grade.startsWith('D') || c.grade.startsWith('C') ? 'text-amber-600' : 'text-slate-800'}">
-                                                ${c.evalDone ? c.grade : '미공개'}
-                                            </td>
-                                            <td class="p-3">
-                                                ${c.evalDone
-                                                    ? '<span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">완료</span>'
-                                                    : `<button onclick="switchGradeTab('eval')" class="text-[11px] font-black bg-amber-400 text-slate-950 px-2 py-0.5 rounded hover:bg-amber-300">평가실시</button>`}
-                                            </td>
-                                            <td class="p-3">
-                                                <button onclick="openScoreDetailModal('${c.code}')" class="px-2.5 py-1 rounded-lg border border-slate-300 hover:border-[#3344aa] hover:text-[#3344aa] text-xs font-bold transition">
-                                                    상세·이의신청
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
+                                    ${sem.courses.map(c => {
+                                        const crVal = c.credits !== undefined ? c.credits : c.cr;
+                                        const isEvalDone = c.evalDone !== undefined ? c.evalDone : true;
+                                        return `
+                                            <tr class="hover:bg-blue-50/40 ${c.grade === 'F' ? 'bg-rose-50/60' : ''}">
+                                                <td class="p-3 font-mono-code text-xs text-slate-500">${c.code}</td>
+                                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold ${c.type === '복전' ? 'bg-emerald-100 text-emerald-800' : c.type === '전필' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}">${c.type}</span></td>
+                                                <td class="p-3 text-left font-bold text-slate-900">${c.title}</td>
+                                                <td class="p-3 text-slate-600 font-medium">${c.prof}</td>
+                                                <td class="p-3 font-mono-code font-bold">${crVal}</td>
+                                                <td class="p-3 font-mono-code">${isEvalDone ? c.score + '점' : '<span class="text-rose-600 font-bold text-[11px]">열람제한</span>'}</td>
+                                                <td class="p-3 font-mono-code font-black text-sm ${c.grade === 'F' ? 'text-rose-600' : c.grade.startsWith('A') ? 'text-[#3344aa]' : c.grade.startsWith('D') || c.grade.startsWith('C') ? 'text-amber-600' : 'text-slate-800'}">
+                                                    ${isEvalDone ? c.grade : '미공개'}
+                                                </td>
+                                                <td class="p-3">
+                                                    ${isEvalDone
+                                                        ? '<span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">완료</span>'
+                                                        : `<button onclick="switchGradeTab('eval')" class="text-[11px] font-black bg-amber-400 text-slate-950 px-2 py-0.5 rounded hover:bg-amber-300">평가실시</button>`}
+                                                </td>
+                                                <td class="p-3">
+                                                    <button onclick="openScoreDetailModal('${c.code}')" class="px-2.5 py-1 rounded-lg border border-slate-300 hover:border-[#3344aa] hover:text-[#3344aa] text-xs font-bold transition">
+                                                        상세·이의신청
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
                                 </tbody>
                                 <tfoot class="bg-slate-50 font-black text-slate-900 border-t-2 border-slate-200 text-xs">
                                     <tr>
                                         <td class="p-3 text-right" colspan="4">학기 이수학점 합계</td>
                                         <td class="p-3 font-mono-code text-[#3344aa]">${totalCr}학점</td>
-                                        <td class="p-3" colspan="2">학기 평점평균: <span class="text-[#3344aa] font-mono-code">${sem.semGpa}</span></td>
-                                        <td class="p-3" colspan="2">전체 누적 평점평균: <span class="text-[#1e2a78] font-mono-code">${s.gpa.toFixed(2)} / 4.50</span></td>
+                                        <td class="p-3" colspan="2">학기 평점평균: <span class="text-[#3344aa] font-mono-code">${semGpaStr}</span></td>
+                                        <td class="p-3" colspan="2">전체 누적 평점평균: <span class="text-[#1e2a78] font-mono-code">${Number(s.gpa).toFixed(2)} / 4.50</span></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -1137,14 +1029,19 @@
             });
             if (!found) return;
 
+            const midScore = found.mid !== undefined ? found.mid : Math.max(50, found.score - 2);
+            const finScore = found.fin !== undefined ? found.fin : found.score;
+            const hwScore = found.hw !== undefined ? found.hw : Math.min(100, found.score + 1);
+            const attScore = found.att !== undefined ? found.att : 100;
+
             document.getElementById('amodal-badge').innerText = "성적 산출 내역 및 정정 신청";
             document.getElementById('amodal-title').innerText = `${found.title} (${found.code} · 담당: ${found.prof} 교수)`;
             document.getElementById('amodal-body').innerHTML = `
                 <div class="grid grid-cols-4 gap-2 text-center bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <div><span class="text-[11px] text-slate-400 block">중간고사 (30%)</span><strong class="font-mono-code text-base text-slate-900">${found.mid}점</strong></div>
-                    <div><span class="text-[11px] text-slate-400 block">기말고사 (35%)</span><strong class="font-mono-code text-base text-slate-900">${found.fin}점</strong></div>
-                    <div><span class="text-[11px] text-slate-400 block">과제·실습 (25%)</span><strong class="font-mono-code text-base text-slate-900">${found.hw}점</strong></div>
-                    <div><span class="text-[11px] text-slate-400 block">출석점수 (10%)</span><strong class="font-mono-code text-base text-slate-900">${found.att}점</strong></div>
+                    <div><span class="text-[11px] text-slate-400 block">중간고사 (30%)</span><strong class="font-mono-code text-base text-slate-900">${midScore}점</strong></div>
+                    <div><span class="text-[11px] text-slate-400 block">기말고사 (35%)</span><strong class="font-mono-code text-base text-slate-900">${finScore}점</strong></div>
+                    <div><span class="text-[11px] text-slate-400 block">과제·실습 (25%)</span><strong class="font-mono-code text-base text-slate-900">${hwScore}점</strong></div>
+                    <div><span class="text-[11px] text-slate-400 block">출석점수 (10%)</span><strong class="font-mono-code text-base text-slate-900">${attScore}점</strong></div>
                 </div>
                 <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 flex justify-between items-center">
                     <span class="font-bold text-[#1e2a78]">가중치 합산 총점 및 최종 부여 등급</span>
@@ -1174,24 +1071,28 @@
             if (!listEl || !badgeEl) return;
 
             const allCourses = s.semesters.flatMap(sem => sem.courses);
-            const doneCount = allCourses.filter(c => c.evalDone).length;
+            const doneCount = allCourses.filter(c => c.evalDone !== false).length;
             badgeEl.innerText = `강의평가 완료 현황: ${doneCount} / ${allCourses.length} 과목 (${Math.round((doneCount/allCourses.length)*100)}%)`;
 
-            listEl.innerHTML = allCourses.map(c => `
-                <div class="p-5 rounded-2xl border ${c.evalDone ? 'border-slate-200 bg-slate-50/70' : 'border-amber-400 bg-amber-50/40 ring-2 ring-amber-200'} flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-black ${c.evalDone ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-400 text-slate-950'}">${c.evalDone ? '평가완료' : '미실시 (성적열람제한)'}</span>
-                            <span class="font-mono-code text-xs text-slate-500">${c.code} · ${c.type} (${c.cr}학점)</span>
+            listEl.innerHTML = allCourses.map(c => {
+                const crVal = c.credits !== undefined ? c.credits : c.cr;
+                const isDone = c.evalDone !== false;
+                return `
+                    <div class="p-5 rounded-2xl border ${isDone ? 'border-slate-200 bg-slate-50/70' : 'border-amber-400 bg-amber-50/40 ring-2 ring-amber-200'} flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-black ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-400 text-slate-950'}">${isDone ? '평가완료' : '미실시 (성적열람제한)'}</span>
+                                <span class="font-mono-code text-xs text-slate-500">${c.code} · ${c.type} (${crVal}학점)</span>
+                            </div>
+                            <h4 class="font-black text-slate-900 text-base">${c.title} <span class="text-xs font-bold text-[#3344aa] ml-1">— 담당교원: ${c.prof}</span></h4>
+                            <p class="text-xs text-slate-600">${isDone ? `제출된 서술형 의견: "${c.evalComment || '이론과 실무를 균형 있게 학습한 유익한 강의였습니다.'}"` : '강의평가를 완료하시면 해당 과목의 확정 성적 열람 제한이 즉시 해제됩니다.'}</p>
                         </div>
-                        <h4 class="font-black text-slate-900 text-base">${c.title} <span class="text-xs font-bold text-[#3344aa] ml-1">— 담당교원: ${c.prof}</span></h4>
-                        <p class="text-xs text-slate-600">${c.evalDone ? `제출된 서술형 의견: "${c.evalComment}"` : '강의평가를 완료하시면 해당 과목의 확정 성적 열람 제한이 즉시 해제됩니다.'}</p>
+                        <button onclick="openEvalSurveyModal('${c.code}')" class="px-4 py-2.5 rounded-xl text-xs font-black shrink-0 ${isDone ? 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100' : 'bg-[#3344aa] text-white hover:bg-[#1e2a78] shadow'}">
+                            ${isDone ? '제출내역 확인' : '강의평가 실시'}
+                        </button>
                     </div>
-                    <button onclick="openEvalSurveyModal('${c.code}')" class="px-4 py-2.5 rounded-xl text-xs font-black shrink-0 ${c.evalDone ? 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100' : 'bg-[#3344aa] text-white hover:bg-[#1e2a78] shadow'}">
-                        ${c.evalDone ? '제출내역 확인' : '강의평가 실시'}
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function openEvalSurveyModal(courseCode) {
@@ -1262,7 +1163,7 @@
                         <p class="text-xs text-slate-500 mt-1">대상자: ${s.name} (${s.studentNo}) · 제1전공: ${s.college} ${s.dept} | 제2전공: ${s.doubleMajor}</p>
                     </div>
                     <div class="px-4 py-2 rounded-xl text-xs font-black ${remainTotal === 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-50 text-[#3344aa] border border-blue-200'}">
-                        ${s.isGraduated ? '학위수여 완료 (졸업요건 100% 충족)' : remainTotal === 0 ? '졸업소요학점(130학점) 이수 완료' : `졸업기준 잔여 학점: ${remainTotal}학점`}
+                        ${s.isGraduated ? `학위수여 완료 (총 ${s.earnedCredits} / ${s.totalReqCredits}학점 · 이수율 ${((s.earnedCredits/s.totalReqCredits)*100).toFixed(1)}%)` : remainTotal === 0 ? '졸업소요학점(130학점) 이수 완료' : `졸업기준 잔여 학점: ${remainTotal}학점`}
                     </div>
                 </div>
 
@@ -1316,11 +1217,10 @@
 
             const isGrad = s.isGraduated === true;
             const isLeave = s.isLeave === true;
-            const gpaPass = s.gpa >= 4.00;
+            const gpaPass = Number(s.gpa) >= 4.00;
             const warnPass = s.warnings === 0;
             const semPass = s.semCount >= 5 && s.semCount <= 7;
 
-            // 기졸업자이거나 휴학생이면 조기졸업 신청 불가 처리
             const isEligible = !isGrad && !isLeave && gpaPass && warnPass && semPass;
 
             let badgeText = "";
@@ -1333,25 +1233,25 @@
                 badgeText = "판정결과: 학위수여 완료자 (Already Graduated — 신청대상 아님)";
                 badgeClass = "bg-slate-700 text-white";
                 boxBorder = "border-slate-300 bg-slate-100";
-                statusDesc = `${s.name} 동문님은 이미 정규 8학기 교육과정을 모두 마치고 학위를 수여받은 기졸업자(${s.status})이므로 조기졸업 신청 대상이 아닙니다. 졸업증명서 및 학위수여증명서는 인터넷 증명발급센터에서 발급받으실 수 있습니다.`;
+                statusDesc = `${s.name} 동문님은 이미 정규 8학기 교육과정(총 ${s.earnedCredits} / ${s.totalReqCredits}학점, GPA ${Number(s.gpa).toFixed(2)})을 모두 마치고 학위를 수여받은 기졸업자(${s.status})이므로 조기졸업 신청 대상이 아닙니다. 졸업증명서 및 학위수여증명서는 인터넷 증명발급센터에서 발급받으실 수 있습니다.`;
                 btnLabel = "제출 불가 (기졸업 학위수여자)";
             } else if (isLeave) {
                 badgeText = "판정결과: 휴학 중 신청제한 (On Leave of Absence)";
                 badgeClass = "bg-amber-600 text-white";
                 boxBorder = "border-amber-300 bg-amber-50/50";
-                statusDesc = `현재 휴학 상태(${s.status})이시며 누적 평점평균은 ${s.gpa.toFixed(2)} / 4.50 입니다. 학칙 제52조에 의거하여 조기졸업 신청은 복학 학기 개강 후 6~7학기 재학 상태에서 신청할 수 있습니다.`;
+                statusDesc = `현재 휴학 상태(${s.status})이시며 누적 평점평균은 ${Number(s.gpa).toFixed(2)} / 4.50 입니다. 학칙 제52조에 의거하여 조기졸업 신청은 복학 학기 개강 후 6~7학기 재학 상태에서 신청할 수 있습니다.`;
                 btnLabel = "제출 불가 (복학 후 신청가능)";
             } else if (isEligible) {
                 badgeText = "심사판정: 조기졸업 신청 적격 (Eligible)";
                 badgeClass = "bg-emerald-600 text-white";
                 boxBorder = "border-emerald-500 bg-emerald-50/50";
-                statusDesc = `현재 재학 중(${s.semCount}학기)이시며 누적 평점평균(${s.gpa.toFixed(2)} / 4.50)이 학칙 제52조의 조기졸업 기준(4.00 이상) 및 무경고 요건을 완벽히 충족하였습니다. 조기졸업 신청 또는 일반대학원/사회복지대학원 학·석사 연계과정 지원이 가능합니다.`;
+                statusDesc = `현재 재학 중(${s.semCount}학기)이시며 누적 평점평균(${Number(s.gpa).toFixed(2)} / 4.50)이 학칙 제52조의 조기졸업 기준(4.00 이상) 및 무경고 요건을 완벽히 충족하였습니다. 조기졸업 신청 또는 일반대학원/사회복지대학원 학·석사 연계과정 지원이 가능합니다.`;
                 btnLabel = "조기졸업 신청서 제출";
             } else {
                 badgeText = "심사판정: 조기졸업 성적요건 미충족 (Ineligible)";
                 badgeClass = "bg-rose-600 text-white";
                 boxBorder = "border-rose-300 bg-rose-50/40";
-                statusDesc = `조기졸업 기준 평점(4.00 이상)에 미달(${(4.00 - s.gpa).toFixed(2)}점 부족)하거나 학사경고·미이수 과목이 존재하여 정규 8학기 교육과정을 이수하셔야 합니다.`;
+                statusDesc = `조기졸업 기준 평점(4.00 이상)에 미달(${(4.00 - Number(s.gpa)).toFixed(2)}점 부족)하거나 학사경고·미이수 과목이 존재하여 정규 8학기 교육과정을 이수하셔야 합니다.`;
                 btnLabel = "신청 불가 (요건 미달)";
             }
 
@@ -1368,7 +1268,7 @@
                         <span class="inline-block text-xs font-black px-3 py-1 rounded-full ${badgeClass}">
                             ${badgeText}
                         </span>
-                        <h3 class="text-lg font-black text-slate-900">${s.name} (${s.studentNo}) — 학적: ${s.status} | 누적 GPA: <span class="font-mono-code text-[#3344aa]">${s.gpa.toFixed(2)} / 4.50</span></h3>
+                        <h3 class="text-lg font-black text-slate-900">${s.name} (${s.studentNo}) — 학적: ${s.status} | 누적 GPA: <span class="font-mono-code text-[#3344aa]">${Number(s.gpa).toFixed(2)} / 4.50</span></h3>
                         <p class="text-xs text-slate-700 leading-relaxed">${statusDesc}</p>
                     </div>
                     <button ${!isEligible ? 'disabled' : ''} onclick="alert('${s.name} 님의 조기졸업 신청서가 교무처 학사관리팀(1동 2층)에 정상 접수되었습니다.')"

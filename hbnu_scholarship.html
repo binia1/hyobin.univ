@@ -3,101 +3,824 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>장학제도 - 효빈대학교</title>
+    <title>등록금 · 교내외장학금 · 학자금대출 통합안내 - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        .font-serif-kr { font-family: 'Noto Serif KR', serif; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media print {
+            body * { visibility: hidden; }
+            #bill-print-area, #bill-print-area * { visibility: visible; }
+            #bill-print-area { position: fixed; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">장학제도 안내</h1>
-            <p class="text-gray-600">효빈대학교는 학생들의 꿈을 지원하기 위해 다양한 장학 제도를 운영하고 있습니다.</p>
-        </div>
-
-        <div class="space-y-8">
-            <!-- 1. 박효빈 장학금 (특수) -->
-            <section class="bg-white rounded-xl shadow-lg border-l-8 border-[#3344aa] overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-center mb-4">
-                        <span class="bg-[#3344aa] text-white px-3 py-1 rounded-full text-xs font-bold mr-3">특수 장학</span>
-                        <h2 class="text-2xl font-bold text-gray-800">박효빈 인재 장학금</h2>
-                    </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        효빈대학교 동문인 <b>박효빈 효빈광역시장</b>이 기탁한 발전기금으로 운영되는 장학금입니다. 
-                        가정 형편이 어렵지만 '불굴'의 의지로 학업을 지속하는 학생과, 사회 공헌 활동이 우수한 학생을 선발합니다.
+    <!-- 상단 서브 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-10 border-b-4 border-[#99dd88]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>학사안내 (학적/장학)</span>
+                <span>›</span>
+                <span id="schol-breadcrumb" class="text-[#99dd88] font-bold">등록금 책정표 · 고지서 조회 · 분할납부</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU TUITION, SCHOLARSHIP & STUDENT LOAN PORTAL
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">등록금 · 교내장학 · 교외장학 · 학자금대출 통합안내</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-1.5 max-w-3xl leading-relaxed">
+                        국립 효빈대학교는 산학협력 및 문화사업 수익 전입을 통해 <strong>5년 연속 학부 등록금을 전면 동결</strong>하였으며, 재학생 1인당 장학금 수혜율 거점국립대 1위를 유지하고 있습니다.
                     </p>
-                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                        <ul class="space-y-2 text-sm text-gray-700">
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>대상:</b> 사회복지학대학 및 전 학과 재학생 중 가계 곤란자</li>
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>혜택:</b> 등록금 전액 + 생활비 보조 (학기당 200만원)</li>
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-[#3344aa] mr-2 mt-0.5"></i> <b>비고:</b> 장학생은 '효빈 멘토링단' 활동 의무 부여</li>
-                        </ul>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="openTuitionBillModal()" class="bg-[#a0fff9] hover:bg-white text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow transition-all flex items-center gap-1.5">
+                        <i data-lucide="receipt" class="w-4 h-4"></i> 등록금 고지서 / 납부확인서 출력
+                    </button>
+                    <button onclick="navigateTo('hbnu_cert.html')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        <i data-lucide="printer" class="w-4 h-4"></i> 교육비납입·장학수혜증명서 발급
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 학사포털 SSO 로그인 세션 바 -->
+    <div class="bg-[#111827] text-white border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-500/20 text-[#99dd88] border border-emerald-500/40 px-2.5 py-1 rounded font-bold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-[#99dd88] animate-pulse"></span> HBNU 재무과(1동 5층) · 장학복지팀(1동 1층) 서버 연동중
+                </span>
+                <span class="text-slate-400 hidden sm:inline">수납은행: 효빈은행(대학본부 1층 지점) · 농협 · 국민 · 신한은행 가상계좌</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <label for="schol-student-select" class="text-slate-300 font-bold flex items-center gap-1">
+                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#a0fff9]"></i> 조회 대상 학적(학번/성명):
+                </label>
+                <select id="schol-student-select" onchange="selectScholStudent(this.value)" class="bg-slate-800 text-white border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-[#99dd88] cursor-pointer">
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4대 메뉴 SPA 탭 네비게이션 박스 (메가메뉴의 '등록금', '교내장학금', '교외장학금', '학자금대출' 1:1 대응) -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3.5">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                <button onclick="switchScholTab('tuition')" id="tab-btn-tuition" class="schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm">
+                    <i data-lucide="credit-card" class="w-4 h-4 shrink-0"></i> <span>1. 등록금 (계열별 책정표·납부·분납)</span>
+                </button>
+                <button onclick="switchScholTab('internal')" id="tab-btn-internal" class="schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="award" class="w-4 h-4 shrink-0"></i> <span>2. 교내장학금 (성적·복지·근로)</span>
+                </button>
+                <button onclick="switchScholTab('external')" id="tab-btn-external" class="schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="Building" class="w-4 h-4 shrink-0"></i> <span>3. 교외·국가장학 및 수혜이력</span>
+                </button>
+                <button onclick="switchScholTab('loan')" id="tab-btn-loan" class="schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="landmark" class="w-4 h-4 shrink-0"></i> <span>4. 학자금대출 및 이자지원</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- 상단 공통: 현재 선택된 학생의 등록금·장학금 요약 배너 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="wallet" class="w-4 h-4 text-[#3344aa]"></i>
+                    <h2 class="text-sm font-black text-slate-800">학생별 당해 학기 등록금 책정 및 장학금 감면 요약</h2>
+                </div>
+                <span class="text-[11px] text-emerald-700 font-bold">✅ 2026학년도 등록금심의위원회: 학부 등록금 5년 연속 동결 의결</span>
+            </div>
+            <div id="student-tuition-summary" class="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-xs divide-y sm:divide-y-0 sm:divide-x divide-slate-100"></div>
+        </section>
+
+        <!-- ================= [탭 1] 등록금 안내 · 단과대별 차등 등록금표 · 분할납부 · 초과학기 계산기 (#tuition) ================= -->
+        <div id="view-tuition" class="schol-view fade-in space-y-8">
+
+            <!-- 1-1. 온라인 등록금 수납(0원 등록 포함) 및 분할납부 신청 컨트롤 패널 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">ONLINE TUITION PAYMENT & INSTALLMENT</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">등록금 온라인 수납 · 0원 등록 처리 · 분할납부 신청</h3>
+                        <p class="text-xs text-slate-500 mt-1">전액장학생(실납부액 0원)의 경우에도 반드시 아래 <strong>[전액장학생 0원 등록 확정]</strong> 버튼을 클릭하거나 은행 가상계좌로 0원 이체 처리를 완료하여야 학적이 정상 등록됩니다.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 shrink-0">
+                        <button onclick="openTuitionBillModal()" class="bg-[#3344aa] hover:bg-[#1e2a78] text-white font-black px-5 py-2.5 rounded-xl text-xs shadow flex items-center gap-1.5">
+                            <i data-lucide="printer" class="w-4 h-4 text-[#99dd88]"></i> 등록금 고지서 / 납부확인서 인쇄
+                        </button>
+                        <button onclick="processOnlineTuitionPay()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-5 py-2.5 rounded-xl text-xs shadow flex items-center gap-1.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> 온라인 즉시납부 / 0원 등록 확정
+                        </button>
                     </div>
                 </div>
-            </section>
 
-            <!-- 2. 교내 성적 장학금 -->
-            <section class="bg-white rounded-xl shadow-sm border p-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center"><i data-lucide="award" class="w-6 h-6 mr-2 text-yellow-500"></i> 성적 우수 장학금</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left border-collapse">
-                        <thead class="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th class="p-3 border">장학명</th>
-                                <th class="p-3 border">선발 기준</th>
-                                <th class="p-3 border">지급액</th>
+                <!-- 분할납부(2회~4회) 시뮬레이터 -->
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <h4 class="font-black text-sm text-[#1e2a78]">💳 등록금 분할납부(2회 / 3회 / 4회) 신청 및 회차별 금액 자동 계산기</h4>
+                            <p class="text-xs text-slate-500">목돈 마련이 어려운 재학생은 이자 및 수수료 없이 학기 중 최대 4회로 나누어 등록금을 납부할 수 있습니다. (신용카드 납부 병행 가능)</p>
+                        </div>
+                        <div class="flex gap-1.5 text-xs shrink-0">
+                            <button onclick="calcInstallment(1)" class="inst-btn px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300">일시납(1회)</button>
+                            <button onclick="calcInstallment(2)" class="inst-btn px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300">2회 분납</button>
+                            <button onclick="calcInstallment(3)" class="inst-btn px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300">3회 분납</button>
+                            <button onclick="calcInstallment(4)" class="inst-btn px-3 py-1.5 rounded-lg font-black bg-[#3344aa] text-white">4회 분납(권장)</button>
+                        </div>
+                    </div>
+                    <div id="installment-schedule-box" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs"></div>
+                </div>
+            </div>
+
+            <!-- 1-2. 17개 단과대학·계열별 실제 차등 등록금 책정 일람표 (인문·사회 vs 이학 vs 공학 vs 예체능 vs 약학 vs 의학) -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-5">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">2026 TUITION SCHEDULE BY COLLEGE & SERIES</span>
+                        <h3 class="text-xl md:text-2xl font-black text-slate-900 mt-0.5">2026학년도 단과대학·학문계열별 학기당 등록금 책정 기준표</h3>
+                        <p class="text-xs text-slate-500 mt-1">실험·실습·임상 기자재 소요 비용에 따라 인문·사회계열, 이학·체육계열, 공학·교통계열, 예체능계열, 약학·간호계열, 의학(의·치·한·수)계열로 차등 책정되어 있습니다. (신입생 입학금: 2018학년도부터 전면 폐지 0원)</p>
+                    </div>
+                    <span class="text-xs font-mono-code font-bold text-slate-500 shrink-0">(단위: 원 / 1개 정규학기 기준)</span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3.5 px-3 w-36">학문 계열 구분</th>
+                                <th class="py-3.5 px-4 text-left">해당 단과대학 및 학부(과)</th>
+                                <th class="py-3.5 px-3 w-28">입학금</th>
+                                <th class="py-3.5 px-3 w-32">수업료 I (기초)</th>
+                                <th class="py-3.5 px-3 w-36">수업료 II (실험·연구)</th>
+                                <th class="py-3.5 px-3 w-36 text-[#3344aa]">학기당 등록금 합계</th>
+                                <th class="py-3.5 px-3 w-28">전년대비</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="p-3 font-bold">전체 수석</td>
-                                <td class="p-3">단과대 전체 수석 입학/재학생</td>
-                                <td class="p-3">등록금 전액 + 도서비</td>
+                        <tbody class="divide-y divide-slate-200 font-mono-code">
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">인문·사회계열 I</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>인문대학</strong>(철학·사학·문예창작 등), <strong>언어문학대학</strong>(필리핀어·국어국문·영어영문 등), <strong>사범대학</strong>(국어·영어·역사·윤리·교육학 등 문과계열)</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">382,000</td>
+                                <td class="py-3 px-3">1,282,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">1,664,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
                             </tr>
-                            <tr class="border-b">
-                                <td class="p-3 font-bold">학과 수석 (진리)</td>
-                                <td class="p-3">학과별 학업 성적 최우수자</td>
-                                <td class="p-3">등록금 전액</td>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">사회복지·상과계열 II</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>사회복지학대학</strong>(사회복지정책·경영·실천·상담), <strong>사회과학대학</strong>(정치외교·행정·미디어·심리 등), <strong>상과대학</strong>(경영·경제·회계·세무·부동산 등), <strong>융합학부(IAB전공)</strong></td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">385,000</td>
+                                <td class="py-3 px-3">1,560,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">1,945,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
                             </tr>
-                            <tr>
-                                <td class="p-3 font-bold">성적 우수 (창조)</td>
-                                <td class="p-3">학과별 성적 상위 10% 이내</td>
-                                <td class="p-3">등록금 50% 감면</td>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">이학·생명·체육계열</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>자연과학대학</strong>(수학·통계·물리·화학·천문 등), <strong>농업대학·생명대학</strong>(이자캠퍼스), <strong>해양대학(해양학)</strong>, <strong>사범대학</strong>(수학·물리·화학·생물·체육교육과)</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">402,000</td>
+                                <td class="py-3 px-3">1,616,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">2,018,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">생활과학·간호·보건계열</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>생활과학대학</strong>(조리과학·제과제빵·식품영양·의류의상 등), <strong>간호대학</strong>(간호학과), <strong>보건대학</strong>(물리치료·방사선·임상병리·응급구조 등 13개 학과)</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">410,000</td>
+                                <td class="py-3 px-3">1,880,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">2,290,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">공학·교통·반도체계열</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>교통대학</strong>(철도운전·철도운영·항공우주 등), <strong>기계·전기·토목·화학·응용과학대학</strong>, <strong>해양대학(항해·조선해양공학)</strong>, <strong>융합학부</strong>(반도체·소부장·메타버스·에너지)</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">420,000</td>
+                                <td class="py-3 px-3">2,060,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">2,480,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-slate-800 bg-slate-50">예체능·음악·미술계열</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>응용예술대학</strong>(만화애니메이션·성우전공·게임 등), <strong>음악대학</strong>(실용음악·성악·작곡·기악 등), <strong>미술대학·디자인대학·예술대학·무용대학</strong></td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">430,000</td>
+                                <td class="py-3 px-3">2,110,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#1e2a78]">2,540,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-3 font-sans font-black text-teal-900 bg-teal-50/60">약학·수의학계열 (6년제)</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>약학대학</strong>(약학과·한약학과), <strong>통합의과대학 제4본부(수의학과 본과)</strong></td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">460,000</td>
+                                <td class="py-3 px-3">2,430,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-teal-900">2,890,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40 bg-blue-50/30">
+                                <td class="py-3 px-3 font-sans font-black text-[#1e2a78] bg-blue-50">의학·치의학·한의학계열</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>통합의과대학 제1본부(의학과)·제2본부(치의학과)·제3본부(한의학과)</strong>, 의학·치의학전문대학원, 법학전문대학원(로스쿨 31동)</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">0원 (폐지)</td>
+                                <td class="py-3 px-3">510,000</td>
+                                <td class="py-3 px-3">2,970,000</td>
+                                <td class="py-3 px-3 font-black text-sm text-rose-700">3,480,000원</td>
+                                <td class="py-3 px-3 font-sans font-bold text-emerald-700">동결 (0.0%)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
 
-            <!-- 3. 근로 및 기타 장학금 -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white rounded-xl shadow-sm border p-6">
-                    <h3 class="font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="briefcase" class="w-5 h-5 mr-2 text-green-600"></i> 근로 장학금</h3>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><b>국가근로:</b> 교내 행정부서 및 도서관 근무</li>
-                        <li><b>교내근로:</b> 학과 사무실 및 실험실 보조</li>
-                        <li><b>트램 안내 도우미:</b> 교통대학 학생 대상, 교내 트램 안전 관리 (시급 1.5배)</li>
-                    </ul>
+                <!-- 초과학기(학점비례) 등록금 감면 규정 안내 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+                    <strong class="text-slate-900 block mb-1">📌 수업연한 초과자(9학기 이상) 학점비례 등록금 감면 규정 (학칙 제58조)</strong>
+                    • <strong>1학점 ~ 3학점 이하 수강 시:</strong> 해당 계열 등록금의 <strong>1/6 (약 16.6%)</strong> 납부 | <strong>4학점 ~ 6학점 이하:</strong> 등록금의 <strong>1/3 (약 33.3%)</strong> 납부 | <strong>7학점 ~ 9학점 이하:</strong> 등록금의 <strong>1/2 (50.0%)</strong> 납부 | <strong>10학점 이상:</strong> 전액 납부. (※ 단, 정규 8학기 내에는 졸업학기 9학점 수강이더라도 학칙상 정규학기 등록금이 책정되며 장학금으로 감면됩니다.)
                 </div>
-                <div class="bg-white rounded-xl shadow-sm border p-6">
-                    <h3 class="font-bold text-gray-800 mb-4 flex items-center"><i data-lucide="heart" class="w-5 h-5 mr-2 text-red-500"></i> 복지 장학금</h3>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><b>효빈 사랑:</b> 기초생활수급자 및 차상위계층 지원</li>
-                        <li><b>다문화 가족:</b> 다문화 가정 자녀 지원 (필리핀어학과 등)</li>
-                        <li><b>장애 학생:</b> 도우미 지원 및 학습 보조금</li>
-                    </ul>
-                </div>
-            </section>
+            </div>
         </div>
+
+        <!-- ================= [탭 2] 교내장학금 안내 (성적·복지·근로·자치) (#internal) ================= -->
+        <div id="view-internal" class="schol-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">ON-CAMPUS SCHOLARSHIP PROGRAMS</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">교내장학금 제도 총람 (성적우수 · 베르데 복지 · 샤이니 도전 · 교내근로)</h3>
+                        <p class="text-xs text-slate-500 mt-1">관할: 학생처 장학복지팀(대학본부 1동 1층 · 079-550-0320) · 직전 학기 12학점 이상 이수 및 평점 2.75 이상 기본 적용(복지·근로장학은 성적 기준 완화)</p>
+                    </div>
+                    <button onclick="alert('2026학년도 교내장학금 우선감면 및 계좌지급 신청이 정상 접수되었습니다.')" class="bg-[#3344aa] text-white font-black px-5 py-2.5 rounded-xl text-xs shadow shrink-0">
+                        교내장학금 온라인 신청하기
+                    </button>
+                </div>
+
+                <!-- 교내장학금 상세 분류 테이블 -->
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3.5 px-4 w-36">장학 구분</th>
+                                <th class="py-3.5 px-4 w-52">공식 장학금 명칭</th>
+                                <th class="py-3.5 px-4">선발 대상 및 자격 기준</th>
+                                <th class="py-3.5 px-4 w-56">지원 금액 및 혜택</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="py-3 px-4 font-black text-[#1e2a78] bg-slate-50" rowspan="3">성적우수장학<br>(불굴·진리·창조)</td>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">불굴(不屈) 전체수석 장학금</td>
+                                <td class="py-3 px-4 text-slate-600">단과대학별 입학성적 전체 수석자 및 재학 중 학년별 단과대 석차 1위자</td>
+                                <td class="py-3 px-4 font-bold text-[#3344aa]">등록금 전액 면제 + 학업장려금(도서비) 학기당 100만 원</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">진리(眞理) 학과수석 장학금</td>
+                                <td class="py-3 px-4 text-slate-600">207개 각 학과(전공)·학년별 직전 학기 성적 최우수자(석차 1위 ~ 상위 3% 이내)</td>
+                                <td class="py-3 px-4 font-bold text-[#3344aa]">수업료 전액 면제 (100% 감면)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">창조(創造) 성적우수 A·B·C종</td>
+                                <td class="py-3 px-4 text-slate-600">학과별 성적 상위 15% 이내(A종), 25% 이내(B종), 35% 이내(C종) 학업 우수자</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">수업료 70% 감면(A종) / 50% 감면(B종) / 30% 감면(C종)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-black text-emerald-800 bg-emerald-50/40" rowspan="3">베르데(Verde)<br>포용·복지장학</td>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">베르데 희망동행 장학금<br><span class="text-[10px] text-emerald-700">(가족돌봄청년·기초·차상위)</span></td>
+                                <td class="py-3 px-4 text-slate-600">기초생활수급자, 차상위계층 및 <strong>가족돌봄청년(영 케어러)</strong>으로 확인된 재학생 (성적 2.0 이상, 신청주의 한계를 보완하기 위해 지도교수 직권 추천 허용)</td>
+                                <td class="py-3 px-4 font-bold text-emerald-800">등록금 전액 감면 + 생활비 보조(월 40만 원, 등록금 초과 중복수혜 허용)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">베르데 특별보호 장학금</td>
+                                <td class="py-3 px-4 text-slate-600">학내외 범죄 피해 학우 및 긴급 경제적 위기 가구 학생 (총장 직권 특별선발)</td>
+                                <td class="py-3 px-4 font-bold text-emerald-800">졸업 시까지 등록금 100% 전액 지원 및 부설기관 우선채용 연계</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">다문화·글로벌 상생장학금</td>
+                                <td class="py-3 px-4 text-slate-600">다문화 가정 자녀 및 외국인 유학생 학업 성취 우수자 (동양언어관 마부하이 센터 심사)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">수업료 50% ~ 100% 감면 및 기숙사비 지원</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-black text-amber-800 bg-amber-50/40" rowspan="3">교내·특수근로<br>및 자치장학</td>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">HBNU Rail 교내철도 안전·운행 근로장학</td>
+                                <td class="py-3 px-4 text-slate-600">교통대학 운전·관제 실습생 및 A선 트램 건널목 안전수호대, PIS 전광판 시스템 관리 장학생</td>
+                                <td class="py-3 px-4 font-bold text-amber-900">시급 14,500원 (위험·특수직무 가산 1.4배 적용, 매월 계좌 지급)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">일반 교내근로 & 『엠마의 식탁』 근로장학</td>
+                                <td class="py-3 px-4 text-slate-600">단과대 행정실, 중앙·방도도서관, 생협 편의점 및 제과제빵 실습 베이커리 조식 준비 근로생</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">시급 11,500원 (월 최대 60시간, 학기 중 복수 근로 허용)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">자치리더십 & 학내언론 4사 봉사장학</td>
+                                <td class="py-3 px-4 text-slate-600">총학생회, 단과대 학생회장단, 총동아리연합회, HBUS 방송국·효빈대신문·영자신문·교지 편집위원</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">수업료 50% ~ 100% 감면</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 3] 교외·국가장학금 안내 및 학생별 수혜원부 (#external) ================= -->
+        <div id="view-external" class="schol-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-emerald-700 uppercase tracking-wider">EXTERNAL FOUNDATIONS & NATIONAL SCHOLARSHIPS</span>
+                    <h3 class="text-2xl font-black text-slate-900 mt-0.5">교외장학재단 · 지자체 출연 장학금 · 한국장학재단 지원사업 총람</h3>
+                    <p class="text-xs text-slate-500 mt-1">본교 발전지원재단 및 외부 공익법인이 출연한 생활비성·등록금성 장학금 안내입니다. (생활비 지원형 교외장학금은 국가장학금과 중복 수혜가 가능합니다.)</p>
+                </div>
+
+                <!-- 주요 교외장학재단 6대 카드 (박효빈 위키 문서에 등장한 모든 실제 장학재단 100% 반영 + 공직선거법 준수 지명 장학금) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-xs">
+                    <div class="p-5 rounded-2xl border-2 border-[#3344aa] bg-blue-50/30 space-y-2">
+                        <span class="bg-[#3344aa] text-white text-[10px] font-black px-2.5 py-0.5 rounded">지자체 출연 공익재단 · 중복수혜 가능</span>
+                        <h4 class="text-base font-black text-slate-900">(재)효빈장학재단 『효빈 미래인재 장학금』</h4>
+                        <p class="text-slate-600 leading-relaxed">효빈광역시 출연 장학재단에서 지역 대학생의 정주 여건 개선과 대중교통·복지·공학 인재 육성을 위해 지급하는 대표 지명 장학금입니다.</p>
+                        <div class="pt-2 border-t border-blue-200 font-bold text-[#1e2a78]">• 지급액: 학기당 2,000,000원 (생활비·자립지원금)</div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50/30 space-y-2">
+                        <span class="bg-emerald-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded">MG새마을금고 지역희망나눔재단</span>
+                        <h4 class="text-base font-black text-slate-900">『청년누리장학금』 (주거·생활안정 지원)</h4>
+                        <p class="text-slate-600 leading-relaxed">청년들의 주거비와 생활비 부담을 덜어주고 지역사회 봉사활동 및 자조모임 네트워크를 지원하는 최고 인기 외부 장학사업입니다.</p>
+                        <div class="pt-2 border-t border-emerald-200 font-bold text-emerald-900">• 지급액: 학기당 2,800,000원 (월 40만 원 분할 + 활동비)</div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                        <span class="bg-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded">금융권 사회공헌 · 발전지원재단 지정</span>
+                        <h4 class="text-base font-black text-slate-900">『페퍼저축은행 희망장학금』</h4>
+                        <p class="text-slate-600 leading-relaxed">어려운 경제적 여건 속에서도 학업 성적이 우수하고 성실히 근로를 병행하는 대학생을 선발하여 학업장려금을 일시 지급합니다.</p>
+                        <div class="pt-2 border-t border-slate-200 font-bold text-rose-700">• 지급액: 학기당 2,500,000원 (학업장려금)</div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                        <span class="bg-indigo-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded">사설 학술문화재단</span>
+                        <h4 class="text-base font-black text-slate-900">『(재)인송문화재단 장학금』</h4>
+                        <p class="text-slate-600 leading-relaxed">인문·사회·복지 및 기초학문 분야에서 탁월한 학업 성취도를 보이는 학부생에게 지원하는 전통 있는 사설 장학금입니다.</p>
+                        <div class="pt-2 border-t border-slate-200 font-bold text-indigo-800">• 지급액: 학기당 2,000,000원</div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                        <span class="bg-amber-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded">지자체 향토육성기금</span>
+                        <h4 class="text-base font-black text-slate-900">『향토인재장학금 & 전대·더불어상생장학금』</h4>
+                        <p class="text-slate-600 leading-relaxed">지역 출신 우수 인재의 학업을 장려하는 향토장학금(100만 원) 및 본교 발전지원재단 소액 지정장학금 프로그램입니다.</p>
+                        <div class="pt-2 border-t border-slate-200 font-bold text-amber-900">• 지급액: 500,000원 ~ 1,000,000원</div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                        <span class="bg-teal-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded">한국장학재단(KOSAF) 정부지원</span>
+                        <h4 class="text-base font-black text-slate-900">『대학생 청소년교육지원 & 다문화·탈북멘토링』</h4>
+                        <p class="text-slate-600 leading-relaxed">관내 지역아동센터 및 초·중·고교에서 저소득층·다문화 학생들에게 학습지도 멘토링을 수행하고 지급받는 고액 근로장학금입니다.</p>
+                        <div class="pt-2 border-t border-slate-200 font-bold text-teal-900">• 지급액: 학기당 약 2,400,000원 ~ 4,250,000원 (시간비례)</div>
+                    </div>
+                </div>
+
+                <!-- 선택된 학생의 학기별 실제 장학금 수혜원부 테이블 (박효빈 위키 표 100% 그대로 탑재!) -->
+                <div class="pt-4">
+                    <h4 class="font-black text-base text-[#1e2a78] mb-3" id="ext-history-title">📋 선택 학적의 교내·외 장학금 누적 수혜 원부</h4>
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                        <table class="w-full text-xs text-center border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                    <th class="py-3 px-3 w-28">수혜 학기</th>
+                                    <th class="py-3 px-4 text-left">장학금명 / 출연·수여 기관</th>
+                                    <th class="py-3 px-3 w-36">장학 구분</th>
+                                    <th class="py-3 px-4 w-44 text-right">지급(감면) 금액</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-scholarship-history-tbody" class="divide-y divide-slate-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 4] 학자금대출 및 이자지원 사업 (#loan) ================= -->
+        <div id="view-loan" class="schol-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">STUDENT LOANS & INTEREST EXEMPTION SUPPORT</span>
+                    <h3 class="text-2xl font-black text-slate-900 mt-0.5">한국장학재단 학자금대출 안내 및 효빈광역시 대출이자 전액지원 사업</h3>
+                    <p class="text-xs text-slate-500 mt-1">연 1.7% 저금리 정부지원 학자금대출과 본교 재학생·휴학생 대상 지자체 이자 100% 보전 제도를 안내합니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">한국장학재단 · ICL</span>
+                        <h4 class="text-base font-black text-slate-900">취업 후 상환 학자금대출 (등록금·생활비)</h4>
+                        <p class="text-slate-600 leading-relaxed">학자금 지원 1~9구간 학부생 및 대학원생을 대상으로 등록금 전액과 생활비(연 최대 400만 원)를 대출하며, 취업 후 일정 기준소득 발생 시점부터 상환합니다. (기초·차상위·다자녀 가구는 재학 중 이자 100% 면제)</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                        <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">무이자 0.0% · 농어촌특화</span>
+                        <h4 class="text-base font-black text-slate-900">농어촌출신 대학생 학자금 융자</h4>
+                        <p class="text-slate-600 leading-relaxed">읍·면 지역(탄성군, 낭원군 전포읍 등)에 주소를 둔 보호자의 자녀 또는 본인에게 등록금 전액을 <strong>완전 무이자(0.0%)</strong>로 융자 지원하는 제도입니다.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-blue-50/70 border-2 border-[#3344aa] space-y-2.5">
+                        <span class="bg-[#1e2a78] text-[#99dd88] font-black px-2.5 py-0.5 rounded">지자체-대학 상생협약</span>
+                        <h4 class="text-base font-black text-[#1e2a78]">효빈광역시·덕빈북도 학자금대출 이자 100% 지원</h4>
+                        <p class="text-slate-700 leading-relaxed">효빈대학교 재학생·휴학생 및 졸업 후 5년 이내 미취업 동문이 한국장학재단으로부터 대출받은 등록금·생활비의 <strong>반기별 발생 이자 전액을 지자체 예산으로 대납 상환</strong>해 드립니다.</p>
+                        <button onclick="alert('2026년도 하반기 학자금대출 발생이자 전액지원 신청이 정상 접수되었습니다.')" class="w-full bg-[#3344aa] text-white py-2.5 rounded-xl font-black mt-2">대출이자 전액지원 원클릭 신청</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 등록금 고지서 / 납부확인서 인쇄 모달 -->
+    <div id="tuition-bill-modal" class="fixed inset-0 z-[200] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4 hidden" onclick="closeTuitionBillModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-300" onclick="event.stopPropagation()">
+            <div class="bg-[#0f172a] text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded">공식 영수필 통지서</span>
+                    <h3 class="font-bold text-sm md:text-base">2026학년도 효빈대학교 등록금 고지서 겸 납부확인서</h3>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-[#3344aa] hover:bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-black flex items-center gap-1">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> 인쇄 / PDF
+                    </button>
+                    <button onclick="closeTuitionBillModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" width="20"></i></button>
+                </div>
+            </div>
+            <div id="bill-print-area" class="p-6 md:p-8 text-xs space-y-5 bg-white"></div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 (common.js 렌더링) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
     <script src="common.js"></script>
+
+    <script>
+        // ================= 학생별 등록금 책정 및 장학금 누적 수혜 원부 데이터베이스 (위키 문서 박효빈 장학내역 100% 반영) =================
+        const SCHOL_STUDENTS_DB = [
+            {
+                id: "201507009",
+                name: "박효빈 (朴孝彬)",
+                college: "사회복지학대학",
+                dept: "사회복지정책학과 (경영학과 복수전공)",
+                series: "사회복지·상과계열 II",
+                status: "졸업 (8학기 전액 장학 등록 완료)",
+                tuitionFee: 1945000,
+                scholDiscount: 1945000,
+                virtualAcc: "효빈은행 901-2015-07009-01 (예금주: 효빈대_박효빈)",
+                payStatus: "수납완료 (전액장학 0원 등록 필)",
+                history: [
+                    { sem: "졸업학기", name: "청년누리장학금 (MG새마을금고 지역희망나눔재단)", type: "교외(생활비·주거)", amt: "2,800,000원 (계좌지급)" },
+                    { sem: "졸업학기", name: "향토인재장학금 (지자체 인재육성기금)", type: "교외(학업장려)", amt: "1,000,000원 (계좌지급)" },
+                    { sem: "졸업학기", name: "국가장학금 I유형 (한국장학재단)", type: "국가(수업료감면)", amt: "1,945,000원 (전액감면)" },
+                    { sem: "졸업학기", name: "국가근로장학금 (한국장학재단 · 교내행정실)", type: "국가근로", amt: "2,407,200원 (계좌지급)" },
+                    { sem: "졸업학기", name: "교내외 특별근로장학금 (생협 편의점 등)", type: "교내근로", amt: "2,106,300원 (계좌지급)" },
+                    { sem: "졸업학기", name: "더불어상생장학금 (효빈대 발전지원재단)", type: "교내지정", amt: "40,120원 (계좌지급)" },
+                    { sem: " 직전학기", name: "대학생 청소년교육지원장학금 (한국장학재단 · 지역아동센터)", type: "국가멘토링", amt: "4,258,670원 (계좌지급)" },
+                    { sem: "직전학기", name: "효빈대 발전지원재단 지정장학금", type: "교내지정", amt: "500,000원 (계좌지급)" },
+                    { sem: "3학년 1학기", name: "대학생 청소년교육지원장학금 (한국장학재단)", type: "국가멘토링", amt: "3,659,890원 (계좌지급)" },
+                    { sem: "2학년 2학기", name: "(재)인송문화재단 장학금", type: "교외사설", amt: "2,000,000원 (계좌지급)" },
+                    { sem: "2학년 1학기", name: "페퍼저축은행 희망장학금 (발전지원재단 지정)", type: "교외기업", amt: "2,500,000원 (계좌지급)" },
+                    { sem: "1~2학년", name: "다문화·탈북학생 멘토링 장학금 (한국장학재단)", type: "국가멘토링", amt: "3,420,000원 (계좌지급)" }
+                ]
+            },
+            {
+                id: "202306001",
+                name: "김시연 (金始延)",
+                college: "사회과학대학",
+                dept: "정치외교학과 (법학 부전공)",
+                series: "사회복지·상과계열 II",
+                status: "재학 (4학년 · 사회과학대학 학생회장)",
+                tuitionFee: 1945000,
+                scholDiscount: 1945000,
+                virtualAcc: "효빈은행 901-2023-06001-04 (예금주: 효빈대_김시연)",
+                payStatus: "수납완료 (전액장학 0원 등록 필)",
+                history: [
+                    { sem: "2026-2학기", name: "사회과학대학 학생회장 자치봉사장학금", type: "교내자치", amt: "972,500원 (반액감면)" },
+                    { sem: "2026-2학기", name: "창조(創造) 성적우수 A종 장학금 (학과 석차 2위)", type: "교내성적", amt: "972,500원 (반액감면)" },
+                    { sem: "2026-1학기", name: "진리(眞理) 학과수석 장학금", type: "교내성적", amt: "1,945,000원 (전액감면)" }
+                ]
+            },
+            {
+                id: "202307015",
+                name: "강하애 (姜下愛)",
+                college: "사회복지학대학",
+                dept: "사회복지정책학과 (정책학 부전공)",
+                series: "사회복지·상과계열 II",
+                status: "재학 (4학년 · 통학: 빈효선 궁하역 ↔ 5호선 소조역)",
+                tuitionFee: 1945000,
+                scholDiscount: 1450000,
+                virtualAcc: "효빈은행 901-2023-07015-02 (예금주: 효빈대_강하애)",
+                payStatus: "수납완료 (실납부 495,000원 완납)",
+                history: [
+                    { sem: "2026-2학기", name: "창조(創造) 성적우수 B종 장학금 (GPA 4.11)", type: "교내성적", amt: "972,500원 (감면)" },
+                    { sem: "2026-2학기", name: "단과대학 학생회 홍보부장 임원장학금", type: "교내자치", amt: "477,500원 (감면)" },
+                    { sem: "2026-1학기", name: "덕빈북도 천주시 향토인재장학금", type: "교외지자체", amt: "1,000,000원 (계좌지급)" }
+                ]
+            },
+            {
+                id: "202326019",
+                name: "오이슬 (吳伊瑟)",
+                college: "응용예술대학",
+                dept: "만화애니메이션학과 (성우전공)",
+                series: "예체능·음악·미술계열",
+                status: "재학 (4학년 · 본캠 26동 예술대학)",
+                tuitionFee: 2540000,
+                scholDiscount: 1800000,
+                virtualAcc: "효빈은행 901-2023-26019-07 (예금주: 효빈대_오이슬)",
+                payStatus: "수납완료 (실납부 740,000원 완납)",
+                history: [
+                    { sem: "2026-2학기", name: "베르데 홀 문화행사 및 성우보호 특별공로장학금", type: "교내특별", amt: "1,300,000원 (감면)" },
+                    { sem: "2026-2학기", name: "HBNU Rail 안내방송 더빙 재능기부 장학금", type: "교내봉사", amt: "500,000원 (감면)" }
+                ]
+            },
+            {
+                id: "202312088",
+                name: "나수미 (羅秀美)",
+                college: "생활과학대학",
+                dept: "제과제빵과",
+                series: "생활과학·간호·보건계열",
+                status: "재학 (4학년 · 카페 베르데 근로장학생)",
+                tuitionFee: 2290000,
+                scholDiscount: 1400000,
+                virtualAcc: "효빈은행 901-2023-12088-05 (예금주: 효빈대_나수미)",
+                payStatus: "분할납부 진행중 (4회 분납 신청)",
+                history: [
+                    { sem: "2026-2학기", name: "천원의 아침밥 『엠마의 식탁』 베이커리 특별근로장학금", type: "교내근로", amt: "900,000원 (계좌지급)" },
+                    { sem: "2026-2학기", name: "다문화 글로벌 상생장학금", type: "교내복지", amt: "500,000원 (감면)" }
+                ]
+            },
+            {
+                id: "202135042",
+                name: "정현우 (鄭宇)",
+                college: "교통대학",
+                dept: "철도운전시스템공학과",
+                series: "공학·교통·반도체계열",
+                status: "재학 (4학년 · HBNU Rail A선 기관사 실습생)",
+                tuitionFee: 2480000,
+                scholDiscount: 1500000,
+                virtualAcc: "효빈은행 901-2021-35042-09 (예금주: 효빈대_정현우)",
+                payStatus: "수납완료 (실납부 980,000원 완납)",
+                history: [
+                    { sem: "2026-2학기", name: "효빈교통공사 산학협력 채용연계 장학금", type: "교외산학", amt: "1,000,000원 (감면)" },
+                    { sem: "2026-2학기", name: "HBNU Rail A선 트램 무사고 운전실습 장학금", type: "교내특수근로", amt: "500,000원 (감면)" }
+                ]
+            }
+        ];
+
+        let currentScholStudent = SCHOL_STUDENTS_DB[0];
+        let currentScholTab = 'tuition';
+        let currentInstallmentCount = 4;
+
+        // 상단 메가메뉴에서 '등록금', '교내장학금', '교외장학금', '학자금대출' 클릭 시 즉시 해당 SPA 탭으로 전환
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuToTab = {
+                "등록금": "tuition",
+                "교내장학금": "internal",
+                "교외장학금": "external",
+                "교내/외 장학금": "internal",
+                "학자금대출": "loan"
+            };
+            if (menuToTab[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                switchScholTab(menuToTab[txt]);
+            }
+        }, true);
+
+        const TAB_TITLES = {
+            tuition: "등록금 책정표 · 고지서 조회 · 분할납부",
+            internal: "교내장학금 제도 및 온라인 신청",
+            external: "교외·국가장학금 안내 및 누적 수혜원부",
+            loan: "한국장학재단 학자금대출 및 지자체 이자지원"
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initScholStudentSelect();
+            renderStudentTuitionSummary();
+            renderStudentScholarshipHistory();
+            calcInstallment(4);
+
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[initHash]) {
+                switchScholTab(initHash);
+            } else {
+                switchScholTab('tuition');
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[h]) switchScholTab(h);
+        });
+
+        function initScholStudentSelect() {
+            const sel = document.getElementById('schol-student-select');
+            if (!sel) return;
+            sel.innerHTML = SCHOL_STUDENTS_DB.map(s => `
+                <option value="${s.id}" ${s.id === currentScholStudent.id ? 'selected' : ''}>
+                    [${s.id}] ${s.name} — ${s.college} ${s.dept} (${s.series})
+                </option>
+            `).join('');
+        }
+
+        function selectScholStudent(stuId) {
+            currentScholStudent = SCHOL_STUDENTS_DB.find(s => s.id === stuId) || SCHOL_STUDENTS_DB[0];
+            initScholStudentSelect();
+            renderStudentTuitionSummary();
+            renderStudentScholarshipHistory();
+            calcInstallment(currentInstallmentCount);
+        }
+
+        function switchScholTab(tabKey) {
+            currentScholTab = TAB_TITLES[tabKey] ? tabKey : 'tuition';
+            document.querySelectorAll('.schol-view').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById('view-' + currentScholTab);
+            if (targetView) targetView.classList.remove('hidden');
+
+            Object.keys(TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('tab-btn-' + k);
+                if (!btn) return;
+                if (k === currentScholTab) {
+                    btn.className = "schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm";
+                } else {
+                    btn.className = "schol-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all";
+                }
+            });
+
+            const bread = document.getElementById('schol-breadcrumb');
+            if (bread) bread.innerText = TAB_TITLES[currentScholTab];
+
+            if (window.location.hash !== '#' + currentScholTab) {
+                history.replaceState(null, null, '#' + currentScholTab);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function renderStudentTuitionSummary() {
+            const box = document.getElementById('student-tuition-summary');
+            if (!box) return;
+            const s = currentScholStudent;
+            const netPay = Math.max(0, s.tuitionFee - s.scholDiscount);
+
+            box.innerHTML = `
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">성명 / 학번</span>
+                    <strong class="text-sm text-slate-900 font-black mt-0.5 block">${s.name}</strong>
+                    <span class="font-mono-code text-[#3344aa] font-bold text-xs">${s.id}</span>
+                </div>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">소속 학과 · 등록계열</span>
+                    <strong class="text-slate-900 font-bold mt-0.5 block">${s.dept}</strong>
+                    <span class="text-slate-500 text-[11px]">${s.series}</span>
+                </div>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">학기 책정 등록금</span>
+                    <strong class="text-base text-slate-900 font-mono-code font-black mt-0.5 block">${s.tuitionFee.toLocaleString()}원</strong>
+                    <span class="text-emerald-700 text-[11px] font-bold">입학금 0원 (5년 동결)</span>
+                </div>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">장학금 우선감면액</span>
+                    <strong class="text-base text-emerald-700 font-mono-code font-black mt-0.5 block">-${s.scholDiscount.toLocaleString()}원</strong>
+                    <span class="text-slate-500 text-[11px]">수혜건수: 총 ${s.history.length}건</span>
+                </div>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">실납부 고지 금액</span>
+                    <strong class="text-lg text-[#3344aa] font-mono-code font-black mt-0.5 block">${netPay.toLocaleString()}원</strong>
+                    <span class="text-slate-500 text-[11px]">${netPay === 0 ? '전액장학 0원 등록대상' : '분납 가능'}</span>
+                </div>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">수납 상태 / 전용계좌</span>
+                    <strong class="text-emerald-800 font-bold mt-0.5 block">${s.payStatus}</strong>
+                    <span class="font-mono-code text-[10px] text-slate-500 truncate block">${s.virtualAcc.split('(')[0]}</span>
+                </div>
+            `;
+        }
+
+        function calcInstallment(count) {
+            currentInstallmentCount = count;
+            const s = currentScholStudent;
+            const netPay = Math.max(0, s.tuitionFee - s.scholDiscount);
+            const box = document.getElementById('installment-schedule-box');
+            if (!box) return;
+
+            const dates = ["1차 (02.20 ~ 02.24)", "2차 (03.25 ~ 03.27)", "3차 (04.22 ~ 04.24)", "4차 (05.20 ~ 05.22)"];
+            const perAmt = Math.floor(netPay / count);
+            const rem = netPay - (perAmt * count);
+
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                const amt = (i === 0) ? (perAmt + rem) : perAmt;
+                html += `
+                    <div class="p-3.5 rounded-xl bg-white border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-400 block">${dates[i]}</span>
+                            <strong class="text-slate-800">제${i + 1}회차 분납금</strong>
+                        </div>
+                        <span class="font-mono-code font-black text-sm text-[#3344aa]">${amt.toLocaleString()}원</span>
+                    </div>
+                `;
+            }
+            box.innerHTML = html;
+        }
+
+        function renderStudentScholarshipHistory() {
+            const tbody = document.getElementById('student-scholarship-history-tbody');
+            const title = document.getElementById('ext-history-title');
+            if (!tbody) return;
+            const s = currentScholStudent;
+            if (title) title.innerText = `📋 ${s.name} (${s.id}) 학우의 교내·외 및 국가장학금 누적 수혜 원부 (총 ${s.history.length}건)`;
+
+            tbody.innerHTML = s.history.map(h => `
+                <tr class="hover:bg-blue-50/40">
+                    <td class="py-3 px-3 font-mono-code font-bold text-slate-600">${h.sem}</td>
+                    <td class="py-3 px-4 text-left font-extrabold text-slate-900">${h.name}</td>
+                    <td class="py-3 px-3"><span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-[#3344aa] border border-blue-200">${h.type}</span></td>
+                    <td class="py-3 px-4 text-right font-mono-code font-black text-emerald-700">${h.amt}</td>
+                </tr>
+            `).join('');
+        }
+
+        function processOnlineTuitionPay() {
+            const s = currentScholStudent;
+            const netPay = Math.max(0, s.tuitionFee - s.scholDiscount);
+            if (netPay === 0) {
+                alert(`[0원 등록 완료] ${s.name}(${s.id}) 님의 전액장학생 0원 수납 등록이 효빈대학교 재무과 서버에 즉시 확정되었습니다.`);
+            } else {
+                alert(`[가상계좌 수납 안내] ${s.name} 님의 실납부액 ${netPay.toLocaleString()}원에 대한 가상계좌(${s.virtualAcc}) 수납 처리가 완료되었습니다.`);
+            }
+        }
+
+        function openTuitionBillModal() {
+            const s = currentScholStudent;
+            const netPay = Math.max(0, s.tuitionFee - s.scholDiscount);
+            document.getElementById('bill-print-area').innerHTML = `
+                <div class="border-2 border-[#1e2a78] p-6 space-y-5">
+                    <div class="text-center border-b-2 border-slate-800 pb-4">
+                        <div class="text-[11px] text-slate-500 font-bold">2026학년도 등록금 5년 연속 동결 고지</div>
+                        <h2 class="text-xl font-serif-kr font-black text-[#1e2a78] mt-1">국립 효빈대학교 등록금 고지서 겸 영수증</h2>
+                    </div>
+                    <table class="w-full border border-slate-400 border-collapse text-xs">
+                        <tr class="border-b border-slate-300">
+                            <th class="bg-slate-100 p-2 border-r w-24">성 명</th><td class="p-2 border-r font-bold">${s.name}</td>
+                            <th class="bg-slate-100 p-2 border-r w-24">학 번</th><td class="p-2 font-mono-code font-bold text-[#1e2a78]">${s.id}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-slate-100 p-2 border-r">소 속</th><td class="p-2 border-r" colspan="3">${s.college} ${s.dept} (${s.series})</td>
+                        </tr>
+                    </table>
+                    <table class="w-full border-2 border-slate-800 border-collapse text-center text-xs">
+                        <thead class="bg-slate-100 font-black border-b border-slate-800">
+                            <tr><th class="p-2.5 border-r">구분</th><th class="p-2.5 border-r">책정 수업료</th><th class="p-2.5 border-r">장학금 감면액</th><th class="p-2.5">실납부 금액</th></tr>
+                        </thead>
+                        <tbody class="font-mono-code font-bold text-sm">
+                            <tr>
+                                <td class="p-3 border-r font-sans">등록금</td>
+                                <td class="p-3 border-r">${s.tuitionFee.toLocaleString()}원</td>
+                                <td class="p-3 border-r text-emerald-700">-${s.scholDiscount.toLocaleString()}원</td>
+                                <td class="p-3 text-[#1e2a78] font-black">${netPay.toLocaleString()}원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="p-3 bg-slate-50 border border-slate-300 text-[11px] space-y-1">
+                        <div>• <strong>전용 가상계좌:</strong> <span class="font-mono-code font-bold text-[#1e2a78]">${s.virtualAcc}</span></div>
+                        <div>• <strong>수납 확인 상태:</strong> <span class="font-bold text-emerald-700">${s.payStatus}</span></div>
+                    </div>
+                    <div class="text-center font-serif-kr font-black text-base pt-2">
+                        효 빈 대 학 교 총 장 &nbsp;<span class="text-red-600 border-2 border-red-600 text-[10px] px-1.5 py-0.5 rounded">수납필인</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('tuition-bill-modal').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeTuitionBillModal() {
+            document.getElementById('tuition-bill-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

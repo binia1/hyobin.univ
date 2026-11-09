@@ -3,57 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>입학안내 - 효빈대학교</title>
+    <title>입학처 홈페이지 (신입학·편입학·시간제등록·고교대학연계) - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">입학안내</h1>
-            <p class="text-xl text-gray-600">"여러분의 꿈, 효빈에서 현실이 됩니다."</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 수시 (연결) -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#3344aa] hover:-translate-y-1 transition duration-300">
-                <div class="text-[#3344aa] mb-4"><i data-lucide="file-text" class="w-12 h-12"></i></div>
-                <h3 class="text-2xl font-bold mb-2">수시 모집</h3>
-                <p class="text-gray-500 mb-6 text-sm">학생부교과, 학생부종합, 실기위주 전형</p>
-                <button onclick="location.href='hbnu_admission_guide.html?type=susi'" class="w-full py-3 border border-[#3344aa] text-[#3344aa] font-bold rounded hover:bg-[#3344aa] hover:text-white transition">
-                    모집요강 확인
-                </button>
+    <!-- 상단 입학처 메인 비주얼 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-12 border-b-4 border-[#99dd88] relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/효빈대학교_정문.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>입학안내</span>
+                <span>›</span>
+                <span id="adm-breadcrumb" class="text-[#99dd88] font-bold">효빈대학교 입학처 메인 포털 (총 7,635명 선발)</span>
             </div>
-
-            <!-- 정시 (연결) -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#99dd88] hover:-translate-y-1 transition duration-300">
-                <div class="text-green-600 mb-4"><i data-lucide="pen-tool" class="w-12 h-12"></i></div>
-                <h3 class="text-2xl font-bold mb-2">정시 모집</h3>
-                <p class="text-gray-500 mb-6 text-sm">가/나/다군 수능 위주 전형 안내</p>
-                <button onclick="location.href='hbnu_admission_guide.html?type=jungsi'" class="w-full py-3 border border-green-600 text-green-600 font-bold rounded hover:bg-green-600 hover:text-white transition">
-                    모집요강 확인
-                </button>
-            </div>
-
-            <!-- 대학원 (연결) -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-gray-600 hover:-translate-y-1 transition duration-300">
-                <div class="text-gray-600 mb-4"><i data-lucide="graduation-cap" class="w-12 h-12"></i></div>
-                <h3 class="text-2xl font-bold mb-2">대학원 입학</h3>
-                <p class="text-gray-500 mb-6 text-sm">일반/전문/특수대학원 석박사 과정</p>
-                <button onclick="location.href='hbnu_grad.html'" class="w-full py-3 border border-gray-600 text-gray-600 font-bold rounded hover:bg-gray-600 hover:text-white transition">
-                    대학원 안내 바로가기
-                </button>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU OFFICE OF ADMISSIONS · TOTAL 7,635 NEW STUDENTS
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">국립 효빈대학교 입학처 통합포털</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-2 max-w-3xl leading-relaxed">
+                        연간 정원 내 6,580명 · 정원 외 1,055명 등 <strong>총 7,635명</strong>의 신입생을 선발하는 대한민국 최대 규모 국가거점국립대학교입니다. 학생부종합 <strong>『효빈 애니웨이(HYOBIN ANYWAY)』</strong>, 지역인재 <strong>『개천용(龍)인재전형』</strong>부터 편입학·시간제등록생·고교대학연계 과정을 통합 안내합니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="location.href='hbnu_admission_guide.html#results'" class="bg-[#a0fff9] hover:bg-white text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg transition-all flex items-center gap-1.5">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4"></i> 208개 전 학과 수시·정시 입결 총람
+                    </button>
+                    <button onclick="location.href='hbnu_admission_guide.html#susi'" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        <i data-lucide="file-text" class="w-4 h-4"></i> 신입학 모집요강 상세
+                    </button>
+                </div>
             </div>
         </div>
+    </section>
+
+    <!-- 입학처 4대 SPA 탭 네비게이션 박스 (메가메뉴의 입학홈페이지 / 편입학 / 시간제등록생 / 고교대학연계 1:1 매칭!) -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3.5">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                <button onclick="switchAdmTab('main')" id="adm-tab-main" class="adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm">
+                    <i data-lucide="compass" class="w-4 h-4 shrink-0"></i> <span>1. 입학처 홈 (모집규모·전형총괄)</span>
+                </button>
+                <button onclick="switchAdmTab('transfer')" id="adm-tab-transfer" class="adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 shrink-0"></i> <span>2. 편입학·대학원 입시 (2026 어학개정)</span>
+                </button>
+                <button onclick="switchAdmTab('parttime')" id="adm-tab-parttime" class="adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="clock" class="w-4 h-4 shrink-0"></i> <span>3. 시간제등록생 모집안내</span>
+                </button>
+                <button onclick="switchAdmTab('highschool')" id="adm-tab-highschool" class="adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="school" class="w-4 h-4 shrink-0"></i> <span>4. 고교-대학 연계 프로그램</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-10">
+
+        <!-- ================= [탭 1] 입학처 메인 홈 : 7,635명 모집 규모 & 전형 바로가기 (#main) ================= -->
+        <div id="view-adm-main" class="adm-view fade-in space-y-8">
+            
+            <!-- 상단 6대 입학전형 직행 카드 그리드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 수시모집 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-[#3344aa] flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-blue-50 text-[#3344aa] text-xs font-black px-2.5 py-1 rounded-lg">정원 내 74.8% (4,924명)</span>
+                            <i data-lucide="file-text" class="w-7 h-7 text-[#3344aa]"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">수시 모집 (학생부종합·교과)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            단일 최대 전형인 학생부종합 <strong>『효빈 애니웨이(1,953명)』</strong>, 학생부교과 일반전형(1,868명), 그리고 효빈·덕북 지역 고교생을 위한 <strong>『개천용(龍)인재전형(1,103명)』</strong>을 운영합니다.
+                        </p>
+                    </div>
+                    <button onclick="location.href='hbnu_admission_guide.html#susi'" class="w-full py-2.5 bg-[#3344aa] text-white text-xs font-black rounded-xl hover:bg-[#1e2a78] transition">
+                        수시 모집요강 상세보기 ➔
+                    </button>
+                </div>
+
+                <!-- 정시모집 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-emerald-600 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-emerald-50 text-emerald-800 text-xs font-black px-2.5 py-1 rounded-lg">정원 내 25.2% (1,656명)</span>
+                            <i data-lucide="pen-tool" class="w-7 h-7 text-emerald-600"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">정시 모집 (가·나·다군 수능위주)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            영어 등급 간 감점 폭을 완화하여 영어 2~3등급 수험생에게도 기회를 열어주되, <strong>국어·수학(미적분/기하)·탐구 영역 가중치를 높게 반영</strong>하여 학업 역량이 우수한 인재를 선발합니다.
+                        </p>
+                    </div>
+                    <button onclick="location.href='hbnu_admission_guide.html#jungsi'" class="w-full py-2.5 bg-emerald-700 text-white text-xs font-black rounded-xl hover:bg-emerald-800 transition">
+                        정시 모집요강 상세보기 ➔
+                    </button>
+                </div>
+
+                <!-- 208개 전 학과 입결 DB -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-amber-500 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-amber-50 text-amber-900 text-xs font-black px-2.5 py-1 rounded-lg">입학처 공식 Raw Data 공개</span>
+                            <i data-lucide="bar-chart-2" class="w-7 h-7 text-amber-600"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">208개 전 학과 입시결과 (커트라인)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            의과대학(99.05%)·약학대학(97.00%)부터 비의약계 최상위권인 <strong>사회복지학대학(사회복지정책학과 90~92%)·교통대학(철도운전학과 89~92%)</strong>까지 208개 전 학과 커트라인을 투명하게 공개합니다.
+                        </p>
+                    </div>
+                    <button onclick="location.href='hbnu_admission_guide.html#results'" class="w-full py-2.5 bg-amber-500 text-slate-950 text-xs font-black rounded-xl hover:bg-amber-400 transition">
+                        208개 전 학과 입결 조회하기 ➔
+                    </button>
+                </div>
+
+                <!-- 재외국민 및 정원외 특별전형 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-purple-600 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-purple-50 text-purple-800 text-xs font-black px-2.5 py-1 rounded-lg">정원 외 총 1,055명 선발</span>
+                            <i data-lucide="globe-2" class="w-7 h-7 text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">재외국민 · 외국인 · 정원외 특별전형</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            농어촌학생(279명), 기회균형(219명), 재외국민 및 외국인(241명), 특성화고졸 재직자(174명), 북한이탈주민(40명) 등 거점국립대로서의 사회적 책무 전형을 운영합니다.
+                        </p>
+                    </div>
+                    <button onclick="location.href='hbnu_admission_guide.html#overseas'" class="w-full py-2.5 bg-purple-700 text-white text-xs font-black rounded-xl hover:bg-purple-800 transition">
+                        재외국민·정원외 전형 보기 ➔
+                    </button>
+                </div>
+
+                <!-- 편입학 및 어학개정 안내 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-rose-600 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-rose-50 text-rose-800 text-xs font-black px-2.5 py-1 rounded-lg">2026 어학기준 전면 개편</span>
+                            <i data-lucide="award" class="w-7 h-7 text-rose-600"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">일반·학사편입학 (TOEIC·OPIc 허용)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            기존 TEPS·TOEFL 한정이던 지원 자격을 <strong>TOEIC·TOEIC Speaking·OPIc까지 전면 확대</strong>하되, 2단계 전공 필기고사 및 심층 면접을 통해 엄격한 절대평가로 선발합니다.
+                        </p>
+                    </div>
+                    <button onclick="switchAdmTab('transfer')" class="w-full py-2.5 bg-rose-600 text-white text-xs font-black rounded-xl hover:bg-rose-700 transition">
+                        편입학 어학·전공평가 안내 ➔
+                    </button>
+                </div>
+
+                <!-- 대학원 입학 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 border-t-4 border-t-slate-700 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-slate-100 text-slate-800 text-xs font-black px-2.5 py-1 rounded-lg">일반 · 전문 · 특수대학원</span>
+                            <i data-lucide="graduation-cap" class="w-7 h-7 text-slate-700"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 mb-1.5">대학원 신·편입학 (석·박사 과정)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            학부 207개 전 학과의 심화 연구과정인 일반대학원 및 법학전문대학원(31동)·사회복지대학원(7-2동)·경영대학원(8-3동)·행정대학원(6-4동) 입학 안내입니다.
+                        </p>
+                    </div>
+                    <button onclick="location.href='hbnu_grad.html'" class="w-full py-2.5 bg-slate-800 text-white text-xs font-black rounded-xl hover:bg-slate-900 transition">
+                        대학원 입학처 바로가기 ➔
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2026~2027학년도 효빈대학교 전형별 모집 인원 및 비율 총괄표 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-5">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa]">ADMISSION QUOTA SUMMARY</span>
+                        <h3 class="text-xl md:text-2xl font-black text-slate-900 mt-0.5">전형별 모집 인원 및 선발 비율 총괄표 (총 7,635명)</h3>
+                        <p class="text-xs text-slate-500 mt-1">수시 모집 약 74.8%(4,924명) · 정시 모집 25.2%(1,656명)의 수시 중심 선발 구조를 갖추고 있으며, 정원 외 특별전형으로 1,055명을 별도 선발합니다.</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3.5 px-4 w-48">모집 시기 및 정원 구분</th>
+                                <th class="py-3.5 px-4 w-64">세부 전형 명칭</th>
+                                <th class="py-3.5 px-3 w-32">모집 인원</th>
+                                <th class="py-3.5 px-3 w-28">비율 (%)</th>
+                                <th class="py-3.5 px-4 text-left">전형 요소 및 핵심 선발 특징</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-black text-[#1e2a78] bg-slate-50" rowspan="3">수시모집 (정원 내)<br><span class="text-[11px] font-bold text-[#3344aa]">소계: 4,924명 (74.8%)</span></td>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">학생부종합 『효빈 애니웨이(HYOBIN ANYWAY)』</td>
+                                <td class="py-3 px-3 font-mono-code font-black text-[#3344aa] text-sm">1,953명</td>
+                                <td class="py-3 px-3 font-mono-code font-bold">29.7%</td>
+                                <td class="py-3 px-4 text-left text-slate-700">1단계 서류(학생부) 100%(3배수) ➔ 2단계 1단계 성적 70% + <strong>입학사정관·전공교수 심층 압박면접 30%</strong> (수시 단일 최대 전형)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-extrabold text-slate-900">학생부교과 (일반전형)</td>
+                                <td class="py-3 px-3 font-mono-code font-black text-slate-900 text-sm">1,868명</td>
+                                <td class="py-3 px-3 font-mono-code font-bold">28.4%</td>
+                                <td class="py-3 px-4 text-left text-slate-700">학생부 교과성적 100% 정량평가 + <strong>수능 최저학력기준 적용</strong> (영어 등급 반영 완화, 국·수·탐 중심)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-extrabold text-emerald-800">학생부교과 『개천용(龍)인재전형』 (지역인재)</td>
+                                <td class="py-3 px-3 font-mono-code font-black text-emerald-700 text-sm">1,103명</td>
+                                <td class="py-3 px-3 font-mono-code font-bold">16.8%</td>
+                                <td class="py-3 px-4 text-left text-slate-700">효빈광역시 및 덕빈남·북도 소재 고교 전 교육과정 이수자 전용 전형 (의·치·한·약·간호·사복·철도운전 핵심 쿼터 배정)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-black text-teal-900 bg-teal-50/40">정시모집 (정원 내)</td>
+                                <td class="py-3 px-4 font-extrabold text-slate-900">수능 (가군 · 나군 · 다군 일반전형)</td>
+                                <td class="py-3 px-3 font-mono-code font-black text-teal-800 text-sm">1,656명</td>
+                                <td class="py-3 px-3 font-mono-code font-bold">25.2%</td>
+                                <td class="py-3 px-4 text-left text-slate-700">대학수학능력시험 100% (예체능 실기전형 제외). <strong>영어 등급 간 감점 폭을 낮추는 대신 국어·수학·과학탐구 표준점수/백분위 가중치 대폭 강화</strong></td>
+                            </tr>
+                            <tr class="bg-blue-50/60 font-black text-slate-900">
+                                <td class="py-3 px-4" colspan="2">정원 내 신입학 모집 합계</td>
+                                <td class="py-3 px-3 font-mono-code text-base text-[#1e2a78]">6,580명</td>
+                                <td class="py-3 px-3 font-mono-code">100.0%</td>
+                                <td class="py-3 px-4 text-left text-[#1e2a78]">수시 미충원(수능 최저 미달 등) 발생 시 정시 일반전형으로 전액 이월 선발</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-black text-purple-900 bg-purple-50/40">정원 외 특별전형 (별도)</td>
+                                <td class="py-3 px-4 font-extrabold text-slate-800">농어촌(279) · 기회균형(219) · 재외국민/외국인(241) · 특성화고재직자(174) · 북한이탈(40) 등</td>
+                                <td class="py-3 px-3 font-mono-code font-black text-purple-800 text-sm">1,055명</td>
+                                <td class="py-3 px-3 font-mono-code text-slate-500">정원외</td>
+                                <td class="py-3 px-4 text-left text-slate-600">정원 내·외 총합 <strong>7,635명</strong> 선발 (고등교육법 시행령 제29조 제2항 의거)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 2] 편입학 및 대학원 입시 (2026 어학성적 개편 · 전공필기/면접 안내) (#transfer) ================= -->
+        <div id="view-adm-transfer" class="adm-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-rose-600 uppercase tracking-wider">TRANSFER & GRADUATE ADMISSION POLICY (2026 REVISED)</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">편입학(일반·학사) 및 대학원 입시 요강 — 2026 개정 어학 기준 및 전공 심층평가</h2>
+                    <p class="text-xs text-slate-500 mt-1">본교 편입학 및 대학원 입시는 2026학년도부터 지원 자격 어학 시험의 폭을 대폭 확대하되, 2단계 전공 필기고사 및 구술면접의 학문적 검증 기준을 엄격한 절대평가(과락제)로 운영합니다.</p>
+                </div>
+
+                <!-- 2026 개정 어학 성적 제출 규칙 비교 박스 -->
+                <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-7 space-y-4 border-l-8 border-[#99dd88]">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full">2026학년도 편입학·대학원 어학 성적 인정 기준 전면 개편</span>
+                        <span class="text-xs text-[#a0fff9] font-mono-code">시행: 2026학년도 전기·후기 모집부터 전면 적용</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
+                            <span class="text-slate-400 font-bold block">기존 인정 어학시험 (~2025학년도)</span>
+                            <div class="text-base font-bold text-slate-300 line-through">오직 TEPS(텝스) 또는 TOEFL(토플 iBT) 성적만 인정</div>
+                            <p class="text-slate-400 text-[11px]">거점국립대 특유의 제한적 어학 기준으로 인해 수험생 진입 장벽이 높았음</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-500/15 border border-emerald-400/40 space-y-1">
+                            <span class="text-[#99dd88] font-black block">개정 인정 어학시험 (2026학년도~현재)</span>
+                            <div class="text-base font-black text-white">TOEFL · TEPS + <span class="text-[#a0fff9] underline">TOEIC · TOEIC Speaking · OPIc 전면 허용!</span></div>
+                            <p class="text-emerald-100 text-[11px]">단, 어학 진입 장벽을 완화한 만큼 2단계 전공 필기고사 및 학업계획서 구술면접의 변별력과 과락(F) 기준을 대폭 강화함</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 편입학·대학원 3대 핵심 평가 원칙 및 계열별 특례 -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
+                    <div class="p-6 rounded-2xl bg-rose-50/50 border border-rose-200 space-y-2.5">
+                        <span class="bg-rose-600 text-white font-black px-2.5 py-0.5 rounded">원칙 1 · 전공 필기 및 구술 디펜스</span>
+                        <h4 class="text-base font-black text-slate-900">고난도 전공 필기고사 & 말하기 성적 제출자 원어 구술면접</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            • <strong>전공 필기고사 난이도 강화:</strong> 1단계 서류 통과 후 실시되는 2단계 전공 필기고사(공학수학, 선형대수학, 구조역학, 사회복지조사론 등)에서 60점 미만 취득 시 <strong>정원 미달 여부와 관계없이 즉시 과락(불합격)</strong> 처리합니다.<br>
+                            • <strong>말하기 공인성적(OPIc AL/IH, 토스 등) 제출자 검증:</strong> 말하기 어학 성적으로 지원 자격을 충족한 경우, 면접위원(원어민 교원 및 해외 학위 교원)이 <strong>제출한 연구계획서(학업계획서)의 이론적 배경을 5분간 영어로 직접 질의·디펜스</strong>하도록 하여 실질 어학 역량을 검증합니다.
+                        </p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-blue-50/50 border border-blue-200 space-y-2.5">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">원칙 2 · 영어 반영 비율 0% 단과대</span>
+                        <h4 class="text-base font-black text-slate-900">이공계·사범대·약대·예체능 『영어 패스제(0%) + 전공 100%』</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            • <strong>적용 단과대학:</strong> <strong>전기공업대학·기계공업대학·화학공업대학·토목공업대학, 사범대학, 융합학부(낭원), 약학대학, 미술대학·음악대학</strong>.<br>
+                            • <strong>선발 방식:</strong> 모집요강에 명시된 최저 지원 자격 기준 점수(예: TOEIC 700점 또는 OPIc IM1 이상)만 충족하면 <strong>전형 총점에 영어 점수를 단 1점도 반영하지 않으며(0%)</strong>, 오직 전공 수학·전공 필기고사 및 실기 성적만으로 최종 합격자를 선발합니다.
+                        </p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-2.5">
+                        <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded">원칙 3 · 인문·어문계열 제2외국어 특례</span>
+                        <h4 class="text-base font-black text-slate-900">인문·언어문학대학 자체 제2외국어 고사 (종이사전 지참 허용)</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            • <strong>적용 대상:</strong> 인문대학 및 언어문학대학 편입학·대학원(석·박사) 지원자.<br>
+                            • <strong>고사 방식:</strong> 영어 외에 <strong>제2외국어 필기고사(한문, 중국어, 독일어, 프랑스어, 러시아어, 스페인어, 필리핀어 중 택1)</strong>를 실시합니다. 고사장 내 <strong>전자기기가 아닌 일반 종이사전(Paper Dictionary) 지참을 공식 허용</strong>하되, 고전 원서 및 학술 문헌의 정확한 문맥 번역 능력을 평가하여 과락(60점 미만) 여부를 엄격히 판정합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 3] 시간제등록생 모집안내 (#parttime) ================= -->
+        <div id="view-adm-parttime" class="adm-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">PART-TIME ENROLLMENT & CREDIT BANK SYSTEM</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">효빈대학교 시간제등록생 모집안내 (학점은행제 및 국가자격 과목 이수)</h2>
+                        <p class="text-xs text-slate-500 mt-1">고등학교 졸업 이상 학력 소지자가 본교의 정규 학부 교과목을 시간제로 수강하고 학점을 취득할 수 있는 열린 고등교육 제도입니다.</p>
+                    </div>
+                    <button onclick="alert('2026학년도 시간제등록생 온라인 원서접수 창으로 연결됩니다.')" class="bg-[#3344aa] text-white font-black px-5 py-2.5 rounded-xl text-xs shadow shrink-0">
+                        시간제등록생 원서접수 신청
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">지원자격 및 신청학점</span>
+                        <h4 class="text-sm font-black text-slate-900">매 학기 최대 12학점 (연간 24학점) 이수 가능</h4>
+                        <p class="text-slate-600 leading-relaxed">고교 졸업자 또는 동등 이상 학력 소지자 누구나 지원 가능하며, 서류전형(100%)으로 선발합니다. 취득한 학점은 국가평생교육진흥원 학점은행제 학위 취득 학점으로 인정됩니다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">인기 개설 과정</span>
+                        <h4 class="text-sm font-black text-slate-900">사회복지사 · 건강가정사 · 철도안전 전문과목</h4>
+                        <p class="text-slate-600 leading-relaxed">사회복지학대학(7-1동)의 사회복지 현장실습·법제 과목, 생활과학대학(12동) 조리·제빵 이론 과목, 교통대학(35동) 철도안전법규 과목 등이 시간제등록생에게 폭넓게 개방됩니다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded">학점당 등록금 및 특전</span>
+                        <h4 class="text-sm font-black text-slate-900">1학점당 85,000원 (교내철도·도서관 이용권 부여)</h4>
+                        <p class="text-slate-600 leading-relaxed">시간제등록생에게도 모바일 임시 학생증이 발급되어 중앙도서관(23동)·방도도서관(36동) 자료실 출입 및 교내철도 HBNU Rail 탑승 혜택이 동일하게 제공됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 4] 고교-대학 연계 프로그램 (#highschool) ================= -->
+        <div id="view-adm-highschool" class="adm-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">HIGH SCHOOL - UNIVERSITY LINKAGE PROGRAMS</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">고교-대학 연계 프로그램 (고교학점제 · 전공체험 · 개천용 멘토단)</h2>
+                        <p class="text-xs text-slate-500 mt-1">효빈광역시 및 덕빈남·북도 관내 고등학교와 협력하여 공교육 내실화와 진로 탐색을 지원하는 거점국립대 대표 프로그램입니다.</p>
+                    </div>
+                    <button onclick="alert('고교-대학 연계 전공체험 및 입학사정관 방문설명회 신청이 접수되었습니다.')" class="bg-emerald-700 text-white font-black px-5 py-2.5 rounded-xl text-xs shadow shrink-0">
+                        고교 방문설명회 · 캠퍼스투어 신청
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div class="p-6 rounded-2xl bg-blue-50/50 border border-blue-200 space-y-2">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">프로그램 1 · HBNU 꿈꾸는 공작소 & 오픈캠퍼스</span>
+                        <h4 class="text-base font-black text-slate-900">단과대학 실험·실습실 개방 고교학점제 연동 강좌</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            효빈사대부고(57동)를 비롯한 지역 고등학생들이 방학 및 주말을 이용해 <strong>교통대학 풀스케일 트램 운전 시뮬레이터(35-1동), 의과대학 기초의학실(49동), 낭원캠퍼스 반도체 클린룸(N-06), 응용예술대학 성우 더빙부스(26-1동)</strong>에서 대학 수준의 실험·실습을 직접 체험하고 고교학점제 이수 단위로 인정받습니다.
+                        </p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-emerald-50/50 border border-emerald-200 space-y-2">
+                        <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">프로그램 2 · 『개천용(龍)인재』 찾아가는 모의면접 캠프</span>
+                        <h4 class="text-base font-black text-slate-900">사교육 소외지역 고교생 대상 1:1 학생부종합 모의면접</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            본교 전임 입학사정관과 사회복지학대학·사범대학 재학생 멘토단(블루버드 멘토단)이 입시 컨설팅 학원이 부족한 읍·면 지역(탄성군, 낭원군, 천주시 외곽 등) 고등학교를 직접 방문하여 <strong>『효빈 애니웨이』 학종 모의면접과 학생부 세특 컨설팅을 전액 무료</strong>로 제공합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 공통 푸터 (common.js 렌더링) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
     <script src="common.js"></script>
+    <script>
+        const ADM_TAB_TITLES = {
+            main: "효빈대학교 입학처 메인 포털 (총 7,635명 선발)",
+            transfer: "편입학 및 대학원 입시 (2026 어학기준 개편 및 전공평가)",
+            parttime: "시간제등록생 모집 및 학점은행제 안내",
+            highschool: "고교-대학 연계 프로그램 (고교학점제·오픈캠퍼스)"
+        };
+
+        // 상단 메가메뉴에서 '입학홈페이지', '시간제 등록생', '고교대학 연계' 클릭 시 즉시 해당 SPA 탭으로 전환
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuMap = {
+                "입학홈페이지": "main",
+                "시간제 등록생": "parttime",
+                "시간제등록생": "parttime",
+                "고교대학 연계": "highschool",
+                "고교대학연계": "highschool"
+            };
+            if (menuMap[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                switchAdmTab(menuMap[txt]);
+            }
+        }, true);
+
+        function switchAdmTab(tabKey) {
+            const validKey = ADM_TAB_TITLES[tabKey] ? tabKey : 'main';
+            document.querySelectorAll('.adm-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-adm-' + validKey);
+            if (target) target.classList.remove('hidden');
+
+            Object.keys(ADM_TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('adm-tab-' + k);
+                if (!btn) return;
+                if (k === validKey) {
+                    btn.className = "adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm";
+                } else {
+                    btn.className = "adm-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all";
+                }
+            });
+
+            const bread = document.getElementById('adm-breadcrumb');
+            if (bread) bread.innerText = ADM_TAB_TITLES[validKey];
+
+            if (window.location.hash !== '#' + validKey) {
+                history.replaceState(null, null, '#' + validKey);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (ADM_TAB_TITLES[h]) switchAdmTab(h);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (ADM_TAB_TITLES[initHash]) {
+                switchAdmTab(initHash);
+            } else {
+                switchAdmTab('main');
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+    </script>
 </body>
 </html>

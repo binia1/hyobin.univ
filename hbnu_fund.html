@@ -3,103 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>발전기금 - 효빈대학교</title>
+    <title>발전기금 (재단법인 효빈대학교 발전지원재단) - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        .font-serif-kr { font-family: 'Noto Serif KR', serif; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-print-area, #receipt-print-area * { visibility: visible; }
+            #receipt-print-area { position: static !important; width: 100% !important; box-shadow: none !important; border: 2px solid #000 !important; }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow w-full">
-        <!-- 비전 -->
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-bold text-[#3344aa] mb-4">나눔으로 만드는 불굴의 미래</h1>
-            <p class="text-gray-600 text-lg">여러분의 소중한 기부가 효빈대학교의 새로운 100년을 만듭니다.</p>
+    <!-- 상단 서브 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-12 border-b-4 border-[#99dd88] relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/충승당.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>대학소개 / 대외협력</span>
+                <span>›</span>
+                <span id="fund-breadcrumb" class="text-[#99dd88] font-bold">기금사업 안내 및 모금 캠페인</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HYOBIN NATIONAL UNIVERSITY DEVELOPMENT FOUNDATION
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">재단법인 효빈대학교 발전지원재단</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-1.5 max-w-3xl leading-relaxed">
+                        "불굴(不屈)·혁신(革新)·개천(改天)의 100년, 나눔으로 여는 새로운 미래" — 동문과 시민, 기업의 소중한 출연 기금은 등록금 5년 연속 동결 재원, 천원의 아침밥 『엠마의 식탁』, 교내철도(HBNU Rail) 안전 고도화 및 학술 연구기금으로 투명하게 집행됩니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="switchFundTab('donate')" class="bg-[#a0fff9] hover:bg-white text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow transition-all flex items-center gap-1.5">
+                        <i data-lucide="heart-handshake" class="w-4 h-4"></i> 온라인 발전기금 약정하기
+                    </button>
+                    <button onclick="openReceiptModal()" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        <i data-lucide="printer" class="w-4 h-4"></i> 법정기부금 영수증 발급
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 누적 모금 현황 요약 바 -->
+    <div class="bg-[#111827] text-white border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+            <div class="flex items-center justify-between md:border-r border-slate-700 pr-4">
+                <span class="text-slate-400">개교 100주년 기념 누적 모금액</span>
+                <strong class="font-mono-code text-sm md:text-base text-[#99dd88]">1,482억 5,400만 원</strong>
+            </div>
+            <div class="flex items-center justify-between md:border-r border-slate-700 pr-4">
+                <span class="text-slate-400">누적 참여 동문 · 기업 · 기관</span>
+                <strong class="font-mono-code text-sm md:text-base text-[#a0fff9]">42,890명 (기관 612곳)</strong>
+            </div>
+            <div class="flex items-center justify-between md:border-r border-slate-700 pr-4">
+                <span class="text-slate-400">2026학년도 장학·복지 집행액</span>
+                <strong class="font-mono-code text-sm md:text-base text-amber-300">184억 2,000만 원</strong>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-slate-400">기부금 세제 구분</span>
+                <strong class="text-white font-bold">법정기부금 (코드 10 · 100% 한도 인정)</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4대 발전기금 SPA 탭 네비게이션 -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3.5">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                <button onclick="switchFundTab('campaign')" id="ftab-btn-campaign" class="fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm">
+                    <i data-lucide="Flame" class="w-4 h-4 shrink-0"></i> <span>1. 모금 캠페인 및 기금사업</span>
+                </button>
+                <button onclick="switchFundTab('donate')" id="ftab-btn-donate" class="fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="credit-card" class="w-4 h-4 shrink-0"></i> <span>2. 온라인 기부 약정·납부</span>
+                </button>
+                <button onclick="switchFundTab('honors')" id="ftab-btn-honors" class="fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="award" class="w-4 h-4 shrink-0"></i> <span>3. 명예의 전당 · 기부자 예우</span>
+                </button>
+                <button onclick="switchFundTab('tax')" id="ftab-btn-tax" class="fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="calculator" class="w-4 h-4 shrink-0"></i> <span>4. 세액공제 계산기 · 영수증</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- ================= [탭 1] 모금 캠페인 및 기금사업 안내 (#campaign) ================= -->
+        <div id="fview-campaign" class="fund-view fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">STRATEGIC FUNDRAISING CAMPAIGNS</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">2026학년도 6대 중점 모금 캠페인 현황</h2>
+                        <p class="text-xs text-slate-500 mt-1">원하시는 기금 용도를 지정하여 후원하실 수 있으며, 모든 기금은 외부 회계법인의 정기 감사를 통해 투명하게 공개됩니다.</p>
+                    </div>
+                    <span class="text-xs font-bold text-slate-500">관할: 대외협력처 발전기금팀 (대학본부 1동 4층)</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="campaign-cards-grid"></div>
+            </div>
         </div>
 
-        <!-- 기부 현황 (명예의 전당) -->
-        <section class="bg-white p-8 rounded-xl shadow-lg border-t-8 border-[#3344aa] mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🏆 명예의 전당</h2>
-            
-            <div class="space-y-6">
-                <!-- 박효빈 시장 -->
-                <div class="flex items-center bg-[#f0f4f8] p-4 rounded-lg">
-                    <div class="w-16 h-16 bg-[#3344aa] rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">1위</div>
-                    <div class="flex-grow">
-                        <h3 class="font-bold text-lg">박효빈 (효빈광역시장)</h3>
-                        <p class="text-sm text-gray-600">사회복지학대학 발전기금 및 전교생 장학금 쾌척</p>
+        <!-- ================= [탭 2] 온라인 기부 약정 및 납부 시뮬레이터 (#donate) ================= -->
+        <div id="fview-donate" class="fund-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- 좌측 약정 폼 (8칸) -->
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="border-b pb-4">
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">ONLINE PLEDGE & DONATION</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">온라인 발전기금 약정서 작성</h2>
+                        <p class="text-xs text-slate-500 mt-1">약정하신 내역은 국세청 연말정산 간소화 서비스(법정기부금 코드 10)에 자동 반영됩니다.</p>
                     </div>
-                    <div class="text-[#3344aa] font-bold text-lg">VIP Donor</div>
-                </div>
-                
-                <!-- 누마즈시 -->
-                <div class="flex items-center bg-pink-50 p-4 rounded-lg">
-                    <div class="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">특별</div>
-                    <div class="flex-grow">
-                        <h3 class="font-bold text-lg">일본 누마즈시 (Numazu City)</h3>
-                        <p class="text-sm text-gray-600">한일 문화 교류 및 베르데 홀 시설 개선 기금</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <label class="font-black text-slate-700 block mb-1.5">1. 출연자 구분</label>
+                            <select id="pledge-role" class="w-full border-2 border-slate-200 rounded-xl px-3.5 py-2.5 font-bold bg-white outline-none focus:border-[#3344aa]">
+                                <option value="졸업동문">졸업동문 (Alumni)</option>
+                                <option value="재학생·학부모">재학생 · 학부모</option>
+                                <option value="교원·직원">본교 교원 · 직원 (급여공제 가능)</option>
+                                <option value="기업·법인·단체">기업 · 공익법인 · 협약기관</option>
+                                <option value="일반시민·후원자">일반 시민 및 대학 후원자</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-black text-slate-700 block mb-1.5">2. 지정 기금 선택 (용도 지정)</label>
+                            <select id="pledge-fund" class="w-full border-2 border-slate-200 rounded-xl px-3.5 py-2.5 font-bold bg-white outline-none focus:border-[#3344aa]">
+                                <option value="천원의 아침밥 『엠마의 식탁』 후원기금">① 천원의 아침밥 『엠마의 식탁』 후원기금</option>
+                                <option value="베르데(Verde) 가족돌봄청년·다문화 동행장학금">② 베르데 가족돌봄청년(영 케어러)·다문화 장학금</option>
+                                <option value="교내철도(HBNU Rail) 안전·정비 교육기금">③ 교내철도(HBNU Rail) 안전 및 차량정비 교육기금</option>
+                                <option value="베르데 홀 문화예술 및 콘텐츠 창작지원기금">④ 베르데 홀 문화예술 및 콘텐츠 창작지원기금</option>
+                                <option value="단과대학·학과 지정 장학 및 학술연구기금">⑤ 단과대학·소속학과 지정 발전기금</option>
+                                <option value="중앙·방도도서관 양서 확충 및 24시 열람실 환경기금">⑥ 중앙·방도도서관 양서 확충 기금</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-black text-slate-700 block mb-1.5">3. 출연자 성명 (또는 법인명)</label>
+                            <input type="text" id="pledge-name" value="김효빈" placeholder="성명 또는 법인명 입력" class="w-full border-2 border-slate-200 rounded-xl px-3.5 py-2.5 font-bold outline-none focus:border-[#3344aa]">
+                        </div>
+                        <div>
+                            <label class="font-black text-slate-700 block mb-1.5">4. 입학연도 / 소속 학과 (동문·재학생 선택입력)</label>
+                            <input type="text" id="pledge-dept" value="사회복지정책학과 동문" placeholder="예: 사회복지정책학과 15학번" class="w-full border-2 border-slate-200 rounded-xl px-3.5 py-2.5 font-bold outline-none focus:border-[#3344aa]">
+                        </div>
                     </div>
-                    <div class="text-pink-600 font-bold text-lg">Partner</div>
+
+                    <!-- 기부 금액 및 납입 방식 선택 -->
+                    <div class="space-y-3 pt-2">
+                        <label class="font-black text-slate-700 block text-xs">5. 약정 금액 및 납부 주기 선택</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                            <button type="button" onclick="setPledgeAmt(10000)" class="px-3 py-2 rounded-xl border border-slate-300 font-bold hover:border-[#3344aa]">1만 원 (한 끼)</button>
+                            <button type="button" onclick="setPledgeAmt(50000)" class="px-3 py-2 rounded-xl border border-slate-300 font-bold hover:border-[#3344aa]">5만 원</button>
+                            <button type="button" onclick="setPledgeAmt(100000)" class="px-3 py-2 rounded-xl border border-slate-300 font-bold hover:border-[#3344aa]">10만 원 (전액환급)</button>
+                            <button type="button" onclick="setPledgeAmt(1000000)" class="px-3 py-2 rounded-xl border border-slate-300 font-bold hover:border-[#3344aa]">100만 원</button>
+                            <button type="button" onclick="setPledgeAmt(10000000)" class="px-3 py-2 rounded-xl border border-slate-300 font-bold hover:border-[#3344aa]">1,000만 원</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
+                            <div>
+                                <span class="text-slate-500 block mb-1">직접 금액 입력 (원)</span>
+                                <input type="number" id="pledge-amt" value="100000" oninput="updatePledgePreview()" class="w-full border-2 border-[#3344aa] rounded-xl px-3.5 py-2.5 font-mono-code font-black text-base text-[#1e2a78]">
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block mb-1">납입 방법</span>
+                                <select id="pledge-method" class="w-full border-2 border-slate-200 rounded-xl px-3.5 py-2.5 font-bold bg-white">
+                                    <option value="일시납 (효빈은행 가상계좌/신용카드)">일시납 (효빈은행 가상계좌 / 신용카드)</option>
+                                    <option value="정기후원 (매월 CMS 자동이체)">정기후원 (매월 CMS 자동이체)</option>
+                                    <option value="급여공제 (본교 교직원 전용)">급여공제 (본교 교직원 전용)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 익명 기부 -->
-                <div class="flex items-center bg-gray-50 p-4 rounded-lg">
-                    <div class="w-16 h-16 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">익명</div>
-                    <div class="flex-grow">
-                        <h3 class="font-bold text-lg">익명의 졸업생 (철도운전학과)</h3>
-                        <p class="text-sm text-gray-600">후배들 실습용 트램 부품 교체 비용 지원</p>
+                <!-- 우측 약정 요약 및 예상 세제혜택 박스 (4칸) -->
+                <div class="lg:col-span-4 bg-slate-900 text-white rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded">실시간 약정 요약 및 세액공제 산출</span>
+                        <h3 class="text-lg font-black">발전기금 출연 확인서</h3>
+                        <div class="space-y-2.5 text-xs border-y border-slate-700 py-4">
+                            <div class="flex justify-between"><span class="text-slate-400">선택 기금:</span><strong id="prev-fund" class="text-[#a0fff9] text-right ml-2">천원의 아침밥 후원기금</strong></div>
+                            <div class="flex justify-between"><span class="text-slate-400">약정 금액:</span><strong id="prev-amt" class="font-mono-code text-base text-amber-300">100,000원</strong></div>
+                            <div class="flex justify-between"><span class="text-slate-400">예상 세액공제 환급액:</span><strong id="prev-tax" class="font-mono-code text-[#99dd88]">16,500원 (지방소득세 포함)</strong></div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            • 국립대학교 발전기금은 소득세법 제34조제2항에 따른 <strong>법정기부금</strong>으로, 개인은 소득금액의 100% 한도 내에서 세액공제(1천만 원 이하 15%, 초과분 30% + 지방소득세 1.5~3%) 혜택을 받습니다.
+                        </p>
+                    </div>
+                    <button onclick="submitOnlinePledge()" class="w-full bg-[#99dd88] hover:bg-white text-[#1e2a78] py-3.5 rounded-xl font-black text-sm shadow-lg transition">
+                        발전기금 약정 완료 및 영수증 발급
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 3] 명예의 전당 및 금액별 기부자 예우 (#honors) ================= -->
+        <div id="fview-honors" class="fund-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">DONOR WALL OF HONOR & STEWARDSHIP</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">HBNU 아너스 클럽 (명예의 전당) 및 누적 금액별 예우 기준</h2>
+                    <p class="text-xs text-slate-500 mt-1">대학본부(1동) 1층 로비 및 베르데 홀(29동) 도너월(Donor Wall)에 영구 헌액된 주요 출연 기관·기업·동문 명단입니다.</p>
+                </div>
+
+                <!-- 주요 출연 기관·동문 아너스 클럽 리스트 (공직선거법 완전 준수 지명재단·동문기업 구성) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-xs" id="honors-donor-grid"></div>
+
+                <!-- 금액별 기부자 예우 프로그램 표 -->
+                <div>
+                    <h3 class="text-base font-black text-slate-900 mb-3">🏅 누적 출연 금액별 기부자 예우 프로그램 (Stewardship)</h3>
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                        <table class="w-full text-xs text-center border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                    <th class="py-3 px-3 w-40">아너스 클럽 등급</th>
+                                    <th class="py-3 px-3 w-40">누적 기부액 기준</th>
+                                    <th class="py-3 px-4 text-left">공식 예우 및 특전 사항</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="py-3 px-3 font-black text-[#1e2a78] bg-blue-50/50">불굴(不屈) 프레지던트 아너스</td>
+                                    <td class="py-3 px-3 font-mono-code font-black">10억 원 이상</td>
+                                    <td class="py-3 px-4 text-left text-slate-700">단과대학 강의실·홀(Hall) 기부자 네이밍 헌정, 충승당(3동) 동판 부조 영구 헌액, 효빈대학교병원(59동) VIP 종합건강검진권 매년 증정, 평생 무료 주차 및 HBNU Rail VIP 패스 발급</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-3 font-black text-emerald-800 bg-emerald-50/50">베르데(Verde) 골드 아너스</td>
+                                    <td class="py-3 px-3 font-mono-code font-black">1억 원 이상</td>
+                                    <td class="py-3 px-4 text-left text-slate-700">대학본부(1동) 1층 명예의 전당 크리스탈 명패 헌액, 베르데 홀(29동) 좌석 네이밍 명판 부착, 효빈대학교병원 종합검진 50% 감면, 총장 명의 감사패 수여</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-3 font-black text-purple-800 bg-purple-50/50">샤이니(Shiny) 실버 아너스</td>
+                                    <td class="py-3 px-3 font-mono-code font-black">1,000만 원 이상</td>
+                                    <td class="py-3 px-4 text-left text-slate-700">베르데 홀 대공연장 및 방도도서관(36동) 열람석 네이밍 명판 부착, 중앙·방도도서관 평생 특별열람증 발급, 대학 공식 행사 귀빈 초청</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-3 font-black text-slate-700 bg-slate-50">효빈 패밀리 멤버십</td>
+                                    <td class="py-3 px-3 font-mono-code font-bold">100만 원 이상 (또는 정기후원)</td>
+                                    <td class="py-3 px-4 text-left text-slate-700">발전지원재단 홈페이지 명단 등재, 교내 애니-철도 박물관(58동) 특별기획전 VIP 초청 및 학내 소식지 정기 발송</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- 진행 중인 캠페인 -->
-        <section>
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">진행 중인 모금 캠페인</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white border rounded-xl overflow-hidden hover:shadow-md transition group cursor-pointer" onclick="alert('기부 페이지로 이동합니다.')">
-                    <div class="h-40 bg-[#3344aa] flex items-center justify-center text-white">
-                        <i data-lucide="book-open" class="w-12 h-12"></i>
+        <!-- ================= [탭 4] 법정기부금 세액공제 계산기 및 영수증 발급 (#tax) ================= -->
+        <div id="fview-tax" class="fund-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">STATUTORY DONATION TAX DEDUCTION CALCULATOR</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">법정기부금 세액공제 모의계산기 및 기부금영수증 발급</h2>
+                        <p class="text-xs text-slate-500 mt-1">상과대학 세무학과 자문을 거쳐 제작된 정밀 세액공제 시뮬레이터입니다.</p>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-[#3344aa]">천원의 아침밥 후원</h3>
-                        <p class="text-sm text-gray-600 mb-4">후배들이 든든하게 아침을 먹을 수 있도록 지원해주세요.</p>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
-                            <div class="bg-[#3344aa] h-2.5 rounded-full" style="width: 75%"></div>
-                        </div>
-                        <p class="text-xs text-right text-gray-500">75% 달성</p>
-                    </div>
+                    <button onclick="openReceiptModal()" class="bg-[#3344aa] text-white font-black px-5 py-2.5 rounded-xl text-xs shadow flex items-center gap-1.5 shrink-0">
+                        <i data-lucide="printer" class="w-4 h-4 text-[#99dd88]"></i> 법정기부금 영수증 즉시 출력
+                    </button>
                 </div>
 
-                <div class="bg-white border rounded-xl overflow-hidden hover:shadow-md transition group cursor-pointer" onclick="alert('기부 페이지로 이동합니다.')">
-                    <div class="h-40 bg-purple-600 flex items-center justify-center text-white">
-                        <i data-lucide="star" class="w-12 h-12"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-slate-50 p-6 rounded-2xl border border-slate-200 text-xs">
+                    <div class="space-y-3">
+                        <label class="font-black text-slate-800 text-sm block">연간 기부 금액 입력 (원)</label>
+                        <input type="number" id="tax-calc-input" value="1000000" oninput="runTaxCalc()" class="w-full border-2 border-[#3344aa] rounded-xl px-4 py-3 font-mono-code font-black text-lg text-[#1e2a78] bg-white">
+                        <p class="text-slate-500 leading-relaxed">• 개인 기부자: 1,000만 원 이하분 <strong>16.5%</strong>(소득세 15% + 지방소득세 1.5%), 1,000만 원 초과분 <strong>33.0%</strong>(소득세 30% + 지방소득세 3%) 세액공제 적용 (이월공제 10년 허용)</p>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-purple-600">엠마 베르데 문화예술 기금</h3>
-                        <p class="text-sm text-gray-600 mb-4">예술대학 및 동아리 창작 활동을 지원하는 덕후 친화적 기금입니다.</p>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
-                            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 120%"></div>
-                        </div>
-                        <p class="text-xs text-right text-gray-500">120% 초과 달성 (화력 폭발)</p>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-2 text-center">
+                        <span class="text-slate-500 font-bold block">연말정산 예상 세액공제 환급액 (지방소득세 포함)</span>
+                        <strong id="tax-calc-result" class="text-3xl font-black text-emerald-700 font-mono-code block">165,000원</strong>
+                        <span id="tax-calc-real" class="text-slate-500 block text-[11px]">실질 기부 부담액: 835,000원</span>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <div class="mt-12 text-center">
-            <button class="bg-[#3344aa] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#2a3a9a] shadow-lg transition">
-                기부 참여하기
-            </button>
-            <p class="text-xs text-gray-500 mt-4">기부금은 법정기부금으로 세제 혜택을 받으실 수 있습니다.</p>
         </div>
+
     </main>
 
+    <!-- 법정기부금 영수증 인쇄 모달 -->
+    <div id="receipt-modal" class="fixed inset-0 z-[200] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4 hidden" onclick="closeReceiptModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-300" onclick="event.stopPropagation()">
+            <div class="bg-[#0f172a] text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded">소득세법 시행규칙 별지 제45호의2 서식</span>
+                    <h3 class="font-bold text-sm">법정기부금 영수증 (코드 10)</h3>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-[#3344aa] hover:bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-black flex items-center gap-1">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> 인쇄 / PDF
+                    </button>
+                    <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" width="20"></i></button>
+                </div>
+            </div>
+            <div id="receipt-print-area" class="p-6 md:p-8 text-xs space-y-4 bg-white"></div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
     <script src="common.js"></script>
+
+    <script>
+        const CAMPAIGNS_DATA = [
+            {
+                badge: "후생복지 · 상시모금", title: "천원의 아침밥 『엠마의 식탁』 후원기금",
+                target: "500,000,000원", current: "442,500,000원", pct: 88, color: "bg-emerald-600",
+                desc: "재학생들이 매일 아침 학생복지타운(4동)·아와관(52동)·희다관(53동) 등에서 1,000원에 한식 백반과 알프스식 호밀 브런치를 먹을 수 있도록 식재료비를 지원하는 기금입니다."
+            },
+            {
+                badge: "사회복지 · 중점기금", title: "베르데(Verde) 가족돌봄청년·다문화 동행기금",
+                target: "1,000,000,000원", current: "920,000,000원", pct: 92, color: "bg-[#3344aa]",
+                desc: "가족을 돌보며 학업과 생계를 병행하는 영 케어러(Young Carer) 학우들과 다문화 가정 재학생들에게 등록금 외 월 40만 원의 생활안정자금을 직접 지원합니다."
+            },
+            {
+                badge: "교내교통 · 산학실습", title: "교내철도(HBNU Rail) 안전 및 차량정비 교육기금",
+                target: "800,000,000원", current: "768,000,000원", pct: 96, color: "bg-teal-600",
+                desc: "교내트램 A선(백년호 보존차량 포함)과 모노레일 B선(S-35-4 공중정비센터)의 신호·대차 부품을 최신화하고 교통대학 학부생들의 운전면허 취득을 후원합니다."
+            },
+            {
+                badge: "문화예술 · 글로벌", title: "베르데 홀 문화예술 및 콘텐츠 창작지원기금",
+                target: "600,000,000원", current: "672,000,000원", pct: 112, color: "bg-purple-700",
+                desc: "응용예술·음악·미술·예술대학 학우들의 졸업작품 제작비와 베르데 홀(29동)·애니-철도 박물관(58동)의 학술·문화 기획전시를 지원하는 기금입니다. (목표 초과 달성)"
+            },
+            {
+                badge: "창업지원 · 산학협력", title: "효빈 콘텐츠 스타트업 펀드 (Shiny 창업기금)",
+                target: "10,000,000,000원", current: "10,000,000,000원", pct: 100, color: "bg-amber-500",
+                desc: "창상관(43동) 및 천주 창업보육센터(C-11동)에 입주한 학부생·대학원생 IT·웹툰·반도체·소부장 스타트업에 초기 시드머니를 투자하는 100억 규모 매칭 기금입니다."
+            },
+            {
+                badge: "학술인프라 · 도서관", title: "중앙·방도도서관 1인 1서적 및 열람석 네이밍 기금",
+                target: "300,000,000원", current: "255,000,000원", pct: 85, color: "bg-indigo-600",
+                desc: "중앙도서관(23동)과 방도도서관(36동)의 전공 원서 확충 및 24시간 열람실 수면라운지 환경 개선을 위한 기금으로, 열람석에 기부자 명판이 부착됩니다."
+            }
+        ];
+
+        // 공직선거법을 철저히 준수한 공익법인·동문기업·해외자매도시 아너스 클럽 명단
+        const HONORS_DONORS = [
+            { rank: "프레지던트 아너스 (출연기관)", name: "재단법인 효빈장학재단 · 효빈정보산업진흥원(HIPA)", dept: "지역 인재육성 공익재단 및 산학 출연기관", amt: "누적 150억 원 출연", desc: "지역 미래인재 장학금, 학자금대출 이자 전액지원 기금 및 전산교육관(45동) AI·보안 클라우드 인프라 출연" },
+            { rank: "프레지던트 아너스 (동문기업)", name: "마기철 대표이사 ((주)치킨무림 회장)", dept: "생명대학 축산학과 89학번 동문", amt: "누적 50억 원 쾌척", desc: "모교 이자캠퍼스 유가공공장(I-10동) 현대화 기금 및 전교생 시험기간 간식 후원, 농생명 장학기금 출연" },
+            { rank: "프레지던트 아너스 (동문인사)", name: "완시윤 이사장 (한국식품연맹 · 전 보건복지위원장)", dept: "화학공업대학 식품공학과 88학번 동문", amt: "누적 30억 원 출연", desc: "천원의 아침밥 『엠마의 식탁』 영구 기금 및 생활과학대학·식품공학과 실험실습 기금 쾌척" },
+            { rank: "국제교류 특별파트너", name: "일본 시즈오카현 누마즈시 · 이즈하코네 철도(주)", dept: "해외 자매결연 도시 및 철도기관", amt: "문화·철도 교류기금 및 실물 사료 기증", desc: "베르데 홀(29동) 한일 청년문화교류 기금 및 애니-철도 박물관(58동) 전시 사료·모형 무상 기증" },
+            { rank: "베르데 골드 아너스 (금융권)", name: "MG새마을금고 지역희망나눔재단 · 페퍼저축은행 · 인송문화재단", dept: "외부 장학 협력 공익재단", amt: "연간 12억 원 장학금 출연", desc: "본교 재학생 주거·생활안정 장학금(청년누리장학금 등) 및 가계곤란 학업장려금 지속 출연" },
+            { rank: "베르데 골드 아너스 (동문직능단체)", name: "효빈교통공사·한국철도공사 재직 동문회 (회장 고나미 외)", dept: "교통대학 철도운전·운영학과 동문 일동", amt: "누적 8억 5,000만 원 출연", desc: "후배 실습용 교내철도(A선 트램·B선 모노레일) 부품 교체 및 제2종 전기차량 운전면허 응시료 전액 지원" }
+        ];
+
+        const FUND_TAB_TITLES = {
+            campaign: "기금사업 안내 및 모금 캠페인",
+            donate: "온라인 발전기금 약정 및 납부",
+            honors: "명예의 전당 (HBNU Honors Club) 및 예우",
+            tax: "법정기부금 세액공제 계산기 및 영수증 발급"
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCampaigns();
+            renderHonorsDonors();
+            updatePledgePreview();
+            runTaxCalc();
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (FUND_TAB_TITLES[initHash]) switchFundTab(initHash);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        function switchFundTab(tabKey) {
+            const validKey = FUND_TAB_TITLES[tabKey] ? tabKey : 'campaign';
+            document.querySelectorAll('.fund-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById('fview-' + validKey)?.classList.remove('hidden');
+
+            Object.keys(FUND_TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('ftab-btn-' + k);
+                if (!btn) return;
+                if (k === validKey) {
+                    btn.className = "fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm";
+                } else {
+                    btn.className = "fund-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all";
+                }
+            });
+            document.getElementById('fund-breadcrumb').innerText = FUND_TAB_TITLES[validKey];
+            history.replaceState(null, null, '#' + validKey);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function renderCampaigns() {
+            const grid = document.getElementById('campaign-cards-grid');
+            if (!grid) return;
+            grid.innerHTML = CAMPAIGNS_DATA.map(c => `
+                <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 flex flex-col justify-between hover:border-[#3344aa] transition-all shadow-sm">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black px-2.5 py-0.5 rounded bg-blue-100 text-[#1e2a78]">${c.badge}</span>
+                            <span class="font-mono-code font-black text-xs text-[#3344aa]">달성률 ${c.pct}%</span>
+                        </div>
+                        <h3 class="text-base font-black text-slate-900">${c.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">${c.desc}</p>
+                    </div>
+                    <div class="pt-5 mt-4 border-t border-slate-200 space-y-2">
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div class="${c.color} h-full" style="width: ${Math.min(100, c.pct)}%"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] font-mono-code">
+                            <span class="text-slate-500">모금액: <strong class="text-slate-800">${c.current}</strong></span>
+                            <span class="text-slate-400">목표: ${c.target}</span>
+                        </div>
+                        <button onclick="selectCampaignToDonate('${c.title}')" class="w-full mt-2 bg-white border border-[#3344aa] text-[#3344aa] hover:bg-[#3344aa] hover:text-white py-2 rounded-xl text-xs font-black transition">
+                            이 기금 후원 약정하기 ➔
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderHonorsDonors() {
+            const grid = document.getElementById('honors-donor-grid');
+            if (!grid) return;
+            grid.innerHTML = HONORS_DONORS.map(d => `
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded bg-[#1e2a78] text-[#99dd88]">${d.rank}</span>
+                    <h4 class="text-base font-black text-slate-900">${d.name}</h4>
+                    <div class="text-[11px] font-bold text-[#3344aa]">${d.dept} | ${d.amt}</div>
+                    <p class="text-slate-600 leading-relaxed pt-1 border-t border-slate-200">${d.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function selectCampaignToDonate(title) {
+            switchFundTab('donate');
+            const sel = document.getElementById('pledge-fund');
+            if (sel) {
+                for (let i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].value.includes(title.slice(0, 6))) {
+                        sel.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            updatePledgePreview();
+        }
+
+        function setPledgeAmt(amt) {
+            document.getElementById('pledge-amt').value = amt;
+            updatePledgePreview();
+        }
+
+        function calcTaxDeductionAmount(amt) {
+            if (amt <= 0) return 0;
+            if (amt <= 10000000) return Math.round(amt * 0.165);
+            return Math.round(10000000 * 0.165 + (amt - 10000000) * 0.33);
+        }
+
+        function updatePledgePreview() {
+            const fund = document.getElementById('pledge-fund')?.value || '';
+            const amt = Number(document.getElementById('pledge-amt')?.value || 0);
+            const tax = calcTaxDeductionAmount(amt);
+            document.getElementById('prev-fund').innerText = fund;
+            document.getElementById('prev-amt').innerText = amt.toLocaleString() + '원';
+            document.getElementById('prev-tax').innerText = tax.toLocaleString() + '원 (지방소득세 포함)';
+        }
+
+        function runTaxCalc() {
+            const amt = Number(document.getElementById('tax-calc-input')?.value || 0);
+            const tax = calcTaxDeductionAmount(amt);
+            document.getElementById('tax-calc-result').innerText = tax.toLocaleString() + '원';
+            document.getElementById('tax-calc-real').innerText = `실질 기부 부담액: ${Math.max(0, amt - tax).toLocaleString()}원`;
+        }
+
+        function submitOnlinePledge() {
+            openReceiptModal();
+        }
+
+        function openReceiptModal() {
+            const name = document.getElementById('pledge-name')?.value || '김효빈';
+            const dept = document.getElementById('pledge-dept')?.value || '동문 후원자';
+            const fund = document.getElementById('pledge-fund')?.value || '천원의 아침밥 『엠마의 식탁』 후원기금';
+            const amt = Number(document.getElementById('pledge-amt')?.value || 100000);
+            const serial = `HBNU-FUND-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            document.getElementById('receipt-print-area').innerHTML = `
+                <div class="border-2 border-[#1e2a78] p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b-2 border-slate-800 pb-3">
+                        <span class="font-mono-code text-[11px] font-bold text-[#1e2a78]">일련번호: ${serial}</span>
+                        <span class="text-[11px] font-bold text-slate-500">기부금 구분: 법정기부금 (코드 10)</span>
+                    </div>
+                    <h2 class="text-xl font-serif-kr font-black text-center text-slate-900 py-1">기 부 금 영 수 증</h2>
+                    <table class="w-full border border-slate-400 border-collapse text-xs">
+                        <tr class="border-b border-slate-300">
+                            <th class="bg-slate-100 p-2 border-r w-28 text-left">기부자 성명</th><td class="p-2 border-r font-bold">${name}</td>
+                            <th class="bg-slate-100 p-2 border-r w-28 text-left">소속 / 구분</th><td class="p-2">${dept}</td>
+                        </tr>
+                        <tr class="border-b border-slate-300">
+                            <th class="bg-slate-100 p-2 border-r text-left">기부금 단체명</th><td class="p-2 border-r font-bold">국립 효빈대학교 발전지원재단</td>
+                            <th class="bg-slate-100 p-2 border-r text-left">소재지</th><td class="p-2">효빈광역시 서구 대학로 1 (당선1동)</td>
+                        </tr>
+                        <tr class="border-b border-slate-300">
+                            <th class="bg-slate-100 p-2 border-r text-left">지정 기금명</th><td class="p-2 font-bold text-[#1e2a78]" colspan="3">${fund}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-slate-100 p-2 border-r text-left">출연 금액</th><td class="p-2 font-mono-code font-black text-sm text-emerald-700" colspan="3">금 ${amt.toLocaleString()} 원정 (₩${amt.toLocaleString()})</td>
+                        </tr>
+                    </table>
+                    <p class="text-[11px] text-slate-600 text-center py-2">
+                        소득세법 제34조 및 법인세법 제24조의 규정에 의한 법정기부금임을 증명합니다.<br>
+                        2026년 11월 09일
+                    </p>
+                    <div class="text-center font-serif-kr font-black text-base pt-1">
+                        재단법인 효빈대학교 발전지원재단 이사장 &nbsp;<span class="text-red-600 border-2 border-red-600 text-[10px] px-1.5 py-0.5 rounded">직인생략</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('receipt-modal').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

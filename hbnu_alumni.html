@@ -3,65 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>동문 서비스 - 효빈대학교</title>
+    <title>총동창회 · 동문인물 대백과(118인 전수수록) · 선배들의 이야기 - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow w-full">
-        <div class="text-center mb-16">
-            <h1 class="text-3xl font-bold text-[#3344aa] mb-4">효빈대학교 총동문회</h1>
-            <p class="text-gray-600">100년의 역사, 10만 동문의 힘으로 모교의 발전을 견인합니다.</p>
+    <!-- 상단 서브 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-12 border-b-4 border-[#99dd88] relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/효빈대학교_본부.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>대학소개 / 동문네트워크</span>
+                <span>›</span>
+                <span id="alumni-breadcrumb" class="text-[#99dd88] font-bold">자랑스러운 동문 및 역대 인물 대백과 (전원 수록)</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU COMPLETE ALUMNI ARCHIVE (ALL 118 FIGURES & STORIES)
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">효빈대학교 총동창회 및 동문 인물 아카이브</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-1.5 max-w-3xl leading-relaxed">
+                        광역·기초단체장 및 국회의원, 재계 거물, 학계·교육계 스승, 공공기관장·법조·의료·언론인, 문화예술·밴드·스포츠 스타, 민주열사, 재학생 리더, 효빈교통공사 마스코트 동문, 그리고 반면교사로 기록된 학내 흑역사(제적·출교·낙선인)까지 단 한 명의 누락 없이 기록한 통합 동문 포털입니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="navigateTo('hbnu_cert.html')" class="bg-[#a0fff9] hover:bg-white text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow transition-all flex items-center gap-1.5">
+                        <i data-lucide="printer" class="w-4 h-4"></i> 졸업·성적증명서 발급센터
+                    </button>
+                    <button onclick="navigateTo('hbnu_fund.html')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        <i data-lucide="heart-handshake" class="w-4 h-4"></i> 발전기금 홈페이지
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5대 동문 포털 SPA 탭 네비게이션 -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3.5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                <button onclick="switchAlumniTab('proud')" id="atab-btn-proud" class="alumni-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm">
+                    <i data-lucide="users" class="w-4 h-4 shrink-0"></i> <span>1. 자랑스러운 동문 (전원도감)</span>
+                </button>
+                <button onclick="switchAlumniTab('students')" id="atab-btn-students" class="alumni-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="sparkles" class="w-4 h-4 shrink-0"></i> <span>2. 재학생·청년동문·마스코트</span>
+                </button>
+                <button onclick="switchAlumniTab('dark')" id="atab-btn-dark" class="alumni-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="alert-Octagon" class="w-4 h-4 shrink-0 text-rose-600"></i> <span>3. 프로낙선러 & 흑역사(징계록)</span>
+                </button>
+                <button onclick="switchAlumniTab('stories')" id="atab-btn-stories" class="alumni-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="message-square-quote" class="w-4 h-4 shrink-0"></i> <span>4. 선배들의 이야기 & 동문일화</span>
+                </button>
+                <button onclick="switchAlumniTab('association')" id="atab-btn-association" class="alumni-tab-btn col-span-2 sm:col-span-1 px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="building-2" class="w-4 h-4 shrink-0"></i> <span>5. 총동문회 · 예우 · 민주열사</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- ================= [탭 1] 자랑스러운 동문 : 정계·재계·학계·법조·의료·문화·스포츠 전수 도감 (#proud) ================= -->
+        <div id="aview-proud" class="alumni-view fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">COMPLETE HBNU ALUMNI DIRECTORY (POLITICS, BUSINESS, ACADEMIA, LAW, MEDIA & ARTS)</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">자랑스러운 효빈인 — 분야별 동문 인물 총람</h2>
+                        <p class="text-xs text-slate-500 mt-1">이름, 학과, 직함, 키워드(예: 스타더스트, 와시와시, 희산그룹, 사요 판사, 포핀스타, 애프터글로우 등)로 즉시 검색할 수 있습니다.</p>
+                    </div>
+                    <input type="text" id="proud-search-input" oninput="renderProudAlumni()" placeholder="성명, 학과, 직함, 주요 일화 검색..." class="border-2 border-slate-200 rounded-xl px-4 py-2 text-xs font-bold min-w-[260px] outline-none focus:border-[#3344aa]">
+                </div>
+
+                <!-- 세부 분야 필터 탭 -->
+                <div class="flex flex-wrap gap-1.5 text-xs" id="alumni-field-btns">
+                    <button onclick="filterProudAlumni('ALL')" data-fld="ALL" class="fld-btn px-3 py-1.5 rounded-xl font-black bg-[#1e2a78] text-white">전체 보기</button>
+                    <button onclick="filterProudAlumni('2.1~2.2 광역단체장·국회의원')" data-fld="2.1~2.2 광역단체장·국회의원" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">광역단체장·국회의원 (12)</button>
+                    <button onclick="filterProudAlumni('2.3 기초자치단체장')" data-fld="2.3 기초자치단체장" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">기초자치단체장 (9)</button>
+                    <button onclick="filterProudAlumni('2.4 지방의원')" data-fld="2.4 지방의원" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">지방의원·시의원·구의원 (15)</button>
+                    <button onclick="filterProudAlumni('3. 재계·기업인·희산그룹')" data-fld="3. 재계·기업인·희산그룹" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">재계·희산그룹 (12)</button>
+                    <button onclick="filterProudAlumni('4. 학계·총장·중등교육계')" data-fld="4. 학계·총장·중등교육계" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">학계·중등교육계 (10)</button>
+                    <button onclick="filterProudAlumni('5. 공공기관장·관료·의료·언론')" data-fld="5. 공공기관장·관료·의료·언론" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">기관장·관료·의료·언론 (19)</button>
+                    <button onclick="filterProudAlumni('5.3 법조계(판사·검사·변호사)')" data-fld="5.3 법조계(판사·검사·변호사)" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">법조계 심판자들 (7)</button>
+                    <button onclick="filterProudAlumni('6~7. 문화·예술·밴드·스포츠')" data-fld="6~7. 문화·예술·스포츠" class="fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">문화·예술·밴드·스포츠 (22)</button>
+                </div>
+
+                <div class="text-xs text-slate-500 flex justify-between items-center">
+                    <span>조회된 동문 수: <strong id="proud-count" class="text-[#3344aa]">0</strong>명</span>
+                    <span>💡 각 인물의 학위·어록·상세 일화가 원문 그대로 수록되어 있습니다.</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="proud-alumni-grid"></div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <!-- 인터넷 증명발급 -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border hover:-translate-y-1 transition text-center">
-                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-[#3344aa]">
-                    <i data-lucide="file-check" class="w-8 h-8"></i>
+        <!-- ================= [탭 2] 주요 재학생 · 20대 청년동문 · 효빈교통공사 마스코트 동문 (#students) ================= -->
+        <div id="aview-students" class="alumni-view hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-emerald-700 uppercase tracking-wider">NAMED STUDENTS, YOUNG ALUMNI BANDS & HBNU RAIL MASCOTS</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">주요 재학생 · 20대 청년동문 유니버스 & 효빈교통공사 마스코트 동문</h2>
+                        <p class="text-xs text-slate-500 mt-1">학생사회(김시연·고다솔 사단, 무지개 동호회), 로젤리아·해피파스텔·모르포니카·미아밴드·효빈무지카 동문, 그리고 교내 철도 카르텔(?)의 핵심인 효빈교통공사 마스코트 4인방(고나미·하루빈·미소하·임세하)입니다.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 text-xs">
+                        <button onclick="filterStudentUniverse('ALL')" class="stu-u-btn px-3 py-1.5 rounded-xl font-black bg-[#3344aa] text-white">전체 (35인)</button>
+                        <button onclick="filterStudentUniverse('9.1~9.3 김시연·고소유·무지개동호회')" class="stu-u-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700">김시연·무지개동호회 (7)</button>
+                        <button onclick="filterStudentUniverse('9.4 동세대 유니버스')" class="stu-u-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700">동세대 유니버스 (14)</button>
+                        <button onclick="filterStudentUniverse('9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)')" class="stu-u-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700">청년 밴드 동문 (14)</button>
+                        <button onclick="filterStudentUniverse('11. 효빈교통공사 마스코트 동문')" class="stu-u-btn px-3 py-1.5 rounded-xl font-bold bg-amber-100 text-amber-900">🚊 교통공사 마스코트 (4)</button>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold mb-3">인터넷 증명발급</h3>
-                <p class="text-sm text-gray-500 mb-6">졸업증명서, 성적증명서 등<br>각종 증명서를 온라인으로 발급받으세요.</p>
-                <button onclick="alert('증명발급 시스템으로 이동합니다.')" class="bg-[#3344aa] text-white px-6 py-2 rounded-full font-bold hover:bg-[#2a3a9a] transition">발급 바로가기</button>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="student-universe-grid"></div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 3] 프로 낙선러 열전 (2.6) & 학내 흑역사·징계·제명 기록보관소 (#dark) ================= -->
+        <div id="aview-dark" class="alumni-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-rose-600 pb-4">
+                    <span class="bg-rose-600 text-white text-xs font-black px-3 py-1 rounded-full">역사의 반면교사 · 프로 낙선러 열전 & 학칙 제84조 영구출교/제적/파면 백서</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">원외 프로 낙선러 열전 (2.6) 및 학내 흑역사·빌런 징계 기록원부</h2>
+                    <p class="text-xs text-slate-500 mt-1">"흑역사도 역사다. 다만 다시는 되풀이되지 않도록 박제하여 경계로 삼는다." — 선거마다 미끄러지는 원외 정당인 동문들과, 모교의 명예를 더럽히다 제적·출교·파면·실형으로 단죄된 빌런들의 기록입니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="dark-history-grid"></div>
+            </div>
+        </div>
+
+        <!-- ================= [탭 4] 선배들의 이야기 & 동문 카르텔 여담(10번 항목) (#stories) ================= -->
+        <div id="aview-stories" class="alumni-view hidden fade-in space-y-8">
+            <!-- 10. 여담 및 동문 일화 (원문 100% 반영) -->
+            <div class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 space-y-5 border-l-8 border-[#99dd88]">
+                <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full">섹션 10 · 효빈대학교 동문 네트워크 3대 비하인드</span>
+                <h2 class="text-2xl font-black">여담 및 동문 일화 — 학연의 힘과 '덕후·철도 카르텔'의 실체</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs leading-relaxed">
+                    <div class="p-5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                        <strong class="text-[#a0fff9] text-sm block">🤝 1. 학연의 힘? (마법의 한마디)</strong>
+                        <p class="text-slate-200">국회나 효빈시의회에서 효빈대 출신 정치인들이 여야로 갈려 멱살 잡듯 싸우다가도, 선배 의원이 <strong>"아 쫌! 학교 후배들 부끄럽게 이럴 깁니까?"</strong>라는 말 한마디를 던지면 갑자기 극적인 타협과 만장일치 통과가 이루어지는 마법 같은 촌극이 종종 발생한다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                        <strong class="text-[#99dd88] text-sm block">🔄 2. 완벽한 자급자족 '덕후 카르텔'</strong>
+                        <p class="text-slate-200">단순히 서브컬처에 관대한 것을 넘어 기업·방송·법조·정계를 잇는 거대한 순환 생태계가 돌아간다. <strong>최대현 부시장</strong>이 굿즈를 기획하면 ➔ <strong>강지훈 대표</strong>가 '오타쿠피아' 앱으로 홍보하고 ➔ <strong>윤세아</strong>가 4K 리뷰 영상을 찍으며 ➔ <strong>한지원 변호사·이아리 검사</strong>가 저작권과 초상권을 방어하고 ➔ <strong>박효빈 시장</strong>이 행정적 예산을 쏴주는 무적의 사이클이다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                        <strong class="text-amber-300 text-sm block">🎭 3. 베르데 홀 코스프레 총동문회</strong>
+                        <p class="text-slate-200">효빈대 총동문회 신년교례회와 홈커밍데이는 딱딱한 호텔 연회장이 아니라 모교 <strong>베르데 홀(29동)에서 코스프레 파티와 애니송 밴드 라이브를 곁들여 진행</strong>된다. 유나영 디자이너가 협찬한 건담 슈트와 캐릭터 의상을 입은 시장님·기관장·교수들이 출몰한다.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- 동문 주소록 -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border hover:-translate-y-1 transition text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
-                    <i data-lucide="book-user" class="w-8 h-8"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">동문 주소록 / 찾기</h3>
-                <p class="text-sm text-gray-500 mb-6">그리운 학우들을 찾아보세요.<br>(로그인 필요)</p>
-                <button onclick="alert('로그인이 필요합니다.')" class="bg-green-600 text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition">동문 찾기</button>
+            <!-- 선배들의 직무·멘토링 이야기 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <h3 class="text-xl font-black text-slate-900 border-b pb-3">🎙️ 선배들의 이야기 — 후배들에게 전하는 직무·인생 조언</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="alumni-stories-grid"></div>
             </div>
         </div>
 
-        <div class="bg-gray-100 p-6 rounded-xl border">
-            <h3 class="font-bold text-gray-700 mb-4">📢 동문회 소식</h3>
-            <ul class="space-y-3 text-sm text-gray-600">
-                <li class="flex justify-between border-b pb-2 cursor-pointer hover:text-[#3344aa]">
-                    <span>[행사] 2025년 신년 하례회 개최 안내</span>
-                    <span class="text-gray-400">2025.01.05</span>
-                </li>
-                <li class="flex justify-between border-b pb-2 cursor-pointer hover:text-[#3344aa]">
-                    <span>[소식] 박효빈 동문(사회복지), 자랑스러운 효빈인상 수상</span>
-                    <span class="text-gray-400">2024.12.20</span>
-                </li>
-                <li class="flex justify-between cursor-pointer hover:text-[#3344aa]">
-                    <span>[안내] 2024학년도 전기 학위수여식 일정</span>
-                    <span class="text-gray-400">2024.12.01</span>
-                </li>
-            </ul>
+        <!-- ================= [탭 5] 총동문회 소개 · 민주유공자 추모관(8.1 임대식 열사) · 동문 예우 (#association) ================= -->
+        <div id="aview-association" class="alumni-view hidden fade-in space-y-8">
+            <!-- 8. 역사적 인물 및 민주유공자 (8.1 임대식 열사 추모관) -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b pb-4">
+                    <div>
+                        <span class="bg-slate-900 text-white text-xs font-black px-3 py-1 rounded-full">섹션 8 · 역사적 인물 및 민주유공자 추모관</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">불의에 항거한 효빈의 등불 — 故 임대식 열사 (경영학과 · 1965~1986)</h2>
+                    </div>
+                    <span class="text-xs font-bold text-slate-600">명예졸업장 제1호 추서 · 상과대학 1호관(8-1동) 추모비 건립</span>
+                </div>
+                <blockquote class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#1e2a78] text-xs md:text-sm text-slate-700 leading-relaxed">
+                    <strong class="text-base text-slate-900 block mb-1">"가장 정의로웠고, 그래서 가장 일찍 꺾여버린 리에라몰 가문의 대들보."</strong>
+                    효빈시 안천백화점(현 리에라몰) 창업주 임승현의 차남이자 현 점장 임세혁의 둘째 형. 상과대학 경영학과 수재로 입학하여 부유한 환경을 뒤로하고 민주화 학생 운동에 투신했다가 1986년 공안 조작 사건에 휘말렸다. 경찰 대공분실에서 모진 고문을 받고도 끝내 동료 학우들의 이름을 불지 않은 채 1986년 향년 21세의 나이로 요절한 가문과 모교의 아픈 손가락이다. 매년 5월 총동창회와 총학생회가 합동 추모제를 거행하고 있다.
+                </blockquote>
+            </div>
+
+            <!-- 총동창회 조직 및 동문 평생 예우 서비스 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <h3 class="text-xl font-black text-slate-900 border-b pb-3">🏛️ 사단법인 효빈대학교 총동창회 안내 및 동문 평생 예우 혜택</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="p-5 rounded-2xl bg-blue-50/60 border border-blue-200 space-y-1.5">
+                        <div class="font-black text-sm text-[#1e2a78]">🚊 교내철도(HBNU Rail) 평생 무임</div>
+                        <p class="text-slate-600">모바일 동문증 태그 시 A선 트램 및 B선 모노레일 전 구간 평생 100% 무료 탑승</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-1.5">
+                        <div class="font-black text-sm text-emerald-900">📚 중앙·방도도서관 평생 열람·대출</div>
+                        <p class="text-slate-600">졸업 후에도 412만 권 장서 대출 및 방도도서관(36동) 원서·문화자료실 이용 가능</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-1.5">
+                        <div class="font-black text-sm text-rose-900">🏥 효빈대학교병원 검진·진료 감면</div>
+                        <p class="text-slate-600">본원(59동)·치과병원(60동)·동물병원(61동) 종합검진 및 비급여 항목 동문 우대 감면</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-1.5">
+                        <div class="font-black text-sm text-amber-900">🏨 소금하우스·베르데 홀 동문 할인</div>
+                        <p class="text-slate-600">소금하우스(56동 게스트하우스) 숙박 및 학술문화회관(64동) 대관 시 30% 동문 감면</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </main>
 
+    <!-- 공통 푸터 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
     <script src="common.js"></script>
+
+    <script>
+        // ================= [데이터베이스 1] 정계·재계·학계·공공·법조·문화·스포츠 동문 전원 수록 =================
+        const PROUD_ALUMNI_DB = [
+            // 2.1 ~ 2.2 광역단체장 및 국회의원 (12인)
+            { field: "2.1~2.2 광역단체장·국회의원", name: "박효빈 (Park Hyo-bin)", deg: "사회복지학대학 사회복지정책학·경영학(복전) 학사 / 석사", role: "제19·20대 효빈광역시장 (헌정사상 최연소 광역단체장)", quote: "\"덕후가 세상을 바꾼다. 그것도 아주 힙하게.\"", desc: "윤대환 시절 5호선 공사 중단으로 부친이 실직하고 반지하에서 폐기 도시락을 먹던 아픔과 족포초 시절 윤재훈의 폭언을 헬스(3대 250 근수저, 노동요 'FIRE BIRD'·'TOKIMEKI Runners')와 쓰리잡(맥도날드·편의점·지역아동센터)으로 이겨낸 입지전적 인물. 2022년 지선에서 윤재훈을 67.98% vs 4.80%로 압살하고, 나카스 카스미 상징색 '골든 로드' 등 행정과 덕질의 궁극의 덕업일치를 이뤘다." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "박현만 (Park Hyun-man)", deg: "상과대학 경영학과 학사 / 석사 / 박사", role: "제12·13·15·16대 효빈광역시장 · 전 탄성군 국회의원", quote: "\"효빈 중흥의 아버지, 1세대 건담 덕후(올드타입).\"", desc: "윤대환이 파괴한 도시 인프라를 복구한 영웅. 2006년 두청운수 공세에 3표 차로 낙선하는 비극을 겪었으나 보궐선거로 부활해 '스타더스트 작전(3세대 시내버스 노선색 개편 및 두청운수 해체)'을 완수했다. PG 등급 건프라를 조립하며 손녀와 러브라이브를 정주행하는 참된 어른." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "김성민 (Kim Seong-min)", deg: "행정대학원 지방자치학 석사 (삼선대 학사)", role: "제16·17대 효빈광역시장 · 현 효빈 중구·동구 국회의원", quote: "\"박현만이 재건하고 박효빈이 꽃피운 효빈시를 지켜낸 '콘크리트 수호자'.\"", desc: "2007년 윤대환이 새벽에 7호선 전차 선로를 아스팔트로 덮으려 하자 구청장 시절 트레이닝복 차림으로 중장비를 끌고 가 막아냈고, 소홍문의 6호선 경전철 축소 꼼수에 극대노해 효빈교통공사를 강제 분사시켰다. 적들이 억지를 부리면 방에서 토죠 노조미의 '와시와시' 짤을 1.5배속으로 보며 매장 계획을 세우며, 2022년 보궐선거 때 주민우가 동안 아내(이한선 여사, 시오리코 본체)를 미성년자라 모함하자 76년생 민증을 까서 사회적으로 매장시켰다." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "고정민 (Ko Jeong-min)", deg: "토목공업대학 도시공학 학사", role: "제21·22대 효빈 남구 갑 국회의원", quote: "\"평당의 기적, 지하철 깎는 노인, 효빈의 개천용.\"", desc: "흙수저 출신 교통학자로 보수 본진이던 평당신도시에서 75.96%로 재선에 성공하며 8호선 트롤링을 일삼던 우신면을 정치적으로 완벽히 매장시킨 실용주의 교통 전문가." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "이찬대 (Lee Chan-dae)", deg: "사회복지학대학 사회복지정책학 학사", role: "제22대 효빈 북구 병 3선 국회의원", quote: "\"탈당과 낙선의 시련을 딛고 일어선 좀비 오뚝이 정치인.\"", desc: "무소속과 국민의당을 전전하는 시련을 겪다가 북구 분구의 수혜와 탄탄한 지역 복지 기반에 힘입어 80.69% 득표율로 금배지를 되찾은 멘탈갑 복지 전문가." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "신진영 (Shin Jin-young)", deg: "사회과학대학 정치외교학과 학사", role: "제22대 효빈 안천구 을 국회의원", quote: "\"7전 8기 안천의 끈기, 돌고 돌아 꽃피운 안천의 아들.\"", desc: "무소속부터 민생당까지 당적을 5번 옮기며 낙선하다가 마침내 민주당에 입당해 당선된 지역 밀착형 조기축구회 마당발." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "신수인 (Shin Su-in)", deg: "약학대학 약학과 학사", role: "제22대 효빈 청엽구 갑 국회의원", quote: "\"청엽의 아들, 보수 정당에겐 그야말로 통곡의 벽.\"", desc: "우전동에서 '수인약국'을 운영한 성골 토박이로, 22대 총선 리턴 매치에서 87.51%라는 비현실적 득표율로 원춘석을 선거비용 전액 미보전 지옥으로 밀어 넣은 약사 출신 중진." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "추산령 (Chu San-ryeong)", deg: "인문대학 철학과 학사", role: "제22대 효빈 창전구 갑 국회의원", quote: "\"효빈대의 정신적 몽둥이, 여의도를 후려치다.\"", desc: "윤재훈 사태 당시 '너의 혐오는 존재론적 악이다'라는 명언을 남긴 철학과 교수의 애제자. 질문을 질문으로 받아치는 소크라테스식 문답법으로 피감기관장들의 혈압을 올리는 국정감사 킬러." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "박청권 (Park Cheong-kwon)", deg: "농업대학 식물자원학과 학사 (이자캠퍼스)", role: "제22대 효빈 탄성군 국회의원 (1999년생)", quote: "\"탄성이 키운 청년 농부, 헌정 사상 최연소 돌풍이자 숨은 덕후.\"", desc: "여성임에도 박력 넘치는 이름 때문에 입영통지서가 잘못 날아오는 해프닝을 겪었다. 유세용 대형 트랙터에 최애캐(니시키노 마키) 스티커를 붙이고 탄성군 전역을 누비는 청년 농부 의원." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "김수연 (Kim Su-yeon)", deg: "교통대학 해운·해양물류학과 학사", role: "제22대 덕빈북도 서해시 을 국회의원 (1994년생)", quote: "\"서해의 새로운 바람! 국회로 출항, 요소로(ヨーソロー)!\"", desc: "94년생 젊은 피로 72.54%의 압도적 득표율을 기록하며 당선. 선거 유세 도중 와타나베 요우의 시그니처 경례와 함께 '요소로!'를 외쳐 국회방송 카메라맨을 당황시켰다." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "남소현 (Nam So-hyeon)", deg: "사회복지학대학 사회복지학과 학사", role: "제22대 덕빈북도 계성시·반양군 국회의원 (1987년생)", quote: "\"소외되는 이웃이 없는 계성!\"", desc: "68.47% 몰표를 받은 계성의 아들. 이마이 리사의 열렬한 오시로 국회의원실 집무실 금고에 리사 굿즈를 고이 모셔둔 따뜻한 사회복지사 출신 의원." },
+            { field: "2.1~2.2 광역단체장·국회의원", name: "유성태 (Yoo Seong-tae)", deg: "토목공업대학 도시계획학과 학사", role: "제22대 덕빈북도 덕주시 갑 국회의원", quote: "\"덕주의 모든 길은 도민을 향해야 합니다.\"", desc: "남소현 의원과 함께 묶이는 '이마이 리사 2호기' 오타쿠. 의원실 벽면 절반은 광역버스 노선도, 반대편은 Roselia 포스터가 붙어 있는 기묘한 인테리어를 자랑하는 도시설계 전문가." },
+
+            // 2.3 기초자치단체장 (9인)
+            { field: "2.3 기초자치단체장", name: "노서현 (No Seo-hyeon)", deg: "사회과학대학 정책학과 학사", role: "민선 8기 효빈광역시 서구청장 (3선)", quote: "\"서구의 아들, 검증된 일꾼 노서현입니다.\"", desc: "서구에서 구의원·시의원·구청장을 모두 휩쓴 바닥 민심의 제왕. 조카뻘인 1996년생 박효빈 시장을 깍듯이 예우하며 효빈하우스 등 굵직한 시정 사업을 서구에 유치한 노련한 행정가." },
+            { field: "2.3 기초자치단체장", name: "박아상 (Park A-sang)", deg: "토목공업대학 도시계획학 학사", role: "민선 9기 덕빈북도 약산시장 (3선)", quote: "\"이 색깔(스칼렛 레드)은... 운명이다! 약산으로 다이브해다오!\"", desc: "유키 세츠나의 극성 오시. 효빈시 급행버스의 스칼렛 레드(#D81C2F) 도색에 반해 약산 연장을 요구했다가 법적 한계 팩폭을 맞자, 아예 자체 '급행좌석' 등급을 신설해 치원군수의 몽니를 돌파해버린 불꽃 행정가." },
+            { field: "2.3 기초자치단체장", name: "성선설 (Seong Seon-seol)", deg: "상과대학 경영학과 학사", role: "민선 9기 효빈광역시 탄성군수 (재선 · 1997년생)", quote: "\"덕질하듯 진심으로! 탄성의 내일을 플레이합니다.\"", desc: "쿠로사와 루비 오시. 8회 지선에서 보수 후보 양악설(...)을 꺾고 '성선설 vs 성악설' 대전을 승리로 이끈 청년 군수. 점심시간 군수실에서 애니송이 흘러나온다." },
+            { field: "2.3 기초자치단체장", name: "한성민 (Han Seong-min)", deg: "사회과학대학 행정학과 학사", role: "민선 9기 덕빈북도 강주시장", quote: "\"박효빈 시장님, 제발 어르신 놀리지 마시고 회의 좀 합시다...\"", desc: "행시 출신 엘리트 늘공이나, 꼰대 단체장들과 파르페로 어그로를 끄는 젊은 오타쿠 단체장들 사이에서 영원히 고통받는 통역사 겸 중간관리직(X세대). 출근길 강주역에서 형광 조끼를 입고 푸시맨 봉사를 뛰는 성실파 시장." },
+            { field: "2.3 기초자치단체장", name: "오세윤 (Oh Se-yun)", deg: "사회과학대학 정치외교학과 학사", role: "민선 9기 덕빈북도 매성시장 (통산 4선)", quote: "\"매성의 무대는 아직 끝나지 않았습니다! 재연(再演)을 시작하겠습니다!\"", desc: "조작된 흑색선전으로 0.3%p 차 낙선했다가 무죄 판결과 상대 구속으로 화려하게 부활한 불사조. 환갑의 나이에 『소녀☆가극 레뷰 스타라이트』(다이바 나나 오시)에 입덕해 시정 연설에 레뷰 대사를 인용한다." },
+            { field: "2.3 기초자치단체장", name: "정동혁 (Jeong Dong-hyeok)", deg: "토목공업대학 도시계획학과 학사", role: "민선 9기 덕빈북도 덕주시장 (3선)", quote: "\"핫핑크가 촌스럽다고요? 이건 '니코'의 색입니다!\"", desc: "덕주 1호선의 핫핑크(#FF4F91) 노선색에 영감을 받아 '야자와 니코' 공식 콜라보를 성사시키고, 동명이인 막말 정치인들을 수제 쿠키와 팩폭으로 물리친 진정한 '빛(Light)동혁'이자 이마이 리사 오시 1호기." },
+            { field: "2.3 기초자치단체장", name: "부서원 (Bu Seo-won)", deg: "상과대학 경영학과 학사", role: "민선 9기 효빈광역시 서구청장", quote: "\"헌정 질서를 지키기 위해 떠난, 효빈 보수의 마지막 양심.\"", desc: "청하건설 대표 출신으로 12.3 비상계엄 사태에 충격을 받고 민주당으로 전격 이적해 70.2%로 압승했다. 당당한 구청장임에도 이름 때문에 영원히 평사원(부서원) 취급을 받는 설움이 있다." },
+            { field: "2.3 기초자치단체장", name: "우영철 (Woo Young-cheol)", deg: "사회과학대학 행정학과 학사", role: "전 효빈광역시 동구청장 (전 시의원 3선)", quote: "\"동구의 든든한 맏형, 검증된 일꾼.\"", desc: "보궐선거로 구청장에 당선되어 활약했으나 8·9회 지선에서 조우영 후보에게 연거푸 아깝게 석패(9회 지선 0.62%p 차)한 비운의 맏형." },
+            { field: "2.3 기초자치단체장", name: "심원식 (Sim Won-sik)", deg: "농업대학 농업경제학과 학사", role: "전 효빈광역시 탄성군수", quote: "\"탄성의 터줏대감, 중도의 아이콘.\"", desc: "비보수 제3지대 인사로 8회 지선에서 국힘 양악설 후보를 3위로 밀어내는 저력을 보여준 뒤 9회 지선 후 현충일 참배를 끝으로 명예롭게 정계를 은퇴했다." },
+
+            // 2.4 지방의원 (15인)
+            { field: "2.4 지방의원", name: "성선민 (Sung Seon-min)", deg: "사회과학대학 정치외교학과 학사", role: "제10대 효빈광역시의회 의원 (10선 · 1953년생)", quote: "\"효빈시의회의 살아있는 화석이자 고인물 오브 고인물.\"", desc: "1991년 지방자치 부활 이래 단 한 번도 낙선하지 않은 전설의 10선 광역의원. 05년생 진유성 의원과 52세 차이를 뛰어넘는 케미를 보여주며, 헛기침 한 번으로 본회의장 막말을 잠재우는 의회의 어른." },
+            { field: "2.4 지방의원", name: "노정미 (Noh Jeong-mi)", deg: "사회과학대학 심리학과 학사 / 석사", role: "제10대 효빈광역시의회 의원 (비례대표)", quote: "\"내 스피리추얼 파워, 듬뿍 받아라!\"", desc: "영 케어러 출신 임상심리사. 족포초 시절 성추행 위기에서 박효빈에게 구출된 인연이 있으며, 토죠 노조미의 완벽한 현실판으로 절친 안예리 구의원에게 기습 '와시와시 맥스!'를 시전하다 등짝을 맞는다." },
+            { field: "2.4 지방의원", name: "안예리 (Ahn Ye-ri)", deg: "사회복지학대학 사회복지정책학과 학사", role: "제10대 효빈 서구의회 의원", quote: "\"카시코이 카와이 예리치카! 서구의 복지를 책임지겠습니다!\"", desc: "아야세 에리의 1/8 러시아 혼혈 실사판. 내성중 시절 로시야 엎어치기로 일진을 제압한 서구의 금빛 섬광으로, 악질 교사 이석우를 팩폭으로 꺾고 구의원에 당선되어 KKE 에듀센터 청덕분소를 유치했다." },
+            { field: "2.4 지방의원", name: "송선민 (Song Sun-min)", deg: "사회과학대학 정치외교학과 재학 (2007년생)", role: "제10대 효빈 중구의회 의원 (역대 최연소 당선)", quote: "\"두청운수가 멈춰 세우려 했던 생명, 효빈의 미래가 되어 돌아왔습니다.\"", desc: "두청운수 파업 당시 악질 기사 배칠두의 강압으로 버스 철판 바닥에 엎드린 임산부 어머니에게서 조산된 '통로의 아이'. 성장하여 10대라고 자신을 비하하던 이석우 후보를 14.32%로 짓밟고 선거비 미보전 지옥으로 보낸 권선징악의 주인공." },
+            { field: "2.4 지방의원", name: "구상원 (Gu Sang-won)", deg: "환경산업대학 환경공학과 학사 (강주캠퍼스)", role: "제10대 효빈광역시의회 의원 (3선)", quote: "\"구상만 하는 게 아니라 행동으로 조져드립니다!\"", desc: "청엽구의 에코 파이터. 두청운수 매연 트라우마 때문에 친환경 차량 전환에 목숨을 걸며, 선거철마다 유세차에 '환희의 송가'를 무한 반복 재생하는 열혈 의원." },
+            { field: "2.4 지방의원", name: "구정원 (Gu Jeong-won)", deg: "법과대학 법학과 학사 (2002년생)", role: "제9·10대 효빈광역시의회 의원 (윤리특별위원장)", quote: "\"선배 동료 의원으로서 품위를 지켜주십시오.\"", desc: "20대 초반의 나이로 윤리특위 위원장을 맡아 본회의장에서 고성방가를 일삼던 60대 조병진 의원에게 칼같이 징계 서면 경고를 날린 원칙주의자." },
+            { field: "2.4 지방의원", name: "도현정 (Do Hyeon-jeong)", deg: "상과대학 경제학과 학사", role: "제10대 효빈광역시의회 의원", quote: "\"쒸벌거리는 꼰대 정치는 끝났습니다!\"", desc: "전임 의장 조청남이 마이크가 켜진 줄 모르고 Z세대 의원들에게 욕설 망언을 해 컷오프되자 구원투수로 등판해 시의회에 입성한 경제통 의원." },
+            { field: "2.4 지방의원", name: "문언성 (Mun Eon-seong)", deg: "사회과학대학 정치외교학과 재학 (2004년생)", role: "제10대 효빈광역시의회 의원 (재선)", quote: "\"헌정사상 최연소 광역의원 타이틀 보유자.\"", desc: "8회 지선 당시 만 18세로 당선된 Z세대 돌풍의 주역. 틱톡과 릴스 유세로 어르신들의 지지까지 끌어모으며 재선에 성공했다." },
+            { field: "2.4 지방의원", name: "유시온 (Yoo Si-on)", deg: "사회과학대학 행정학과 학사 (1996년생)", role: "제10대 효빈광역시의회 의원", quote: "\"전임자의 조기축구 땀냄새 유니폼을 청소한 96년생.\"", desc: "컷오프된 조기축구회장 출신 우지남 전 의원의 방에서 땀에 쩔은 유니폼 수십 벌을 치우며 임기를 시작했으며, 깔끔한 정책 PPT로 공무원들의 신망이 두텁다." },
+            { field: "2.4 지방의원", name: "이수라남 (Lee Su-ra-nam)", deg: "언어문학대학 아랍어과 학사", role: "제10대 효빈광역시의회 의원", quote: "\"저 수리남 마약왕 아닙니다! 토종 국밥충 이수라남입니다!\"", desc: "아랍 혼혈 다문화 정치인. 중동 왕자 같은 외모와 달리 입만 열면 구수한 효빈 사투리를 구사하며 돼지국밥에 다대기를 풀어 먹는 K-국밥 매니아." },
+            { field: "2.4 지방의원", name: "조성일 (Cho Seong-il)", deg: "상과대학 경제학과 학사", role: "제10대 효빈광역시의회 의원", quote: "\"선배님, 농민들의 피땀을 무시하시는 겁니까?\"", desc: "스타트업 '효빈에듀' 대표 출신. 생일인 11월 11일 농업인의 날에 가래떡 100인분을 돌리다 트집 잡는 조병진 의원을 '농민의 피땀' 논리로 제압한 조병진 담당 일진." },
+            { field: "2.4 지방의원", name: "지소현 (Ji So-hyeon)", deg: "사회과학대학 사회학과 학사", role: "제10대 효빈광역시의회 의원 (진보당)", quote: "\"3호선 손잡이를 사아야가 일하는 빵집의 크루아상 모양으로 교체합시다!\"", desc: "3호선 마스코트 박라미(야마부키 사아야)의 열혈 팬. 본회의 노트북에 붙인 빵집 알바생 캐릭터 스티커를 진보당 원로들이 '비정규직 노동자 연대의 상징'으로 오해해 박수를 쳤다는 전설이 있다." },
+            { field: "2.4 지방의원", name: "진유성 (Jin Yoo-seong)", deg: "사회과학대학 행정학과 재학 (2005년생)", role: "제10대 효빈광역시의회 의원", quote: "\"살아있는 암모나이트, 10선 성선민 의원의 에어드롭 셔틀.\"", desc: "52살 차이 나는 대선배 성선민 의원이 등사기 시절 무용담을 펼치면 옆에서 묵묵히 아이패드 에어드롭으로 의안 자료를 전송해 주는 세대 통합의 아이콘." },
+            { field: "2.4 지방의원", name: "황보람 (Hwang Bo-ram)", deg: "사회과학대학 정치외교학과 재학 (2004년생)", role: "제10대 효빈광역시의회 의원", quote: "\"의회 휴게실을 틱톡 스튜디오로 변질시킨 초신성.\"", desc: "북구 대모 오서영(5선) 전 의원의 전폭적 지지로 당선된 청년 의원으로, 뉴미디어 의정 홍보를 주도한다." },
+            { field: "2.4 지방의원", name: "양지현 (Yang Ji-hyeon)", deg: "사회과학대학 사회학과 학사", role: "제10대 효빈광역시의회 의원 (비례 1번)", quote: "\"의정 활동은 방송 촬영이 아니라 정책으로 하는 겁니다.\"", desc: "유튜버 출신 원개현 전 의원이 버리고 간 방송 장비를 처분하고 의원실을 정책 자료집으로 채운 원칙파 의원. 단, 퇴근길 코인노래방에서 뱅드림 곡을 풀코스로 부른다는 목격담이 끊이지 않는다." },
+
+            // 3. 재계·기업인·희산그룹 (12인)
+            { field: "3. 재계·기업인·희산그룹", name: "박성인 (Park Seong-in)", deg: "기계공업대학 기계공학과 학사", role: "회주기업그룹 회장", quote: "\"아버지가 일군 철길 위에서 시민의 행복을 잇는 것이 제 소명입니다.\"", desc: "구 효빈전차를 도시철도 7호선으로 공영화해 시에 기부채납하고 윤대환의 폭정에 맞서 고송동 공장과 철도를 지켜낸 효빈 재계의 대부. (자녀 5남매가 야근이 싫다며 후계를 거부해 고민 중이다.)" },
+            { field: "3. 재계·기업인·희산그룹", name: "최대현 (Choi Dae-hyun)", deg: "교통대학 철도운영학과 학사 / 철도경영학 박사", role: "제15대 효빈광역시 경제부시장 (전 효빈교통공사 제3대 사장)", quote: "\"HAF 사령관이자 돈 버는 덕후의 마스터피스, 영업이익 1조의 사나이.\"", desc: "오다구 교수의 '신 모에 전략(Neo-Moe Strategy)'을 계승하여 효빈교통공사 영업이익 1조 원을 달성하고 2026년 7월 경제부시장으로 영전한 아이마스·러브라이브 겸업 프로듀서." },
+            { field: "3. 재계·기업인·희산그룹", name: "옥덕호 (Ok Deok-ho)", deg: "상과대학 경영학과 학사", role: "칠양여객고속 대표이사 · 효빈종합버스터미널 운영자", quote: "\"효빈시의 수호신이자, 야구방망이 아저씨.\"", desc: "텐노지 리나·헤안나 스미레·와타나베 요우를 사랑하는 운수업계 거물. 과거 윤대환이 요우 래핑 버스에 침을 뱉자 야구방망이를 들고 끝까지 추격해 참교육한 일화는 전설로 남아 있다." },
+            { field: "3. 재계·기업인·희산그룹", name: "강지훈 (Kang Ji-hoon)", deg: "전기공업대학 컴퓨터공학과 학사", role: "IT 스타트업 『오타쿠피아』 대표이사", quote: "\"효빈시 덕후들의 스마트 라이프를 설계한 코더.\"", desc: "효빈시 대중교통 실시간 환승과 HAF 이벤트·콜라보 카페 재고를 연동한 필수 앱 '오타쿠피아' 개발자. 학부 시절 뱅드림 익스퍼트 풀콤보로 코딩 스트레스를 풀었다." },
+            { field: "3. 재계·기업인·희산그룹", name: "마기철 (Ma Gi-chul)", deg: "생명대학 축산학과 학사 (이자캠퍼스)", role: "F&B 프랜차이즈 『(주)치킨무림』 창업주 겸 대표이사", quote: "\"HAF의 닭을 책임지는 자비 없는 튀김의 신.\"", desc: "전국 500개 가맹점을 거느린 치킨무림 대표. 학부 시절 이자캠퍼스 유가공공장에서 치즈와 요구르트를 만들던 기술을 치킨 파우더에 접목해 대박을 쳤으며, 모교에 50억 원을 쾌척했다." },
+            { field: "3. 재계·기업인·희산그룹", name: "남궁도 (Namgung Do)", deg: "전기공업대학 인공지능학과 석사", role: "AI 음성합성 스타트업 『뉴럴-모에』 창업자", quote: "\"2D를 3D로 구현하려 한 매드 사이언티스트.\"", desc: "최애 캐릭터의 보이스를 정밀 구현하는 TTS AI 엔진을 개발해 수백억 원대 빅테크 인수합병을 성사시켰으며, 모교 교내트램 A선 야간 AI 안내방송 시스템을 무상 기증했다." },
+            { field: "3. 재계·기업인·희산그룹", name: "강민수 (Kang Min-su)", deg: "화학공업대학 화학공학과 학사", role: "신원로지스 총무부장", quote: "\"내 면접 정장은 엔진 열기에 젖었고, 구두 밑창은 녹아버렸다.\"", desc: "2006년 대기업 최종 면접 날 두청운수 가축수송 버스의 달궈진 엔진룸 덮개에 앉아 가다 정장과 구두 밑창이 녹아 탈락했으나, 그 기업이 부도나며 전화위복이 된 인물. 현재 두청운수 출신 임원이 낀 업체와는 절대 거래하지 않는다." },
+            { field: "3. 재계·기업인·희산그룹", name: "서성직 (Seo Seong-jik / 1926~2009)", deg: "기계공학과 · 경영학과 복수전공 학사", role: "희산그룹 제2대 총괄회장", quote: "\"기름밥 먹는 내 새끼들이 집 한 칸 없어서 비 새는 판잣집에서 자게 할 순 없다. 백 채로 모자라면 삼천 채를 지어라!\"", desc: "1940년대 후반 기계공학과 경영학을 복수전공한 '인간 엑셀'. 한국전쟁 부상으로 하반신 마비가 된 형 서윤직을 대신해 그룹을 중공업·건설 제국으로 키웠으며, 항동 사원아파트 3,900세대 보급과 IMF 전 직원 무감원 고용 유지를 이뤄낸 노동자들의 아버지." },
+            { field: "3. 재계·기업인·희산그룹", name: "서윤직 (Seo Yun-jik / 1923~1990)", deg: "효빈대학교 학사 (6.25 학도병 참전용사)", role: "희산그룹 창업주 장남 · 그룹 수석고문", quote: "\"내 다리는 멈추었으나 희산의 심장은 네가 뛰게 해다오.\"", desc: "1950년 한국전쟁 발발 당시 학도병으로 자원 참전했다가 고지전에서 척추 부상을 입은 호국영웅. 평생 병상에서 동생 서성직 회장의 결재 서류를 검토하며 그룹의 브레인 역할을 수행했다." },
+            { field: "3. 재계·기업인·희산그룹", name: "서형연 (Seo Hyeong-yeon / 1953~ )", deg: "상과대학 경영학과 학사", role: "희산그룹 제3대 총괄회장", quote: "\"아버지가 쇳물로 밥그릇을 빚어주셨다면, 나는 그 밥그릇을 황금 쟁반 위에 올려놓을 것이다.\"", desc: "중공업 그룹에 5성급 호텔 '희산벨리 효빈'과 하이테크 사회공헌재단을 접목한 '우아한 불도저'. 회주기업 박성인 회장과는 1살 차이의 영원한 라이벌이자 단짝 친구다." },
+            { field: "3. 재계·기업인·희산그룹", name: "서전희 (Seo Jeon-hee / 1979~ )", deg: "상과대학 경영학과 학사", role: "희산그룹 부회장 (제4대 총괄회장 유력 후보)", quote: "\"오빠가 밭을 갈러 갔으니, 그룹의 밭은 제가 갈아야죠.\"", desc: "서형연 회장의 장녀이자 효빈대병원 신경외과 서진희의 큰언니. 농부로 탈주한 오빠 서주원을 대신해 그룹 전략을 총괄하는 철혈의 여성 경영인." },
+            { field: "3. 재계·기업인·희산그룹", name: "서주형 (Seo Ju-hyeong / 1981~ )", deg: "기계공업대학 기계공학과 학사", role: "희산중공업 대표이사 사장", quote: "\"희산의 근본은 쇳물과 중공업입니다.\"", desc: "서형연 회장의 차남으로 누나 서전희 부회장과 건전한 후계 경쟁을 펼치고 있는 현장파 중공업 엔지니어." },
+
+            // 4. 학계·총장·중등교육계 (10인)
+            { field: "4. 학계·총장·중등교육계", name: "오성현 (Oh Seong-hyun)", deg: "사회과학대학 사회학과 학사 (성택대 박사)", role: "성택대학교 제9대 총장", quote: "\"리틀 데몬 여러분, 타천(墮天)의 시간입니다!\"", desc: "효빈대 졸업 후 성택대로 부임한 진성 츠시마 요시코(요하네) 오시. 학교 축제를 '타천제'로 명명하고 타천역에서 난동을 부린 윤재훈 일당을 참교육하도록 배후 지원한 중2병 석학." },
+            { field: "4. 학계·총장·중등교육계", name: "민부선 (Min Bu-seon)", deg: "사회복지학대학 사회복지경영학과 정교수", role: "효빈대학교 제26대 총장", quote: "\"고양이 총장님의 충실한 집사이자 혁신적인 행정가.\"", desc: "『아이돌 마스터』 프로덕션 수익 모델로 사회복지경영론을 강의하며, HAF 수익금과 교비를 투입해 학부 등록금 5년 동결과 천원의 아침밥 『엠마의 식탁』, 학내 범죄 무관용 출교 원칙을 확립한 명총장." },
+            { field: "4. 학계·총장·중등교육계", name: "오다구 (Oh Da-gu)", deg: "교통대학 철도교통공학과 학사 / 명예교수", role: "효빈교통공사 초대 사장 · 교통대학 명예교수", quote: "\"효빈 서브컬처의 아버지이자 철도 행정의 마스터.\"", desc: "철도와 캐릭터 비즈니스를 결합한 '모에 철도학'의 창시자이자 최대현 경제부시장의 직속 은사." },
+            { field: "4. 학계·총장·중등교육계", name: "백우진 (Baek Woo-jin)", deg: "교통대학 항공우주공학과 학사 / 박사", role: "한국항공우주연구원(KARI) 수석연구원", quote: "\"대운동장 잔디를 태워 먹은 효빈의 스페이스X.\"", desc: "학부 시절 대운동장(21동)에서 소형 하이브리드 로켓을 발사하다 잔디를 태워 정학당할 뻔했으나, 비행 궤적의 완벽함에 반한 지도교수가 랩실로 납치해 차세대 발사체 주역으로 키워낸 천재 기인." },
+            { field: "4. 학계·총장·중등교육계", name: "최형석 (Choi Hyung-seok)", deg: "상과대학 부동산학과 학사 / 정교수", role: "효빈대학교 상과대학 부동산학과 정교수", quote: "\"지옥이 그리우면 서울로 전학 가든가, 타임머신 타고 두청운수 버스나 타러 가! F일세. 나가.\"", desc: "2006년 두청운수 승차거부로 국제학회 발표를 날려 테뉴어가 2년 지연된 원한을 간직한 '두청 슬레이어'. 윤대환 시정을 찬양하는 리포트를 낸 A씨를 사자후 팩폭과 함께 F학점 제적 처리했다." },
+            { field: "4. 학계·총장·중등교육계", name: "태상훈 (Tae Sang-hoon)", deg: "상과대학 경제학과 학사 / 정교수", role: "효빈대학교 상과대학 경제학과 정교수", quote: "\"여기는 종교 시설이 아니라 강의실입니다. 신앙심은 교회 가시고, 여기선 데이터를 가져오세요.\"", desc: "최형석 교수의 단짝인 '웃는 저승사자'. 궤변을 늘어놓는 학생에게 화를 내는 대신 빙그레 웃으며 경제성장률·부도율 엑셀 데이터를 띄워 멘탈을 가루로 만드는 계량경제학 권위자." },
+            { field: "4. 학계·총장·중등교육계", name: "황세철 (Hwang Se-cheol)", deg: "상과대학 경영학과 동문", role: "동구대학교 경영학과 정교수 (회계원리)", quote: "\"아주 훌륭한 지식인의 자세입니다. 저런 불량 자산은 매몰 비용 처리하고 밖으로 배제하는 게 맞지요.\"", desc: "동구대 에타 마녀사냥 사태 당시 하마루를 괴롭히던 가해 패거리를 회계학 팩폭으로 강의실에서 분리수거하고, 파면된 경철래의 똥을 치우며 제자들에게 사비로 소고기를 사 먹이는 참스승." },
+            { field: "4. 학계·총장·중등교육계", name: "유혜경 (Yoo Hye-kyung)", deg: "사범대학 화학교육과 학사", role: "복지여자고등학교 교장", quote: "\"학생이 상처받고 곪아 터지기 직전인데, 학교 이미지 챙긴다고 그 썩은 고름을 덮어두라고요?\"", desc: "승진을 앞둔 교무부장 시절, 작은 키의 제자(문수연)를 모욕한 악질 교사 이석우의 만행을 은폐하지 않고 학생들의 대자보 폭로를 지켜내 영구 제명시킨 철의 교육자." },
+            { field: "4. 학계·총장·중등교육계", name: "이희명 (Lee Hee-myung)", deg: "사범대학 일반사회교육과 학사", role: "복지여자고등학교 일반사회 교사 ('이목희' 실존 모델)", quote: "\"내 동생 하나 지키지 못한 것도 평생의 한인데, 내 교실에서 또 편견으로 아이가 부서지는 꼴을 보라고?\"", desc: "교사의 폭언에 상처받아 세상을 떠난 친동생의 아픔을 간직한 채, 똑같은 폭언에 울던 제자 문수연을 끝까지 지켜내고 마침내 동료 교사로 맞이하며 오열한 참스승." },
+            { field: "4. 학계·총장·중등교육계", name: "문수연 (Moon Soo-yeon)", deg: "사범대학 국어교육과 학사", role: "복지여자고등학교 국어교사 ('미소율' 실존 모델)", quote: "\"현실 미소율, 143cm의 편견을 박살 낸 팩폭 요정.\"", desc: "143cm의 단신을 비하하던 이석우 교사의 폭언을 딛고 사범대 국어교육과에 진학해 임용고시를 단번에 패스하고 모교 교사로 금의환향한 인간 승리자." },
+
+            // 5.1 ~ 5.2 공공기관장·관료·의료·언론 (19인)
+            { field: "5. 공공기관장·관료·의료·언론", name: "이세희 (Lee Se-hee)", deg: "상과대학 관광경영학 석사", role: "효빈전시컨벤션센터(HSCO) 대표이사", quote: "\"완벽하지 않은 무대는 용납 못 해. 조명, 음향, 동선... 전부 다시 체크해.\"", desc: "절대영도의 카리스마로 HAF를 통제하는 '얼음마녀'이나 퇴근 후엔 핑크색 저지를 입고 인형을 안고 자는 갭 모에 기관장." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "이직하 (Lee Chi-ka)", deg: "화학공업대학 신소재공학 박사", role: "효빈테크노파크(HTP) 원장", quote: "\"실패는 다음 곡을 위한 드럼 필인(Fill-in) 같은 거니까!\"", desc: "이세희 대표의 친동생. 노란 리본 스마트 기기를 얹고 스타트업을 지원하는 TP의 성모이자, 난동 부리는 이차야를 3,000도 용접 토치로 쫓아낸 용접의 지배자." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "탁민석 (Tak Min-seok)", deg: "문화콘텐츠경영학 석사 (시각디자인 학사)", role: "전 효빈애니메이션본부 이사장", quote: "\"당신들, 효빈의 문화에 전부를 걸 각오는 되어 있어?\"", desc: "미나토 유키나 오시로 0.1%의 색상 오차도 불허한 2.5차원의 지배자. 퇴임식에서 'FIRE BIRD'를 열창하고 박수 속에 떠난 전설의 기관장." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "천리나 (Cheon Ri-na)", deg: "전기공업대학 컴퓨터공학 학사 / 박사수료", role: "효빈정보산업진흥원(HIPA) 원장 (1995년생)", quote: "\"리나쨩 보드, '접속 완료'. ( o_o )v\"", desc: "감정 표현 디스플레이 마스크(리나쨩 보드)를 착용하며 HAF 티켓팅 디도스 공격을 3분 만에 역해킹으로 분쇄한 천재 화이트해커 기관장." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "이미사 (Lee Mi-sa)", deg: "사회복지학대학 사회복지실천학 박사", role: "효빈광역시사회서비스원장", quote: "\"복지는 달콤한 쿠키를 굽는 마음으로. 하지만 횡령은 지옥 끝까지.\"", desc: "직원들에게 직접 구운 쿠키를 나눠주는 천사(이마이 리사 판박이)이나, 요양원 비리와 혐오 세력 앞에서는 절대영도의 눈빛으로 감사를 집행하는 원장." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "강수영 (Kang Soo-young)", deg: "디자인대학 시각디자인학과 학사 (이자캠퍼스)", role: "제8대 효빈디자인진흥원 원장", quote: "\"어떤 위기가 와도, 츠굿테루(ツグってる)! 제가 어떻게든 해볼게요!\"", desc: "개성 넘치는 효빈시 공공기관장들 사이에서 묵묵히 커피를 내려주며 협업을 조율하는 상식인이자 방파제." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "김도빈 (Kim Do-bin)", deg: "상과대학 부동산학과 학사", role: "효빈도시공사 사장", quote: "\"집은 콘크리트가 아니라 최애와 함께 숨 쉬는 성전(聖殿)이어야 합니다!\"", desc: "아쿠아 아파트·리엘라 파크 등 테마 주거단지로 연 영업이익 8,900억 원을 달성한 기획자. (단, '아파트 가챠 분양' 기안을 올렸다가 시장실에서 기합을 받았다.)" },
+            { field: "5. 공공기관장·관료·의료·언론", name: "원중현 (Won Jung-hyun)", deg: "토목공업대학 토목공학과 학사", role: "효빈도시공사 제8대 사장", quote: "\"이곳에 찔끔찔끔 경전철을 넣겠다는 건, 시민들을 짐짝 취급하겠다는 소리입니다.\"", desc: "소홍문 카르텔의 경전철 축소 음모에 맞서 중전철 6호선을 사수해 낸 참엔지니어." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "서진희 (Seo Jin-hee)", deg: "통합의과대학 의학과 학사", role: "효빈대학교병원(59동) 신경외과 전공의", quote: "\"바보 아니야?! 내가 널 걱정해서 50만 원짜리 수액 놔주는 거 아니거든!\"", desc: "서목리 출신으로 니시키노 마키와 싱크로율 100%를 자랑하는 츤데레 의사. 과로로 쓰러진 친구 안예리에게 툴툴거리며 최고급 영양 수액을 놔주는 든든한 주치의." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "유은태 (Yoo Eun-tae)", deg: "사회과학대학 행정학 · 상과대학 경영학 복수전공 학사", role: "전 효빈광역시 행정부시장 및 시장 권한대행", quote: "\"흔들림 없는 행정으로 시민의 일상을 지킵니다.\"", desc: "김성민 전 시장 사퇴 후 5개월간의 권한대행 체제를 단 한 건의 행정 공백 없이 이끌어낸 정통 관료." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "원우미 (Won U-mi)", deg: "국어국문학 · 행정학 복수전공 학사", role: "효빈광역시청 총무과 주무관", quote: "\"시정 업무를 내팽개치고 덕질을 가시다니, 파렴치합니다!\"", desc: "소노다 우미의 현신인 검도 유단자 공무원으로, 악성 민원인을 단숨에 제압하고 박효빈 시장의 건강 관리를 위해 새벽 5시 산악 구보를 강제하는 기강 반장." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "서수진 (Seo Su-jin)", deg: "통합의과대학 수의학과 학사 / 박사", role: "효빈대학교 부속 동물병원(61동) 원장", quote: "\"메디컬 타운의 미친 칼잡이, 동물의 수호신.\"", desc: "인수공통감염병 권위자이자 S-35-4 모노레일 기지장 고양이 '대차 교수님'의 전담 주치의. 로드킬 위기 길고양이를 의대 외과 교수들과 협진해 살려낸 전설적 수의사." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "강철민 (Kang Chul-min)", deg: "응용과학대학 소방학과 학사 (천주캠퍼스)", role: "효빈소방본부 119특수구조단장 (HAF 안전총괄)", quote: "\"HAF 인파 통제의 마스터이자 캡틴.\"", desc: "매년 10만 인파가 몰리는 HAF 현장에서 완벽한 동선 분리와 응급 이송으로 단 한 건의 안전사고도 허용하지 않은 소방 영웅." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "오수아 (Oh Su-a)", deg: "통합의과대학 의학과 학사 / 정신건강의학과 전문의", role: "효빈대 강주병원 정신건강의학과 센터장", quote: "\"2D 힐링 요법을 창시한 의학계의 이단아.\"", desc: "베스트셀러 『왜 우리는 2D에 구원받는가』의 저자. 번아웃 환자와 고시생들에게 건프라 조립과 치유계 애니메이션 감상을 처방하며 본교 심리상담센터(효빈톡)를 자문한다." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "차수호 (Cha Su-ho)", deg: "사회과학대학 미디어커뮤니케이션학과 학사", role: "방송사 탐사보도팀 간판 기자 (전 효빈대신문 편집장)", quote: "\"효빈대신문 편집장이 길러낸 물어뜯는 불독.\"", desc: "학부 시절 학내언론 효빈대신문 편집장으로 본부 비리를 추적했고, 졸업 후 윤대환의 두청운수 리베이트 및 5호선 비자금 게이트를 특종 보도해 구속시킨 참언론인." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "강해나 (Kang Hae-na)", deg: "사회과학대학 행정학과 학사", role: "효빈광역시청 교육지원과 7급 주무관", quote: "\"교사라는 인간이 학생 콤플렉스를 무기로 꿈을 난도질하냐? 내가 세상 시끄럽게 만들어주겠다.\"", desc: "고교 시절 친구 문수연을 짓밟은 이석우 교사를 대자보로 고발해 쫓아낸 의리파 반장 출신 공무원." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "이 모 주무관 (Lee O O)", deg: "사회과학대학 행정학과 학사", role: "효빈광역시청 문화관광과 주무관", quote: "\"제 개인 물품이고 업무에 지장 준 적 없습니다!\"", desc: "직장 내 괴롭힘으로 탕 쿠쿠 클리어파일을 훼손당하고 폭행당했으나 굴하지 않고 소송을 제기해 최원형 부장판사로부터 징벌적 위자료 4,200만 원 승소 판결을 받아낸 주인공." },
+            { field: "5. 공공기관장·관료·의료·언론", name: "박유영 (Park Yu-young / P주무관)", deg: "교통대학 철도운전학과 학사 수석 (13학번)", role: "덕주도시철도공사 경영기획처 기획홍보팀 6급 선임주무관", quote: "\"본부장님께서 파쇄기에 갈아버리신 건 종이 쪼가리였을지 몰라도, 제 심장 속에 살아 숨 쉬는 이덕희까지 갈아버리실 수는 없었습니다.\"", desc: "덕주 1호선 공식 마스코트 '이덕희'의 창조주. 코레일 재직 시절 강택상 본부장에게 원화를 파쇄당하고 산골 신호소로 유배당하는 고초를 겪었으나, 덕주도시철도공사 공채 수석 입사로 부활해 이덕희 대박을 터뜨리고 강택상을 감옥(4404번)으로 보낸 불사조 워킹맘." },
+
+            // 5.3 법조계 — 참교육의 심판자들 (7인)
+            { field: "5.3 법조계(판사·검사·변호사)", name: "정유리 (Jung Yu-ri)", deg: "법학전문대학원(31동) 석사", role: "효빈지방공소청 특수부 부장검사", quote: "\"법봉 대신 형광봉을 든, 윤대환 일가의 저승사자.\"", desc: "윤대환 전 시장의 비리를 수사해 구속하고 아들 윤재훈의 공용물 파손·빵 테러에 철퇴를 내린 특수통 부장검사. 야근하며 공소장을 쓸 때 Aqours 노래를 틀어놓는 반전 매력이 있다." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "이아리 (Lee A-ri)", deg: "사회과학대학 공공학과(법학) 수석 학사 / 법학전문대학원 석사", role: "효빈광역공소청 공판부 수석공소관(검사) · 『포핀☆스타』 키보디스트", quote: "\"하아?! 지금 법정에서 장난해요?! 피고인 추한석에게 징역 15년과 전자발찌 15년을 구형합니다!\"", desc: "이치가야 아리사의 현신이자 1세대 밴드 키보디스트 출신 엘리트 검사. 우신면의 8호선 유리아 명예훼손 재판을 3분 만에 정리하고, 모교 후배 마서령을 위협한 사칭 성범죄자 추한석에게 징역 15년을 구형해 100% 관철시켰다." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "한지원 (Han Ji-won)", deg: "법학전문대학원(31동) 석사", role: "법무법인 대표변호사 (지식재산권·초상권 전문)", quote: "\"덕후들의 초상권을 수호하는 법조계의 잔다르크.\"", desc: "웹툰 작가 불공정 계약 무효 소송 및 HAF 불법 촬영 파파라치 전원 실형 참교육을 이끌어낸 창작자·코스플레이어들의 수호성녀." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "강원승 (Kang Won-seung)", deg: "법과대학 법학과 학사", role: "효빈지방법원 부장판사", quote: "\"피고인의 목소리는 내 법정에 필요 없는 '불협화음'입니다. 소거하겠습니다.\"", desc: "빈 마르가레테 오시. 악의적 가짜뉴스 유포자 김동식에게 법정 최고형인 징역 3년을 선고하고 4,200만 원 배상 항소심을 기각한 엄정한 법관." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "최원형 (Choi Won-hyung)", deg: "법과대학 법학과 학사", role: "효빈지방법원 민사합의부 부장판사", quote: "\"오시를 모욕당한 팬의 고통은 단순한 기물 파손의 범주를 초월한다.\"", desc: "나카스 카스미 오시. 부하 직원의 탕 쿠쿠 굿즈를 고의로 찢은 상사에게 정신적 손해배상 4,200만 원을 판결해 사법사에 남을 명판결을 남긴 판사." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "하성휘 (Ha Seong-hwi)", deg: "법과대학 법학과 학사", role: "효빈지방법원 형사합의부 부장판사 · 본교 겸임교수", quote: "\"형벌은 연습이 아닙니다. 진심이 결여된 반성문 300장은 한낱 종이 쪼가리에 불과합니다. 관용의 오차범위는 0입니다.\"", desc: "별칭 '무관용의 단두대', '사요 판사'. 청록색(#00AABB) 만년필로 판결문에 서명하며, 조창렬 일당에게 1심 징역 12년, 사칭 성범죄자 추한석의 반성문 300장을 파쇄하고 징역 15년·전자발찌 15년 철퇴를 내렸다." },
+            { field: "5.3 법조계(판사·검사·변호사)", name: "구정연 (Gu Jeong-yeon)", deg: "법과대학 법학과 학사", role: "효빈고등법원 형사부 부장판사", quote: "\"항소심은 1심의 형량을 깎아주는 자선단체가 아닙니다! 원심을 파기하고 징역 15년에 처한다!\"", desc: "고향(시곡면)과 생일(10월 27일)까지 이치가야 아리사와 일치하는 고등법원 부장판사. 조창렬 일당이 항소심에서 피해자와 모교 은사들까지 음해하자 1심 형량(12년)을 파기하고 징역 15년으로 형량을 높여버린 사이다 법관." },
+
+            // 6 ~ 7. 문화·예술·밴드·스포츠 (22인)
+            { field: "6~7. 문화·예술·스포츠", name: "시화음 (Si Hwa-eum)", deg: "음악대학 음악학과 학사", role: "보컬리스트 · 창건고 1기 전설 (가노은·가희나 모친)", quote: "\"노래로 모두를 웃음 짓게 하고 싶어! 햄버그도 좋아해~♪\"", desc: "삽곡읍 출신의 시부야 카논 실사판 뮤지션으로 무대 공포증을 극복하고 창건고 1기 전설의 보컬로 활약했다." },
+            { field: "6~7. 문화·예술·스포츠", name: "천사도 (Cheon Sa-do)", deg: "무용대학 무용학과 학사", role: "안무가 · 댄스 트레이너", quote: "\"모든 것은 완벽한 원형이어야 해! 다 같이 둥글게 둥글게~!\"", desc: "아라시 치사토 모티브의 무용가로 창건동 원형 교차로 인근에서 댄스 아카데미와 타코야키 공방을 운영한다." },
+            { field: "6~7. 문화·예술·스포츠", name: "완시윤 (Wan Si-yun)", deg: "화학공업대학 화학공학과 학사", role: "수질분석 연구원 (와카나 시키 모티브)", quote: "\"내 발명과 실험은 완벽해. 관찰 대상(남편)의 반응 수치도 흥미롭군.\"", desc: "소금 0.1g까지 전자저울로 계량해 요리하는 이과계 연구원." },
+            { field: "6~7. 문화·예술·스포츠", name: "문수하 (Moon Su-ha)", deg: "언어문학대학 영어영문학과 학사", role: "전문 번역가 (효빈교통공사 5호선 '미소하' 실존 외모 모델)", quote: "\"Develop은 그런 맥락에 쓰면 뉘앙스가 어색해. Elaborate가 적합하지.\"", desc: "복지여고 문수연 교사의 친언니이자 5호선 마스코트 미소하의 외모 모티브. 영문 번역은 타의 추종을 불허하나 현실에서는 배달 앱 쿠폰 계산도 헷갈려 하는 갭 모에가 있다." },
+            { field: "6~7. 문화·예술·스포츠", name: "최지훈 (Choi Ji-hoon)", deg: "응용예술대학 만화애니메이션학과 학사 / 교수", role: "애니메이션 총감독 · 본교 교수", quote: "\"뼈를 깎아 프레임을 만드는 효빈대의 자랑.\"", desc: "매년 HAF 공식 오프닝 애니메이션을 재능기부로 제작하는 한일 합작 애니메이션 거장." },
+            { field: "6~7. 문화·예술·스포츠", name: "이가람 (Lee Ga-ram)", deg: "예술대학 연극학과 학사 (06학번)", role: "대한민국 대표 성우 · 본교 성우전공 객원교수", quote: "\"효빈시 대중교통의 여신이자 천의 목소리.\"", desc: "교내 트램 A선·모노레일 B선 및 빈효선 광역전철의 청아한 안내방송('이번 역은 당선, 당선역입니다')을 전담한 주인공." },
+            { field: "6~7. 문화·예술·스포츠", name: "송우진 (Song Woo-jin / 필명: 트램라이더)", deg: "언어문학대학 국어국문학과 학사", role: "밀리언셀러 웹소설 작가", quote: "\"캠퍼스를 마법진으로 만들어버린 상상력의 소유자.\"", desc: "당선본캠퍼스와 HBNU Rail 노선도를 그대로 마법 아카데미 배경으로 옮겨놓은 『아카데미의 철도 조종사가 되었다』로 메가 히트를 기록한 작가." },
+            { field: "6~7. 문화·예술·스포츠", name: "윤세아 (Yoon Se-a)", deg: "사회과학대학 미디어커뮤니케이션학과 학사", role: "250만 구독자 서브컬처 크리에이터 · 효빈시 홍보대사", quote: "\"HAF의 여신이자 효빈시 홍보대사 유튜버.\"", desc: "학부 시절 윤재훈의 학식 빵 테러 및 트램 난동 현장을 전공용 4K 카메라로 생생히 촬영해 특종을 터뜨리며 대형 유튜버로 성장했다." },
+            { field: "6~7. 문화·예술·스포츠", name: "김도윤 (Kim Do-yoon)", deg: "음악대학 실용음악과 학사 (15학번)", role: "인디 록 밴드 『레일로드(Railroad)』 메인 보컬", quote: "\"효빈대의 낭만이자 서브컬처 밴드의 전설.\"", desc: "대운동장(21동) 선샤인 노천극장 버스킹 중 박효빈 시장과 함께 부른 'God knows...' 듀엣 직캠이 조회수 1,000만 뷰를 돌파하며 스타덤에 올랐다." },
+            { field: "6~7. 문화·예술·스포츠", name: "서지수 (Seo Ji-su)", deg: "미술대학 서양화과 학사", role: "네이버웹툰 간판 다크판타지 작가", quote: "\"효빈대의 건물을 악당의 성으로 만들어버린 다크 판타지 장인.\"", desc: "대표작 『효빈의 심장』 속 마왕성을 기계공업대학 5호관(14-5동 15층 타워) 외관 그대로, 지옥의 도서관을 중앙도서관(23동) 구조 그대로 그려내 학우들에게 큰 웃음을 선사했다." },
+            { field: "6~7. 문화·예술·스포츠", name: "정시우 (Jung Si-woo)", deg: "음악대학 작곡과 학사", role: "대중음악 및 애니메이션 OST 프로듀서", quote: "\"트램 진입음(빠빰!)부터 애니메이션 OP까지 섭렵한 마이다스의 손.\"", desc: "학부 시절 학식 식권 10장을 받고 교내트램 A선 진입 멜로디를 작곡해 주었으며, 오리콘 차트와 국내 음원 차트 1위를 석권한 히트 작곡가." },
+            { field: "6~7. 문화·예술·스포츠", name: "유나영 (Yoo Na-young)", deg: "생활과학대학 의류의상학과 학사", role: "월드클래스 코스튬 디자이너 (WCS 한국 대표)", quote: "\"HAF의 의상을 통제하는 코스튬의 여왕.\"", desc: "학부 졸업작품으로 1:1 건담 웨어러블 슈트를 제작해 교수진을 경악시켰으며, 매년 HAF 개막식 때마다 박효빈 시장의 특별 코스프레 의상을 제작·협찬한다." },
+            { field: "6~7. 문화·예술·스포츠", name: "나수민 (Na Su-min)", deg: "생활과학대학 조리과학과 학사 (15학번)", role: "고송동 다이닝 메인 셰프 · 『블루 버드 멘토단』 수석 조리강사", quote: "\"야, 이 짭수미(나수미)야! 생일도 1월 23일이고 키도 155cm인 내가 오리지널 '원조 수밍'이거든?! 내 중식도 칼등 맛 좀 볼래?!\"", desc: "나수미의 8살 터울 친언니이자 박효빈 시장·노정미 시의원의 96즈 죽마고우. 수시 실기에서 중식도로 마늘 100알을 1분 만에 편 썰어 만점 입학했으며, 동생 수미와 함께 사가라 마유 내한 팬미팅에 동반 참석해 '더블 카스밍' 인증을 받은 성골 셰프." },
+            { field: "6~7. 문화·예술·스포츠", name: "강숙미 · 우서림 · 양사야 (밴드 『포핀☆스타』)", deg: "만화애니과(09) · 실용음악과(09) · 식품영양학과(13) 학사", role: "『스튜디오 효빈』 대표이사(강숙미)·음향실장(우서림) & 『산취제과』 수석파티시에(양사야)", quote: "\"반짝반짝 두근두근(키라키라 도키도키)하지 않으면 애니메이션도, 인생도 아니야~☆\"", desc: "효빈시 1세대 걸즈 밴드 『포핀☆스타』 주역들. 토야마 카스미·우시고메 리미·야마부키 사아야의 현신으로, 양사야는 사능동에서 행패 부리던 극우 청년을 반죽 밀방망이로 제압한 전설이 있다." },
+            { field: "6~7. 문화·예술·스포츠", name: "문주란 · 천모카 · 허마리 · 태미연 · 하규미 (밴드 『애프터글로우』)", deg: "예술대학 실용음악과 11학번 동기 전원 학사", role: "미죽류 화도 후계자(란) · RiNG 점장(모카) · 35만 유튜버(마리) · 드럼팩토리 원장(미연) · 하규미커피점 마스터(규미)", quote: "\"우리는 어디서든 『평소대로(いつも通り)』 할 거야, 그뿐이야.\"", desc: "청엽구 출신 실용음악과 11학번 동기 5인방으로 결성된 전설의 록 밴드. 우전 리버사이드 락 페스티벌과 라이브 하우스 RiNG, 남우택역 상권을 이끄는 문화계 핵심 세력이다." },
+            { field: "6~7. 문화·예술·스포츠", name: "한태성 (Han Tae-sung / 닉네임: Railgun)", deg: "전기공업대학 컴퓨터공학과 명예학사(프로 입단 중퇴)", role: "LoL 월드 챔피언십 우승 미드라이너 · 현 LCK 수석감독", quote: "\"전산교육관 e스포츠 아레나가 낳은 월드클래스 미드라이너.\"", desc: "1학년 때 전산교육관(45동) 1층 라운지에서 솔로랭크 1위를 찍고 프로로 직행해 세계를 제패한 뒤 모교에 e스포츠 아레나를 기증한 전설." },
+            { field: "6~7. 문화·예술·스포츠", name: "마동철 (Ma Dong-chul)", deg: "무용대학 체육학과 학사 / 본교 겸임교수", role: "올림픽 유도 무제한급 금메달리스트", quote: "\"효빈대의 물리적 방패. 업어치기 하려다 참았습니다. 땅이 울릴까 봐요.\"", desc: "베르데 홀에서 윤재훈이 쇠파이프를 들고 성우들을 위협할 때 도복 깃을 잡듯 가볍게 제압해 실금하게 만든 인간 병기." },
+            { field: "6~7. 문화·예술·스포츠", name: "강태양 (Kang Tae-yang)", deg: "무용대학 체육학과 학사", role: "프로야구 다승왕 · 국가대표 우완 파이어볼러", quote: "\"마운드를 불태우는 155km/h의 진성 애니 덕후 투수.\"", desc: "학부 시절 대운동장(21동) 야구장 전광판을 강속구로 깨부수며 스카우트되었으며, 홈구장 등판곡으로 당당히 러브라이브·뱅드림 오프닝을 송출하는 성덕 에이스." }
+        ];
+
+        // ================= [데이터베이스 2] 주요 재학생 · 20대 청년동문 · 마스코트 동문 (35인 전원) =================
+        const STUDENT_UNIVERSE_DB = [
+            // 9.1 ~ 9.3 김시연·고소유·무지개 동호회 (7인)
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "김시연 (Kim Si-yeon)", deg: "사회과학대학 정치외교학과 재학 (23학번 · 5호선 소조역 통학)", role: "제38대 사회과학대학 학생회장 (김성민 의원 차녀 · 아유무 현신)", quote: "\"기호 1번! 학우 여러분의 마음을 훔치러 온 시여니다 뿅~☆\"", desc: "1% 혐오 후보를 콜라 폭포와 팩폭으로 매장시킨 선거의 여왕. 모친이 굿즈 예산을 깎자 스마트홈 가전 음성을 해킹하고, 오빠 김시율의 한정판 PG 건담 뿔에 아유무 데칼을 붙이는 인질극으로 자가용 통학 셔틀을 확보한 합법 얀데레 천재." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "고소유 (Go So-yu)", deg: "사회과학대학 행정학과 재학 (23학번)", role: "사회과학대학 기획국장 (타카사키 유우 현신)", quote: "\"이것도 저것도 다 두근거리는데 어떡하지 ㅠㅠ (히토리다케난테 에라베나이요!)\"", desc: "옴브레 투톤 헤어의 친화력 만렙 인싸로, 무자각 '다이스키!' 플러팅을 남발해 19년 지기 김시연의 죽은 눈 모드를 수시로 켜버리는 억제기 겸 만악의 근원." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "고노애 (Go No-ae)", deg: "사회과학대학 심리학과 재학 (23학번)", role: "사회과학대학 부학생회장 (코노에 카나타 현신)", quote: "\"시연쨩... 그 타이밍엔 A루트가 군중심리학적으로 반발이 적어... 드르렁...\"", desc: "국가근로 시급 삭감 및 조창렬·안농운 일당의 협박 사건 당시 민부선 총장과 학우들의 연대로 완벽히 보호받았으며, 졸면서도 범죄심리학 프로파일링으로 반대파의 논리를 분쇄하는 브레인." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "강하애 (Kang Ha-ae)", deg: "사회복지학대학 사회복지정책학과 재학 (23학번)", role: "사회복지학대학 홍보부장 (미야시타 아이 현신 · GPA 4.11)", quote: "\"이 문제 답이 왜 이건지 알아? 정(전)답게 부쳐먹으라고! 꺄하핫!!\"", desc: "천주시 궁하구 명물 '아이 좋아 전 집' 손녀이자 3대 400급 피지컬과 4.11 학점을 겸비한 문무겸비 인싸. 아재개그(다쟈레) 고문과 함께 나수미의 전공 필기 과외를 담당한다." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "유채나 (Yoo Chae-na)", deg: "사회과학대학 공공학과 재학 (23학번)", role: "사회과학대학 자치법제위원장 (유키 세츠나 현신)", quote: "\"어라? 사악한 것이 씌였어요! 세츠나 스칼렛 스톰!!!\"", desc: "안경을 쓰면 깐깐한 법학도, 안경을 벗으면 열혈 아이돌 덕후로 변신하며, 붉은색 급행버스에 테러를 가하던 윤재훈을 엘보우 엎어치기로 아스팔트에 꽂아버린 무력 담당." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "나수미 (Na Su-mi)", deg: "생활과학대학 제과제빵과 재학 (23학번)", role: "카페 베르데 수석 실습생 (나카스 카스미 현신 · 나수민 셰프 여동생)", quote: "\"수미수미가 아니라 수밍이라고! 수미칩이라고 부르면 바게트로 패버린다?!\"", desc: "제빵 실기 전 과목 100점 수석이나 유기화학 필기 과락 위기로 강하애에게 스파르타 과외를 받는 중. 고소유를 7kg 살크업시킨 장본인이자 진상 소개팅남에게 캡사이신 빵을 먹인 앙큼한 제빵왕." },
+            { group: "9.1~9.3 김시연·고소유·무지개동호회", name: "오이슬 (Oh I-seul)", deg: "응용예술대학 만화애니메이션학과 성우전공 재학 (23학번 · 당선본캠 26동)", role: "성우전공 수석 · 베르데 홀 성우보호 유공자 (오사카 시즈쿠 현신)", quote: "\"아 몰라! 대본이고 뭐고 당장 소맥 내놔! / 메카쿠시테(눈 가려)!!\"", desc: "평소엔 단아한 연극학도이나 스트레스받으면 오이 안주에 참이슬 소맥을 마시는 반전 캐릭터. 베르데 홀 난입 사건 당시 우렁찬 '메카쿠시테!!' 사자후로 내한 성우들을 지켜냈다." },
+
+            // 9.4 동세대 유니버스 (14인)
+            { group: "9.4 동세대 유니버스", name: "석다연 (Seok Da-yeon)", deg: "사회과학대학 공공학과 학사 / 법학전문대학원(31동) 재학", role: "로스쿨 학생지도위원 (쿠로사와 다이아 현신 · 석루비 친언니)", quote: "\"최고 형량으로 모시겠습니다, 뿟뿌 데스와(ブッブーですわ)!\"", desc: "임은혜를 괴롭힌 가해 일진들에게 소수점 단위의 손해배상 엑셀표와 고소장을 작성해 파산시킨 법리 폭격기." },
+            { group: "9.4 동세대 유니버스", name: "석루비 (Seok Ruby)", deg: "생활과학대학 의류의상학 · 상과대학 경영학 복수전공 재학", role: "HAF 코스튬 제작팀장 (쿠로사와 루비 현신)", quote: "\"어디서 음식물 쓰레기 썩는 냄새가 나네... (삐기잇!)\"", desc: "귀여운 외모 뒤에 밤샘 재봉틀 작업으로 단련된 괴력을 숨긴 실세로, 일진 남학생에게 암바를 걸어 제압하고 제로콜라 도미노 트랩을 설계한 전략가." },
+            { group: "9.4 동세대 유니버스", name: "안공주 (An Gong-ju)", deg: "응용예술대학 게임학과 재학 (천주캠퍼스)", role: "FPS 프로게이머 겸 스트리머 (안요지 히메 현신)", quote: "\"내 이름이 안(安)공주(히메)잖아! 난 전생부터 히메 쨩을 모실 운명이라고!\"", desc: "'줌 링크 대참사' 해프닝을 딛고 위기에 처한 친구 임은혜를 실시간 위치 핑으로 구출해 낸 뇌지컬 게이머." },
+            { group: "9.4 동세대 유니버스", name: "유초애 (Yoo Cho-ae)", deg: "음악대학 성악과 재학", role: "성악과 수석 소프라노 (오토무네 코즈에 현신)", quote: "\"당신들 뼈도 이렇게 반토막으로 만들어 드릴까요? ^^\"", desc: "기계치라서 컴퓨터 마우스를 물리적으로 박살 내며, 헌팅을 시도하는 불량배들의 각목을 맨손으로 두 동강 내버리는 온화한 미소의 괴력 영애." },
+            { group: "9.4 동세대 유니버스", name: "엠마 체레스떼 (Emma Celeste)", deg: "사회과학대학 국제학부 교환유학생 (스위스 출신)", role: "글로벌 홍보대사 · '아이 좋아 전 집' 2층 하숙생", quote: "\"마이너스 이온 방출~! 보우노(Buono)!!\"", desc: "강하애네 전집에 하숙하며 '스위스 에멘탈 치즈 퐁듀 파전'을 개발하고, 행패 부리는 진상 손님을 알프스 산악 피지컬 '엠마 펀치'로 제압하는 힐링(?) 유학생." },
+            { group: "9.4 동세대 유니버스", name: "주성우 (Ju Seong-woo)", deg: "사회복지학대학 사회복지경영학과 휴학 (사회복무요원)", role: "아동학대 생존 자립청년 · 사회복무요원 권익 수호자", quote: "\"이딴 쓰레기 같은 집구석에서 더 이상 숨 쉬고 싶지 않아.\"", desc: "주민우 일가의 학대를 뚫고 쇠창살을 뜯어 탈출해 자립한 정상인. 에브리타임에서 사회복무요원을 비하한 타 대학 교류학생을 팩트와 법리로 본교에서 영구 추방시켰다." },
+            { group: "9.4 동세대 유니버스", name: "김시율 (Kim Si-yul)", deg: "생명대학 동물·농생명학과 학사", role: "김성민 의원 장남 · 건프라 마스터", quote: "\"동생들아... 카톡 이모티콘 이걸로 보내면 너무 부담스러워하실까? ㅠㅠ\"", desc: "여동생 김시연에게 한정판 PG 건담을 인질로 잡혀 울며 겨자 먹기로 시연과 친구들의 등하교 운전기사를 해주는 착한 오빠." },
+            { group: "9.4 동세대 유니버스", name: "고지원 (Go Ji-won)", deg: "사회복지학대학 사회복지상담학과 재학", role: "고정민 국회의원 장남 · 8호선 유리아 수호자", quote: "\"아빠! 우신면 때문에 우리 유리아 백수 되게 생겼어!!\"", desc: "우신면의 아들에게 당한 학폭과 8호선 모욕을 몽키스패너 프사로 아버지에게 알려 우신면의 정치 생명을 끝장내버린 지능형 효자(?)." },
+            { group: "9.4 동세대 유니버스", name: "백모모 (Baek Mo-mo)", deg: "인문대학 사학과(역사학) 재학", role: "전통 복식·자수 연구가 (모모세 긴코 현신)", quote: "\"백(百)씨 가문의 모모(桃)로서, 굿즈 100개 수집은 예의 아니겠어?\"", desc: "치원군 음자리 출신으로 위기 순간 고막을 찢는 사자후로 일진들을 얼어붙게 만든 반전 매력의 사학도." },
+            { group: "9.4 동세대 유니버스", name: "소남주 (So Nam-ju)", deg: "생활과학대학 소비자학과 재학 (홍콩 유학생)", role: "교수회관 아고라 다이닝 명예 컨설턴트 (쇼우 란쥬 현신)", quote: "\"니하오! 남주가 왔어! 모만타이라(無問題ラ)!\"", desc: "어린 시절 굶주리던 주성우에게 만두를 나눠준 은인이자, 캠퍼스를 평정한 수제 육즙 소롱포의 장인." },
+            { group: "9.4 동세대 유니버스", name: "태미아 (Tae Mia)", deg: "통합의과대학 수의학과 본과 재학 (월반 입학)", role: "정루관 '미아 테일러의 보우이 버거' 레시피 감수자", quote: "\"Stop, baby. 너는 묻지 말고 햄버거나 먹어. 대신 나랑 친구 해.\"", desc: "14세 월반으로 의대 수의학과에 진학한 한미혼혈 천재 소녀로, 정루관 1층 뉴욕 수제버거 조인트를 탄생시켰다." },
+            { group: "9.4 동세대 유니버스", name: "은현성 (Eun Hyeon-seong)", deg: "사회과학대학 심리학과 재학 (2004년생)", role: "은권규 교수 장남 · 무지개 동호회 상식인 브레이크", quote: "\"제발 사고 좀 그만 쳐... 우리 아빠 연구실에 또 논문 데이터로 박제되고 싶냐?\"", desc: "주성우와 함께 폭주하는 여사친들의 뒤치다꺼리와 팩트 정리를 담당하는 심리학도." },
+            { group: "9.4 동세대 유니버스", name: "김유영 (Kim Yu-yeong)", deg: "생활과학대학 조리과학과 재학 (25학번 과탑)", role: "『중수 한우 다이닝』 예비 수셰프 · 12.8만 유튜버 [부쉬도 키친]", quote: "\"강 셰프님의 칼끝에는 무사도(武士道)가 있고, 제 국자 끝에는 가족을 지키는 사랑이 있습니다!\"", desc: "쓰러진 부모님과 동생을 돌보던 영 케어러로, 아파트 입주민들의 부당한 모욕을 박효빈 시장의 합법 복지 행정과 법조계 선배들의 조력으로 이겨내고 조리과학과 수석으로 비상한 폴란드 쿼터 미녀 셰프." },
+            { group: "9.4 동세대 유니버스", name: "김천영 (Kim Cheon-young)", deg: "보건대학 방사선학과 재학 (26학번)", role: "연좌제의 폭력을 이겨낸 예비 보건의료인", quote: "\"나는 아빠처럼 살지 않을 거야. 내 힘으로 아픈 사람들을 돕는 진짜 어른이 될 거야.\"", desc: "사이버 렉카 범죄자였던 부친의 방송을 막기 위해 랜선을 끊고 슈퍼챗을 환불하며 싸웠던 무고한 피해자. 부당한 연좌제 괴롭힘을 피해자들과 박효빈 시장의 구원으로 이겨내고 방사선학과에 당당히 입학했다." },
+
+            // 9.5 ~ 9.7 청년 밴드 유니버스 (14인)
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "허사영 (Heo Sa-yeong)", deg: "사회과학대학 공공학과(법학) 수석 학사 / 법학전문대학원(31동) 재학", role: "로스쿨 원우회장 · 『로젤리아』 리드 기타리스트 (히카와 사요 본체)", quote: "\"연습은 실전처럼, 실전은 연습처럼. 박자 이탈은 용서할 수 없습니다.\"", desc: "4호선 빙천역 명예 역장이자 로스쿨 군기반장이나, 남몰래 패스트푸드점 감자튀김 라지 3개를 흡입하는 갭 모에가 있다." },
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "허아영 · 송화음 · 양이브 · 오미사 (밴드 『해피파스텔월드』)", deg: "천문학과(아영) · 인문대(화음) · 의류학과(이브) · 사회복지실천학과(미사)", role: "서해경전철·이부역 홍보대사 및 『미셸 복지재단』 총괄원장(오미사)", quote: "\"와아~ 언니 기타 소리 완전 룽(るん)♪ 하네!\"", desc: "규격 외 천재 쌍둥이 동생 허아영(히나), 드럼 스틱을 악력으로 분지르는 송화음(카논), 핀란드 혼혈 모델 양이브(이브), 그리고 인형탈 안팎에서 고통받는 상식인 오미사(미사키)로 구성된 01~02년생 언니 라인." },
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "마서령 (Ma Seo-ryeong)", deg: "사회복지학대학 사회복지상담학과 학사 (22학번 졸)", role: "효빈대 부설 종합사회복지관(7-3동) 정식 사회복지사 · 『모르포니카』 보컬", quote: "\"제 생일은 9월 12일이고, 제 학위는 4년간 땀 흘려 얻은 진짜입니다!\"", desc: "본교 과잠을 사 입고 학력·생일을 위조해 접근한 성범죄자 추한석을 2심 법정 복도에서 준엄한 팩폭으로 기절시키고 징역 15년 감옥으로 보내버린 외유내강의 아이콘." },
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "기유호 · 심나나 · 이주시 · 조류희 (밴드 『모르포니카』 22학번 동문)", deg: "의류산업(기유호) · 경제학 전체수석(심나나) · 식품영양(이주시) · 수학·금융경제 수석(조류희)", role: "TOEK-U 대표(유호) · 경제연구원(나나) · 쌍엽푸드 본부장(주시) · 블루벨벳 퀀트이사(류희)", quote: "\"그 확률은 0%입니다. 법의 심판대에서 당신의 죗값을 정밀하게 계산해 드리죠.\"", desc: "22학번 황금세대 졸업생들로, 동료 마서령을 위협한 추한석을 잡기 위해 유류동 별장 미끼 함정 작전을 설계해 경찰과 함께 일망타진한 창전구의 푸른 나비들." },
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "고다솔 & 천애음 (제98대 총학생회장단 · 『미아 밴드』)", deg: "천문학·생명공학 복전(고다솔 23학번) / 정치외교학과(천애음 23학번)", role: "제98대 효빈대학교 총학생회장(고다솔, 84.7%) & 총부학생회장(천애음)", quote: "\"저기... 효빈대 학우 여러분... 나랑 평생(一生) 학교 다닐래...?\"", desc: "화단에서 돌멩이와 반창고를 모으지만 연설대에 서면 학우들의 심장을 울리는 총학생회장 고다솔(토모리)과, 천조마트 외동딸이자 런던 유학 실패담을 자학 개그로 승화해 선거를 압승으로 이끈 부회장 천애음(아논) 콤비." },
+            { group: "9.5~9.7 밴드 유니버스(로젤·하로·모니카·마이고·무지카)", name: "이사희 & 문주미 (밴드 『효빈무지카』 23학번 수석 듀오)", deg: "상과대학 경영학과 수석(이사희) / 농업대학 원예학과 수석(문주미)", role: "풍천복지재단 청년이사장(이사희) & 원예학과 오이 온실장(문주미)", quote: "\"어서 오십시오, 달빛 아래의 가면무도회 『효빈무지카』의 세계에.\"", desc: "경영학과 회계 포렌식 실력으로 윤대환 일가의 168억 유령 채권을 박살 내고 가문을 되찾은 이사희(사키코)와, 최애 성우 내한을 취소시킨 계엄 세력을 규탄하며 무농약 오이 응원봉을 들고 집회에 개근한 문주미(무츠미)." },
+
+            // 11. 효빈교통공사 마스코트 동문 4인방 (원문 100% 반영)
+            { group: "11. 효빈교통공사 마스코트 동문", name: "고나미 (Ko Nami · 1호선 마스코트)", deg: "교통대학 철도운전시스템공학과 학사 수석 졸업", role: "효빈교통공사 1호선 수석기관사 (대리)", quote: "\"규정은 선배들의 피로 쓰였습니다. 매뉴얼 외울래?\"", desc: "교통대학을 수석으로 졸업한 ISTJ 군기반장. 만취하면 입으로 '출입문 닫습니다 췻-' 소리까지 내며 광역전철 안내방송을 완창하는 주사가 있으며, 과 회식에서 삼겹살 굽는 소리가 미쓰비시 GTO 초기형 인버터 구동음과 주파수가 같음을 튜너 앱으로 증명해 회식 자리를 얼려버린 중증 철덕." },
+            { group: "11. 효빈교통공사 마스코트 동문", name: "하루빈 (Ha Rubin · 2호선 마스코트)", deg: "교통대학 철도운영시스템공학과 학사 졸업", role: "효빈교통공사 2호선 역무원", quote: "\"수학 5등급으로 공대를 뚫어버린 기적의 생기부와 합법적 월급루팡\"", desc: "수학 5등급 수포자였으나 현란한 언변과 면접 스킬로 교통대학을 뚫은 처세술 만렙 인싸. 고나미 선배의 잔소리를 녹음한 '극대노 ASMR.mp3'를 기상 알람으로 쓰며, 아오바 모카 래핑 열차와 벤티 사이즈 아바라로 생명을 유지한다." },
+            { group: "11. 효빈교통공사 마스코트 동문", name: "미소하 (Mi Soha · 5호선 마스코트)", deg: "사회복지학대학 사회복지정책학과 1학년 재학", role: "효빈교통공사 5호선 마스코트 · 예산분석 학회원", quote: "\"아기 목소리로 팩트 미사일을 쏘는 3.8kg 빨간 바인더의 악마\"", desc: "박효빈 시장의 직속 학과 후배. 문과생임에도 미적분과 R·Python 통계를 씹어 먹은 천재로, 혀 짧은 아기 목소리로 예산안을 난도질하며 화나면 3.8kg 예산 분석 빨간 바인더를 빌런의 정강이에 떨어뜨린다. 마라탕 5단계를 먹으며 논문을 읽는 맵부심 소유자." },
+            { group: "11. 효빈교통공사 마스코트 동문", name: "임세하 (Im Seha · 7호선 마스코트)", deg: "기계공업대학 기계공학과 1학년 재학", role: "효빈교통공사 7호선(트램) 마스코트 · 정비너드", quote: "\"기계 앞에서는 랩을 뱉고 사람 앞에서는 고장 나는 중증 공대 너드\"", desc: "필리핀 다문화 가정 6남매 중 넷째로 대학 영어에서 고전하며 평점 2점대를 기어 다니지만 모터·납땜·배터리 효율 앞에서는 눈이 빛나는 공대생. 친구(미소하·전노아)들에게 직접 납땜한 GPS 우정 밴드를 채운 숨은 소유욕 능력자이자, 정비복 속에 반전 베이글 체형(B87)을 숨긴 2026 HAF 포스터 대상 수상자." }
+        ];
+
+        // ================= [데이터베이스 3] 프로 낙선러 열전 (2.6) & 학내 흑역사·징계·제명 기록 (14인) =================
+        const DARK_HISTORY_DB = [
+            // 2.6 프로 낙선러 열전 (8인)
+            { cat: "2.6 원외 프로 낙선러", name: "송재섭 (Song Jae-seop)", deg: "사회과학대학 행정학과 학사", role: "국민의힘 효빈 청엽구 당협위원장", quote: "\"가성비 10% 사수, 짠내 나는 청엽의 보수 파수꾼.\"", desc: "보수의 무덤인 청엽구에서 구청장 선거에 연거푸 도전해 9회 지선에서 10.30%로 아슬아슬하게 반액 선거비 보전 커트라인(10%)을 사수한 생존왕." },
+            { cat: "2.6 원외 프로 낙선러", name: "신원직 (Shin Won-jik)", deg: "법과대학 법학과 학사", role: "국민의힘 효빈 서구 당협위원장 · 신원로지스 대표", quote: "\"국힘에서 개혁신당으로, 다시 국힘으로 돌아온 연어형 철새.\"", desc: "험지 대우에 불만을 품고 탈당했다가 1년 만에 복당했으나, 9회 지선에서 부서원 후보(70.20%)에게 14.30%로 참패했다." },
+            { cat: "2.6 원외 프로 낙선러", name: "성주현 (Seong Ju-hyun)", deg: "토목공업대학 토목공학과 학사", role: "국민의힘 효빈 창전구 을 당협위원장", quote: "\"중도 실용의 정신으로 창전의 발전을 이끌겠습니다! (결과는 8% 폭망)\"", desc: "과거 국민의당 시절 35%를 득표했으나 잘못된 당적 변경으로 8%대 군소 후보로 추락한 비운의 정치인." },
+            { cat: "2.6 원외 프로 낙선러", name: "오한길 (Oh Han-gil)", deg: "사범대학 교육학과 학사", role: "국민의힘 효빈 북구 을 당협위원장", quote: "\"이름에 '한길'이 들어가면 다들 폭주하는 병에 걸리나.\"", desc: "부정선거 음모론과 12.3 비상계엄 찬양 발언으로 사능동 주민들에게 심판받아 8%대 득표로 선거비를 날렸다." },
+            { cat: "2.6 원외 프로 낙선러", name: "유줄리 (Yoo Julie)", deg: "법학전문대학원 법학 전문석사", role: "전 국민의힘 북구 병 당협위원장 · 변호사", quote: "\"중수동 사람들 수준이 너무 낮아서 선거운동 하기 힘들어...\"", desc: "유권자 비하 녹취록 유출로 22대 총선에서 9.94%(0.06%p 차이로 선거비 전액 미보전!)라는 대참사를 겪은 뒤 서해시장 선거(28%)로 도피해 겨우 선거비를 보전받았다." },
+            { cat: "2.6 원외 프로 낙선러", name: "조낙지 (Cho Nak-ji)", deg: "사회과학대학 정치외교학과 학사", role: "새미래민주당 효빈시당 위원장 (청엽 을 낙선)", quote: "\"이름은 낙지인데, 왜 자꾸 선거에서 미끄러지나...\"", desc: "진짜 낙지 인형탈을 쓰고 유세를 펼쳤으나 거대 양당 틈바구니에서 매번 낙선하는 비운의 제3지대 정치인." },
+            { cat: "2.6 원외 프로 낙선러", name: "추하다 (Chu Ha-da)", deg: "사회과학대학 정치외교학과 학사", role: "새로운미래 전 효빈시당 위원장 (북구 병 낙선)", quote: "\"정치가 추하지 않아야 나라가 삽니다. (가을 秋, 여름 夏, 많을 多)\"", desc: "한자 뜻은 좋으나 한글 이름 때문에 현수막마다 낙서 테러를 당하며 8%대 득표에 머물렀다." },
+            { cat: "2.6 원외 프로 낙선러", name: "색수통 (Saek Su-tong)", deg: "사회과학대학 정치외교학과 학사", role: "개혁신당 전 효빈 남구청장 후보", quote: "\"색다른 정치! 색수통이 합니다!\"", desc: "특이한 이름 때문에 식당 예약조차 보이스피싱으로 오해받으며 22대 총선에서 1.12% 득표율을 기록한 후보." },
+
+            // 5.4 및 학내 제적·출교·파면·사칭 흑역사 빌런 (6건)
+            { cat: "5.4 제적·출교·파면 흑역사", name: "이차야 (Lee Cha-ya)", deg: "효빈대학교 학부 제적 (중퇴)", role: "극우 단체 '바른문화지킴이' 대표 (윤재훈 추종자)", quote: "\"이 도시는 썩었어! 만화 영화나 보는 놈들이 세금을 낭비하고 있다고!\"", desc: "학점 미달로 제적된 후 공공기관을 돌며 행패를 부리다 이미사 원장의 팩폭, 이직하 원장의 3,000도 용접 토치, 이세희 대표의 물리적 퇴거에 매번 털리는 기관장 전투력 측정기." },
+            { cat: "5.4 제적·출교·파면 흑역사", name: "조창렬 · 이송윤 · 전개욱 (학적 영구말살)", deg: "2023년 학생상벌위원회 『영구 출교(퇴학)』 처분", role: "교내 권력형 성폭력 미수 및 근로장학생 협박 가해자 (수감중)", quote: "[단죄 결과] 1심 하성휘 판사 징역 12년 ➔ 2심 구정연 고법 부장판사 원심파기 징역 15년 확정 · 30억 민사 가압류", desc: "국가근로 시급 삭감으로 고통받던 학우(고노애)를 협박하고 모교 동문까지 음해했으나, 제26대 민부선 총장의 무관용 원칙으로 단 1초 만에 영구 출교되고 중형에 처해졌다." },
+            { cat: "5.4 제적·출교·파면 흑역사", name: "안농운 (Ahn Nong-woon · 파면)", deg: "2023년 교원징계위원회 『즉각 파면(연금 박탈)』", role: "전 교수 (연구비 횡령 및 피해 학생 2차 가해범 · 수감중)", quote: "[단죄 결과] 특정경제범죄가중처벌법(횡령) 및 강요죄 대법원 징역 30년 확정", desc: "조창렬 일당을 비호하며 피해 학우에게 합의서를 강요했다가 민부선 총장의 특별감사로 연구비 수십억 횡령이 적발되어 파면 및 징역 30년형을 선고받았다." },
+            { cat: "5.4 제적·출교·파면 흑역사", name: "추한석 (Chu Han-seok · 외부 사칭범)", deg: "본교 학적 없음 (타 부실대 제적생 · 사범대 체육교육과 과잠 도용범)", role: "학력·생일 위조 스토킹 및 성폭행 미수범 (수감중)", quote: "[단죄 결과] 이아리 검사 구형 · 하성휘 부장판사 선고 징역 15년 및 위치추적 전자발찌 15년 확정", desc: "중고 거래로 효빈대 체육교육과 과잠을 사 입고 본교생 행세를 하며 마서령 동문을 위협했으나, 모르포니카 5인방의 유류동 별장 함정 작전으로 검거되어 법정 최고형으로 격리되었다." },
+            { cat: "5.4 제적·출교·파면 흑역사", name: "부동산학과 A씨 (성적불량 제적)", deg: "상과대학 부동산학과 학사경고 누적 제적", role: "두청운수 및 고립주의 찬양 리포트 제출자", quote: "[단죄 결과] 최형석 교수 '도시계획사' F학점 부여 및 성적 이의신청 기각 제적", desc: "기말 대체 리포트로 윤대환 전 시장의 75인승 가축수송 버스를 찬양하는 궤변을 제출했다가 최형석·태상훈 교수에게 논리로 분쇄당하고 학교를 떠났다." }
+        ];
+
+        const ALUMNI_STORIES_DB = [
+            {
+                tag: "공공행정 · 사회복지 · 데이터분석",
+                title: "\"사회복지정책론의 정의감과 경영학·통계 자격증이 현장을 바꾸는 가장 강력한 무기가 됩니다.\"",
+                mentor: "박효빈 동문 (사회복지정책학과·경영학과 복수전공 15학번 · 효빈광역시장)",
+                summary: "학부 시절 130페이지 분량의 가족돌봄청년 지원 실습 프로포절을 쓰고, 휴학 중 독학으로 ADsP·SQLD·사회조사분석사 2급·컴활 2급을 취득했던 과정은 결코 헛되지 않았습니다. 복지는 따뜻한 가슴으로 시작하지만, 예산을 확보하고 조례를 통과시키는 것은 치밀한 회계와 통계 데이터이기 때문입니다."
+            },
+            {
+                tag: "도시철도 · 공기업 경영 · 모에 철도학",
+                title: "\"철도는 단순한 쇳덩어리가 아니라 시민의 꿈과 문화를 실어 나르는 무대입니다.\"",
+                mentor: "최대현 동문 (교통대학 철도운영학과 학사·박사 · 효빈광역시 경제부시장)",
+                summary: "오다구 교수님 연구실에서 철도 노선도와 서브컬처 IP 결합 모델을 연구할 때만 해도 모두가 무모하다고 비웃었습니다. 그러나 지금 효빈교통공사는 영업이익 1조 원을 달성하며 전 세계 철도 공기업의 롤모델이 되었습니다."
+            },
+            {
+                tag: "사법정의 · 인권보호 · 로스쿨",
+                title: "\"법학전문대학원(31동)의 불빛이 꺼지지 않는 한, 약자를 짓밟는 범죄자에게 관용은 없습니다.\"",
+                mentor: "하성휘 부장판사 & 이아리 수석공소관 (법과대학 · 법학전문대학원 동문)",
+                summary: "기계적으로 대필한 반성문 300장보다 피해자의 눈물 한 방울의 무게를 먼저 헤아리는 것이 우리 효빈 법학도들의 전통입니다. 정의의 탑(31동)에서 판례집과 씨름하는 후배 여러분을 법조 현장에서 기다리겠습니다."
+            },
+            {
+                tag: "외식창업 · 조리과학 · 멘토링",
+                title: "\"12동 조리실습실에서 마늘 100알을 썰며 배운 기본기, 그리고 편식하는 친구도 웃게 만든 육수 한 그릇\"",
+                mentor: "나수민 동문 (생활과학대학 조리과학과 15학번 · 고송동 다이닝 메인 셰프)",
+                summary: "학부 시절 엘린지역아동센터에서 아이들의 저녁밥을 짓고, 야채를 싫어하는 소꿉친구를 위해 밤새워 한우 콘소메 육수를 우려냈던 경험이 지금 제 레스토랑의 시그니처 메뉴가 되었습니다."
+            }
+        ];
+
+        const ALUMNI_TAB_TITLES = {
+            proud: "자랑스러운 동문 및 역대 인물 대백과 (전원 수록)",
+            students: "주요 재학생 · 20대 청년동문 · 마스코트 동문",
+            dark: "원외 프로 낙선러 열전 & 학내 흑역사 기록원부",
+            stories: "선배들의 이야기 & 동문 카르텔 비하인드",
+            association: "사단법인 효빈대학교 총동창회 & 민주열사 추모관"
+        };
+
+        let currentFieldFilter = 'ALL';
+        let currentStudentGroup = 'ALL';
+
+        // 상단 메가메뉴 클릭 시 즉시 해당 SPA 탭으로 전환
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuToTab = {
+                "자랑스러운 동문": "proud",
+                "선배들의 이야기": "stories",
+                "총동문회": "association"
+            };
+            if (menuToTab[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                switchAlumniTab(menuToTab[txt]);
+            }
+        }, true);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProudAlumni();
+            renderStudentUniverse();
+            renderDarkHistory();
+            renderAlumniStories();
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (ALUMNI_TAB_TITLES[initHash]) switchAlumniTab(initHash);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (ALUMNI_TAB_TITLES[h]) switchAlumniTab(h);
+        });
+
+        function switchAlumniTab(tabKey) {
+            const validKey = ALUMNI_TAB_TITLES[tabKey] ? tabKey : 'proud';
+            document.querySelectorAll('.alumni-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById('aview-' + validKey)?.classList.remove('hidden');
+
+            Object.keys(ALUMNI_TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('atab-btn-' + k);
+                if (!btn) return;
+                const extraCol = k === 'association' ? 'col-span-2 sm:col-span-1 ' : '';
+                if (k === validKey) {
+                    btn.className = `alumni-tab-btn ${extraCol}px-3 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm`;
+                } else {
+                    btn.className = `alumni-tab-btn ${extraCol}px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all`;
+                }
+            });
+            document.getElementById('alumni-breadcrumb').innerText = ALUMNI_TAB_TITLES[validKey];
+            history.replaceState(null, null, '#' + validKey);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function filterProudAlumni(fld) {
+            currentFieldFilter = fld;
+            document.querySelectorAll('.fld-btn').forEach(btn => {
+                if (btn.getAttribute('data-fld') === fld) {
+                    btn.className = "fld-btn px-3 py-1.5 rounded-xl font-black bg-[#1e2a78] text-white";
+                } else {
+                    btn.className = "fld-btn px-3 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            });
+            renderProudAlumni();
+        }
+
+        function renderProudAlumni() {
+            const grid = document.getElementById('proud-alumni-grid');
+            if (!grid) return;
+            const q = (document.getElementById('proud-search-input')?.value || '').trim().toLowerCase();
+
+            const filtered = PROUD_ALUMNI_DB.filter(a => {
+                const matchFld = currentFieldFilter === 'ALL' || a.field === currentFieldFilter;
+                const matchQ = !q || a.name.toLowerCase().includes(q) || a.deg.toLowerCase().includes(q) || a.role.toLowerCase().includes(q) || a.quote.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q);
+                return matchFld && matchQ;
+            });
+
+            document.getElementById('proud-count').innerText = filtered.length;
+
+            grid.innerHTML = filtered.map(a => `
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#3344aa] transition-all flex flex-col justify-between space-y-3 shadow-sm">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded bg-blue-100 text-[#1e2a78]">${a.field}</span>
+                            <span class="text-[11px] font-bold text-emerald-800">🎓 ${a.deg}</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">${a.name}</h3>
+                        <div class="text-xs font-extrabold text-[#3344aa]">${a.role}</div>
+                        <blockquote class="p-2.5 rounded-xl bg-white border-l-4 border-[#3344aa] text-xs font-bold text-slate-800 italic">
+                            ${a.quote}
+                        </blockquote>
+                        <p class="text-xs text-slate-600 leading-relaxed pt-1">${a.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterStudentUniverse(grp) {
+            currentStudentGroup = grp;
+            renderStudentUniverse();
+        }
+
+        function renderStudentUniverse() {
+            const grid = document.getElementById('student-universe-grid');
+            if (!grid) return;
+            const filtered = STUDENT_UNIVERSE_DB.filter(s => currentStudentGroup === 'ALL' || s.group === currentStudentGroup);
+
+            grid.innerHTML = filtered.map(s => `
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-600 transition-all space-y-2.5 shadow-sm">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-900">${s.group}</span>
+                        <span class="text-[11px] font-bold text-[#1e2a78]">🎓 ${s.deg}</span>
+                    </div>
+                    <h3 class="text-lg font-black text-slate-900">${s.name}</h3>
+                    <div class="text-xs font-extrabold text-emerald-800">${s.role}</div>
+                    <blockquote class="p-2.5 rounded-xl bg-white border-l-4 border-emerald-600 text-xs font-bold text-slate-800 italic">
+                        ${s.quote}
+                    </blockquote>
+                    <p class="text-xs text-slate-600 leading-relaxed pt-1">${s.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderDarkHistory() {
+            const grid = document.getElementById('dark-history-grid');
+            if (!grid) return;
+            grid.innerHTML = DARK_HISTORY_DB.map(d => `
+                <div class="p-5 rounded-2xl bg-rose-50/40 border border-rose-200 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded bg-rose-600 text-white">${d.cat}</span>
+                        <span class="text-[11px] font-bold text-rose-900">🎓 ${d.deg}</span>
+                    </div>
+                    <h3 class="text-lg font-black text-slate-900">${d.name}</h3>
+                    <div class="text-xs font-extrabold text-rose-700">${d.role}</div>
+                    <blockquote class="p-2.5 rounded-xl bg-white border-l-4 border-rose-600 text-xs font-bold text-slate-800">
+                        ${d.quote}
+                    </blockquote>
+                    <p class="text-xs text-slate-700 leading-relaxed pt-1">${d.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderAlumniStories() {
+            const grid = document.getElementById('alumni-stories-grid');
+            if (!grid) return;
+            grid.innerHTML = ALUMNI_STORIES_DB.map(s => `
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 hover:border-[#3344aa] transition-all">
+                    <span class="bg-emerald-100 text-emerald-800 text-[11px] font-black px-2.5 py-0.5 rounded">${s.tag}</span>
+                    <h3 class="text-base md:text-lg font-black text-[#1e2a78] leading-snug">${s.title}</h3>
+                    <div class="text-xs font-bold text-slate-800">🎙️ 인터뷰이: ${s.mentor}</div>
+                    <p class="text-xs text-slate-600 leading-relaxed bg-white p-4 rounded-xl border border-slate-200">${s.summary}</p>
+                </div>
+            `).join('');
+        }
+    </script>
 </body>
 </html>

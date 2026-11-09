@@ -13,7 +13,7 @@
         .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
         /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
-        #header-area img { max-height: 44px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
         #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
 
         /* 공식 A4 증명서 용지 스타일 */
@@ -22,21 +22,21 @@
             border: 1px solid #cbd5e1;
             box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
             position: relative;
-            overflow: hidden;
         }
         .cert-border-inner {
             border: 3px double #1e2a78;
             position: relative;
             z-index: 10;
+            background: transparent;
         }
         .cert-watermark {
             position: absolute;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 95px;
+            font-size: 80px;
             font-weight: 900;
-            color: rgba(51, 68, 170, 0.045);
+            color: rgba(51, 68, 170, 0.04);
             white-space: nowrap;
             pointer-events: none;
             z-index: 1;
@@ -59,11 +59,92 @@
             box-shadow: inset 0 0 0 1px #dc2626;
         }
 
-        /* 인쇄 시 증명서 모달만 깔끔하게 A4 출력 */
+        /* 학기별 블록 페이지 잘림 방지 */
+        .sem-block {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        /* ★ 다중 페이지(2페이지 이상) 인쇄 시 절대 겹치지 않는 정밀 프린트 전용 CSS ★ */
         @media print {
-            body * { visibility: hidden; }
-            #cert-print-area, #cert-print-area * { visibility: visible; }
-            #cert-print-area { position: fixed; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+            html, body {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            /* 인쇄 시 불필요한 웹 UI 전체 숨김 */
+            #header-area,
+            #top-sub-banner,
+            #sso-session-bar,
+            #main-workspace,
+            #footer-area,
+            #viewer-toolbar,
+            #student-id-modal,
+            #verify-modal,
+            .cert-watermark {
+                display: none !important;
+            }
+            /* 모달 컨테이너의 fixed/flex/scroll을 완전히 해제하여 일반 문서 흐름으로 전환 */
+            #cert-viewer-modal {
+                position: static !important;
+                display: block !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            #cert-viewer-dialog {
+                position: static !important;
+                display: block !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                max-height: none !important;
+                height: auto !important;
+                border: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                overflow: visible !important;
+            }
+            #cert-scroll-wrapper {
+                position: static !important;
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: transparent !important;
+                overflow: visible !important;
+            }
+            #cert-print-area {
+                position: static !important;
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                overflow: visible !important;
+            }
+            #cert-paper-inner {
+                position: static !important;
+                display: block !important;
+                min-height: 0 !important;
+                padding: 6mm !important;
+                border: 2px solid #1e2a78 !important;
+            }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            thead { display: table-header-group; }
+            .sem-block { break-inside: avoid !important; page-break-inside: avoid !important; }
+            .cert-footer-block { break-inside: avoid !important; page-break-inside: avoid !important; }
         }
 
         ::-webkit-scrollbar { width: 7px; height: 7px; }
@@ -77,7 +158,7 @@
     <div id="header-area"></div>
 
     <!-- 상단 서브 배너 -->
-    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-10 border-b-4 border-[#99dd88]">
+    <section id="top-sub-banner" class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-10 border-b-4 border-[#99dd88]">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
                 <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
@@ -89,43 +170,60 @@
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
                 <div>
                     <div class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-[#99dd88] mb-2 border border-white/15">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 블록체인 위변조 방지 바코드 & 전자증명서(PDF) 원스톱 발급
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 학적·전공·거주 자격 자동검증 & 다중페이지 A4 전자증명서(PDF) 발급
                     </div>
                     <h1 class="text-2xl md:text-4xl font-black tracking-tight">HBNU 인터넷 증명발급 및 학생증 통합센터</h1>
-                    <p class="text-xs md:text-sm text-blue-100 mt-1.5">
-                        사회복지정책학과 학회 『행정력 낭비 감시단』의 제도 개선 건의에 따라 <strong>재학생·휴학생 인터넷 증명서 수수료 100% 감면(무료)</strong> 및 <strong>위변조 방지 PDF 전자증명서 저장</strong>이 전면 지원됩니다.
+                    <p class="text-xs md:text-sm text-blue-100 mt-1.5 max-w-3xl leading-relaxed">
+                        효빈대학교 교무처 학사관리팀(1동 2층) 및 정보화본부(45동)에서 운영하는 공식 증명서 발급 포털입니다. 신청자의 <strong>학적상태(재학·휴학·졸업), 소속 전공, 복수/부전공 여부, 생활관 거주 이력</strong>을 실시간 검증하여 적격 증명서만 발급합니다.
                     </p>
                 </div>
                 <div class="flex flex-wrap gap-2 shrink-0">
                     <button onclick="openVerifyModal()" class="bg-[#99dd88] text-[#1e2a78] font-black px-4 py-2.5 rounded-xl text-xs shadow hover:bg-white transition-all flex items-center gap-1.5">
-                        <i data-lucide="qr-code" class="w-4 h-4"></i> 증명서 원본대조 확인(문서확인번호 검증)
+                        <i data-lucide="qr-code" class="w-4 h-4"></i> 증명서 원본대조 확인(진위검증)
                     </button>
                     <button onclick="openStudentIdCardModal()" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
-                        <i data-lucide="id-card" class="w-4 h-4 text-[#a0fff9]"></i> 모바일 학생증 (HBNU Rail 교통패스)
+                        <i data-lucide="id-card" class="w-4 h-4 text-[#a0fff9]"></i> 모바일 학생증 (HBNU Rail 패스)
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 메인 컨텐츠 -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
-
-        <!-- 1. 발급 대상자(학적/성적 샘플 프로필 7종) 실시간 스위처 -->
-        <section class="bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
-                <div>
-                    <span class="text-[11px] font-black text-[#3344aa] uppercase tracking-wider">STEP 1 · APPLICANT PROFILE & REALISTIC GRADE SIMULATOR (7 CASES)</span>
-                    <h2 class="text-lg font-black text-slate-900">신청자 학적 프로필 선택 (재학생·휴학생·졸업생 7인 실제 성적·이수 샘플)</h2>
-                </div>
-                <span class="text-xs text-slate-500">💡 아래 7명의 샘플을 클릭하면 각 인물의 실제 학기별 성적(4.11 고인물 중위권 강하애, 4.05 졸업 박효빈 시장, 실기몰빵 나수미 등)으로 모든 증명서가 즉시 전환됩니다.</span>
+    <!-- 학사포털 SSO 로그인 세션 및 학번 조회 바 -->
+    <div id="sso-session-bar" class="bg-[#111827] text-white border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-500/20 text-[#99dd88] border border-emerald-500/40 px-2.5 py-1 rounded font-bold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-[#99dd88] animate-pulse"></span> HBNU SSO 전자증명 보안인증 접속중
+                </span>
+                <span class="text-slate-400 hidden sm:inline">학적·전공·생활관 자격 검증엔진 가동중</span>
             </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <label for="cert-student-select" class="text-slate-300 font-bold flex items-center gap-1">
+                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#a0fff9]"></i> 발급 대상 학적(학번/성명):
+                </label>
+                <select id="cert-student-select" onchange="selectProfile(this.value)" class="bg-slate-800 text-white border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-[#99dd88] cursor-pointer">
+                </select>
+            </div>
+        </div>
+    </div>
 
-            <!-- 7인 샘플 선택 버튼 그리드 -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-5" id="profile-selector-grid"></div>
+    <!-- 메인 컨텐츠 -->
+    <main id="main-workspace" class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
 
-            <!-- 현재 선택된 학생 요약 카드 -->
-            <div id="active-profile-summary" class="bg-slate-900 text-white rounded-2xl p-4 md:p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-xs border border-slate-700"></div>
+        <!-- 1. 신청자 학적 기본원부 요약 테이블 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="id-card" class="w-4 h-4 text-[#3344aa]"></i>
+                    <h2 class="text-sm font-black text-slate-800">신청자 학적 기본원부 및 증명서 발급 적격 판정 요약</h2>
+                </div>
+                <div class="flex items-center gap-3 text-xs">
+                    <span id="eligible-cert-summary" class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200"></span>
+                    <a href="hbnu_grade_check.html" class="text-[#3344aa] font-bold hover:underline">통합학사시스템 바로가기 ➔</a>
+                </div>
+            </div>
+            <div id="active-profile-summary" class="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-xs divide-y sm:divide-y-0 sm:divide-x divide-slate-100"></div>
         </section>
 
         <!-- 2. 증명서 선택 폼 (좌측 8칸) + 장바구니/발급 패널 (우측 4칸) -->
@@ -138,13 +236,13 @@
                 <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     <div class="flex flex-wrap gap-1.5" id="cert-category-tabs">
                         <button onclick="setCertCategory('ALL')" data-cat="ALL" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-black bg-[#3344aa] text-white">전체 (28종)</button>
+                        <button onclick="setCertCategory('ELIGIBLE_ONLY')" data-cat="ELIGIBLE_ONLY" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100">✅ 발급가능만 보기</button>
                         <button onclick="setCertCategory('학적·졸업')" data-cat="학적·졸업" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">학적·졸업 (8)</button>
                         <button onclick="setCertCategory('성적·교직·융합')" data-cat="성적·교직·융합" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">성적·교직·융합 (6)</button>
-                        <button onclick="setCertCategory('등록·장학·연말정산')" data-cat="등록·장학·연말정산" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">등록·장학·교육비 (5)</button>
+                        <button onclick="setCertCategory('등록·장학·연말정산')" data-cat="등록·장학·연말정산" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">등록·장학·생활관 (5)</button>
                         <button onclick="setCertCategory('철도·복지·임상·특화')" data-cat="철도·복지·임상·특화" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">철도·복지·임상실습 (6)</button>
-                        <button onclick="setCertCategory('학생증·국제학생증')" data-cat="학생증·국제학생증" class="cert-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">학생증 발급 (3)</button>
                     </div>
-                    <input type="text" id="cert-search-input" oninput="renderCertificateList()" placeholder="증명서 명칭 검색..." class="border border-slate-300 rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[#3344aa] min-w-[180px]">
+                    <input type="text" id="cert-search-input" oninput="renderCertificateList()" placeholder="증명서 명칭 검색..." class="border border-slate-300 rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[#3344aa] min-w-[160px]">
                 </div>
 
                 <!-- 발급 옵션 설정 바 -->
@@ -157,9 +255,9 @@
                         </select>
                     </div>
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">📊 성적표 표기 옵션</label>
+                        <label class="font-bold text-slate-700 block mb-1">📊 성적증명서 표기 옵션</label>
                         <select id="opt-gpa-mode" class="w-full border border-blue-300 rounded-lg px-2.5 py-1.5 font-bold bg-white">
-                            <option value="ALL">전체 학기 (F·재수강 이력 포함 원본)</option>
+                            <option value="ALL">전체 학기 (전 과목 원본 표기)</option>
                             <option value="PASS_ONLY">제출용 (F학점 제외·재수강 갱신분)</option>
                         </select>
                     </div>
@@ -167,16 +265,16 @@
                         <label class="font-bold text-slate-700 block mb-1">🔒 생년월일·식별번호 표기</label>
                         <select id="opt-masking" class="w-full border border-blue-300 rounded-lg px-2.5 py-1.5 font-bold bg-white">
                             <option value="MASK">생년월일만 표기 (권장·개인정보보호)</option>
-                            <option value="ASTR">뒷자리 마스킹 (******-*)</option>
+                            <option value="ASTR">뒷자리 마스킹 표기 (******-*)</option>
                         </select>
                     </div>
                     <div>
                         <label class="font-bold text-slate-700 block mb-1">🏢 증명서 제출 용도</label>
                         <select id="opt-purpose" class="w-full border border-blue-300 rounded-lg px-2.5 py-1.5 font-bold bg-white">
-                            <option value="공공기관 및 대기업 채용 제출용">공공기관 및 대기업 채용 제출용</option>
-                            <option value="관공서·병무청·구청 행정 제출용">관공서·병무청·구청 행정 제출용</option>
-                            <option value="한국장학재단 및 교외장학금 신청용">한국장학재단 및 교외장학금 신청용</option>
-                            <option value="국세청 연말정산 소득공제 제출용">국세청 연말정산 소득공제 제출용</option>
+                            <option value="공공기관 및 기업체 채용 제출용">공공기관 및 기업체 채용 제출용</option>
+                            <option value="관공서·병무청·지자체 행정 제출용">관공서·병무청·지자체 행정 제출용</option>
+                            <option value="한국장학재단 및 교외장학재단 제출용">한국장학재단 및 교외장학재단 제출용</option>
+                            <option value="국세청 연말정산 세액공제 증빙용">국세청 연말정산 세액공제 증빙용</option>
                             <option value="대학원 진학 및 국가자격시험 응시용">대학원 진학 및 국가자격시험 응시용</option>
                         </select>
                     </div>
@@ -185,31 +283,31 @@
                 <!-- 증명서 체크박스 리스트 컨테이너 -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="bg-slate-50 px-5 py-3 border-b flex justify-between items-center text-xs font-bold text-slate-600">
-                        <span>발급 가능 증명서 목록 (체크 시 우측 바구니에 담기며, [미리보기] 클릭 시 즉시 열람 가능)</span>
+                        <span>증명서 목록 (신청자의 학적·전공·거주 요건에 부합하는 증명서만 활성화됩니다)</span>
                         <span id="cert-list-count" class="text-[#3344aa]">28종</span>
                     </div>
                     <div id="certificate-list-container" class="divide-y divide-slate-100 max-h-[680px] overflow-y-auto"></div>
                 </div>
 
                 <!-- 유의사항 및 오프라인 무인발급기(키오스크) 위치 안내 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-xs text-slate-600">
-                    <h4 class="font-black text-slate-800 text-sm flex items-center gap-1.5">
-                        <i data-lucide="info" class="w-4 h-4 text-[#3344aa]"></i> 증명서 발급 안내 및 교내 무인발급기(Kiosk) 설치 장소
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-xs text-slate-600">
+                    <h4 class="font-black text-slate-900 text-sm flex items-center gap-1.5">
+                        <i data-lucide="info" class="w-4 h-4 text-[#3344aa]"></i> 학적별 증명서 발급 제한 기준 및 교내 무인발급기(Kiosk) 설치 안내
                     </h4>
-                    <ul class="list-disc pl-5 space-y-1 leading-relaxed">
-                        <li><strong>온라인 즉시 발급(무료):</strong> 사회복지정책학과 학회 『행정력 낭비 감시단』의 건의안 채택으로, 인터넷 출력 및 전자증명서(PDF) 발급 수수료는 재학생·휴학생 전원 <strong>0원(전액 감면)</strong>입니다. (단, 교내 무인발급기 홀로그램 인화지 출력 시 통당 500~1,000원 부과)</li>
-                        <li><strong>위변조 방지 검증:</strong> 발급된 모든 증명서 하단에는 16자리 <strong>고유 문서확인번호</strong>와 <strong>타임스탬프 바코드</strong>가 인쇄되며, 상단 [원본대조 확인] 메뉴에서 진위 여부를 즉시 조회할 수 있습니다.</li>
-                        <li><strong>교내 24시간 무인발급기 위치:</strong> ① 대학본부(1동) 1층 로비, ② 학생복지회관(2동) 1층, ③ 사회복지학대학(7-1동) 1층, ④ 중앙도서관(23동) 및 방도도서관(36동) 로비, ⑤ 예술대학 1호관(26-1동) 로비, ⑥ 효빈대 중앙환승장(A09/B06역) 1층, ⑦ 효빈대학교병원 본관(59동) 원무과 옆, ⑧ 이자(I-01)·천주(C-01)·낭원(N-01)·강주(G-01) 행정관 로비.</li>
+                    <ul class="list-disc pl-5 space-y-1.5 leading-relaxed">
+                        <li><strong>학적 상태별 발급 구분:</strong> 학칙 제64조에 의거하여 <strong>기졸업자</strong>는 <code>졸업증명서/학위수여증명서</code>가 발급되며 <code>재학증명서·휴학증명서</code>는 발급되지 않습니다. <strong>휴학생</strong>은 <code>휴학증명서</code> 및 <code>재적증명서</code>가 발급되며, <strong>재학생</strong>은 <code>재학증명서</code> 및 <code>졸업예정증명서(4학년 7학기 이상)</code>가 발급됩니다.</li>
+                        <li><strong>전공·실습·거주 자격 자동 검증:</strong> <code>사회복지현장실습 이수확인서</code>는 사회복지학대학 소속 실습 이수자에게만 발급되며, <code>학생생활관(기숙사) 입사확인서</code>는 생활관 실제 입사 기록이 있는 학생에게만 발급됩니다(통학생 발급 불가).</li>
+                        <li><strong>다중 페이지 A4 인쇄 최적화:</strong> 전 학기 성적증명서 인쇄 시 학기 블록 단위로 페이지가 자동 분할되어 2페이지 이후에도 겹침 없이 출력됩니다.</li>
                     </ul>
                 </div>
             </div>
 
             <!-- 우측: 신청 장바구니 & 원클릭 미리보기/발급 패널 (4칸) -->
-            <div class="lg:col-span-4 space-y-5 sticky top-20">
+            <div class="lg:col-span-4 space-y-5 sticky top-6">
                 <div class="bg-white p-6 rounded-2xl border-2 border-[#3344aa] shadow-lg">
                     <div class="flex items-center justify-between border-b pb-3 mb-4">
                         <h3 class="font-black text-lg text-[#1e2a78] flex items-center gap-2">
-                            <i data-lucide="shopping-bag" class="w-5 h-5 text-[#3344aa]"></i> 증명서 발급 바구니
+                            <i data-lucide="shopping-bag" class="w-5 h-5 text-[#3344aa]"></i> 증명서 발급 신청목록
                         </h3>
                         <button onclick="clearCart()" class="text-xs text-rose-600 font-bold hover:underline">전체 비우기</button>
                     </div>
@@ -219,14 +317,14 @@
 
                     <!-- 수령 방식 선택 -->
                     <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mb-5 text-xs space-y-2">
-                        <span class="font-black text-slate-700 block">발급 및 수령 방식</span>
+                        <span class="font-black text-slate-700 block">발급 및 출력 방식 선택</span>
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="radio" name="issue-method" value="ONLINE_FREE" checked onchange="updateCartUI()" class="text-[#3344aa]">
-                            <span class="font-bold text-slate-800">온라인 직접출력 / 전자증명서 PDF <span class="text-emerald-600">(수수료 면제 0원)</span></span>
+                            <span class="font-bold text-slate-800">온라인 즉시출력 / 전자증명서 PDF <span class="text-emerald-600">(수수료 0원)</span></span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="radio" name="issue-method" value="KIOSK_SEAL" onchange="updateCartUI()" class="text-[#3344aa]">
-                            <span class="font-medium text-slate-600">교내 무인발급기 밀봉 출력 예약 (홀로그램 용지 · 유료)</span>
+                            <span class="font-medium text-slate-600">교내 무인발급기 밀봉 출력 예약 (보안용지 · 유료)</span>
                         </label>
                     </div>
 
@@ -241,7 +339,7 @@
                             <span id="cart-raw-fee" class="font-mono-code">0원</span>
                         </div>
                         <div class="flex justify-between text-emerald-700 font-bold">
-                            <span>재학생·휴학생 온라인 감면액</span>
+                            <span>온라인 발급 수수료 감면액</span>
                             <span id="cart-discount-fee" class="font-mono-code">-0원</span>
                         </div>
                     </div>
@@ -253,69 +351,47 @@
 
                     <div class="space-y-2.5">
                         <button onclick="issueAllSelectedCertificates()" class="w-full bg-[#3344aa] text-white py-3.5 rounded-xl font-black text-sm hover:bg-[#1e2a78] transition shadow-md flex items-center justify-center gap-2">
-                            <i data-lucide="printer" class="w-4 h-4 text-[#99dd88]"></i> 선택 증명서 즉시 발급 및 공식 문서 열람
+                            <i data-lucide="printer" class="w-4 h-4 text-[#99dd88]"></i> 선택 증명서 일괄 발급 및 열람
                         </button>
                         <button onclick="previewRepresentativeCert()" class="w-full border-2 border-[#3344aa] text-[#3344aa] bg-white py-3 rounded-xl font-black text-xs hover:bg-blue-50 transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="eye" class="w-4 h-4"></i> 현재 학생 [성적증명서] 즉시 미리보기
+                            <i data-lucide="eye" class="w-4 h-4"></i> 현재 학적 [성적증명서] 즉시 열람
                         </button>
                     </div>
                 </div>
 
-                <!-- 최근 발급 내역 로그 -->
+                <!-- 현재 학적의 대표 적격 증명서 원클릭 바로열람 (학생별로 동적 생성!) -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-xs">
                     <h4 class="font-black text-slate-800 mb-3 flex items-center justify-between">
-                        <span>빠른 증명서 샘플 바로열람</span>
-                        <span class="text-[10px] text-emerald-600 font-bold">클릭 시 즉시 팝업</span>
+                        <span>현재 학적 맞춤 증명서 바로열람</span>
+                        <span class="text-[10px] text-emerald-600 font-bold">적격 검증완료</span>
                     </h4>
-                    <div class="space-y-2 text-[11px] text-slate-600">
-                        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-slate-800">성적증명서 (국문 · 학기별 상세)</div>
-                                <div class="font-mono-code text-[10px] text-[#3344aa]">HBNU-2026-8841-0923</div>
-                            </div>
-                            <button onclick="previewCertById('CERT-09')" class="px-2.5 py-1 bg-white border rounded font-bold hover:bg-blue-50 text-[#3344aa]">열람</button>
-                        </div>
-                        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-slate-800">사회복지현장실습 이수확인서(160시간)</div>
-                                <div class="font-mono-code text-[10px] text-[#3344aa]">HBNU-2026-7712-2104</div>
-                            </div>
-                            <button onclick="previewCertById('CERT-21')" class="px-2.5 py-1 bg-white border rounded font-bold hover:bg-blue-50 text-[#3344aa]">열람</button>
-                        </div>
-                        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-slate-800">교내철도(HBNU Rail) 무사고 실습인증서</div>
-                                <div class="font-mono-code text-[10px] text-[#3344aa]">HBNU-2026-5501-2001</div>
-                            </div>
-                            <button onclick="previewCertById('CERT-20')" class="px-2.5 py-1 bg-white border rounded font-bold hover:bg-blue-50 text-[#3344aa]">열람</button>
-                        </div>
-                    </div>
+                    <div id="quick-eligible-certs-box" class="space-y-2 text-[11px] text-slate-600"></div>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- ================= [핵심 모달 1] 실제 A4 공식 증명서 뷰어 & 인쇄 모달 ================= -->
+    <!-- ================= [핵심 모달 1] 실제 A4 공식 증명서 뷰어 & 다중 페이지 무겹침 인쇄 모달 ================= -->
     <div id="cert-viewer-modal" class="fixed inset-0 z-[200] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6 hidden" onclick="closeCertViewer()">
-        <div class="bg-slate-100 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[94vh] flex flex-col overflow-hidden border border-slate-300" onclick="event.stopPropagation()">
-            <!-- 모달 상단 툴바 -->
-            <div class="bg-[#0f172a] text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2 shrink-0">
+        <div id="cert-viewer-dialog" class="bg-slate-100 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[94vh] flex flex-col overflow-hidden border border-slate-300" onclick="event.stopPropagation()">
+            <!-- 모달 상단 툴바 (인쇄 시 자동 숨김) -->
+            <div id="viewer-toolbar" class="bg-[#0f172a] text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2 shrink-0">
                 <div class="flex items-center gap-2.5">
                     <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded">공식 전자증명서</span>
                     <h3 id="viewer-header-title" class="font-bold text-sm md:text-base truncate">효빈대학교 공식 증명서 미리보기</h3>
                 </div>
                 <div class="flex items-center gap-2">
-                    <div id="viewer-tabs-bar" class="flex gap-1"></div>
+                    <div id="viewer-tabs-bar" class="flex flex-wrap gap-1"></div>
                     <button onclick="window.print()" class="bg-[#3344aa] hover:bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition">
-                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> 프린터 출력 / PDF 저장
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> 프린터 출력 / PDF 저장 (다중페이지 지원)
                     </button>
                     <button onclick="closeCertViewer()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" width="22"></i></button>
                 </div>
             </div>
 
             <!-- 모달 본문: A4 공식 증명서 용지 영역 -->
-            <div class="p-4 sm:p-8 overflow-y-auto flex-grow flex justify-center bg-slate-200/80">
+            <div id="cert-scroll-wrapper" class="p-4 sm:p-8 overflow-y-auto flex-grow flex justify-center bg-slate-200/80">
                 <div id="cert-print-area" class="cert-paper w-full max-w-[794px] p-5 sm:p-8 rounded-sm">
                     <div class="cert-watermark">HYOBIN NAT'L UNIV.</div>
                     <div id="cert-paper-inner" class="cert-border-inner p-5 sm:p-8 min-h-[920px] flex flex-col justify-between"></div>
@@ -349,7 +425,7 @@
                     🚃 <strong>교내철도 A선(트램)·B선(모노레일) 무임 승차권</strong> 및<br>
                     📚 <strong>중앙도서관(23동)·방도도서관(36동) 24시 출입 게이트</strong> 연동 중
                 </p>
-                <button onclick="closeStudentIdModal()" class="w-full bg-[#3344aa] text-white py-2.5 rounded-xl text-xs font-black">닫기</button>
+                <button onclick="closeStudentIdModal()" class="w-full bg-[#3344aa] text-white py-2.5 rounded-xl text-xs font-black">확인 및 닫기</button>
             </div>
         </div>
     </div>
@@ -382,72 +458,218 @@
     <script src="common.js"></script>
 
     <script>
-        // ================= 1. 정확히 고증된 7인의 학적·성적 샘플 프로필 DB =================
+        // ================= 1. 8인의 학적·전공·기숙사·실습 자격 플래그 완비 마스터 DB =================
         const STUDENT_PROFILES = [
-            // [케이스 1] 사회복지경영학과 재학/휴학생 (다른 인물로 교체 완료)
+            // [1] 박효빈 (15학번 졸업생 · 사회복지정책학과 본전공 + 경영학과 복수전공 · 통학 · 8개 전학기 131학점 4.05)
             {
-                id: "STU-01",
-                badge: "케이스 1 · 사복경영 휴학생 (3.62)",
-                nameKor: "한승우 (韓承祐)",
-                nameEng: "HAN SEUNG-WOO",
-                birth: "2003. 09. 18.",
-                studentNo: "202207104",
-                college: "사회복지학대학 (당선본캠 7-1동)",
-                dept: "사회복지경영학과",
+                id: "STU-07",
+                nameKor: "박효빈 (朴孝彬)",
+                nameEng: "PARK HYO-BIN",
+                birth: "1996. 07. 09.",
+                studentNo: "201507009",
+                college: "사회복지학대학",
+                dept: "사회복지정책학과",
                 doubleMajor: "상과대학 경영학과 (복수전공)",
-                gradeYear: "3학년 (5학기 이수)",
-                status: "휴학 (병역휴학 · 구청 사회복무요원 복무중)",
-                admissionDate: "2022. 03. 02.",
-                gradDate: "- (재적중)",
-                degreeName: "-",
-                totalCredits: 90,
-                gpa45: "3.62",
-                gpa100: "89.8",
-                rank: "19 / 52명 (상위 36.5%)",
-                scholarshipName: "국가장학금 I유형 및 베르데 성적장학",
+                hasDoubleMajor: true,
+                statusCode: "GRAD", // ENROLL(재학) | LEAVE(휴학) | GRAD(졸업)
+                isSenior: true,
+                isSocialWelfare: true,
+                hasRailCert: true,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: true,
+                isDormResident: false, // 통학생 (기숙사 비거주)
+                dormInfo: "해당없음 (자택 통학 · 5호선 소조역 ↔ B03 사회복지대역)",
+                gradeYear: "졸업 (8개 정규학기 완수)",
+                status: "졸업 (학위번호: 효빈대2021-사복-0009호 / 경영-0041호)",
+                admissionDate: "2015. 03. 02.",
+                gradDate: "2021. 02. 19.",
+                degreeName: "사회복지학사 · 경영학사 (복수학위)",
+                totalCredits: 131,
+                gpa45: "4.05",
+                gpa100: "94.6",
+                rank: "14 / 115명 (상위 12.1%)",
+                scholarshipName: "청년누리장학금(새마을금고재단) · 페퍼저축은행장학금 · 인송문화재단장학금 · 향토인재장학금 · 국가근로장학금",
                 tuitionPaid: 1945000,
-                scholarshipAmt: 1150000,
-                railHours: "교내철도 안전모니터링 36시간",
-                welfareHours: "효빈대 부설 종합사회복지관(7-3동) 160시간 이수 완료",
+                scholarshipAmt: 1945000,
+                railHours: "교내철도 A·B선 노선망 및 대중교통 복지 정책 연구보조 200시간",
+                welfareHours: "사회복지현장실습 160시간(2017-2학기 정규과정 · 130쪽 실습제본록 제출, A+) 및 지역아동센터 교육멘토링 580시간",
+                clubCareer: "사회복지정책학과 정책학회 정회원 · 제9기 청년정책포럼단 위원(대중교통비 지원 정책 제안) · 지역아동센터 5과목 학습멘토",
                 semesters: [
                     {
-                        sem: "2022학년도 1학기", avg: "3.50", credits: 18,
+                        sem: "2020학년도 2학기 (4학년 2학기 · 졸업학기 · 9학점 이수)", avg: "4.50", credits: 9,
                         courses: [
-                            { code: "SWM-101", type: "전필", title: "사회복지학개론", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "SWG-105", type: "전필", title: "인간행동과 사회환경", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "GEN-001", type: "교필", title: "효빈학의 이해 (민부선 교수)", cr: 2, gr: "A+", pt: 4.5 },
-                            { code: "GEN-102", type: "교필", title: "창의적 사고와 학술적 글쓰기", cr: 2, gr: "B+", pt: 3.5 },
-                            { code: "ACC-101", type: "복전", title: "회계원리 (상과대 차변·대변 지옥)", cr: 3, gr: "C+", pt: 2.5 },
-                            { code: "ECO-101", type: "교선", title: "경제학원론", cr: 3, gr: "B0", pt: 3.0 },
-                            { code: "GEN-108", type: "교필", title: "대학영어회화 1", cr: 2, gr: "A0", pt: 4.0 }
+                            { code: "SWM-402", type: "전선", title: "사회복지경영론 (민부선 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-405", type: "전선", title: "대중교통 복지와 이동권 보장이론 (백승호 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "BUS-401", type: "복전", title: "경영전략론 (캡스톤디자인 · 박정우 교수)", cr: 3, gr: "A+", pt: 4.5 }
                         ]
                     },
                     {
-                        sem: "2023학년도 1학기", avg: "3.75", credits: 18,
+                        sem: "2020학년도 1학기 (4학년 1학기)", avg: "4.00", credits: 12,
                         courses: [
-                            { code: "SWM-202", type: "전필", title: "사회복지경영론 (민부선 총장 직강)", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWM-205", type: "전필", title: "비영리조직(NPO) 운영전략", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWP-204", type: "전선", title: "사회복지조사론 및 통계분석(SPSS)", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "BUS-204", type: "복전", title: "마케팅원론 및 브랜드전략", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "BUS-210", type: "복전", title: "재무관리(Corporate Finance)", cr: 3, gr: "B0", pt: 3.0 },
-                            { code: "SWM-209", type: "전선", title: "문화복지 융합 모금(Fundraising)론", cr: 3, gr: "B0", pt: 3.0 }
+                            { code: "ACC-302", type: "복전", title: "원가회계 (조원희 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "BUS-308", type: "복전", title: "리더십 (박정우 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "BUS-310", type: "복전", title: "경영수학 (김상훈 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "SWP-303", type: "전선", title: "사회복지법제와 실천 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 }
+                        ]
+                    },
+                    {
+                        sem: "2017학년도 2학기 (3학년 2학기 · 현장실습 반영)", avg: "4.25", credits: 18,
+                        courses: [
+                            { code: "SWG-301", type: "전선", title: "지역사회복지론 (신정훈 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "SWC-308", type: "전필", title: "사회복지실습 (160시간 · 130쪽 제본록 · 신정훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "BUS-306", type: "복전", title: "파생금융상품론 (김상훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "BUS-315", type: "복전", title: "빅데이터마케팅 (정현우 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "BUS-304", type: "복전", title: "경영통계분석 (김상훈 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "BUS-301", type: "복전", title: "조직행동론 (박정우 교수)", cr: 3, gr: "A+", pt: 4.5 }
+                        ]
+                    },
+                    {
+                        sem: "2017학년도 1학기 (3학년 1학기)", avg: "4.00", credits: 17,
+                        courses: [
+                            { code: "SWP-301", type: "전필", title: "사회복지실천기술론 (이현대 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "SWP-305", type: "전선", title: "사회복지자료분석론 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-309", type: "전필", title: "사회복지행정론 (이성민 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "BUS-302", type: "복전", title: "생산운영관리 (정원석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "BUS-303", type: "복전", title: "재무관리 (김상훈 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "PAD-201", type: "교선", title: "공공갈등관리와 행정법 사례 (진현목 교수)", cr: 2, gr: "A0", pt: 4.0 }
+                        ]
+                    },
+                    {
+                        sem: "2016학년도 2학기 (2학년 2학기)", avg: "4.17", credits: 18,
+                        courses: [
+                            { code: "SWP-201", type: "전필", title: "사회복지실천론 (민부선 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "SWP-202", type: "전필", title: "사회복지정책론 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-204", type: "전선", title: "사회복지조사론 (강석윤 교수)", cr: 3, gr: "B0", pt: 3.0 },
+                            { code: "SWG-203", type: "전선", title: "의료사회복지론 (이현대 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "BUS-205", type: "복전", title: "경영과학 (정원석 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "ACC-201", type: "복전", title: "중급회계 (조원희 교수)", cr: 3, gr: "A+", pt: 4.5 }
+                        ]
+                    },
+                    {
+                        sem: "2016학년도 1학기 (2학년 1학기)", avg: "4.00", credits: 18,
+                        courses: [
+                            { code: "GEN-201", type: "교양", title: "초급일본어 (김마리아 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-208", type: "전필", title: "사회복지윤리와철학 (민부선 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-212", type: "전선", title: "사회보장론 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWG-201", type: "전선", title: "정신건강론 (이현대 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "BUS-204", type: "복전", title: "마케팅관리론 (정현우 교수)", cr: 3, gr: "B0", pt: 3.0 },
+                            { code: "ACC-101", type: "복전", title: "회계원리 (조원희 교수)", cr: 3, gr: "A+", pt: 4.5 }
+                        ]
+                    },
+                    {
+                        sem: "2015학년도 2학기 (1학년 2학기)", avg: "4.08", credits: 18,
+                        courses: [
+                            { code: "GEN-103", type: "교양", title: "고전·명저읽기 (박건우 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "LAW-101", type: "교양", title: "법학의이해 (하성휘 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "POL-101", type: "교양", title: "정치학의이해 (강민석 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "GEN-106", type: "교양", title: "통계적사고와사회 (박재현 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-108", type: "전선", title: "사회문제론 (서정민 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "SWG-105", type: "전필", title: "인간행동과사회환경 (이현대 교수)", cr: 3, gr: "A+", pt: 4.5 }
+                        ]
+                    },
+                    {
+                        sem: "2015학년도 1학기 (1학년 1학기 · 입학학기)", avg: "3.92", credits: 18,
+                        courses: [
+                            { code: "GEN-101", type: "교양", title: "글쓰기 (박건우 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "GEN-102", type: "교양", title: "실용영어 (김수현 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "GEN-104", type: "교양", title: "컴퓨터과학과코딩 (최동현 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "HIS-101", type: "교양", title: "한국사의이해 (윤동주 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "PAD-101", type: "교양", title: "행정학의이해 (진현목 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-101", type: "전필", title: "사회복지학개론 (강석윤 교수)", cr: 3, gr: "A0", pt: 4.0 }
                         ]
                     }
                 ]
             },
 
-            // [케이스 2] 강하애: 평점 4.11 초고학점인데도 사회복지정책학과 고인물들 때문에 학과 중위권인 케이스
+            // [2] 김시연 (23학번 4학년 재학 · 사회과학대학 정치외교학과 본전공 + 법학 부전공 · 5호선 소조역 통학 · 사복실습/기숙사 비대상!)
+            {
+                id: "STU-08",
+                nameKor: "김시연 (金始延)",
+                nameEng: "KIM SI-YEON",
+                birth: "2004. 03. 01.",
+                studentNo: "202306001",
+                college: "사회과학대학",
+                dept: "정치외교학과",
+                doubleMajor: "법학전문대학원 학부법학연계전공 (부전공)",
+                hasDoubleMajor: true,
+                statusCode: "ENROLL",
+                isSenior: true,
+                isSocialWelfare: false, // 정치외교학과이므로 사회복지실습확인서 비대상!
+                hasRailCert: true,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: true,
+                hasExchange: false,
+                hasLabCareer: true,
+                isDormResident: false, // 통학생 (5호선 소조역)
+                dormInfo: "해당없음 (자택 통학 · 5호선 소조역 ↔ 모노레일 B03/B04역)",
+                gradeYear: "4학년 (7학기 재학 · 통학)",
+                status: "재학 (제38대 사회과학대학 학생회장)",
+                admissionDate: "2023. 03. 02.",
+                gradDate: "2027. 02. 졸업예정",
+                degreeName: "정치학사 (예정)",
+                totalCredits: 126,
+                gpa45: "4.28",
+                gpa100: "97.1",
+                rank: "2 / 64명 (상위 3.1%)",
+                scholarshipName: "사회과학대학 자치리더십 전액장학금 & 성적우수 A종 장학금",
+                tuitionPaid: 1945000,
+                scholarshipAmt: 1945000,
+                railHours: "교내철도 투표 특급(Voting Express) 선거수송단 운영 총괄 60시간",
+                welfareHours: "교내 권익침해 피해학우 법률·행정구제 자문 및 멘토링 봉사 140시간",
+                clubCareer: "제38대 사회과학대학 학생회장 · 중앙 학술동아리 로스쿨 준비반 『저스티스(Justice)』 부장 · 시사토론회 『포럼H』 정회원",
+                semesters: [
+                    {
+                        sem: "2025학년도 2학기 (3학년 2학기)", avg: "4.33", credits: 18,
+                        courses: [
+                            { code: "POL-401", type: "전필", title: "한국정치과정과 선거빅데이터분석 (강민석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "POL-308", type: "전필", title: "비교정치론 세미나 (류성민 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "PUB-304", type: "부전", title: "행정법총론 및 판례연구 (하성휘 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "PAD-302", type: "부전", title: "형법각론과 인권보호실무 (차정훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-301", type: "일선", title: "사회보장론 (강석윤 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "GEC-201", type: "교선", title: "트램과 도시문명사 (오다구 교수)", cr: 3, gr: "A0", pt: 4.0 }
+                        ]
+                    },
+                    {
+                        sem: "2025학년도 1학기 (3학년 1학기)", avg: "4.25", credits: 18,
+                        courses: [
+                            { code: "POL-301", type: "전필", title: "국제정치경제론 (이성민 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "POL-305", type: "전선", title: "정당론과 여론조사실습 (강민석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "LAW-204", type: "부전", title: "헌법소송법 및 기본권판례 (하성휘 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "ADM-202", type: "일선", title: "지방자치행정론 (유정호 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "COM-205", type: "교선", title: "미디어여론과 팩트체킹저널리즘 (박건우 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "SOC-204", type: "교선", title: "사회통계학 (박재현 교수)", cr: 3, gr: "A0", pt: 4.0 }
+                        ]
+                    }
+                ]
+            },
+
+            // [3] 강하애 (23학번 4학년 재학 · 사회복지정책학과 본전공 + 정책학과 부전공 · 통학)
             {
                 id: "STU-02",
-                badge: "케이스 2 · 강하애 (4.11 고인물 중위권)",
                 nameKor: "강하애 (姜下愛)",
                 nameEng: "KANG HA-AE",
                 birth: "2004. 05. 30.",
                 studentNo: "202307015",
-                college: "사회복지학대학 (당선본캠 7-1동)",
+                college: "사회복지학대학",
                 dept: "사회복지정책학과",
                 doubleMajor: "사회과학대학 정책학과 (부전공)",
-                gradeYear: "4학년 (7학기 재학)",
+                hasDoubleMajor: true,
+                statusCode: "ENROLL",
+                isSenior: true,
+                isSocialWelfare: true,
+                hasRailCert: true,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: true,
+                hasLabCareer: false,
+                isDormResident: false, // 통학생 (천주시 궁하구 아이동 본가)
+                dormInfo: "해당없음 (광역전철 통학 · 빈효선 궁하역 ↔ 5호선 소조역)",
+                gradeYear: "4학년 (7학기 재학 · 통학)",
                 status: "재학 (사회복지학대학 학생회 홍보부장)",
                 admissionDate: "2023. 03. 02.",
                 gradDate: "2027. 02. 졸업예정",
@@ -455,51 +677,127 @@
                 totalCredits: 126,
                 gpa45: "4.11",
                 gpa100: "95.2",
-                rank: "54 / 112명 (※ GPA 4.11임에도 고인물 집합소라 딱 중위권!)",
-                scholarshipName: "교내 베르데 성적우수 장학금 & 학생회 임원장학",
+                rank: "54 / 112명",
+                scholarshipName: "교내 베르데 성적우수 장학금 & 학생회 임원장학금",
                 tuitionPaid: 1945000,
                 scholarshipAmt: 1450000,
-                railHours: "B선 모노레일(B03 사회복지대역) 통학 홍보대사 40시간",
-                welfareHours: "효빈대 부설 종합사회복지관(7-3동) 및 위기청소년 멘토링 180시간",
+                railHours: "교내철도 B선(B03 사회복지대역) 통학 안전홍보단 40시간",
+                welfareHours: "효빈대 부설 종합사회복지관(7-3동) 법정 사회복지현장실습 180시간 완료",
+                clubCareer: "사회복지학대학 학생회 홍보부장 · 정책토론학회 『아고라(Agora)』 정회원 · 아동멘토링 『꿈나래』 부장",
                 semesters: [
                     {
-                        sem: "2025학년도 1학기", avg: "4.08", credits: 18,
+                        sem: "2025학년도 2학기 (3학년 2학기)", avg: "4.14", credits: 18,
                         courses: [
-                            { code: "SWP-301", type: "전필", title: "사회보장론", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWP-305", type: "전필", title: "복지국가비교연구 (만점 아니면 A0도 힘든 고인물전)", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "SWP-309", type: "전선", title: "사회복지재정과 예산분석", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "PLC-302", type: "부전", title: "정책평가 및 비용편익분석(B/C)", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWM-301", type: "전선", title: "비영리조직(NPO) 운영전략", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "PHE-104", type: "교선", title: "호신술과 웨이트트레이닝 (악력 만렙 수석)", cr: 3, gr: "A+", pt: 4.5 }
+                            { code: "SWP-312", type: "전필", title: "빈곤과 불평등 정책세미나 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-318", type: "전선", title: "청년돌봄(영케어러) 정책설계 (백승호 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWC-304", type: "전필", title: "사례관리론 (신정훈 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "SWG-306", type: "전선", title: "심리외상(Trauma) 치유실습 (이현대 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "GEC-201", type: "교선", title: "트램과 도시문명사 (오다구 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "PUB-208", type: "부전", title: "공기업경영론 및 대중교통 준공영제 분석 (유정호 교수)", cr: 3, gr: "A0", pt: 4.0 }
                         ]
                     },
                     {
-                        sem: "2025학년도 2학기", avg: "4.14", credits: 18,
+                        sem: "2025학년도 1학기 (3학년 1학기)", avg: "4.08", credits: 18,
                         courses: [
-                            { code: "SWP-312", type: "전필", title: "빈곤과 불평등 정책세미나", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWP-318", type: "전선", title: "청년돌봄(영케어러) 정책설계", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWC-304", type: "전필", title: "사례관리론(Case Management)", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "SWG-306", type: "전선", title: "심리외상(Trauma) 치유실습", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "GEC-201", type: "교선", title: "트램과 도시문명사", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "PUB-208", type: "부전", title: "공기업경영론 및 대중교통 준공영제 분석", cr: 3, gr: "A0", pt: 4.0 }
+                            { code: "SWP-301", type: "전필", title: "사회보장론 (강석윤 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-305", type: "전필", title: "복지국가비교연구 (김원석 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "SWP-309", type: "전선", title: "사회복지재정과 예산분석 (서정민 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "PLC-302", type: "부전", title: "정책평가 및 비용편익분석(B/C) (강민석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWM-301", type: "전선", title: "비영리조직(NPO) 운영전략 (민부선 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "PHE-104", type: "교선", title: "호신술과 웨이트트레이닝 (마동철 교수)", cr: 3, gr: "A+", pt: 4.5 }
                         ]
                     }
                 ]
             },
 
-            // [케이스 3] 오이슬: 당선(본)캠퍼스 만화애니메이션학과 성우전공 (본캠퍼스 정확 반영)
+            // [4] 한승우 (22학번 3학년 병역휴학생 · 사회복지경영학과 본전공 + 경영학과 복수전공 · 휴학증명서 발급 대상!)
+            {
+                id: "STU-01",
+                nameKor: "한승우 (韓承祐)",
+                nameEng: "HAN SEUNG-WOO",
+                birth: "2003. 09. 18.",
+                studentNo: "202207104",
+                college: "사회복지학대학",
+                dept: "사회복지경영학과",
+                doubleMajor: "상과대학 경영학과 (복수전공)",
+                hasDoubleMajor: true,
+                statusCode: "LEAVE", // 휴학생! (휴학증명서 활성, 재학/졸업증명서 차단)
+                isSenior: false,
+                isSocialWelfare: true,
+                hasRailCert: false,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: false,
+                isDormResident: false,
+                dormInfo: "해당없음 (자택 거주 · 병역휴학 중)",
+                gradeYear: "3학년 (5학기 이수 완료)",
+                status: "휴학 (병역휴학 · 2024.08 ~ 2026.05 사회복무요원 복무)",
+                admissionDate: "2022. 03. 02.",
+                gradDate: "- (재적중)",
+                degreeName: "-",
+                totalCredits: 90,
+                gpa45: "3.62",
+                gpa100: "89.8",
+                rank: "19 / 52명 (상위 36.5%)",
+                scholarshipName: "국가장학금 I유형 및 교내 베르데 성적장학금",
+                tuitionPaid: 1945000,
+                scholarshipAmt: 1150000,
+                railHours: "-",
+                welfareHours: "효빈대 부설 종합사회복지관(7-3동) 법정 사회복지현장실습 160시간 완료",
+                clubCareer: "사회복지학대학 밴드학회 『복지더락』 정회원 · 중앙 마라톤동아리 『효빈 러너스』 부원",
+                semesters: [
+                    {
+                        sem: "2023학년도 1학기 (2학년 1학기)", avg: "3.75", credits: 18,
+                        courses: [
+                            { code: "SWM-202", type: "전필", title: "사회복지경영론 (민부선 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWM-205", type: "전필", title: "비영리조직(NPO) 운영전략 (이성민 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "SWP-204", type: "전선", title: "사회복지조사론 및 통계분석 (강석윤 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "BUS-204", type: "복전", title: "마케팅관리론 (정현우 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "BUS-210", type: "복전", title: "재무관리 (김상훈 교수)", cr: 3, gr: "B0", pt: 3.0 },
+                            { code: "SWM-209", type: "전선", title: "비영리 모금(Fundraising) 전략론 (최유진 교수)", cr: 3, gr: "B0", pt: 3.0 }
+                        ]
+                    },
+                    {
+                        sem: "2022학년도 1학기 (1학년 1학기)", avg: "3.50", credits: 18,
+                        courses: [
+                            { code: "SWM-101", type: "전필", title: "사회복지학개론 (강석윤 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "SWG-105", type: "전필", title: "인간행동과 사회환경 (이현대 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "GEN-001", type: "교필", title: "효빈학의 이해 (민부선 교수)", cr: 2, gr: "A+", pt: 4.5 },
+                            { code: "GEN-101", type: "교필", title: "글쓰기 (박건우 교수)", cr: 2, gr: "B+", pt: 3.5 },
+                            { code: "ACC-101", type: "복전", title: "회계원리 (조원희 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "ECO-101", type: "교선", title: "경제학원론 (윤성호 교수)", cr: 3, gr: "B0", pt: 3.0 },
+                            { code: "GEN-108", type: "교필", title: "대학영어회화 1 (김수현 교수)", cr: 2, gr: "A0", pt: 4.0 }
+                        ]
+                    }
+                ]
+            },
+
+            // [5] 오이슬 (23학번 4학년 재학 · 만화애니메이션학과 성우전공 + 연극학과 부전공 · 통학)
             {
                 id: "STU-03",
-                badge: "케이스 3 · 오이슬 (본캠 만화애니 3.28)",
                 nameKor: "오이슬 (吳伊瑟)",
                 nameEng: "OH I-SEUL",
                 birth: "2004. 03. 04.",
                 studentNo: "202326019",
-                college: "응용예술대학 (당선본캠 26동 예술타운)",
+                college: "응용예술대학",
                 dept: "만화애니메이션학과 (성우전공)",
-                doubleMajor: "예술대학 연극학과 (부전공 · 26-1동)",
-                gradeYear: "4학년 (7학기 재학)",
-                status: "재학 (베르데 홀 HAF 성우보호 유공 장학생)",
+                doubleMajor: "예술대학 연극학과 (부전공)",
+                hasDoubleMajor: true,
+                statusCode: "ENROLL",
+                isSenior: true,
+                isSocialWelfare: false,
+                hasRailCert: true,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: false,
+                isDormResident: false,
+                dormInfo: "해당없음 (남구 앵판동 본가 통학 · 2호선 효빈대역)",
+                gradeYear: "4학년 (7학기 재학 · 통학)",
+                status: "재학",
                 admissionDate: "2023. 03. 02.",
                 gradDate: "2027. 02. 졸업예정",
                 degreeName: "예술학사 (예정)",
@@ -507,201 +805,177 @@
                 gpa45: "3.28",
                 gpa100: "86.4",
                 rank: "18 / 48명",
-                scholarshipName: "베르데 홀 성우보호(메카쿠시테) 특별공로장학금",
+                scholarshipName: "베르데 홀 문화행사 유공 특별장학금",
                 tuitionPaid: 2540000,
                 scholarshipAmt: 1800000,
-                railHours: "HBNU Rail A선·B선 특별 안내방송 더빙 재능기부 50시간",
-                welfareHours: "남구 앵판초등학교 연극·더빙 재능기부 및 시각장애인 낭독봉사 95시간",
+                railHours: "HBNU Rail A·B선 차내 안내방송 성우 더빙 실습 50시간",
+                welfareHours: "지역 초등학교 연극 멘토링 및 시각장애인 오디오북 낭독봉사 95시간",
+                clubCareer: "중앙 성우·더빙 연구회 『보이스 허브(Voice Hub)』 회장 · 낭독동아리 『은가비』 정회원",
                 semesters: [
                     {
-                        sem: "2025학년도 2학기", avg: "3.33", credits: 16,
+                        sem: "2025학년도 2학기 (3학년 2학기)", avg: "3.33", credits: 16,
                         courses: [
-                            { code: "ANI-301", type: "전필", title: "성우 화술 및 애니메이션 마이크워크(더빙) 실습", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "ART-204", type: "부전", title: "무대연기 및 열차안내방송 성우발성법", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "ART-302", type: "부전", title: "희곡분석과 정통연극 메소드연기", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "ANI-305", type: "전필", title: "캐릭터 원화 및 동화 작화실습 (야작 과부하)", cr: 3, gr: "C+", pt: 2.5 },
-                            { code: "GEN-102", type: "교필", title: "창의적 사고와 글쓰기 (전날 소맥 여파 1교시 지각)", cr: 2, gr: "C0", pt: 2.0 },
-                            { code: "GEN-001", type: "교필", title: "효빈학의 이해 (베르데홀 대강의실)", cr: 2, gr: "B0", pt: 3.0 }
+                            { code: "ANI-301", type: "전필", title: "성우 화술 및 애니메이션 마이크워크 실습 (이가람 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "ART-204", type: "부전", title: "무대연기 및 방송 화술 (조승우 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "ART-302", type: "부전", title: "희곡분석과 정통연극 메소드연기 (한지민 교수)", cr: 3, gr: "A0", pt: 4.0 },
+                            { code: "ANI-305", type: "전필", title: "캐릭터 원화 및 동화 작화실습 (최지훈 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "GEN-101", type: "교필", title: "글쓰기 (박건우 교수)", cr: 2, gr: "C0", pt: 2.0 },
+                            { code: "GEN-001", type: "교필", title: "효빈학의 이해 (민부선 교수)", cr: 2, gr: "B0", pt: 3.0 }
                         ]
                     }
                 ]
             },
 
-            // [케이스 4] 나수미: 제과제빵과 실기 수석이나 이론 F/D0가 섞인 2.74 현실 성적표
+            // [6] 나수미 (23학번 4학년 재학 · 제과제빵과 단일전공 · 통학)
             {
                 id: "STU-04",
-                badge: "케이스 4 · 나수미 (제빵실기 1위·필기위기 2.74)",
                 nameKor: "나수미 (羅秀美)",
                 nameEng: "NA SU-MI",
                 birth: "2004. 03. 21.",
                 studentNo: "202312088",
-                college: "생활과학대학 (당선본캠 12동)",
+                college: "생활과학대학",
                 dept: "제과제빵과",
-                doubleMajor: "단일전공 (베르데 홀 1층 카페 베르데 실습생)",
-                gradeYear: "4학년 (7학기 재학)",
-                status: "재학 (강하애 스파르타 전공필기 튜터링 대상자)",
+                doubleMajor: "단일전공 (심화과정)",
+                hasDoubleMajor: false, // 단일전공이므로 복수/부전공 이수확인서 차단!
+                statusCode: "ENROLL",
+                isSenior: true,
+                isSocialWelfare: false,
+                hasRailCert: false,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: false,
+                isDormResident: false,
+                dormInfo: "해당없음 (자택 통학 · 2·5호선 당선역)",
+                gradeYear: "4학년 (7학기 재학 · 통학)",
+                status: "재학",
                 admissionDate: "2023. 03. 02.",
                 gradDate: "2027. 02. 졸업예정",
                 degreeName: "이학사 (제과제빵학 전공 예정)",
                 totalCredits: 112,
                 gpa45: "2.74",
                 gpa100: "80.2",
-                rank: "31 / 35명 (실기 전 과목 A+ 수석 · 이론 과목 하위권)",
-                scholarshipName: "엠마의 식탁 베이커리 특별근로장학금",
+                rank: "31 / 35명",
+                scholarshipName: "엠마의 식탁 베이커리 근로장학금",
                 tuitionPaid: 2290000,
                 scholarshipAmt: 1400000,
-                railHours: "학생회관 매점 '엠마의 트램 탑승 단팥빵' 레시피 개발 참여",
-                welfareHours: "엘린지역아동센터 및 결식아동 후원 제빵 봉사 140시간",
+                railHours: "-",
+                welfareHours: "지역아동센터 및 결식아동 후원 제빵봉사 140시간",
+                clubCareer: "중앙 요리연구동아리 『쿠킹클래스』 제과부장 · 마부하이 다문화교류회 정회원",
                 semesters: [
                     {
-                        sem: "2025학년도 2학기", avg: "2.67", credits: 18,
+                        sem: "2025학년도 2학기 (3학년 2학기)", avg: "2.67", credits: 18,
                         courses: [
-                            { code: "CUL-301", type: "전필", title: "천연발효 제빵학 및 코페빵·돌바게트 실기", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "CUL-305", type: "전선", title: "화과자 및 아사쿠사 전통제과 공예실습", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "CUL-208", type: "전필", title: "식품유기화학 (※ 필기 과락 · 오븐 압수 사유)", cr: 3, gr: "F", pt: 0.0 },
-                            { code: "CUL-211", type: "전필", title: "영양생화학 (강하애 벼락치기 과외로 턱걸이 생존)", cr: 3, gr: "D0", pt: 1.0 },
-                            { code: "CUL-312", type: "전선", title: "단체급식(엠마의 식탁) 메뉴개발 및 위생실무", cr: 3, gr: "C+", pt: 2.5 },
-                            { code: "FIL-101", type: "교선", title: "표준 타갈로그어 회화 (모계 혈통 버프)", cr: 3, gr: "B+", pt: 3.5 }
+                            { code: "CUL-301", type: "전필", title: "천연발효 제빵학 및 특수빵 실기 (송지은 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "CUL-305", type: "전선", title: "전통 화과자 및 디저트 공예실습 (한정훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "CUL-208", type: "전필", title: "식품유기화학 (신성호 교수)", cr: 3, gr: "F", pt: 0.0 },
+                            { code: "CUL-211", type: "전필", title: "영양생화학 (오정식 교수)", cr: 3, gr: "D0", pt: 1.0 },
+                            { code: "CUL-312", type: "전선", title: "단체급식 메뉴개발 및 위생실무 (최유진 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "FIL-101", type: "교선", title: "표준 타갈로그어 회화 (김마리아 교수)", cr: 3, gr: "B+", pt: 3.5 }
                         ]
                     }
                 ]
             },
 
-            // [케이스 5] 정현우: 교통대학 철도운전시스템공학과 (공업수학 재수강 R 포함 3.45)
+            // [7] 정현우 (21학번 4학년 재학 · 철도운전시스템공학과 단일전공 · 제52동 아와관 기숙사 거주생!)
             {
                 id: "STU-05",
-                badge: "케이스 5 · 철도운전 4학년 (재수강포함 3.45)",
                 nameKor: "정현우 (鄭宇)",
                 nameEng: "JUNG HYUN-WOO",
                 birth: "2002. 11. 19.",
                 studentNo: "202135042",
-                college: "교통대학 (당선본캠 35-1동)",
-                dept: "철도운전시스템공학과(철도운전학과)",
-                doubleMajor: "단일전공 (제1분반 A선 트램 실전 기관사 실습생)",
-                gradeYear: "4학년 (7학기 재학)",
-                status: "재학 (운전면허 기능시험 1타 강사단 소속)",
+                college: "교통대학",
+                dept: "철도운전시스템공학과",
+                doubleMajor: "단일전공 (교내철도 A선 기관사 심화트랙)",
+                hasDoubleMajor: false,
+                statusCode: "ENROLL",
+                isSenior: true,
+                isSocialWelfare: false,
+                hasRailCert: true, // 교내철도 240시간 운전실습 완료!
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: true,
+                isDormResident: true, // ★ 유일한 학생생활관(아와관) 실제 입사 거주생! ★
+                dormInfo: "제52동 아파트형기숙사B (아와관) 1402호 거주중 (관비 학기당 1,180,000원 완납)",
+                gradeYear: "4학년 (7학기 재학 · 아와관 기숙사생)",
+                status: "재학",
                 admissionDate: "2021. 03. 02.",
                 gradDate: "2027. 02. 졸업예정",
                 degreeName: "공학사 (예정)",
                 totalCredits: 124,
                 gpa45: "3.45",
                 gpa100: "88.1",
-                rank: "27 / 68명 (상위 39.7%)",
+                rank: "27 / 68명",
                 scholarshipName: "효빈교통공사 산학협력 장학금",
                 tuitionPaid: 2480000,
                 scholarshipAmt: 1500000,
-                railHours: "교내철도 A선(트램) 160시간 · B선(모노레일) 80시간 = 총 240시간 무사고 운전",
-                welfareHours: "교내 트램 건널목 안전수호대 봉사 60시간",
+                railHours: "교내철도 HBNU Rail A선(160시간)·B선(80시간) 총 240시간 무사고 운전실습 완료 (제2종 전기차량 운전면허 취득)",
+                welfareHours: "교내 트램 건널목 교통안전수호대 봉사 60시간",
+                clubCareer: "중앙 철도동호회 『HBNU Rail(철도사랑)』 운행국장 · 교통대학 『운전면허 기능시험 1타 강사단』 멘토",
                 semesters: [
                     {
-                        sem: "2021학년도 1학기", avg: "2.89", credits: 18,
+                        sem: "2025학년도 2학기 (4학년 1학기)", avg: "3.85", credits: 15,
                         courses: [
-                            { code: "TRD-101", type: "전필", title: "전기철도운전론", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "MTH-101", type: "교필", title: "공업수학 1 (※ 재수강 이전 취득분)", cr: 3, gr: "D+", pt: 1.5 },
-                            { code: "SCI-102", type: "교필", title: "일반물리학 및 실험 1", cr: 3, gr: "B0", pt: 3.0 },
-                            { code: "GEN-102", type: "교필", title: "창의적 사고와 글쓰기 (공학)", cr: 2, gr: "C+", pt: 2.5 },
-                            { code: "TRI-104", type: "전선", title: "철도차량기계공학", cr: 3, gr: "B+", pt: 3.5 }
-                        ]
-                    },
-                    {
-                        sem: "2025학년도 2학기", avg: "3.85", credits: 18,
-                        courses: [
-                            { code: "TRD-401", type: "전필", title: "교내철도(A선 트램) 실전운전실습", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "TRO-305", type: "전선", title: "중앙관제(CTC) 3현시 신호기 실습", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "MTH-101", type: "교필", title: "공업수학 1 [재수강 완료 R]", cr: 3, gr: "A0 (R)", pt: 4.0 },
-                            { code: "TRD-308", type: "전필", title: "동력차 제어회로 및 VVVF 인버터", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "TRM-302", type: "전선", title: "철도안전법규 및 사고조사론", cr: 3, gr: "B0", pt: 3.0 }
+                            { code: "TRD-401", type: "전필", title: "교내철도(A선 트램) 실전운전실습 (정안전 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "TRO-305", type: "전선", title: "중앙관제(CTC) 신호제어 실습 (김정훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "MTH-101", type: "교필", title: "공업수학 1 [재수강 R · 박기훈 교수]", cr: 3, gr: "A0 (R)", pt: 4.0 },
+                            { code: "TRD-308", type: "전필", title: "동력차 제어회로 및 VVVF 인버터 (이동현 교수)", cr: 3, gr: "B+", pt: 3.5 },
+                            { code: "TRM-302", type: "전선", title: "철도안전법규 및 사고조사론 (차정훈 교수)", cr: 3, gr: "B0", pt: 3.0 }
                         ]
                     }
                 ]
             },
 
-            // [케이스 6] 나수민: 생활과학대학 조리과학과 15학번 졸업생 (평점 3.58)
+            // [8] 나수민 (15학번 졸업생 · 생활과학대학 조리과학과 + 식품영양학과 부전공 · 통학 졸업)
             {
                 id: "STU-06",
-                badge: "케이스 6 · 나수민 동문 (조리과 졸 3.58)",
-                nameKor: "나수민 (羅秀珉 · 15학번 졸업)",
+                nameKor: "나수민 (羅秀珉)",
                 nameEng: "NA SU-MIN",
                 birth: "1996. 01. 23.",
                 studentNo: "201512014",
-                college: "생활과학대학 (당선본캠 12동)",
-                dept: "조리과학과(조리학과)",
+                college: "생활과학대학",
+                dept: "조리과학과",
                 doubleMajor: "식품영양학과 (부전공)",
-                gradeYear: "졸업 (8학기 전과정 이수)",
-                status: "졸업 (학위번호: 효빈대2019-생과-0042호 · 현 고송동 메인 셰프)",
+                hasDoubleMajor: true,
+                statusCode: "GRAD",
+                isSenior: true,
+                isSocialWelfare: false,
+                hasRailCert: false,
+                hasMedCert: false,
+                hasTeacherCert: false,
+                hasMicroDegree: false,
+                hasExchange: false,
+                hasLabCareer: false,
+                isDormResident: false,
+                dormInfo: "해당없음 (기졸업 동문 · 재학 시 통학)",
+                gradeYear: "졸업 (8개 정규학기 완수)",
+                status: "졸업 (학위번호: 효빈대2019-생과-0042호)",
                 admissionDate: "2015. 03. 02.",
                 gradDate: "2019. 02. 22.",
-                degreeName: "이학사 (조리학 전공)",
+                degreeName: "이학사 (조리과학 전공)",
                 totalCredits: 136,
                 gpa45: "3.58",
                 gpa100: "89.3",
-                rank: "12 / 40명 (실기 전 과목 만점 수석)",
+                rank: "12 / 40명",
                 scholarshipName: "다문화 인재 장학금 & 실기우수 장학금",
                 tuitionPaid: 2290000,
                 scholarshipAmt: 1800000,
                 railHours: "-",
-                welfareHours: "엘린지역아동센터 1세대 급식조리 봉사 및 블루버드 멘토단 강사 320시간",
+                welfareHours: "지역아동센터 급식조리 봉사 및 블루버드 멘토단 강사 320시간 완료",
+                clubCareer: "생활과학대학 조리학회 『마스터셰프』 회장 · 중앙 봉사동아리 『따뜻한 밥상』 조리팀장",
                 semesters: [
                     {
-                        sem: "2018학년도 2학기 (졸업학기)", avg: "3.75", credits: 18,
+                        sem: "2018학년도 2학기 (4학년 2학기 · 졸업학기)", avg: "3.75", credits: 18,
                         courses: [
-                            { code: "CUL-401", type: "전필", title: "고급 동서양 퓨전조리 및 중식도(마늘 100알) 실기", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "CUL-404", type: "전필", title: "외식창업 및 파인다이닝 키친매니지먼트", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "CUL-308", type: "전선", title: "소스학 및 한우 콘소메 브루용 실습", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "FNS-302", type: "부전", title: "생애주기영양학", cr: 3, gr: "B0", pt: 3.0 },
-                            { code: "ACC-104", type: "교선", title: "외식원가회계", cr: 3, gr: "C+", pt: 2.5 },
-                            { code: "GEN-205", type: "교선", title: "식문화사 입문", cr: 3, gr: "B+", pt: 3.5 }
-                        ]
-                    }
-                ]
-            },
-
-            // [케이스 7] 박효빈 시장: 사회복지정책학과 15학번 졸업생 (정확히 4.05 졸업 반영!)
-            {
-                id: "STU-07",
-                badge: "케이스 7 · 박효빈 시장 (15학번 졸 4.05)",
-                nameKor: "박효빈 (朴孝彬 · 15학번 동문)",
-                nameEng: "PARK HYO-BIN",
-                birth: "1996. 07. 09.",
-                studentNo: "201507009",
-                college: "사회복지학대학 (당선본캠 7-1동)",
-                dept: "사회복지정책학과",
-                doubleMajor: "교통대학 철도운영시스템공학과 (부전공)",
-                gradeYear: "졸업 (8학기 전과정 이수 · 2018~2020 북구청 병역휴학 포함)",
-                status: "졸업 (학위번호: 효빈대2021-사복-0009호 · 현 제19·20대 효빈광역시장)",
-                admissionDate: "2015. 03. 02.",
-                gradDate: "2021. 02. 19.",
-                degreeName: "사회복지학사 (Bachelor of Social Welfare)",
-                totalCredits: 140,
-                gpa45: "4.05",
-                gpa100: "94.6",
-                rank: "14 / 115명 (알바·멘토링 병행 중 달성한 우등 졸업)",
-                scholarshipName: "국가근로장학금 & 효빈대 베르데 성적우수장학금",
-                tuitionPaid: 1945000,
-                scholarshipAmt: 1945000,
-                railHours: "교내철도 A·B선 환승 동선 및 대중교통 복지 연구보조 200시간",
-                welfareHours: "엘린지역아동센터(5과목 독박 멘토) 및 가족돌봄청년(WAVE) 봉사 580시간",
-                semesters: [
-                    {
-                        sem: "2020학년도 1학기 (복학학기)", avg: "4.00", credits: 18,
-                        courses: [
-                            { code: "SWP-301", type: "전필", title: "사회보장론", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWC-302", type: "전필", title: "사회복지실천론 (민부선 교수 · 오하라 마리 가족갈등 사례분석)", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWP-308", type: "전선", title: "사회복지재정과 지방예산분석", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "TRO-204", type: "부전", title: "도시철도 운영 및 배차계획론", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "ECO-205", type: "교선", title: "계량경제학 입문 (야간 알바 병행 학기)", cr: 3, gr: "B+", pt: 3.5 },
-                            { code: "GEN-210", type: "교선", title: "현대정치와 지방자치", cr: 3, gr: "B+", pt: 3.5 }
-                        ]
-                    },
-                    {
-                        sem: "2020학년도 2학기 (졸업학기)", avg: "4.10", credits: 18,
-                        courses: [
-                            { code: "SWP-401", type: "전필", title: "지방분권과 지역사회복지계획 (은권규 교수)", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWM-402", type: "전선", title: "사회복지경영론 (민부선 교수 · 나카스 카스미 팬덤유대 논술)", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "SWP-405", type: "전선", title: "대중교통 복지와 이동권 보장이론", cr: 3, gr: "A+", pt: 4.5 },
-                            { code: "TRO-305", type: "부전", title: "복합환승센터 동선 및 노면전차(트램) 계획", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "FIL-201", type: "교선", title: "필리핀 사회문화와 다문화정책", cr: 3, gr: "A0", pt: 4.0 },
-                            { code: "PAD-304", type: "교선", title: "공공갈등관리와 행정법 사례", cr: 3, gr: "B+", pt: 3.5 }
+                            { code: "CUL-401", type: "전필", title: "고급 동서양 퓨전조리 실기 (황민석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "CUL-404", type: "전필", title: "외식창업 및 키친매니지먼트 (배성훈 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "CUL-308", type: "전선", title: "소스학 및 스톡 추출 실습 (황민석 교수)", cr: 3, gr: "A+", pt: 4.5 },
+                            { code: "FNS-302", type: "부전", title: "생애주기영양학 (최유진 교수)", cr: 3, gr: "B0", pt: 3.0 },
+                            { code: "ACC-104", type: "교선", title: "외식원가회계 (조원희 교수)", cr: 3, gr: "C+", pt: 2.5 },
+                            { code: "GEN-205", type: "교선", title: "아시아 식문화사 (안성민 교수)", cr: 3, gr: "B+", pt: 3.5 }
                         ]
                     }
                 ]
@@ -711,127 +985,230 @@
         // ================= 2. 효빈대학교 발급 가능 증명서 28종 전체 데이터베이스 =================
         const CERTIFICATES_DB = [
             // [1] 학적·졸업 (8종)
-            { id: "CERT-01", cat: "학적·졸업", name: "재학증명서 (국문/영문)", desc: "현재 학적 상태(재학)를 증명하는 공식 문서 (관공서·금융기관·장학재단 제출용)", fee: 500, type: "ENROLL" },
-            { id: "CERT-02", cat: "학적·졸업", name: "휴학증명서 (병역휴학·일반휴학)", desc: "현재 휴학 중임을 증명하며 복무기관(구청 병무행정 등) 및 외부 기관 제출용", fee: 500, type: "LEAVE" },
-            { id: "CERT-03", cat: "학적·졸업", name: "졸업증명서 / 학위수여증명서", desc: "학위번호 및 전공·복수/부전공 학위 수여 사실을 증명하는 문서", fee: 500, type: "GRAD" },
-            { id: "CERT-04", cat: "학적·졸업", name: "졸업예정증명서", desc: "4학년(7~8학기) 재학생의 졸업 예정 사실을 증명 (공공기관·기업 공채 제출용)", fee: 500, type: "GRAD_EXP" },
-            { id: "CERT-05", cat: "학적·졸업", name: "수료증명서 (학년수료·학점수료)", desc: "특정 학년(2학년 수료 등) 또는 졸업학점 이수 수료 사실을 증명 (편입·고시 응시용)", fee: 500, type: "COMPLETE" },
-            { id: "CERT-06", cat: "학적·졸업", name: "재적증명서 (제적·자퇴 포함)", desc: "본교에 재적하였던 기간 및 학적 변동 사실을 증명하는 문서", fee: 500, type: "RECORD" },
-            { id: "CERT-07", cat: "학적·졸업", name: "복수전공·부전공 이수(신청)확인서", desc: "제2전공(경영학과 등) 및 부전공 이수 내역을 별도 증명하는 서류", fee: 500, type: "DOUBLE_MAJOR" },
-            { id: "CERT-08", cat: "학적·졸업", name: "학적부 사본 증명서", desc: "입학부터 현재까지의 학적 변동, 상벌, 학기별 성적이 모두 기재된 종합 원부", fee: 1000, type: "FULL_RECORD" },
+            { id: "CERT-01", cat: "학적·졸업", name: "재학증명서 (국문/영문)", desc: "현재 학적 상태가 '재학' 중인 학생에게만 발급되는 공식 증명서", fee: 500, type: "ENROLL" },
+            { id: "CERT-02", cat: "학적·졸업", name: "휴학증명서 (병역휴학·일반휴학)", desc: "현재 학적 상태가 '휴학' 중인 학생에게만 발급되는 공식 증명서 (병무청·복무기관 제출용)", fee: 500, type: "LEAVE" },
+            { id: "CERT-03", cat: "학적·졸업", name: "졸업증명서 / 학위수여증명서", desc: "전 교육과정을 마치고 학위를 수여받은 '졸업생'에게만 발급되는 공식 문서", fee: 500, type: "GRAD" },
+            { id: "CERT-04", cat: "학적·졸업", name: "졸업예정증명서", desc: "4학년(7~8학기) 재학생에게만 발급되는 졸업 예정 증명 문서", fee: 500, type: "GRAD_EXP" },
+            { id: "CERT-05", cat: "학적·졸업", name: "수료증명서 (학년수료·학점수료)", desc: "2학년(4학기) 이상 수료 학점을 충족한 재적·졸업생 증명 문서", fee: 500, type: "COMPLETE" },
+            { id: "CERT-06", cat: "학적·졸업", name: "재적증명서", desc: "본교에 입학하여 재적(재학·휴학·졸업)한 기간 사실을 증명하는 문서", fee: 500, type: "RECORD" },
+            { id: "CERT-07", cat: "학적·졸업", name: "복수전공·부전공 이수(신청)확인서", desc: "제2전공(복수전공 또는 부전공) 이수·신청자에게만 발급되는 증명 서류", fee: 500, type: "DOUBLE_MAJOR" },
+            { id: "CERT-08", cat: "학적·졸업", name: "학적부 사본 증명서", desc: "입학부터 현재까지의 학적 변동, 전공, 학기별 성적이 모두 기재된 종합 원부", fee: 1000, type: "FULL_RECORD" },
 
             // [2] 성적·교직·융합 (6종)
-            { id: "CERT-09", cat: "성적·교직·융합", name: "성적증명서 (국문/영문 · 4.5만점)", desc: "학기별 수강과목, 학점, 성적등급(A+~F, 재수강 R), 백분위 환산점수 기재", fee: 1000, type: "TRANSCRIPT" },
+            { id: "CERT-09", cat: "성적·교직·융합", name: "성적증명서 (국문/영문 · 4.50 만점)", desc: "전 학기 수강과목, 학점, 성적등급, 백분위 환산점수 및 석차 기재 (다중페이지 지원)", fee: 1000, type: "TRANSCRIPT" },
             { id: "CERT-10", cat: "성적·교직·융합", name: "석차확인서 (학년별·전체학기)", desc: "소속 학과 내 학기별 및 전체 누적 석차/백분율을 공식 증명", fee: 500, type: "RANK" },
-            { id: "CERT-11", cat: "성적·교직·융합", name: "교직과정 이수(예정)증명서", desc: "사범대학(36개 학과) 및 일반학과 교직이수자의 중등교사 자격 취득 예정 증명", fee: 500, type: "TEACHER" },
-            { id: "CERT-12", cat: "성적·교직·융합", name: "융합학부 마이크로디그리 이수증명서", desc: "메타버스·IAB·반도체·소부장·에너지신산업 소단위 학위과정 이수 인증서", fee: 500, type: "MICRO" },
-            { id: "CERT-13", cat: "성적·교직·융합", name: "국제교류(일본 누마즈·필리핀 UP 등) 학점인정서", desc: "해외 자매대학 교환학생 파견 및 샤이니(Shiny) 글로벌 학점 호환 내역 증명", fee: 500, type: "EXCHANGE" },
-            { id: "CERT-14", cat: "성적·교직·융합", name: "GPA 백분위 환산표 확인서", desc: "본교 4.5 만점 기준 평점평균을 4.0 / 4.3 / 100점 만점으로 공식 환산한 대조표", fee: 0, type: "GPA_CONV" },
+            { id: "CERT-11", cat: "성적·교직·융합", name: "교직과정 이수(예정)증명서", desc: "사범대학 및 일반학과 교직과정 선발 이수자에게만 발급", fee: 500, type: "TEACHER" },
+            { id: "CERT-12", cat: "성적·교직·융합", name: "융합학부 마이크로디그리 이수증명서", desc: "소단위 학위과정(마이크로디그리) 이수자에게만 발급", fee: 500, type: "MICRO" },
+            { id: "CERT-13", cat: "성적·교직·융합", name: "국제교류(해외 자매대학) 학점인정확인서", desc: "해외 교환학생 및 단기연수 학점인정 이력이 있는 학생에게만 발급", fee: 500, type: "EXCHANGE" },
+            { id: "CERT-14", cat: "성적·교직·융합", name: "GPA 백분위 환산표 확인서", desc: "본교 4.50 만점 기준 평점평균을 4.0 / 4.3 / 100점 만점으로 공식 환산한 대조표", fee: 0, type: "GPA_CONV" },
 
             // [3] 등록·장학·연말정산 (5종)
-            { id: "CERT-15", cat: "등록·장학·연말정산", name: "교육비납입증명서 (연말정산 소득공제용)", desc: "국세청 연말정산 제출용 학기별 등록금 감면 후 실납부 교육비 내역서", fee: 0, type: "TAX_EDU" },
-            { id: "CERT-16", cat: "등록·장학·연말정산", name: "등록금납부확인서 (5년 연속 동결 고지)", desc: "해당 학기 수업료 및 기성회비 납부 완료 사실을 증명하는 영수 확인서", fee: 0, type: "TUITION" },
-            { id: "CERT-17", cat: "등록·장학·연말정산", name: "장학금수혜증명서 (교내 베르데·샤이니 / 국가장학)", desc: "재학 중 수혜받은 교내외 장학금 내역(또는 미수혜 사실)을 증명", fee: 0, type: "SCHOLARSHIP" },
-            { id: "CERT-18", cat: "등록·장학·연말정산", name: "학생생활관(기숙사) 입사 및 관비 납부확인서", desc: "니나관·아와관·희다관·후등관·성가관 등 기숙사 거주 사실 및 납부 내역 증명", fee: 0, type: "DORM_CERT" },
-            { id: "CERT-19", cat: "등록·장학·연말정산", name: "학자금대출 상환유예 신청용 재학·성적확인서", desc: "한국장학재단 및 금융기관 학자금대출이자 지원(효빈시청 지원사업) 제출용", fee: 0, type: "LOAN" },
+            { id: "CERT-15", cat: "등록·장학·연말정산", name: "교육비납입증명서 (연말정산 세액공제용)", desc: "국세청 연말정산 제출용 학기별 등록금 감면 후 실납부 교육비 내역서", fee: 0, type: "TAX_EDU" },
+            { id: "CERT-16", cat: "등록·장학·연말정산", name: "등록금납부확인서 (5년 연속 동결 고지)", desc: "해당 학기 수업료 수납 완료 사실을 증명하는 영수 확인서", fee: 0, type: "TUITION" },
+            { id: "CERT-17", cat: "등록·장학·연말정산", name: "장학금수혜증명서 (교내·외 및 국가장학 전체)", desc: "재학 중 수혜받은 교내·외 장학금 내역을 공식 증명", fee: 0, type: "SCHOLARSHIP" },
+            { id: "CERT-18", cat: "등록·장학·연말정산", name: "학생생활관(기숙사) 입사 및 관비 납부확인서", desc: "학생생활관(니나·아와·희다·후등·성가관 등) 실제 거주 사생에게만 발급 (통학생 불가)", fee: 0, type: "DORM_CERT" },
+            { id: "CERT-19", cat: "등록·장학·연말정산", name: "학자금대출 상환유예 신청용 재적·성적확인서", desc: "한국장학재단 및 지자체 학자금대출 이자지원 사업 제출용", fee: 0, type: "LOAN" },
 
             // [4] 철도·복지·임상·특화 (6종)
-            { id: "CERT-20", cat: "철도·복지·임상·특화", name: "HBNU Rail 교내철도 무사고 운전·관제 실습인증서", desc: "교통대학 A선(트램)·B선(모노레일) 및 중앙관제실(CTC) 실전 실습시간 공식 인증 (코레일·효빈교통공사 제출용)", fee: 1000, type: "RAIL_CERT" },
-            { id: "CERT-21", cat: "철도·복지·임상·특화", name: "사회복지현장실습 이수확인서 (사회복지사 1급 응시용)", desc: "본교 부설 종합사회복지관(7-3동) 및 협약 기관 160시간 현장실습 완료 증명", fee: 500, type: "WELFARE_CERT" },
-            { id: "CERT-22", cat: "철도·복지·임상·특화", name: "메디컬타운(효빈대병원 59~63동) 임상실습 확인서", desc: "통합의과대학(의·치·한·수)·약학·간호·보건대학 병원 임상실습 시간 증명", fee: 500, type: "MED_CERT" },
-            { id: "CERT-23", cat: "철도·복지·임상·특화", name: "학생자치기구·중앙동아리(HAF 기획단·언론4사) 활동증명서", desc: "총학생회, 단과대 학생회, HBUS 방송국, 효빈대신문, HAF 기획위원회 공식 경력 증명", fee: 500, type: "CLUB_CERT" },
-            { id: "CERT-24", cat: "철도·복지·임상·특화", name: "산학협력단 학부연구생(낭원 Nano-Fab 등) 경력증명서", desc: "LINC 3.0 사업단 및 낭원캠퍼스 반도체 클린룸(Fab)·연구소 연구 참여 확인서", fee: 500, type: "LAB_CERT" },
-            { id: "CERT-25", cat: "철도·복지·임상·특화", name: "비교과 교육과정 및 사회봉사(엘린센터·블루버드 멘토단) 인증서", desc: "교내외 멘토링 봉사(꿈나래·골뱅이 어울림학교 등) 누적 시간 공식 인증서", fee: 0, type: "VOLUNTEER" },
+            { id: "CERT-20", cat: "철도·복지·임상·특화", name: "HBNU Rail 교내철도 무사고 운전·관제 실습인증서", desc: "교통대학 운전·관제 실습생 및 교내철도 공식 연구·더빙·수송 참여자에게만 발급", fee: 1000, type: "RAIL_CERT" },
+            { id: "CERT-21", cat: "철도·복지·임상·특화", name: "사회복지현장실습 이수확인서 (사회복지사 1급 응시용)", desc: "사회복지학대학 소속으로 법정 160시간 현장실습을 이수한 학생에게만 발급 (타 학과 불가)", fee: 500, type: "WELFARE_CERT" },
+            { id: "CERT-22", cat: "철도·복지·임상·특화", name: "메디컬타운(효빈대병원 59~63동) 임상실습 확인서", desc: "의과·치의과·한의과·수의과·약학·간호·보건대학 소속 임상실습 이수자에게만 발급", fee: 500, type: "MED_CERT" },
+            { id: "CERT-23", cat: "철도·복지·임상·특화", name: "학생자치기구·중앙동아리·학회 활동경력증명서", desc: "총학생회, 단과대 학생회, 중앙동아리 및 전공학회 공식 활동 경력 증명", fee: 500, type: "CLUB_CERT" },
+            { id: "CERT-24", cat: "철도·복지·임상·특화", name: "산학협력단 학부연구생·정책연구 경력증명서", desc: "학부연구생 또는 산학·정책 연구 프로젝트 참여 실적이 있는 학생에게만 발급", fee: 500, type: "LAB_CERT" },
+            { id: "CERT-25", cat: "철도·복지·임상·특화", name: "비교과 교육과정 및 사회봉사(교육멘토링) 인증서", desc: "지역아동센터 학습멘토링 및 교내외 봉사활동 누적 시간 공식 인증서", fee: 0, type: "VOLUNTEER" },
 
             // [5] 학생증·국제학생증 (3종)
-            { id: "CERT-26", cat: "학생증·국제학생증", name: "모바일 학생증 즉시 발급 (HBNU Rail 무임 태그 패스)", desc: "스마트폰 NFC/QR 기반 학생증 (A선 트램·B선 모노레일 무료 탑승 및 도서관 출입)", fee: 0, type: "MOBILE_ID" },
-            { id: "CERT-27", cat: "학생증·국제학생증", name: "다기능 스마트카드 학생증 재발급 신청서", desc: "IC칩 내장 실물 플라스틱 학생증 (분실·훼손 시 학생복지회관 2동 1층 즉시 수령)", fee: 5000, type: "PLASTIC_ID" },
-            { id: "CERT-28", cat: "학생증·국제학생증", name: "ISIC 국제학생증 발급 확인서", desc: "일본·필리핀·유럽 교환학생 및 해외 배낭여행 시 전 세계 학생 할인 혜택을 받는 국제학생증", fee: 17000, type: "ISIC_ID" }
+            { id: "CERT-26", cat: "학생증·국제학생증", name: "모바일 학생증 / 동문증 즉시 발급 (HBNU Rail 패스)", desc: "스마트폰 NFC/QR 기반 학생증 및 동문 패스 (교내철도 무료 탑승 및 도서관 출입)", fee: 0, type: "MOBILE_ID" },
+            { id: "CERT-27", cat: "학생증·국제학생증", name: "다기능 스마트카드 학생증 재발급 신청서", desc: "현재 재학·휴학 중인 학부생 대상 IC칩 내장 실물 카드 학생증 (졸업생 불가)", fee: 5000, type: "PLASTIC_ID" },
+            { id: "CERT-28", cat: "학생증·국제학생증", name: "ISIC 국제학생증 발급 확인서", desc: "현재 재학·휴학 중인 학생 대상 국제학생증 (졸업생 불가)", fee: 17000, type: "ISIC_ID" }
         ];
 
-        // 상태 변수
+        // ★ 핵심: 신청자 프로필(p)과 증명서(cert) 간의 엄격한 발급 적격 판별 함수 ★
+        function checkCertificateEligibility(p, cert) {
+            switch (cert.type) {
+                case "ENROLL":
+                    return p.statusCode === "ENROLL"
+                        ? { ok: true, reason: "재학생 발급 적격" }
+                        : { ok: false, reason: p.statusCode === "GRAD" ? "발급불가 (기졸업자 · 졸업증명서 이용)" : "발급불가 (휴학생 · 휴학증명서 이용)" };
+                case "LEAVE":
+                    return p.statusCode === "LEAVE"
+                        ? { ok: true, reason: "휴학생 발급 적격" }
+                        : { ok: false, reason: p.statusCode === "GRAD" ? "발급불가 (기졸업자)" : "발급불가 (현재 재학중)" };
+                case "GRAD":
+                    return p.statusCode === "GRAD"
+                        ? { ok: true, reason: "졸업생 학위수여 적격" }
+                        : { ok: false, reason: "발급불가 (미졸업 재적생 · 재학/휴학/졸업예정증명서 이용)" };
+                case "GRAD_EXP":
+                    return (p.statusCode === "ENROLL" && p.isSenior)
+                        ? { ok: true, reason: "4학년 졸업예정자 적격" }
+                        : { ok: false, reason: p.statusCode === "GRAD" ? "발급불가 (기졸업자 · 졸업증명서 이용)" : "발급불가 (졸업예정 학기 미달 또는 휴학중)" };
+                case "DOUBLE_MAJOR":
+                    return p.hasDoubleMajor
+                        ? { ok: true, reason: `제2전공(${p.doubleMajor}) 적격` }
+                        : { ok: false, reason: "발급불가 (단일전공 이수자)" };
+                case "DORM_CERT":
+                    return p.isDormResident
+                        ? { ok: true, reason: "생활관 입사생 적격" }
+                        : { ok: false, reason: "발급불가 (통학생 · 생활관 입사이력 없음)" };
+                case "WELFARE_CERT":
+                    return p.isSocialWelfare
+                        ? { ok: true, reason: "사회복지현장실습 이수 적격" }
+                        : { ok: false, reason: `발급불가 (${p.dept} 소속 · 사회복지학 전공자 전용)` };
+                case "RAIL_CERT":
+                    return p.hasRailCert
+                        ? { ok: true, reason: "교내철도 실습·참여 적격" }
+                        : { ok: false, reason: "발급불가 (교내철도 실습·연구 이력 없음)" };
+                case "MED_CERT":
+                    return p.hasMedCert
+                        ? { ok: true, reason: "임상실습 적격" }
+                        : { ok: false, reason: "발급불가 (의·약·간·보건 임상실습 대상 아님)" };
+                case "TEACHER":
+                    return p.hasTeacherCert
+                        ? { ok: true, reason: "교직과정 이수 적격" }
+                        : { ok: false, reason: "발급불가 (사범대 및 교직이수 과정 아님)" };
+                case "MICRO":
+                    return p.hasMicroDegree
+                        ? { ok: true, reason: "마이크로디그리 이수 적격" }
+                        : { ok: false, reason: "발급불가 (마이크로디그리 이수내역 없음)" };
+                case "EXCHANGE":
+                    return p.hasExchange
+                        ? { ok: true, reason: "국제교류 학점인정 적격" }
+                        : { ok: false, reason: "발급불가 (해외 교환학생 파견이력 없음)" };
+                case "LAB_CERT":
+                    return p.hasLabCareer
+                        ? { ok: true, reason: "연구참여 실적 확인됨" }
+                        : { ok: false, reason: "발급불가 (산학·정책 연구보조 참여이력 없음)" };
+                case "PLASTIC_ID":
+                case "ISIC_ID":
+                    return p.statusCode !== "GRAD"
+                        ? { ok: true, reason: "재적생 신청 가능" }
+                        : { ok: false, reason: "발급불가 (기졸업자는 동문 모바일 패스만 가능)" };
+                default:
+                    return { ok: true, reason: "발급 적격" };
+            }
+        }
+
         let activeProfile = STUDENT_PROFILES[0];
         let activeCategory = 'ALL';
-        let cart = [
-            { certId: "CERT-09", qty: 1 },
-            { certId: "CERT-01", qty: 1 }
-        ];
+        let cart = [];
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderProfileSelector();
+            initStudentSelectDropdown();
+            resetDefaultCartForProfile();
             renderActiveProfileSummary();
             renderCertificateList();
             updateCartUI();
+            renderQuickEligibleCerts();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
 
-        // ================= 3. 7인 프로필 선택기 렌더링 =================
-        function renderProfileSelector() {
-            const grid = document.getElementById('profile-selector-grid');
-            if (!grid) return;
-            grid.innerHTML = STUDENT_PROFILES.map(p => {
-                const isSelected = p.id === activeProfile.id;
-                return `
-                    <button onclick="selectProfile('${p.id}')" class="p-2.5 rounded-xl border-2 text-left transition-all flex flex-col justify-between ${isSelected ? 'border-[#3344aa] bg-blue-50/80 shadow-sm ring-2 ring-blue-200' : 'border-slate-200 bg-slate-50 hover:bg-white'}">
-                        <div>
-                            <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded mb-1 ${isSelected ? 'bg-[#3344aa] text-white' : 'bg-slate-200 text-slate-700'}">${p.badge}</span>
-                            <div class="font-black text-slate-900 text-xs truncate">${p.nameKor.split('(')[0]}</div>
-                            <div class="text-[10px] text-slate-500 truncate">${p.dept}</div>
-                        </div>
-                        <div class="mt-2 pt-1.5 border-t border-slate-200/80 flex justify-between items-center text-[10px]">
-                            <span class="font-bold text-slate-600">${p.status.split(' ')[0]}</span>
-                            <span class="font-mono-code font-black text-[#3344aa]">GPA ${p.gpa45}</span>
-                        </div>
-                    </button>
-                `;
-            }).join('');
+        function initStudentSelectDropdown() {
+            const sel = document.getElementById('cert-student-select');
+            if (!sel) return;
+            sel.innerHTML = STUDENT_PROFILES.map(p => `
+                <option value="${p.id}" ${p.id === activeProfile.id ? 'selected' : ''}>
+                    [${p.studentNo}] ${p.nameKor} — ${p.college} ${p.dept} (${p.doubleMajor}) · ${p.status.split('(')[0].trim()}
+                </option>
+            `).join('');
+        }
+
+        function resetDefaultCartForProfile() {
+            const p = activeProfile;
+            cart = [{ certId: "CERT-09", qty: 1 }]; // 성적증명서 기본 포함
+            if (p.statusCode === "GRAD") {
+                cart.push({ certId: "CERT-03", qty: 1 }); // 졸업생은 졸업증명서 자동 담기
+            } else if (p.statusCode === "LEAVE") {
+                cart.push({ certId: "CERT-02", qty: 1 }); // 휴학생은 휴학증명서 자동 담기
+            } else {
+                cart.push({ certId: "CERT-01", qty: 1 }); // 재학생은 재학증명서 자동 담기
+            }
         }
 
         function selectProfile(profileId) {
             activeProfile = STUDENT_PROFILES.find(p => p.id === profileId) || STUDENT_PROFILES[0];
-            renderProfileSelector();
+            initStudentSelectDropdown();
+            resetDefaultCartForProfile();
             renderActiveProfileSummary();
+            renderCertificateList();
             updateCartUI();
+            renderQuickEligibleCerts();
         }
 
         function renderActiveProfileSummary() {
             const box = document.getElementById('active-profile-summary');
+            const badge = document.getElementById('eligible-cert-summary');
             if (!box) return;
+
+            const eligibleCount = CERTIFICATES_DB.filter(c => checkCertificateEligibility(activeProfile, c).ok).length;
+            if (badge) {
+                badge.innerText = `발급 적격 증명서: 총 28종 중 ${eligibleCount}종 활성화 (${28 - eligibleCount}종 자격제한 차단)`;
+            }
+
             box.innerHTML = `
-                <div>
-                    <span class="text-slate-400 block text-[10px]">성명 / 학번</span>
-                    <strong class="text-sm text-white">${activeProfile.nameKor}</strong>
-                    <span class="block font-mono-code text-[#99dd88] text-[11px]">${activeProfile.studentNo} (${activeProfile.birth})</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">성명 / 학번</span>
+                    <strong class="text-sm text-slate-900 font-black mt-0.5 block">${activeProfile.nameKor}</strong>
+                    <span class="font-mono-code text-[#3344aa] font-bold text-xs">${activeProfile.studentNo} (${activeProfile.birth})</span>
                 </div>
-                <div>
-                    <span class="text-slate-400 block text-[10px]">소속 단과대학 · 학과</span>
-                    <strong class="text-white">${activeProfile.college}</strong>
-                    <span class="block text-blue-200 text-[11px]">${activeProfile.dept}</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">소속 단과대학 · 제1전공</span>
+                    <strong class="text-slate-900 font-bold mt-0.5 block">${activeProfile.college}</strong>
+                    <span class="text-[#1e2a78] font-extrabold text-xs">${activeProfile.dept}</span>
                 </div>
-                <div>
-                    <span class="text-slate-400 block text-[10px]">복수/부전공 · 학년</span>
-                    <strong class="text-white">${activeProfile.gradeYear}</strong>
-                    <span class="block text-slate-300 text-[11px] truncate">${activeProfile.doubleMajor}</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">제2전공 (복수/부전공)</span>
+                    <strong class="text-emerald-800 font-bold mt-0.5 block">${activeProfile.doubleMajor}</strong>
+                    <span class="text-slate-500 text-[11px] truncate block">${activeProfile.gradeYear}</span>
                 </div>
-                <div>
-                    <span class="text-slate-400 block text-[10px]">현재 학적상태</span>
-                    <strong class="text-[#a0fff9]">${activeProfile.status}</strong>
-                    <span class="block text-slate-400 text-[11px]">입학: ${activeProfile.admissionDate}</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">현재 학적구분</span>
+                    <strong class="text-slate-900 font-bold mt-0.5 block">${activeProfile.status.split('(')[0].trim()}</strong>
+                    <span class="text-slate-500 text-[11px] block">입학: ${activeProfile.admissionDate}</span>
                 </div>
-                <div>
-                    <span class="text-slate-400 block text-[10px]">취득학점 / 평점평균(4.5)</span>
-                    <strong class="text-sm text-amber-300 font-mono-code">${activeProfile.totalCredits}학점 / ${activeProfile.gpa45}</strong>
-                    <span class="block text-slate-300 text-[11px]">백분위: ${activeProfile.gpa100}점</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">취득학점 / 평점평균(4.5)</span>
+                    <strong class="text-base text-[#3344aa] font-mono-code font-black mt-0.5 block">${activeProfile.totalCredits}학점 / ${activeProfile.gpa45}</strong>
+                    <span class="text-slate-500 text-[11px] block">백분위: ${activeProfile.gpa100}점</span>
                 </div>
-                <div>
-                    <span class="text-slate-400 block text-[10px]">학과 석차 / 장학내역</span>
-                    <strong class="text-white">${activeProfile.rank}</strong>
-                    <span class="block text-[#99dd88] text-[11px] truncate">${activeProfile.scholarshipName}</span>
+                <div class="pt-2 sm:pt-0 sm:px-3">
+                    <span class="text-slate-400 block text-[11px] font-bold">거주형태 (생활관 여부)</span>
+                    <strong class="${activeProfile.isDormResident ? 'text-[#3344aa]' : 'text-slate-800'} font-bold mt-0.5 block">${activeProfile.isDormResident ? '학생생활관(아와관) 거주' : '자택 통학 (비거주)'}</strong>
+                    <span class="text-slate-500 text-[11px] truncate block">${activeProfile.dormInfo}</span>
                 </div>
             `;
         }
 
-        // ================= 4. 증명서 28종 리스트 렌더링 및 장바구니 제어 =================
+        function renderQuickEligibleCerts() {
+            const box = document.getElementById('quick-eligible-certs-box');
+            if (!box) return;
+            const p = activeProfile;
+
+            const quickIds = ["CERT-09"];
+            if (p.statusCode === "GRAD") quickIds.push("CERT-03");
+            if (p.statusCode === "ENROLL") quickIds.push("CERT-01");
+            if (p.statusCode === "LEAVE") quickIds.push("CERT-02");
+            if (p.hasDoubleMajor) quickIds.push("CERT-07");
+            if (p.isSocialWelfare) quickIds.push("CERT-21");
+            if (p.isDormResident) quickIds.push("CERT-18");
+            if (p.hasRailCert) quickIds.push("CERT-20");
+            quickIds.push("CERT-17", "CERT-23");
+
+            box.innerHTML = quickIds.slice(0, 5).map(cid => {
+                const c = CERTIFICATES_DB.find(item => item.id === cid);
+                if (!c) return '';
+                return `
+                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center">
+                        <div class="truncate pr-2">
+                            <div class="font-bold text-slate-800 truncate">${c.name}</div>
+                            <div class="font-mono-code text-[10px] text-emerald-700">✓ ${checkCertificateEligibility(p, c).reason}</div>
+                        </div>
+                        <button onclick="previewCertById('${c.id}')" class="px-2.5 py-1 bg-white border border-[#3344aa] rounded font-bold hover:bg-blue-50 text-[#3344aa] shrink-0">열람</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ================= 4. 증명서 28종 리스트 렌더링 및 자격 차단 UI =================
         function setCertCategory(cat) {
             activeCategory = cat;
             document.querySelectorAll('.cert-cat-btn').forEach(btn => {
@@ -850,7 +1227,12 @@
             const q = document.getElementById('cert-search-input').value.trim().toLowerCase();
 
             const filtered = CERTIFICATES_DB.filter(c => {
-                const matchCat = (activeCategory === 'ALL' || c.cat === activeCategory);
+                const elig = checkCertificateEligibility(activeProfile, c);
+                const matchCat = activeCategory === 'ALL'
+                    ? true
+                    : activeCategory === 'ELIGIBLE_ONLY'
+                        ? elig.ok
+                        : c.cat === activeCategory;
                 const matchQ = !q || c.name.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q);
                 return matchCat && matchQ;
             });
@@ -858,7 +1240,30 @@
             document.getElementById('cert-list-count').innerText = `${filtered.length}종`;
 
             container.innerHTML = filtered.map(c => {
+                const elig = checkCertificateEligibility(activeProfile, c);
                 const inCart = cart.find(item => item.certId === c.id);
+
+                if (!elig.ok) {
+                    return `
+                        <div class="p-4 bg-slate-100/70 opacity-65 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex items-start gap-3 flex-grow">
+                                <input type="checkbox" disabled class="w-4 h-4 mt-1 rounded border-slate-300 cursor-not-allowed">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-1.5">
+                                        <span class="text-[10px] font-black px-2 py-0.5 rounded bg-slate-200 text-slate-600">${c.cat}</span>
+                                        <span class="font-bold text-slate-500 text-sm line-through">${c.name}</span>
+                                        <span class="text-[10px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700 border border-rose-200">🔒 ${elig.reason}</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-0.5">${c.desc}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-end shrink-0">
+                                <span class="px-3 py-1.5 rounded-lg bg-slate-200 text-slate-500 text-xs font-bold cursor-not-allowed">발급대상 아님</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 return `
                     <div class="p-4 hover:bg-blue-50/50 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${inCart ? 'bg-blue-50/40' : ''}">
                         <label class="flex items-start gap-3 cursor-pointer flex-grow">
@@ -867,6 +1272,7 @@
                                 <div class="flex flex-wrap items-center gap-1.5">
                                     <span class="text-[10px] font-black px-2 py-0.5 rounded bg-slate-100 text-[#3344aa] border border-blue-200">${c.cat}</span>
                                     <span class="font-black text-slate-900 text-sm">${c.name}</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">✓ ${elig.reason}</span>
                                 </div>
                                 <p class="text-xs text-slate-500 mt-0.5">${c.desc}</p>
                             </div>
@@ -887,6 +1293,9 @@
         }
 
         function toggleCartItem(certId) {
+            const certObj = CERTIFICATES_DB.find(c => c.id === certId);
+            if (!certObj || !checkCertificateEligibility(activeProfile, certObj).ok) return;
+
             const idx = cart.findIndex(item => item.certId === certId);
             if (idx >= 0) {
                 cart.splice(idx, 1);
@@ -960,7 +1369,7 @@
             document.getElementById('cart-final-price').innerText = `${finalPrice.toLocaleString()}원`;
         }
 
-        // ================= 5. 공식 A4 증명서 동적 생성 및 미리보기 엔진 =================
+        // ================= 5. 공식 A4 증명서 동적 생성 및 자격 검증 엔진 =================
         function previewRepresentativeCert() {
             previewCertById('CERT-09');
         }
@@ -980,8 +1389,15 @@
                 return;
             }
             const certObj = CERTIFICATES_DB.find(c => c.id === certId) || CERTIFICATES_DB[8];
-            const tabsBar = document.getElementById('viewer-tabs-bar');
+            const elig = checkCertificateEligibility(activeProfile, certObj);
 
+            // 부적격 증명서 열람 시도 시 차단 알림
+            if (!elig.ok) {
+                alert(`[발급 자격 제한]\n신청자(${activeProfile.nameKor})님은 해당 증명서(${certObj.name})의 발급 대상이 아닙니다.\n• 사유: ${elig.reason}`);
+                return;
+            }
+
+            const tabsBar = document.getElementById('viewer-tabs-bar');
             if (showCartTabs && cart.length > 1) {
                 tabsBar.innerHTML = cart.map(item => {
                     const c = CERTIFICATES_DB.find(db => db.id === item.certId);
@@ -997,26 +1413,26 @@
             const docSerial = `HBNU-2026-${Math.floor(1000 + Math.random() * 9000)}-${certId.split('-')[1]}01`;
             const issueDateStr = "2026년 11월 09일";
 
-            document.getElementById('viewer-header-title').innerText = `${p.nameKor} — ${certObj.name}`;
+            document.getElementById('viewer-header-title').innerText = `${p.nameKor} (${p.studentNo}) — ${certObj.name}`;
 
             let bodyContentHTML = '';
 
-            // 1) 성적증명서(CERT-09)인 경우
-            if (certObj.type === 'TRANSCRIPT') {
+            // 1) 성적증명서(CERT-09) 또는 학적부 사본(CERT-08) — 학기 블록별 page-break-inside: avoid 적용!
+            if (certObj.type === 'TRANSCRIPT' || certObj.type === 'FULL_RECORD') {
                 const semestersHTML = p.semesters.map(semObj => {
                     const filteredCourses = semObj.courses.filter(course => !(gpaMode === 'PASS_ONLY' && course.gr === 'F'));
                     return `
-                        <div class="mb-4 border border-slate-400">
-                            <div class="bg-slate-100 px-3 py-1.5 border-b border-slate-400 flex justify-between items-center text-xs font-black text-slate-800">
+                        <div class="sem-block mb-3 border border-slate-400">
+                            <div class="bg-slate-100 px-3 py-1 border-b border-slate-400 flex justify-between items-center text-[11px] font-black text-slate-800">
                                 <span>■ ${semObj.sem}</span>
-                                <span>신청학점: ${semObj.credits}학점 / 학기평점: ${semObj.avg} / 4.50</span>
+                                <span>이수학점: ${semObj.credits}학점 / 학기평점: ${semObj.avg} / 4.50</span>
                             </div>
                             <table class="w-full text-[11px] border-collapse">
                                 <thead>
                                     <tr class="bg-slate-50 border-b border-slate-300 text-slate-600 font-bold">
                                         <th class="py-1 px-2 border-r border-slate-300 w-20 text-center">학수번호</th>
-                                        <th class="py-1 px-2 border-r border-slate-300 w-14 text-center">이수구분</th>
-                                        <th class="py-1 px-3 border-r border-slate-300 text-left">교과목명</th>
+                                        <th class="py-1 px-2 border-r border-slate-300 w-16 text-center">이수구분</th>
+                                        <th class="py-1 px-3 border-r border-slate-300 text-left">교과목명 (담당교원)</th>
                                         <th class="py-1 px-2 border-r border-slate-300 w-12 text-center">학점</th>
                                         <th class="py-1 px-2 border-r border-slate-300 w-16 text-center">성적등급</th>
                                         <th class="py-1 px-2 w-14 text-center">평점</th>
@@ -1030,7 +1446,7 @@
                                             <td class="py-1 px-3 border-r border-slate-300 font-medium">${c.title}</td>
                                             <td class="py-1 px-2 border-r border-slate-300 text-center font-mono-code">${c.cr}</td>
                                             <td class="py-1 px-2 border-r border-slate-300 text-center font-mono-code font-bold ${c.gr === 'F' ? 'text-red-600' : c.gr.startsWith('A') ? 'text-[#1e2a78]' : ''}">${c.gr}</td>
-                                            <td class="py-1 px-2 text-center font-mono-code">${c.pt.toFixed(1)}</td>
+                                            <td class="py-1 px-2 text-center font-mono-code">${c.gr === 'P' ? 'Pass' : c.pt.toFixed(1)}</td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -1042,34 +1458,48 @@
                 bodyContentHTML = `
                     <div class="mb-4">
                         ${semestersHTML}
-                        <div class="p-3 bg-slate-100 border-2 border-slate-800 flex flex-wrap justify-between items-center text-xs font-black gap-2">
-                            <span>총 취득학점: ${p.totalCredits}학점</span>
+                        <div class="sem-block p-3 bg-slate-100 border-2 border-slate-800 flex flex-wrap justify-between items-center text-xs font-black gap-2">
+                            <span>총 취득학점: ${p.totalCredits}학점 (졸업기준: 130학점)</span>
                             <span class="text-[#1e2a78] text-sm">전체 평점평균(GPA): ${p.gpa45} / 4.50</span>
                             <span>백분위 환산: ${p.gpa100} / 100점</span>
-                            <span>학과 석차: ${p.rank}</span>
+                            <span>누적 석차: ${p.rank}</span>
                         </div>
                     </div>
                 `;
             }
-            // 2) 교육비납입증명서 / 등록금 / 장학금 (CERT-15 ~ 17)
+            // 2) 학생생활관(기숙사) 입사 및 관비 납부확인서 (CERT-18 · 실제 거주생만 도달)
+            else if (certObj.type === 'DORM_CERT') {
+                bodyContentHTML = `
+                    <div class="my-8 space-y-4">
+                        <div class="p-5 border-2 border-slate-800 bg-slate-50 space-y-3 text-xs leading-relaxed">
+                            <div class="font-black text-sm text-[#1e2a78] border-b border-slate-300 pb-2">🏢 [학생생활관 관리동(55동)] 기숙사 입사 및 생활관비 수납 확인 내역</div>
+                            <div>• <strong>입사 생활관 및 호실:</strong> <strong class="text-[#3344aa]">${p.dormInfo}</strong></div>
+                            <div>• <strong>입사 기간:</strong> 2026학년도 정규학기 (입사상태: 정상 거주중 · 벌점 0점)</div>
+                            <div>• <strong>생활관비 및 식비 수납:</strong> 학기당 1,180,000원 전액 수납 완료 (아와관 식당 3식 포함)</div>
+                            <div>• <strong>확인 기관:</strong> 국립 효빈대학교 학생생활관장 직인 필</div>
+                        </div>
+                    </div>
+                `;
+            }
+            // 3) 교육비납입증명서 / 등록금 / 장학금 수혜증명서 (CERT-15 ~ 17)
             else if (['TAX_EDU', 'TUITION', 'SCHOLARSHIP'].includes(certObj.type)) {
                 const netPay = Math.max(0, p.tuitionPaid - p.scholarshipAmt);
                 bodyContentHTML = `
                     <div class="my-6 space-y-4">
                         <p class="text-sm font-serif-cert text-center font-bold text-slate-800">
-                            위 사람의 교육비(등록금) 납입 및 장학금 감면 내역을 아래와 같이 증명합니다.<br>
-                            <span class="text-xs text-[#3344aa]">(※ 효빈대학교는 HAF Zone 4 문화사업 및 산학협력 수익을 통해 5년 연속 등록금을 전면 동결하였습니다.)</span>
+                            위 사람의 등록금(교육비) 납입 및 교내·외 장학금 수혜 내역을 아래와 같이 증명합니다.<br>
+                            <span class="text-xs text-[#3344aa]">(※ 국립 효빈대학교는 산학협력 및 문화사업 재원 전입을 통해 학부 등록금을 5년 연속 전면 동결하였습니다.)</span>
                         </p>
                         <table class="w-full text-xs border-2 border-slate-800 border-collapse text-center">
                             <tr class="bg-slate-100 font-black border-b border-slate-800">
-                                <th class="p-2.5 border-r border-slate-400">구분</th>
-                                <th class="p-2.5 border-r border-slate-400">고지 등록금(수업료)</th>
-                                <th class="p-2.5 border-r border-slate-400">장학금 감면액 (${p.scholarshipName})</th>
-                                <th class="p-2.5">실납부 교육비 (공제대상액)</th>
+                                <th class="p-2.5 border-r border-slate-400">책정 수업료</th>
+                                <th class="p-2.5 border-r border-slate-400">수혜 장학금 내역</th>
+                                <th class="p-2.5 border-r border-slate-400">장학금 감면액</th>
+                                <th class="p-2.5">실납부 교육비</th>
                             </tr>
                             <tr class="font-mono-code font-bold text-sm">
-                                <td class="p-3 border-r border-slate-400 font-sans">해당 학년도</td>
                                 <td class="p-3 border-r border-slate-400">${p.tuitionPaid.toLocaleString()}원</td>
+                                <td class="p-3 border-r border-slate-400 font-sans text-xs text-[#1e2a78]">${p.scholarshipName}</td>
                                 <td class="p-3 border-r border-slate-400 text-emerald-700">-${p.scholarshipAmt.toLocaleString()}원</td>
                                 <td class="p-3 text-[#1e2a78] font-black">${netPay.toLocaleString()}원</td>
                             </tr>
@@ -1077,29 +1507,36 @@
                     </div>
                 `;
             }
-            // 3) 교내철도(HBNU Rail) 실습인증서 또는 사회복지현장실습 이수확인서
-            else if (['RAIL_CERT', 'WELFARE_CERT'].includes(certObj.type)) {
+            // 4) 교내철도(HBNU Rail) 실습인증서 / 사회복지현장실습 확인서 / 학생자치·동아리 경력증명서
+            else if (['RAIL_CERT', 'WELFARE_CERT', 'CLUB_CERT', 'VOLUNTEER', 'LAB_CERT'].includes(certObj.type)) {
+                const detailMap = {
+                    RAIL_CERT: { title: "🚊 [HBNU Rail 사업단] 교내 도시철도 운전·관제·안전 무사고 실습 내역", org: "효빈대학교 교통대학 HBNU Rail 사업단 (A선 노면전차 · B선 모노레일 · CTC 관제실)", rec: p.railHours, sup: "교통대학장 · HBNU Rail 중앙관제실장 직인 필" },
+                    WELFARE_CERT: { title: "🤝 [사회복지학대학] 법정 사회복지현장실습(160시간) 및 실습제본록 이수 내역", org: "효빈대학교 부설 종합사회복지관(7-3동) 및 군산·효빈 협약 사회복지기관", rec: p.welfareHours, sup: "사회복지학대학장 · 실습지도교수(신정훈 교수) 확인 필" },
+                    CLUB_CERT: { title: "🏛️ [학생처 학생지원팀] 학생자치기구 · 학내언론 · 전공학회 활동 경력 내역", org: "효빈대학교 총학생회 · 단과대학 학생회 · 총동아리연합회", rec: p.clubCareer, sup: "효빈대학교 학생처장 확인 필" },
+                    LAB_CERT: { title: "🔬 [산학협력단 · 연구처] 학부연구생 및 정책연구 프로젝트 참여 경력 내역", org: "효빈대학교 산학협력단(41동) 및 사회과학연구원(38동)", rec: `${p.railHours} / ${p.clubCareer}`, sup: "효빈대학교 산학협력단장 확인 필" },
+                    VOLUNTEER: { title: "🌱 [교육혁신센터 · 사회봉사단] 비교과 교육과정 및 지역사회 교육멘토링 인증 내역", org: "효빈대학교 사회봉사단 및 협약 지역아동센터", rec: p.welfareHours, sup: "효빈대학교 사회봉사단장 확인 필" }
+                };
+                const d = detailMap[certObj.type];
                 bodyContentHTML = `
                     <div class="my-6 space-y-4">
                         <div class="p-5 border-2 border-slate-700 bg-slate-50 space-y-3 text-xs leading-relaxed">
-                            <div class="font-black text-sm text-[#1e2a78] border-b border-slate-300 pb-2">
-                                ${certObj.type === 'RAIL_CERT' ? '🚊 [HBNU Rail 사업단] 교내 도시철도 운전·관제·안전 무사고 실습 내역' : '🤝 [사회복지학대학 · 부설 종합사회복지관(7-3동)] 법정 현장실습·봉사 이수 내역'}
-                            </div>
-                            <div>• <strong>실습 기관:</strong> ${certObj.type === 'RAIL_CERT' ? '효빈대학교 교통대학 HBNU Rail 사업단 (A선 노면전차 · B선 과좌식 모노레일 · CTC 관제실)' : '효빈대학교 부설 종합사회복지관(7-3동) 및 엘린지역아동센터'}</div>
-                            <div>• <strong>이수 시간 및 실적:</strong> <strong class="text-[#3344aa]">${certObj.type === 'RAIL_CERT' ? p.railHours : p.welfareHours}</strong></div>
-                            <div>• <strong>지도교수 및 슈퍼바이저 확인:</strong> ${certObj.type === 'RAIL_CERT' ? '철도운영시스템공학과장 · 중앙관제실장 직인 필' : '민부선 교수 · 마서령 전임 사회복지사(슈퍼바이저) 확인 필'}</div>
-                            <div>• <strong>평가 소견:</strong> 위 사람은 본교의 교육 이념인 베르데(포용·연결) 정신과 안전 수칙을 준수하여 실습 과정을 성실히 이수하였음을 인증합니다.</div>
+                            <div class="font-black text-sm text-[#1e2a78] border-b border-slate-300 pb-2">${d.title}</div>
+                            <div>• <strong>관할 및 협약 기관:</strong> ${d.org}</div>
+                            <div>• <strong>이수 실적 및 경력:</strong> <strong class="text-[#3344aa]">${d.rec}</strong></div>
+                            <div>• <strong>감독 및 인증 책임자:</strong> ${d.sup}</div>
+                            <div>• <strong>공식 확인 소견:</strong> 위 사람은 국립 효빈대학교 학칙 및 비교과·실습 운영규정에 의거하여 위와 같이 현장실습 및 자치·봉사 과정을 성실히 이수하였음을 공식 인증합니다.</div>
                         </div>
                     </div>
                 `;
             }
-            // 4) 기본 학적 증명서 (재학/휴학/졸업/수료 등)
+            // 5) 기본 학적 증명서 (재학/휴학/졸업/복수전공 등)
             else {
                 bodyContentHTML = `
-                    <div class="my-12 py-10 px-6 border-y-2 border-slate-300 text-center space-y-4">
+                    <div class="my-10 py-10 px-6 border-y-2 border-slate-300 text-center space-y-4">
                         <p class="text-lg sm:text-xl font-serif-cert font-black text-slate-900 leading-loose">
                             위 사람은 국립 효빈대학교 학칙 제64조에 의거하여<br>
-                            위와 같이 <span class="text-[#1e2a78] underline decoration-2 underline-offset-4">[${certObj.name.split(' ')[0]}]</span> 사실이 있음을 증명합니다.
+                            제1전공 <span class="text-[#1e2a78]">[${p.college} ${p.dept}]</span> 및 제2전공 <span class="text-emerald-800">[${p.doubleMajor}]</span> 과정에서<br>
+                            위와 같이 <span class="text-[#1e2a78] underline decoration-2 underline-offset-4">[${certObj.name.split('(')[0].trim()}]</span> 사실이 있음을 증명합니다.
                         </p>
                         <p class="text-xs text-slate-500">
                             ※ 본 증명서는 ${purpose}으로 발급되었으며, 하단 바코드 및 문서확인번호로 진위 여부를 확인할 수 있습니다.
@@ -1111,7 +1548,7 @@
             document.getElementById('cert-paper-inner').innerHTML = `
                 <div>
                     <!-- 상단 문서확인번호 및 헤더 -->
-                    <div class="flex justify-between items-start text-[11px] text-slate-600 border-b-2 border-[#1e2a78] pb-3 mb-6">
+                    <div class="flex justify-between items-start text-[11px] text-slate-600 border-b-2 border-[#1e2a78] pb-3 mb-5">
                         <div class="font-mono-code">
                             <div><strong>문서확인번호:</strong> <span class="text-[#1e2a78] font-bold">${docSerial}</span></div>
                             <div><strong>발급구분:</strong> 온라인 전자증명 원본 (블록체인 검증필)</div>
@@ -1123,7 +1560,7 @@
                     </div>
 
                     <!-- 증명서 타이틀 -->
-                    <div class="text-center mb-6">
+                    <div class="text-center mb-5">
                         <h1 class="text-2xl sm:text-3xl font-serif-cert font-black tracking-[0.25em] text-slate-900 underline decoration-double decoration-[#1e2a78] underline-offset-8">
                             ${certObj.name.split('(')[0].trim()}
                         </h1>
@@ -1131,11 +1568,11 @@
                     </div>
 
                     <!-- 인적사항 및 학적 기본 테이블 -->
-                    <table class="w-full text-xs border-2 border-slate-800 border-collapse mb-5">
+                    <table class="w-full text-xs border-2 border-slate-800 border-collapse mb-5 sem-block">
                         <tr class="border-b border-slate-400">
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 w-24 text-left font-black">성 명</th>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 w-28 text-left font-black">성 명</th>
                             <td class="py-2 px-3 border-r border-slate-400 font-bold text-slate-900">${p.nameKor} (${p.nameEng})</td>
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 w-24 text-left font-black">생년월일</th>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 w-28 text-left font-black">생년월일</th>
                             <td class="py-2 px-3 font-mono-code">${p.birth}</td>
                         </tr>
                         <tr class="border-b border-slate-400">
@@ -1145,16 +1582,16 @@
                             <td class="py-2 px-3 font-bold text-slate-900">${p.status}</td>
                         </tr>
                         <tr class="border-b border-slate-400">
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">소속대학/학과</th>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">제1전공(본전공)</th>
                             <td class="py-2 px-3 border-r border-slate-400 font-bold">${p.college} ${p.dept}</td>
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">복수/부전공</th>
-                            <td class="py-2 px-3">${p.doubleMajor}</td>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">제2전공(복수/부)</th>
+                            <td class="py-2 px-3 font-bold text-emerald-800">${p.doubleMajor}</td>
                         </tr>
                         <tr>
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">입학/졸업일</th>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">입학 / 졸업일</th>
                             <td class="py-2 px-3 border-r border-slate-400 font-mono-code">${p.admissionDate} / ${p.gradDate}</td>
-                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">제출용도</th>
-                            <td class="py-2 px-3">${purpose}</td>
+                            <th class="bg-slate-100 py-2 px-3 border-r border-slate-400 text-left font-black">수여(예정)학위</th>
+                            <td class="py-2 px-3 font-bold">${p.degreeName}</td>
                         </tr>
                     </table>
 
@@ -1162,10 +1599,10 @@
                     ${bodyContentHTML}
                 </div>
 
-                <!-- 하단 총장 직인 및 위변조 방지 바코드 -->
-                <div class="pt-6 border-t border-slate-300">
-                    <div class="text-center font-serif-cert text-sm font-bold text-slate-800 mb-5">${issueDateStr}</div>
-                    <div class="flex items-center justify-center gap-3 mb-6">
+                <!-- 하단 총장 직인 및 위변조 방지 바코드 (페이지 분할 시 잘리지 않도록 보호) -->
+                <div class="cert-footer-block pt-5 border-t border-slate-300 mt-4">
+                    <div class="text-center font-serif-cert text-sm font-bold text-slate-800 mb-4">${issueDateStr}</div>
+                    <div class="flex items-center justify-center gap-3 mb-5">
                         <span class="text-xl sm:text-2xl font-serif-cert font-black tracking-[0.2em] text-slate-900">효 빈 대 학 교 총 장</span>
                         <span class="text-base font-serif-cert font-bold text-slate-700">민 부 선</span>
                         <div class="official-stamp">효빈대학교<br>총장지인</div>
@@ -1190,18 +1627,17 @@
             document.getElementById('cert-viewer-modal').classList.add('hidden');
         }
 
-        // 모바일 학생증 모달
         function openStudentIdCardModal() {
             const p = activeProfile;
             document.getElementById('mobile-id-card-body').innerHTML = `
                 <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 space-y-2 text-xs">
                     <div class="flex justify-between items-center">
-                        <span class="text-lg font-black text-white">${p.nameKor.split('(')[0]}</span>
+                        <span class="text-lg font-black text-white">${p.nameKor}</span>
                         <span class="bg-[#99dd88] text-[#1e2a78] font-black px-2 py-0.5 rounded text-[10px]">${p.status.split(' ')[0]}</span>
                     </div>
                     <div class="font-mono-code text-[#a0fff9] font-bold">학번: ${p.studentNo}</div>
-                    <div class="text-blue-100">${p.college} · ${p.dept}</div>
-                    <div class="text-[11px] text-slate-300">복수/부전공: ${p.doubleMajor}</div>
+                    <div class="text-blue-100">제1전공: ${p.college} · ${p.dept}</div>
+                    <div class="text-[11px] text-[#99dd88] font-bold">제2전공: ${p.doubleMajor}</div>
                 </div>
             `;
             document.getElementById('student-id-modal').classList.remove('hidden');
@@ -1212,7 +1648,6 @@
             document.getElementById('student-id-modal').classList.add('hidden');
         }
 
-        // 원본대조 검증 모달
         function openVerifyModal() {
             document.getElementById('verify-modal').classList.remove('hidden');
         }
@@ -1226,7 +1661,7 @@
             box.innerHTML = `
                 <div class="font-black text-sm text-emerald-800">✅ [진본 확인 완료] 효빈대학교에서 정식 발급된 유효 문서입니다.</div>
                 <div>• <strong>조회 문서번호:</strong> ${val}</div>
-                <div>• <strong>발급 대상자:</strong> ${activeProfile.nameKor} (${activeProfile.dept})</div>
+                <div>• <strong>발급 대상자:</strong> ${activeProfile.nameKor} (${activeProfile.college} ${activeProfile.dept} · ${activeProfile.doubleMajor})</div>
                 <div>• <strong>발급 기관:</strong> 국립 효빈대학교 총장 (제26대 민부선)</div>
             `;
         }

@@ -3,182 +3,776 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025학년도 입학 요강 - 효빈대학교</title>
+    <title>신입학 모집요강 (수시·정시·재외국민) 및 208개 전 학과 입시결과 - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-white flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="text-center mb-12">
-            <span class="bg-[#3344aa] text-white px-3 py-1 rounded-full text-xs font-bold mb-3 inline-block">2025학년도</span>
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">신입학 모집요강</h1>
-            <p class="text-gray-600 text-lg" id="slogan-text">"불굴의 도전정신과 혁신적인 사고를 가진 인재를 기다립니다."</p>
+    <!-- 상단 서브 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-10 border-b-4 border-[#99dd88]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <button onclick="navigateTo('hbnu_admissions.html')" class="hover:text-white">입학안내</button>
+                <span>›</span>
+                <span id="guide-breadcrumb" class="text-[#99dd88] font-bold">수시모집 요강 (효빈 애니웨이 · 일반교과 · 개천용인재)</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU UNDERGRADUATE ADMISSION GUIDELINES & 208 DEPARTMENTS CUTOFF DB
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">신입학 모집요강 및 208개 전 학과 입시결과</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-1.5 max-w-3xl leading-relaxed">
+                        수시모집(4,924명 · 74.8%), 정시모집(1,656명 · 25.2%), 정원 외 특별전형(1,055명)의 세부 전형 방법과 <strong>28개 단과대학 · 208개 전 학과의 수시 등급 및 정시 백분위 커트라인 공식 로우 데이터(Raw Data)</strong>를 제공합니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="switchGuideTab('results')" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow transition-all flex items-center gap-1.5">
+                        <i data-lucide="table-2" class="w-4 h-4"></i> 208개 전 학과 입결 검색기 열기
+                    </button>
+                    <button onclick="navigateTo('hbnu_admissions.html#transfer')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        편입학·대학원 어학기준 안내
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4대 모집요강 SPA 탭 네비게이션 박스 (수시모집 / 정시모집 / 재외국민·정원외 / 208개 학과 입시결과) -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3.5">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                <button onclick="switchGuideTab('susi')" id="gtab-susi" class="guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm">
+                    <i data-lucide="file-check" class="w-4 h-4 shrink-0"></i> <span>1. 수시모집 (효빈애니웨이·개천용)</span>
+                </button>
+                <button onclick="switchGuideTab('jungsi')" id="gtab-jungsi" class="guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="pen-tool" class="w-4 h-4 shrink-0"></i> <span>2. 정시모집 (수능 반영비·영어특례)</span>
+                </button>
+                <button onclick="switchGuideTab('overseas')" id="gtab-overseas" class="guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="globe" class="w-4 h-4 shrink-0"></i> <span>3. 재외국민·외국인·정원외(1,055명)</span>
+                </button>
+                <button onclick="switchGuideTab('results')" id="gtab-results" class="guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 shrink-0"></i> <span>4. 단과대·208개 전 학과 입시결과</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- 특정 학과 파라미터(?dept=학과명)로 진입 시 상단에 자동으로 뜨는 학과 맞춤 입결 브리핑 배너 -->
+        <section id="dept-spotlight-banner" class="hidden bg-slate-900 text-white rounded-3xl p-6 border-2 border-[#99dd88] shadow-lg"></section>
+
+        <!-- ================= [탭 1] 수시모집 요강 : 효빈 애니웨이 · 일반교과 · 개천용인재 (#susi) ================= -->
+        <div id="view-guide-susi" class="guide-view fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">EARLY ADMISSION (SUSI) GUIDELINES — 4,924 QUOTA (74.8%)</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-0.5">수시모집 전형별 세부 선발 안내</h2>
+                        <p class="text-xs text-slate-500 mt-1">수시모집은 학생부종합전형과 학생부교과전형을 양대 축으로 운영하며, 최대 4개 전형까지 복수 지원이 가능합니다.</p>
+                    </div>
+                    <button onclick="switchGuideTab('results')" class="bg-[#3344aa] text-white font-black px-4 py-2.5 rounded-xl text-xs shadow shrink-0">
+                        208개 학과별 수시 등급컷 조회 ➔
+                    </button>
+                </div>
+
+                <!-- 3대 수시 핵심 전형 상세 카드 -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
+                    <!-- 효빈 애니웨이 -->
+                    <div class="p-6 rounded-2xl border-2 border-[#3344aa] bg-blue-50/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">학생부종합 · 1,953명 (29.7%)</span>
+                            <span class="font-bold text-[#1e2a78]">수능최저 미적용(의약 제외)</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">『효빈 애니웨이 (HYOBIN ANYWAY)』 전형</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            효빈대학교 수시 최대 규모의 대표 학생부종합전형입니다. 교과 성적 수치만으로는 다 담아낼 수 없는 지원자의 <strong>전공 열정, 문제해결력, 공동체 포용성(Verde 정신)</strong>을 종합 평가하여 선발합니다.
+                        </p>
+                        <div class="p-3.5 bg-white rounded-xl border border-blue-200 space-y-1 text-slate-700">
+                            <div>• <strong>1단계 (3배수):</strong> 학교생활기록부 서류종합평가 100%</div>
+                            <div>• <strong>2단계:</strong> 1단계 성적 70% + <strong>전공교수·입학사정관 다대일 압박면접 30%</strong></div>
+                            <div>• <strong>특기사항:</strong> 사회복지학대학 지원자는 지역사회 복지 정책 아젠다, 교통대학 지원자는 철도안전법 및 노선 이해도에 대한 심층 질의가 진행됩니다.</div>
+                        </div>
+                    </div>
+
+                    <!-- 학생부교과 일반 -->
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-slate-800 text-white font-black px-2.5 py-0.5 rounded">학생부교과 · 1,868명 (28.4%)</span>
+                            <span class="font-bold text-slate-700">수능최저 적용</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">학생부교과 『일반전형』</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            전국 고교 졸업(예정)자를 대상으로 <strong>학생부 교과성적 100% 정량평가</strong>로 선발하는 전형입니다. 면접 없이 오직 내신 등급과 수능 최저학력기준 충족 여부로 당락이 결정됩니다.
+                        </p>
+                        <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 text-slate-700">
+                            <div>• <strong>반영교과:</strong> 인문·사회(국·영·수·사 전 과목), 자연·공학(국·영·수·과 전 과목), 진로선택 상위 3과목 성취도 가산</div>
+                            <div>• <strong>수능 최저 특징:</strong> 타 거점국립대 대비 영어 등급 합산 허들을 완화하여 영어 실수를 국·수·탐 등급으로 만회할 수 있습니다.</div>
+                        </div>
+                    </div>
+
+                    <!-- 개천용인재전형 -->
+                    <div class="p-6 rounded-2xl border-2 border-emerald-500 bg-emerald-50/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">지역인재교과 · 1,103명 (16.8%)</span>
+                            <span class="font-bold text-emerald-900">지역고교 출신 전용</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">학생부교과 『개천용(龍)인재전형』</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            '지방 공교육의 개천에서 용이 날 수 있는 사다리를 지킨다'는 취지로 제정된 <strong>효빈광역시·덕빈북도·덕빈남도 소재 고교 전 교육과정 이수자 전용 지역인재 전형</strong>입니다.
+                        </p>
+                        <div class="p-3.5 bg-white rounded-xl border border-emerald-200 space-y-1 text-slate-700">
+                            <div>• <strong>전형방법:</strong> 학생부 교과 100% (일반전형 대비 수능 최저학력기준 1등급 완화 적용)</div>
+                            <div>• <strong>핵심 혜택:</strong> 의과대학·약학대학·간호대학·사회복지학대학·교통대학·사범대학 등 최상위 인기 학과 정원의 30~40%를 의무 선발합니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="space-y-12">
-            <!-- 1. 모집 일정 (공통) -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center border-b pb-2"><i data-lucide="calendar" class="w-6 h-6 mr-2 text-[#3344aa]"></i> 전형 일정 (공통)</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-center border">
-                        <thead class="bg-gray-100 text-gray-700 font-bold">
-                            <tr>
-                                <th class="p-3 border">구분</th>
-                                <th class="p-3 border">원서 접수</th>
-                                <th class="p-3 border">서류/실기</th>
-                                <th class="p-3 border">합격자 발표</th>
+        <!-- ================= [탭 2] 정시모집 요강 : 수능 영역별 가중치 & 조삼모사식 영어 반영 구조 (#jungsi) ================= -->
+        <div id="view-guide-jungsi" class="guide-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-emerald-700 uppercase tracking-wider">REGULAR ADMISSION (JUNGSI) — 1,656 QUOTA (25.2%)</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">정시모집 수능 영역별 반영 비율 및 영어 등급별 변환점수 안내</h2>
+                    <p class="text-xs text-slate-500 mt-1">효빈대학교 정시모집은 영어 영역의 등급 간 감점 폭을 완화하는 대신, <strong>국어·수학(미적분/기하)·탐구 영역의 표준점수 및 백분위 반영 가중치를 극대화</strong>한 선발 구조를 채택하고 있습니다.</p>
+                </div>
+
+                <!-- 계열별 수능 영역 반영비율 표 -->
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3.5 px-4 w-48">모집 계열</th>
+                                <th class="py-3.5 px-3">국어 (표준점수)</th>
+                                <th class="py-3.5 px-3">수학 (표준점수)</th>
+                                <th class="py-3.5 px-3">탐구 (2과목 백분위)</th>
+                                <th class="py-3.5 px-3">영어 (등급변환)</th>
+                                <th class="py-3.5 px-4 text-left">필수 응시 및 가산점 핵심 유의사항</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="p-3 font-bold text-[#3344aa]">수시</td>
-                                <td class="p-3">2024.09.10(화) ~ 14(토)</td>
-                                <td class="p-3">2024.10.12(토) ~ 20(일)</td>
-                                <td class="p-3">2024.12.13(금)</td>
+                        <tbody class="divide-y divide-slate-200 font-mono-code">
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-sans font-black text-slate-800 bg-slate-50">인문·사회·상경·복지계열</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#3344aa]">35%</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#3344aa]">30%</td>
+                                <td class="py-3 px-3 font-bold">25%</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">10%</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700">영어 2~3등급 감점이 적어 국어·수학 고득점자가 압도적으로 유리함 (언어문학대학은 제2외국어 탐구 1과목 대체 허용)</td>
                             </tr>
-                            <tr>
-                                <td class="p-3 font-bold text-[#3344aa]">정시</td>
-                                <td class="p-3">2025.01.03(금) ~ 06(월)</td>
-                                <td class="p-3">2025.01.15(수) ~ 20(월)</td>
-                                <td class="p-3">2025.02.07(금)</td>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-sans font-black text-slate-800 bg-slate-50">자연·공학·교통·반도체계열</td>
+                                <td class="py-3 px-3 font-bold">25%</td>
+                                <td class="py-3 px-3 font-black text-sm text-rose-600">40%</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#3344aa]">25%</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">10%</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700"><strong>수학(미적분·기하) 응시 시 표준점수 10% 가산 + 과학탐구 II 과목 5% 가산.</strong> 영어가 3등급이어도 수학·과탐 고득점이면 역전 합격 가능</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40 bg-blue-50/30">
+                                <td class="py-3 px-4 font-sans font-black text-[#1e2a78] bg-blue-50">의학(의·치·한·수) · 약학계열</td>
+                                <td class="py-3 px-3 font-black text-sm">30%</td>
+                                <td class="py-3 px-3 font-black text-sm text-rose-600">40%</td>
+                                <td class="py-3 px-3 font-black text-sm text-[#3344aa]">25%</td>
+                                <td class="py-3 px-3 font-bold">5%</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700">미적분/기하 및 과학탐구 2과목 필수. 백분위 97.0% ~ 99.9% 구간에서 소수점 단위로 당락 결정</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-3 px-4 font-sans font-black text-slate-800 bg-slate-50">예체능계열 (실기위주)</td>
+                                <td class="py-3 px-3 font-bold">50%</td>
+                                <td class="py-3 px-3 text-slate-400">선택반영</td>
+                                <td class="py-3 px-3 font-bold">40%</td>
+                                <td class="py-3 px-3 text-emerald-700 font-bold">10%</td>
+                                <td class="py-3 px-4 font-sans text-left text-slate-700">수능 30~40% + 실기고사 60~70% 합산 선발 (미술대학 정시 수능 평균 64.00%)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
 
-            <!-- 2. 학과별 맞춤 전형 안내 (동적 변경) -->
-            <section id="dept-specific-section" class="bg-blue-50 p-6 rounded-xl border border-blue-100 transition-all duration-500">
-                <h2 class="text-xl font-bold text-[#3344aa] mb-4 flex items-center">
-                    <i data-lucide="star" class="w-5 h-5 mr-2"></i> 
-                    <span id="dept-name-display">일반 전형</span> 안내
-                </h2>
-                <p class="text-sm text-gray-700 mb-4" id="dept-desc-display">효빈대학교는 창의적이고 주도적인 인재를 선발합니다.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm" id="dept-criteria-container">
-                    <!-- JS로 내용 주입 -->
+                <!-- 영어 등급별 변환점수표 -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 text-xs">
+                    <h4 class="font-black text-slate-900">📊 정시모집 수능 영어 영역 등급별 환산점수표 (100점 만점 기준)</h4>
+                    <div class="grid grid-cols-3 sm:grid-cols-9 gap-2 text-center font-mono-code">
+                        <div class="p-2.5 bg-white rounded-xl border border-blue-300"><span class="block text-[10px] text-slate-400 font-sans">1등급</span><strong class="text-sm text-[#3344aa]">100점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border border-blue-300"><span class="block text-[10px] text-slate-400 font-sans">2등급</span><strong class="text-sm text-[#3344aa]">98.5점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border border-blue-300"><span class="block text-[10px] text-slate-400 font-sans">3등급</span><strong class="text-sm text-emerald-700">96.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">4등급</span><strong class="text-sm">92.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">5등급</span><strong class="text-sm">86.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">6등급</span><strong class="text-sm">78.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">7등급</span><strong class="text-sm">68.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">8등급</span><strong class="text-sm">55.0점</strong></div>
+                        <div class="p-2.5 bg-white rounded-xl border"><span class="block text-[10px] text-slate-400 font-sans">9등급</span><strong class="text-sm">40.0점</strong></div>
+                    </div>
+                    <p class="text-slate-600">※ 1등급과 2등급의 차이는 1.5점, 3등급과의 차이는 4.0점에 불과하여 수학 또는 국어 킬러 문항 1~2문제로 충분히 극복 가능한 구조입니다.</p>
                 </div>
-            </section>
-
-            <!-- 3. 장학 혜택 -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center border-b pb-2"><i data-lucide="gift" class="w-6 h-6 mr-2 text-[#3344aa]"></i> 신입생 장학 혜택</h2>
-                <ul class="space-y-3 text-sm text-gray-700">
-                    <li class="flex items-start">
-                        <span class="bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">전체 수석</span>
-                        4년 전액 장학금 + 도서비 지원 + 해외 연수 기회
-                    </li>
-                    <li class="flex items-start">
-                        <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">단과대 수석</span>
-                        2년 전액 장학금
-                    </li>
-                    <li class="flex items-start">
-                        <span class="bg-green-100 text-green-600 px-2 py-0.5 rounded font-bold mr-2 text-xs flex-shrink-0">효빈 인재상</span>
-                        학과별 상위 10% 1년 전액 장학금
-                    </li>
-                </ul>
-            </section>
+            </div>
         </div>
 
-        <div class="mt-12 text-center">
-            <button onclick="alert('PDF 다운로드가 시작됩니다.')" class="bg-[#3344aa] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#2a3a9a] transition shadow-lg flex items-center justify-center mx-auto">
-                <i data-lucide="download" class="w-5 h-5 mr-2"></i> 2025 모집요강 PDF 다운로드
-            </button>
-            <p class="text-xs text-gray-400 mt-4">* 본 내용은 변경될 수 있으니 최종 요강을 반드시 확인하세요.</p>
+        <!-- ================= [탭 3] 재외국민 · 외국인 · 정원외 특별전형 (1,055명) (#overseas) ================= -->
+        <div id="view-guide-overseas" class="guide-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-purple-700 uppercase tracking-wider">SPECIAL & INTERNATIONAL ADMISSIONS — 1,055 QUOTA</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">정원 외 특별전형 (재외국민 · 외국인 · 농어촌 · 기회균형 · 특성화고재직자)</h2>
+                    <p class="text-xs text-slate-500 mt-1">고등교육 기회 균등 배분과 글로벌 캠퍼스 구축을 위해 연간 1,055명을 정원 외로 선발합니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 text-xs">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-purple-700 text-white font-black px-2.5 py-0.5 rounded">241명 선발</span>
+                        <h4 class="text-base font-black text-slate-900">재외국민 및 외국인 특별전형</h4>
+                        <p class="text-slate-600 leading-relaxed">중·고교 해외 이수 재외국민(정원 2% 이내) 및 부모 모두 외국인인 유학생(전 학과정원 제한 없음) 전형입니다. 사회과학대학 국제학부, 언어문학대학, 상과대학 진학률이 높습니다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">279명 선발</span>
+                        <h4 class="text-base font-black text-slate-900">농어촌학생 특별전형</h4>
+                        <p class="text-slate-600 leading-relaxed">읍·면 소재 중·고교 전 교육과정을 이수한 학생을 선발하며, 수시 미충원 인원은 정시 수능전형으로 이월되어 선발합니다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">219명 선발</span>
+                        <h4 class="text-base font-black text-slate-900">기회균형선발 특별전형</h4>
+                        <p class="text-slate-600 leading-relaxed">국가보훈대상자, 기초생활수급자, 차상위계층, 한부모가족 지원대상자 등을 대상으로 서류 및 면접을 통해 잠재력을 평가합니다.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded">174명 + 40명 선발</span>
+                        <h4 class="text-base font-black text-slate-900">특성화고졸 재직자 & 북한이탈주민</h4>
+                        <p class="text-slate-600 leading-relaxed">특성화고·마이스터고 졸업 후 산업체 3년 이상 재직자(174명, 야간·주말반 병행) 및 북한이탈주민(40명) 전형을 운영합니다.</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- ================= [탭 4] 28개 단과대학 평균 컷 & 208개 전 학과 수시·정시 입시결과 총람 (#results) ================= -->
+        <div id="view-guide-results" class="guide-view hidden fade-in space-y-8">
+            
+            <!-- 4-1. 주요 학과별 입시 생태계 티어 분석 카드 (신계 메디컬 & 인간계 1티어 교통·복지 성골라인) -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">HBNU ADMISSION ECOSYSTEM ANALYSIS</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">효빈대학교 입시 지형도 핵심 브리핑 — 메디컬 그랜드슬램과 '교통·복지' 양대 간판</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+                    <div class="p-5 rounded-2xl bg-rose-50/50 border border-rose-200 space-y-2">
+                        <span class="bg-rose-600 text-white font-black px-2.5 py-0.5 rounded">최상위 메디컬 티어 (정시 백분위 97.0% ~ 99.9%)</span>
+                        <h4 class="text-base font-black text-slate-900">국내 유일급 『의·치·한·수·약·간호 통합 메디컬 클러스터』</h4>
+                        <ul class="space-y-1.5 text-slate-700 leading-relaxed">
+                            <li>• <strong>의과대학 의학과:</strong> 정시 백분위 <strong>99.5% ~ 99.9%</strong> / 수시 교과 <strong>1.0 ~ 1.2등급</strong> (학종 1.1 ~ 1.4).</li>
+                            <li>• <strong>치의학과(99.2~99.8%) · 한의학과(98.5~99.5%) · 수의학과(97.5~98.5%):</strong> 통합의과대학 공동 연구 시너지로 인해 타 거점대 대비 입결 하한선이 매우 높고 촘촘하게 형성됩니다.</li>
+                            <li>• <strong>약학대학 약학과(97.0~98.5%) · 한약학과(95.5~97.0%)</strong> 및 <strong>간호대학(85.50%)</strong>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-blue-50/50 border border-blue-200 space-y-2">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">비의약계 최상위 1티어 (정시 백분위 88.0% ~ 92.0%)</span>
+                        <h4 class="text-base font-black text-slate-900">효빈시 핵심 시정 기조를 투영하는 『사회복지학대학 & 교통대학』</h4>
+                        <ul class="space-y-1.5 text-slate-700 leading-relaxed">
+                            <li>• <strong>사회복지학대학 사회복지정책학과:</strong> 정시 백분위 <strong>90.0% ~ 92.0%</strong> / 수시 교과 <strong>1.6 ~ 2.2등급</strong> (학종 1.8 ~ 2.5). 독립 단과대학 체계와 공공정책·복지 재정 분야의 압도적 위상에 힘입어 인문·사회계열 전체 1위 커트라인을 기록합니다. (사회복지경영학과 역시 정시 88.0~90.0%, 교과 1.8~2.4등급으로 최상위권 형성)</li>
+                            <li>• <strong>교통대학 철도운전학과:</strong> 정시 백분위 <strong>89.0% ~ 92.0%</strong> / 수시 교과 <strong>1.6 ~ 2.2등급</strong>. 교내철도(HBNU Rail) 실전 운전실습 및 철도공기업 취업률 1위 효과로 일반 공과대학 전체를 상회하는 입결을 보입니다.</li>
+                            <li>• <strong>사회과학대학 정책학과(정시 89~91%)</strong> 및 <strong>사범대학 수학교육과(정시 88~91%, 교과 1.7~2.4)</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4-2. 28개 전 단과대학 평균 커트라인 일람표 (접기/펼치기 가능) -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa]">AVERAGE CUTOFF BY 28 COLLEGES</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-0.5">1. 단과대학별(28개 대학) 정시 백분위 및 수시 등급 평균 총괄표</h3>
+                    </div>
+                    <span class="text-xs text-slate-500">※ 입학처 공식 로우 데이터 기반 산출 평균</span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl max-h-[480px] overflow-y-auto">
+                    <table class="w-full text-xs text-center border-collapse">
+                        <thead class="sticky top-0 bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300 z-10">
+                            <tr>
+                                <th class="py-3 px-3 w-16">순위</th>
+                                <th class="py-3 px-4 text-left">단과대학 (학부)</th>
+                                <th class="py-3 px-3">정시 백분위 평균</th>
+                                <th class="py-3 px-3">수시 교과 등급 평균</th>
+                                <th class="py-3 px-3">학종(효빈애니웨이) 평균</th>
+                                <th class="py-3 px-4">소속 캠퍼스 위치</th>
+                            </tr>
+                        </thead>
+                        <tbody id="college-avg-tbody" class="divide-y divide-slate-200 font-mono-code"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4-3. ★ 연번 1번 ~ 208번 전 학과 수시(교과·학종·실기) & 정시 백분위 통합 마스터 검색 테이블 ★ -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-[#3344aa] shadow-sm space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b pb-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">COMPLETE 208 DEPARTMENTS ADMISSION CUTOFF DATABASE</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">2. 효빈대학교 208개 전 학과 수시 등급 & 정시 백분위 커트라인 전수 조회</h3>
+                        <p class="text-xs text-slate-500 mt-1">연번 1번(사회복지정책학과)부터 208번(미술교육과)까지 단 한 학과의 생략도 없이 수시 학생부교과·학종(효빈애니웨이)·실기전형 및 정시 백분위 컷을 통합 조회할 수 있습니다.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 shrink-0">
+                        <select id="dept-series-filter" onchange="render208DeptsTable()" class="border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold bg-white outline-none focus:border-[#3344aa]">
+                            <option value="ALL">전체 계열 (208개 학과)</option>
+                            <option value="인문·사회·상경">인문·사회·상경 (43개 학과)</option>
+                            <option value="이학">이학·생명·농업·해양 (31개 학과)</option>
+                            <option value="공학·교통">공학·교통 (42개 학과)</option>
+                            <option value="의학·보건">의학·약학·간호·보건 (20개 학과)</option>
+                            <option value="예체능·융합">예체능·융합학부 (36개 학과)</option>
+                            <option value="교육">사범대학 교육계열 (36개 학과)</option>
+                        </select>
+                        <input type="text" id="dept-cutoff-search" oninput="render208DeptsTable()" placeholder="학과명 또는 단과대 검색 (예: 사회복지정책, 철도운전, 만화)..." class="border-2 border-slate-200 rounded-xl px-3.5 py-2 text-xs font-medium min-w-[260px] outline-none focus:border-[#3344aa]">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-slate-500">
+                    <span>조회된 학과 수: <strong id="dept-208-count" class="text-[#3344aa] font-mono-code">208</strong> / 208개 학과</span>
+                    <span>※ 학생부교과 및 학종(효빈애니웨이)은 내신 등급(1~9등급), 정시는 수능 백분위(%) 기준입니다.</span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl max-h-[760px] overflow-y-auto">
+                    <table class="w-full text-xs text-center border-collapse">
+                        <thead class="sticky top-0 bg-[#1e2a78] text-white font-black z-10">
+                            <tr>
+                                <th class="py-3.5 px-2 w-14">연번</th>
+                                <th class="py-3.5 px-3 w-28">계열</th>
+                                <th class="py-3.5 px-3 w-36">단과대학</th>
+                                <th class="py-3.5 px-4 text-left">학과(전공)명</th>
+                                <th class="py-3.5 px-3 w-32 bg-[#283593]">수시 학생부교과</th>
+                                <th class="py-3.5 px-3 w-36 bg-[#283593]">수시 학종(효빈애니웨이)</th>
+                                <th class="py-3.5 px-3 w-28 bg-[#283593]">수시 실기전형</th>
+                                <th class="py-3.5 px-3 w-36 bg-emerald-800 text-[#a0fff9]">정시 백분위 컷</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depts-208-tbody" class="divide-y divide-slate-200"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
     </main>
 
+    <!-- 공통 푸터 (common.js 렌더링) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+    <script src="common.js"></script>
 
     <script>
-        // URL 파라미터 확인
-        const urlParams = new URLSearchParams(window.location.search);
-        const deptName = urlParams.get('dept') || "일반";
-        const backUrl = urlParams.get('back') || "index.html";
+        // ================= 1. 28개 단과대학 평균 커트라인 데이터베이스 (제공 데이터 100% 일치) =================
+        const COLLEGE_AVG_DB = [
+            ["의과대학", "99.05%", "1.10 ~ 1.35", "1.20 ~ 1.70", "본캠퍼스 (당선동)"],
+            ["약학대학", "97.00%", "1.30 ~ 1.60", "1.50 ~ 2.00", "본캠퍼스 (당선동)"],
+            ["사회복지학대학", "86.13%", "1.95 ~ 2.60", "2.13 ~ 2.95", "본캠퍼스 (당선동)"],
+            ["교통대학", "85.67%", "1.90 ~ 2.90", "2.15 ~ 3.20", "본캠퍼스 (당선동)"],
+            ["간호대학", "85.50%", "2.10 ~ 2.60", "2.30 ~ 2.90", "본캠퍼스 (당선동)"],
+            ["융합학부", "84.00%", "2.40 ~ 2.95", "2.60 ~ 3.30", "낭원캠퍼스"],
+            ["상과대학", "83.09%", "2.45 ~ 3.10", "2.65 ~ 3.45", "본캠퍼스 (당선동)"],
+            ["사회과학대학", "83.09%", "2.35 ~ 3.05", "2.55 ~ 3.40", "본캠퍼스 (당선동)"],
+            ["전기공업대학", "82.33%", "2.55 ~ 3.20", "2.75 ~ 3.55", "본캠퍼스 (당선동)"],
+            ["사범대학", "81.35%", "2.40 ~ 3.65", "2.60 ~ 3.90", "본캠퍼스 (당선동)"],
+            ["화학공업대학", "78.79%", "2.95 ~ 3.65", "3.15 ~ 3.95", "본캠퍼스 (당선동)"],
+            ["보건대학", "78.50%", "3.05 ~ 3.75", "3.25 ~ 4.05", "본캠퍼스 (당선동)"],
+            ["기계공업대학", "78.50%", "2.95 ~ 3.70", "3.15 ~ 4.00", "본캠퍼스 (당선동)"],
+            ["토목공업대학", "77.70%", "3.10 ~ 3.75", "3.30 ~ 4.05", "본캠퍼스 (당선동)"],
+            ["디자인대학", "77.50%", "3.25 ~ 3.75", "3.45 ~ 4.10", "이자캠퍼스"],
+            ["응용예술대학", "77.42%", "3.15 ~ 3.45", "3.35 ~ 3.75", "천주/본캠퍼스"],
+            ["생명대학", "77.30%", "3.15 ~ 3.75", "3.35 ~ 4.05", "이자캠퍼스"],
+            ["예술대학", "76.50%", "3.30 ~ 3.75", "3.50 ~ 4.05", "본캠퍼스 (당선동)"],
+            ["생활과학대학", "76.29%", "3.30 ~ 3.90", "3.50 ~ 4.20", "본캠퍼스 (당선동)"],
+            ["언어문학대학", "76.28%", "3.25 ~ 4.05", "3.45 ~ 4.35", "본캠퍼스 (당선동)"],
+            ["자연과학대학", "76.25%", "3.20 ~ 4.00", "3.40 ~ 4.30", "본캠퍼스 (당선동)"],
+            ["인문대학", "75.15%", "3.45 ~ 4.15", "3.65 ~ 4.45", "본캠퍼스 (당선동)"],
+            ["응용과학대학", "74.50%", "3.55 ~ 4.15", "3.75 ~ 4.45", "천주캠퍼스"],
+            ["환경산업대학", "73.50%", "3.70 ~ 4.20", "3.90 ~ 4.50", "강주캠퍼스"],
+            ["무용대학", "73.50%", "3.10 ~ 3.70", "3.30 ~ 4.00", "본캠퍼스 (당선동)"],
+            ["해양대학", "73.13%", "3.80 ~ 4.30", "4.00 ~ 4.60", "강주캠퍼스"],
+            ["음악대학", "72.25%", "3.15 ~ 3.75", "3.35 ~ 4.05", "본캠퍼스 (당선동)"],
+            ["농업대학", "72.17%", "3.85 ~ 4.40", "4.05 ~ 4.70", "이자캠퍼스"],
+            ["미술대학", "64.00%", "실기 위주 전형", "실기 위주 전형", "본캠퍼스 (당선동)"]
+        ];
 
-        // 학과별 입시 데이터
-        const ADMISSION_DB = {
-            "사회복지정책학과": {
-                desc: "효빈시의 정책 인재 양성을 목표로 하므로, <b>면접 및 포트폴리오</b> 평가 비중이 높습니다.",
-                criteria: [
-                    { title: "학생부종합 (효빈인재)", content: ["모집인원: 12명", "서류 100% (3배수)", "심층면접 30% 반영", "* 정책 제안서 우대"] },
-                    { title: "수능위주 (일반)", content: ["모집인원: 10명", "수능 100%", "국어(30) 수학(30) 영어(20) 탐구(20)", "* 사회탐구 가산점 5%"] }
-                ]
-            },
-            "철도운전학과": {
-                desc: "철도 차량 운전 업무 특성상 <b>신체검사 및 적성검사</b> 적격 판정이 필수입니다.",
-                criteria: [
-                    { title: "학생부교과 (철도인재)", content: ["모집인원: 8명", "교과 100% (수학/과학 중점)", "철도신체검사 적합자 필수", "* 색맹/색약 지원 불가"] },
-                    { title: "실기/면접 (덕업일치)", content: ["모집인원: 5명", "면접 50% + 교과 50%", "철도 관련 활동 및 지식 평가", "* 철도안전법 이해도 질문"] }
-                ]
-            },
-            "만화애니메이션학과": {
-                desc: "창의력과 표현력을 중시하며, <b>실기 고사</b> 비중이 매우 높습니다.",
-                criteria: [
-                    { title: "실기우수자 전형", content: ["모집인원: 25명", "실기 80% + 교과 20%", "과목: 칸만화, 상황표현 중 택1", "* 주제: '소통과 갈등' (예시)"] },
-                    { title: "비실기 (기획/연출)", content: ["모집인원: 5명", "서류 100%", "포트폴리오 및 학업계획서", "* 스토리텔링 능력 평가"] }
-                ]
-            },
-            "필리핀어학과": {
-                desc: "글로벌 마인드와 언어 습득 능력을 평가하며, <b>외국어 특기자</b>를 우대합니다.",
-                criteria: [
-                    { title: "학생부종합 (다문화)", content: ["모집인원: 15명", "서류 100%", "영어 및 제2외국어 성적 우수자", "* 다문화 관련 봉사활동 가산점"] },
-                    { title: "수능위주 (일반)", content: ["모집인원: 20명", "수능 100%", "국어/영어/탐구 우수자 선발", "* 제2외국어 응시자 가산점"] }
-                ]
-            },
-            "일어일문학과": {
-                desc: "일본 문화와 언어에 대한 깊이 있는 이해를 요구하며, <b>JLPT 성적</b> 소지자를 우대합니다.",
-                criteria: [
-                    { title: "학생부교과", content: ["모집인원: 20명", "교과 100%", "국어, 영어, 일본어 교과 반영", "* 일본어 I/II 이수자 우대"] },
-                    { title: "어학특기자", content: ["모집인원: 10명", "면접 40% + 서류 60%", "JLPT N3 이상 또는 JPT 600점 이상", "* 일본 문화 이해도 심층 면접"] }
-                ]
-            },
-            "사회복지경영학과": {
-                desc: "조직 관리 및 리더십 잠재력을 평가하며, <b>학생회 활동 경험</b>을 긍정적으로 평가합니다.",
-                criteria: [
-                    { title: "학생부종합 (리더십)", content: ["모집인원: 10명", "서류 100%", "임원 활동 경력자 우대", "* 자기주도적 학습 능력 평가"] },
-                    { title: "교과우수자", content: ["모집인원: 15명", "교과 100% (수학/사회 중점)", "수능 최저학력기준 적용", "* 국수영탐 중 2개 합 7등급"] }
-                ]
-            },
-            "일반": {
-                desc: "효빈대학교의 표준 전형 계획에 따릅니다.",
-                criteria: [
-                    { title: "학생부교과", content: ["교과 성적 100%", "수능 최저학력기준 적용"] },
-                    { title: "학생부종합", content: ["서류 100%", "학교생활기록부 기반 평가"] }
-                ]
+        // ================= 2. 208개 전 학과 수시(교과·학종·실기) & 정시 백분위 컷 마스터 데이터베이스 (1번~208번 무생략!) =================
+        // 배열 구조: [연번, 계열, 단과대학, 학과명, 학생부교과, 학종(효빈애니웨이), 실기전형, 정시백분위컷]
+        const ALL_208_DEPTS_DB = [
+            [1,"인문·사회·상경","사회복지학대학","사회복지정책학과","1.6 ~ 2.2","1.8 ~ 2.5","-","90.0% ~ 92.0%"],
+            [2,"인문·사회·상경","사회복지학대학","사회복지경영학과","1.8 ~ 2.4","1.9 ~ 2.7","-","88.0% ~ 90.0%"],
+            [3,"인문·사회·상경","사회복지학대학","사회복지실천학과","2.1 ~ 2.7","2.4 ~ 3.2","-","82.0% ~ 84.0%"],
+            [4,"인문·사회·상경","사회복지학대학","사회복지상담학과","2.3 ~ 2.9","2.6 ~ 3.4","-","80.0% ~ 83.0%"],
+            [5,"인문·사회·상경","사회과학대학","정책학과","1.8 ~ 2.4","2.1 ~ 2.8","-","89.0% ~ 91.0%"],
+            [6,"인문·사회·상경","사회과학대학","경찰행정학과","1.9 ~ 2.5","2.2 ~ 3.1","-","86.0% ~ 88.5%"],
+            [7,"인문·사회·상경","사회과학대학","행정학과","1.9 ~ 2.6","2.2 ~ 3.0","-","85.0% ~ 87.5%"],
+            [8,"인문·사회·상경","사회과학대학","심리학과","2.1 ~ 2.8","2.3 ~ 3.2","-","84.0% ~ 86.0%"],
+            [9,"인문·사회·상경","사회과학대학","미디어커뮤니케이션학과","2.2 ~ 2.9","2.4 ~ 3.3","-","83.0% ~ 85.5%"],
+            [10,"인문·사회·상경","사회과학대학","국제학부","2.4 ~ 3.1","2.7 ~ 3.6","-","81.0% ~ 83.5%"],
+            [11,"인문·사회·상경","사회과학대학","문헌정보학과","2.5 ~ 3.2","2.7 ~ 3.7","-","80.0% ~ 82.5%"],
+            [12,"인문·사회·상경","사회과학대학","사회학과","2.6 ~ 3.4","2.8 ~ 3.8","-","79.0% ~ 81.5%"],
+            [13,"인문·사회·상경","사회과학대학","공공학과","2.7 ~ 3.5","2.9 ~ 3.9","-","78.5% ~ 81.0%"],
+            [14,"인문·사회·상경","사회과학대학","지리학과","2.8 ~ 3.6","3.0 ~ 4.0","-","78.0% ~ 80.5%"],
+            [15,"인문·사회·상경","사회과학대학","군사학과","2.9 ~ 3.7","3.1 ~ 4.2","-","77.0% ~ 80.0%"],
+            [16,"인문·사회·상경","상과대학","부동산학과","2.1 ~ 2.7","2.4 ~ 3.1","-","84.0% ~ 87.0%"],
+            [17,"인문·사회·상경","상과대학","경영학과","2.2 ~ 2.9","2.4 ~ 3.3","-","83.5% ~ 86.5%"],
+            [18,"인문·사회·상경","상과대학","경제학과","2.3 ~ 3.0","2.5 ~ 3.4","-","82.5% ~ 85.5%"],
+            [19,"인문·사회·상경","상과대학","세무학과","2.4 ~ 3.1","2.6 ~ 3.6","-","82.0% ~ 84.5%"],
+            [20,"인문·사회·상경","상과대학","회계학과","2.5 ~ 3.2","2.7 ~ 3.7","-","81.5% ~ 84.0%"],
+            [21,"인문·사회·상경","상과대학","금융보험학과","2.5 ~ 3.3","2.8 ~ 3.8","-","81.0% ~ 83.5%"],
+            [22,"인문·사회·상경","상과대학","광고홍보학과","2.6 ~ 3.4","2.8 ~ 3.9","-","80.0% ~ 82.5%"],
+            [23,"인문·사회·상경","상과대학","무역학과","2.7 ~ 3.5","2.9 ~ 4.0","-","79.5% ~ 82.0%"],
+            [24,"인문·사회·상경","언어문학대학","필리핀어학과","2.1 ~ 2.8","2.5 ~ 3.5","-","84.0% ~ 86.5%"],
+            [25,"인문·사회·상경","언어문학대학","영어영문학과","2.9 ~ 3.7","3.2 ~ 4.2","-","77.0% ~ 80.0%"],
+            [26,"인문·사회·상경","언어문학대학","중어중문학과(대외한어과)","3.0 ~ 3.8","3.3 ~ 4.3","-","76.5% ~ 79.5%"],
+            [27,"인문·사회·상경","언어문학대학","국어국문학과","3.2 ~ 4.1","3.5 ~ 4.6","-","75.0% ~ 78.0%"],
+            [28,"인문·사회·상경","언어문학대학","불어불문학과","3.3 ~ 4.2","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [29,"인문·사회·상경","언어문학대학","독어독문학과","3.4 ~ 4.3","3.7 ~ 4.8","-","73.5% ~ 76.5%"],
+            [30,"인문·사회·상경","언어문학대학","언어학과","3.4 ~ 4.3","3.7 ~ 4.8","-","73.0% ~ 76.0%"],
+            [31,"인문·사회·상경","언어문학대학","서어서문학과","3.5 ~ 4.4","3.8 ~ 4.9","-","72.5% ~ 75.5%"],
+            [32,"인문·사회·상경","언어문학대학","노어노문학과","3.6 ~ 4.6","3.9 ~ 5.1","-","71.5% ~ 74.5%"],
+            [33,"인문·사회·상경","언어문학대학","한문학과","3.7 ~ 4.8","4.0 ~ 5.3","-","71.0% ~ 74.0%"],
+            [34,"인문·사회·상경","인문대학","문화콘텐츠학과","2.8 ~ 3.5","3.1 ~ 4.0","-","78.0% ~ 81.0%"],
+            [35,"인문·사회·상경","인문대학","문예창작과","3.1 ~ 3.9","3.3 ~ 4.3","3.8 ~ 5.1","76.0% ~ 79.0%"],
+            [36,"인문·사회·상경","인문대학","사학과","3.2 ~ 4.1","3.5 ~ 4.5","-","75.0% ~ 78.0%"],
+            [37,"인문·사회·상경","인문대학","철학과","3.3 ~ 4.2","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [38,"인문·사회·상경","인문대학","미술사학과","3.4 ~ 4.4","3.7 ~ 4.8","-","73.5% ~ 76.5%"],
+            [39,"인문·사회·상경","인문대학","문화인류학과","3.4 ~ 4.4","3.7 ~ 4.8","-","73.0% ~ 76.0%"],
+            [40,"인문·사회·상경","인문대학","고고학과","3.5 ~ 4.5","3.8 ~ 4.9","-","72.5% ~ 75.5%"],
+            [41,"인문·사회·상경","인문대학","문화재보존학과","3.5 ~ 4.5","3.8 ~ 4.9","-","72.0% ~ 75.0%"],
+            [42,"인문·사회·상경","인문대학","음악학과","3.6 ~ 4.6","3.9 ~ 5.1","-","71.5% ~ 74.5%"],
+            [43,"인문·사회·상경","인문대학","종교학과","3.7 ~ 4.8","4.0 ~ 5.3","-","71.0% ~ 74.0%"],
+            [44,"이학","자연과학대학","통계학과","2.7 ~ 3.4","2.9 ~ 3.8","-","79.0% ~ 83.0%"],
+            [45,"이학","자연과학대학","수학과","2.8 ~ 3.6","3.0 ~ 4.1","-","78.0% ~ 81.5%"],
+            [46,"이학","자연과학대학","화학과","3.1 ~ 3.9","3.3 ~ 4.4","-","75.0% ~ 78.5%"],
+            [47,"이학","자연과학대학","물리학과","3.2 ~ 4.1","3.4 ~ 4.6","-","74.0% ~ 77.0%"],
+            [48,"이학","자연과학대학","대기과학과","3.4 ~ 4.3","3.6 ~ 4.8","-","73.0% ~ 76.0%"],
+            [49,"이학","자연과학대학","지질학과","3.5 ~ 4.4","3.7 ~ 4.9","-","72.0% ~ 75.0%"],
+            [50,"이학","자연과학대학","천문학과","3.6 ~ 4.5","3.8 ~ 5.0","-","71.0% ~ 74.5%"],
+            [51,"이학","생명대학","애완동물과","2.5 ~ 3.3","2.8 ~ 3.7","-","80.0% ~ 83.0%"],
+            [52,"이학","생명대학","생명공학과","2.8 ~ 3.5","3.0 ~ 4.0","-","78.0% ~ 81.0%"],
+            [53,"이학","생명대학","생명과학과","3.0 ~ 3.8","3.2 ~ 4.3","-","76.0% ~ 79.0%"],
+            [54,"이학","생명대학","축산학과","3.4 ~ 4.3","3.6 ~ 4.8","-","73.0% ~ 76.0%"],
+            [55,"이학","생명대학","동물과학과","3.5 ~ 4.4","3.7 ~ 4.9","-","72.0% ~ 75.0%"],
+            [56,"이학","생활과학대학","조리과학과","2.6 ~ 3.4","2.9 ~ 3.8","3.4 ~ 4.1","80.0% ~ 83.0%"],
+            [57,"이학","생활과학대학","식품영양학과","3.0 ~ 3.8","3.2 ~ 4.2","-","76.0% ~ 79.0%"],
+            [58,"이학","생활과학대학","아동가족학과","3.2 ~ 4.0","3.4 ~ 4.5","-","75.0% ~ 78.0%"],
+            [59,"이학","생활과학대학","소비자학과","3.3 ~ 4.1","3.5 ~ 4.6","-","74.0% ~ 77.0%"],
+            [60,"이학","생활과학대학","제과제빵과","3.4 ~ 4.2","3.6 ~ 4.7","3.9 ~ 5.2","73.5% ~ 76.5%"],
+            [61,"이학","생활과학대학","주거환경학과","3.4 ~ 4.2","3.6 ~ 4.7","-","73.0% ~ 76.0%"],
+            [62,"이학","생활과학대학","의류의상학과","3.5 ~ 4.3","3.7 ~ 4.8","-","72.0% ~ 75.0%"],
+            [63,"이학","농업대학","수산생명의학과","2.9 ~ 3.7","3.1 ~ 4.2","-","77.0% ~ 80.0%"],
+            [64,"이학","농업대학","식물의학과","3.0 ~ 3.8","3.2 ~ 4.3","-","76.0% ~ 79.0%"],
+            [65,"이학","농업대학","원예학과","3.8 ~ 4.7","4.0 ~ 5.2","-","70.0% ~ 73.0%"],
+            [66,"이학","농업대학","식물자원학과","4.0 ~ 4.9","4.2 ~ 5.4","-","68.0% ~ 71.0%"],
+            [67,"이학","농업대학","산림과학과","4.1 ~ 5.1","4.3 ~ 5.5","-","67.0% ~ 70.0%"],
+            [68,"이학","농업대학","수산자원학과","4.2 ~ 5.3","4.4 ~ 5.7","-","66.0% ~ 69.0%"],
+            [69,"이학","해양대학","항해학과","3.0 ~ 3.8","3.2 ~ 4.3","-","76.0% ~ 80.0%"],
+            [70,"이학","해양대학","조선해양공학과","3.5 ~ 4.4","3.7 ~ 4.9","-","72.0% ~ 75.0%"],
+            [71,"이학","해양대학","해양공학과","3.8 ~ 4.8","4.0 ~ 5.3","-","70.0% ~ 73.0%"],
+            [72,"이학","해양대학","해양학과","4.0 ~ 5.1","4.2 ~ 5.6","-","68.0% ~ 71.0%"],
+            [73,"이학","환경산업대학","환경공학과","3.4 ~ 4.3","3.6 ~ 4.8","-","73.0% ~ 76.0%"],
+            [74,"이학","환경산업대학","조경학과","3.6 ~ 4.5","3.8 ~ 5.0","-","71.0% ~ 74.0%"],
+            [75,"공학·교통","교통대학","철도운전학과","1.6 ~ 2.2","1.8 ~ 2.6","-","89.0% ~ 92.0%"],
+            [76,"공학·교통","교통대학","항공운항과","1.7 ~ 2.3","1.9 ~ 2.7","-","88.0% ~ 91.0%"],
+            [77,"공학·교통","교통대학","항공우주공학과","2.0 ~ 2.6","2.2 ~ 3.1","-","85.0% ~ 88.0%"],
+            [78,"공학·교통","교통대학","철도운영학과","2.1 ~ 2.7","2.3 ~ 3.2","-","84.5% ~ 87.5%"],
+            [79,"공학·교통","교통대학","철도관리학과","2.2 ~ 2.8","2.4 ~ 3.4","-","84.0% ~ 87.0%"],
+            [80,"공학·교통","교통대학","철도산업학부","2.2 ~ 2.9","2.5 ~ 3.5","-","83.5% ~ 86.5%"],
+            [81,"공학·교통","교통대학","자동차공학과","2.3 ~ 3.0","2.6 ~ 3.6","-","83.0% ~ 86.0%"],
+            [82,"공학·교통","교통대학","교통공학과","2.4 ~ 3.2","2.7 ~ 3.8","-","82.5% ~ 85.5%"],
+            [83,"공학·교통","교통대학","해운학과","2.9 ~ 3.7","3.2 ~ 4.2","-","78.0% ~ 81.0%"],
+            [84,"공학·교통","전기공업대학","반도체공학과","1.9 ~ 2.6","2.1 ~ 3.0","-","86.0% ~ 89.0%"],
+            [85,"공학·교통","전기공업대학","인공지능학과","2.0 ~ 2.7","2.2 ~ 3.1","-","85.0% ~ 88.0%"],
+            [86,"공학·교통","전기공업대학","컴퓨터공학과","2.3 ~ 3.0","2.5 ~ 3.5","-","83.0% ~ 86.0%"],
+            [87,"공학·교통","전기공업대학","전기전자공학과","2.4 ~ 3.1","2.6 ~ 3.6","-","82.0% ~ 85.0%"],
+            [88,"공학·교통","전기공업대학","정보보안학과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [89,"공학·교통","전기공업대학","산업공학과","2.7 ~ 3.5","3.0 ~ 4.1","-","79.0% ~ 82.0%"],
+            [90,"공학·교통","전기공업대학","광공학과","2.8 ~ 3.6","3.1 ~ 4.2","-","78.0% ~ 81.0%"],
+            [91,"공학·교통","전기공업대학","정보통신공학과","2.9 ~ 3.7","3.2 ~ 4.3","-","77.5% ~ 80.5%"],
+            [92,"공학·교통","전기공업대학","제어계측공학과","3.0 ~ 3.8","3.3 ~ 4.4","-","77.0% ~ 80.0%"],
+            [93,"공학·교통","기계공업대학","기계공학과","2.5 ~ 3.3","2.8 ~ 3.8","-","81.0% ~ 84.0%"],
+            [94,"공학·교통","기계공업대학","로봇공학과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [95,"공학·교통","기계공업대학","원자력공학과","2.8 ~ 3.6","3.1 ~ 4.1","-","78.0% ~ 81.0%"],
+            [96,"공학·교통","기계공업대학","드론학과","2.9 ~ 3.7","3.2 ~ 4.3","-","77.0% ~ 80.0%"],
+            [97,"공학·교통","기계공업대학","기전공학과","3.0 ~ 3.8","3.3 ~ 4.4","-","76.0% ~ 79.0%"],
+            [98,"공학·교통","기계공업대학","금형공학과","3.3 ~ 4.2","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [99,"공학·교통","기계공업대학","설비공학과","3.4 ~ 4.3","3.7 ~ 4.8","-","73.0% ~ 76.0%"],
+            [100,"공학·교통","화학공업대학","화학공학과","2.5 ~ 3.3","2.8 ~ 3.8","-","81.0% ~ 84.0%"],
+            [101,"공학·교통","화학공업대학","에너지공학과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [102,"공학·교통","화학공업대학","나노공학과","2.8 ~ 3.6","3.1 ~ 4.1","-","78.0% ~ 81.0%"],
+            [103,"공학·교통","화학공업대학","재료공학과","2.9 ~ 3.7","3.2 ~ 4.2","-","77.0% ~ 80.0%"],
+            [104,"공학·교통","화학공업대학","고분자공학과","3.0 ~ 3.8","3.3 ~ 4.4","-","76.0% ~ 79.0%"],
+            [105,"공학·교통","화학공업대학","섬유공학과","3.2 ~ 4.0","3.5 ~ 4.6","-","75.0% ~ 78.0%"],
+            [106,"공학·교통","화학공업대학","식품공학과","3.3 ~ 4.1","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [107,"공학·교통","토목공업대학","건축학과(5년제)","2.7 ~ 3.5","3.0 ~ 4.0","-","79.0% ~ 82.0%"],
+            [108,"공학·교통","토목공업대학","도시공학과","2.9 ~ 3.7","3.2 ~ 4.3","-","77.0% ~ 80.0%"],
+            [109,"공학·교통","토목공업대학","건축공학과","3.0 ~ 3.8","3.3 ~ 4.4","-","76.0% ~ 79.0%"],
+            [110,"공학·교통","토목공업대학","토목공학과","3.2 ~ 4.1","3.5 ~ 4.6","-","75.0% ~ 78.0%"],
+            [111,"공학·교통","토목공업대학","안전공학과","3.3 ~ 4.2","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [112,"공학·교통","응용과학대학","소방학과","3.0 ~ 3.8","3.3 ~ 4.4","-","76.0% ~ 79.0%"],
+            [113,"공학·교통","응용과학대학","예술공학과","3.3 ~ 4.2","3.6 ~ 4.7","4.0 ~ 5.2","74.0% ~ 77.0%"],
+            [114,"공학·교통","응용과학대학","특수장비과","3.4 ~ 4.3","3.7 ~ 4.8","-","73.0% ~ 76.0%"],
+            [115,"공학·교통","응용과학대학","기관학과","3.5 ~ 4.4","3.8 ~ 4.9","-","72.0% ~ 75.0%"],
+            [116,"공학·교통","응용과학대학","출판인쇄과","3.8 ~ 4.7","4.1 ~ 5.3","-","70.0% ~ 73.0%"],
+            [117,"의학·보건","의과대학","의학과","1.0 ~ 1.2","1.1 ~ 1.4","-","99.5% ~ 99.9%"],
+            [118,"의학·보건","의과대학","치의학과","1.1 ~ 1.3","1.2 ~ 1.5","-","99.2% ~ 99.8%"],
+            [119,"의학·보건","의과대학","한의학과","1.2 ~ 1.4","1.3 ~ 1.6","-","98.5% ~ 99.5%"],
+            [120,"의학·보건","의과대학","수의학과","1.3 ~ 1.5","1.4 ~ 1.7","-","97.5% ~ 98.5%"],
+            [121,"의학·보건","약학대학","약학과","1.3 ~ 1.6","1.5 ~ 1.8","-","97.0% ~ 98.5%"],
+            [122,"의학·보건","약학대학","한약학과","2.5 ~ 2.8","2.7 ~ 3.1","-","95.5% ~ 97.0%"],
+            [123,"의학·보건","간호대학","간호학과","2.1 ~ 2.6","2.4 ~ 3.1","-","84.0% ~ 87.0%"],
+            [124,"의학·보건","보건대학","물리치료학과","2.6 ~ 3.2","2.8 ~ 3.6","-","80.0% ~ 83.0%"],
+            [125,"의학·보건","보건대학","방사선학과","2.6 ~ 3.3","2.9 ~ 3.7","-","79.5% ~ 82.5%"],
+            [126,"의학·보건","보건대학","임상병리학과","2.7 ~ 3.4","3.0 ~ 3.8","-","79.0% ~ 82.0%"],
+            [127,"의학·보건","보건대학","응급구조학과","2.8 ~ 3.5","3.1 ~ 3.9","-","78.5% ~ 81.5%"],
+            [128,"의학·보건","보건대학","치위생학과","2.9 ~ 3.6","3.2 ~ 4.0","-","78.0% ~ 81.0%"],
+            [129,"의학·보건","보건대학","치기공학과","2.9 ~ 3.7","3.2 ~ 4.1","-","77.5% ~ 80.5%"],
+            [130,"의학·보건","보건대학","의공학과","3.0 ~ 3.8","3.3 ~ 4.2","-","77.0% ~ 80.0%"],
+            [131,"의학·보건","보건대학","작업치료학과","3.1 ~ 3.9","3.4 ~ 4.3","-","76.5% ~ 79.5%"],
+            [132,"의학·보건","보건대학","보건행정학과","3.2 ~ 4.0","3.5 ~ 4.4","-","76.0% ~ 79.0%"],
+            [133,"의학·보건","보건대학","언어치료학과","3.2 ~ 4.1","3.5 ~ 4.5","-","75.5% ~ 78.5%"],
+            [134,"의학·보건","보건대학","재활학과","3.3 ~ 4.2","3.6 ~ 4.6","-","75.0% ~ 78.0%"],
+            [135,"의학·보건","보건대학","안경광학과","3.4 ~ 4.3","3.7 ~ 4.7","-","74.5% ~ 77.5%"],
+            [136,"의학·보건","보건대학","건강관리학과","3.4 ~ 4.4","3.7 ~ 4.8","-","74.0% ~ 77.0%"],
+            [137,"예체능·융합","응용예술대학","만화애니메이션학과","2.2 ~ 2.9","2.5 ~ 3.6","3.2 ~ 4.7","83.0% ~ 86.0%"],
+            [138,"예체능·융합","응용예술대학","게임학과","2.4 ~ 3.2","2.7 ~ 3.9","3.5 ~ 4.9","81.0% ~ 84.0%"],
+            [139,"예체능·융합","응용예술대학","사진학과","2.9 ~ 3.8","3.3 ~ 4.5","4.0 ~ 5.6","77.0% ~ 80.0%"],
+            [140,"예체능·융합","응용예술대학","미용학과","3.3 ~ 4.3","3.7 ~ 4.8","4.2 ~ 5.8","74.0% ~ 77.0%"],
+            [141,"예체능·융합","응용예술대학","귀금속공예과","3.5 ~ 4.5","3.9 ~ 5.1","4.5 ~ 6.2","72.0% ~ 75.0%"],
+            [142,"예체능·융합","응용예술대학","모델과","-","4.5 ~ 5.8","5.0 ~ 6.5","68.0% ~ 72.0%"],
+            [143,"예체능·융합","융합학부","반도체융합전공","1.9 ~ 2.6","2.1 ~ 3.0","-","86.0% ~ 89.0%"],
+            [144,"예체능·융합","융합학부","반도체 소재·부품·장비 전공","2.0 ~ 2.7","2.2 ~ 3.1","-","85.0% ~ 88.0%"],
+            [145,"예체능·융합","융합학부","IAB 융합전공","2.1 ~ 2.8","2.4 ~ 3.3","-","84.0% ~ 87.0%"],
+            [146,"예체능·융합","융합학부","에너지신산업융합전공","2.4 ~ 3.1","2.6 ~ 3.6","-","82.0% ~ 85.0%"],
+            [147,"예체능·융합","융합학부","메타버스/엔터테인먼트 전공","2.6 ~ 3.4","2.9 ~ 3.9","3.5 ~ 4.8","80.0% ~ 83.0%"],
+            [148,"예체능·융합","융합학부","예술융합창작전공","2.9 ~ 3.7","3.2 ~ 4.2","3.8 ~ 5.2","78.0% ~ 81.0%"],
+            [149,"예체능·융합","디자인대학","시각디자인학과","2.9 ~ 3.7","3.2 ~ 4.2","3.8 ~ 5.3","78.0% ~ 81.0%"],
+            [150,"예체능·융합","디자인대학","산업디자인학과","3.0 ~ 3.8","3.3 ~ 4.3","4.0 ~ 5.5","77.0% ~ 80.0%"],
+            [151,"예체능·융합","디자인대학","실내디자인학과","3.2 ~ 4.0","3.5 ~ 4.6","4.2 ~ 5.7","75.0% ~ 78.0%"],
+            [152,"예체능·융합","디자인대학","패션디자인학과","3.3 ~ 4.2","3.6 ~ 4.7","4.4 ~ 6.0","74.0% ~ 77.0%"],
+            [153,"예체능·융합","예술대학","영화영상학과","2.9 ~ 3.7","3.2 ~ 4.2","3.8 ~ 5.3","77.0% ~ 80.0%"],
+            [154,"예체능·융합","예술대학","공연제작과","3.0 ~ 3.9","3.4 ~ 4.5","4.0 ~ 5.6","76.0% ~ 79.0%"],
+            [155,"예체능·융합","예술대학","연극학과","-","3.8 ~ 5.0","4.5 ~ 6.3","74.0% ~ 77.0%"],
+            [156,"예체능·융합","예술대학","극작과","3.4 ~ 4.3","3.7 ~ 4.8","4.2 ~ 5.7","73.0% ~ 76.0%"],
+            [157,"예체능·융합","음악대학","실용음악과","-","3.2 ~ 4.4","3.5 ~ 5.3","78.0% ~ 81.0%"],
+            [158,"예체능·융합","음악대학","음향과","3.0 ~ 3.9","3.4 ~ 4.5","4.0 ~ 5.6","76.0% ~ 79.0%"],
+            [159,"예체능·융합","음악대학","작곡과","-","3.8 ~ 5.0","4.2 ~ 6.2","72.0% ~ 75.0%"],
+            [160,"예체능·융합","음악대학","성악과","-","4.2 ~ 5.5","5.0 ~ 6.6","68.0% ~ 72.0%"],
+            [161,"예체능·융합","음악대학","국악과","-","4.5 ~ 5.8","5.4 ~ 6.8","65.0% ~ 68.0%"],
+            [162,"예체능·융합","음악대학","기악과","-","4.5 ~ 5.8","5.4 ~ 6.8","65.0% ~ 68.0%"],
+            [163,"예체능·융합","무용대학","경호학과","2.9 ~ 3.8","3.2 ~ 4.3","3.8 ~ 5.2","78.0% ~ 81.0%"],
+            [164,"예체능·융합","무용대학","스포츠의학과","3.0 ~ 3.9","3.4 ~ 4.5","-","76.0% ~ 79.0%"],
+            [165,"예체능·융합","무용대학","체육학과","-","3.8 ~ 5.0","4.5 ~ 6.2","68.0% ~ 72.0%"],
+            [166,"예체능·융합","무용대학","무용학과","-","4.5 ~ 5.7","5.2 ~ 6.6","65.0% ~ 69.0%"],
+            [167,"예체능·융합","미술대학","종교미술학과","-","4.2 ~ 5.5","5.0 ~ 6.5","66.0% ~ 69.0%"],
+            [168,"예체능·융합","미술대학","보석감정과","-","4.5 ~ 5.6","5.1 ~ 6.6","65.0% ~ 68.0%"],
+            [169,"예체능·융합","미술대학","서양화과","-","4.8 ~ 5.9","5.5 ~ 6.9","60.0% ~ 65.0%"],
+            [170,"예체능·융합","미술대학","동양화과","-","4.8 ~ 5.9","5.5 ~ 6.9","60.0% ~ 65.0%"],
+            [171,"예체능·융합","미술대학","조소과","-","4.8 ~ 5.9","5.5 ~ 6.9","60.0% ~ 65.0%"],
+            [172,"예체능·융합","미술대학","판화과","-","4.8 ~ 5.9","5.5 ~ 6.9","60.0% ~ 65.0%"],
+            [173,"교육","사범대학","국어교육과","1.8 ~ 2.5","2.1 ~ 3.0","-","87.0% ~ 90.0%"],
+            [174,"교육","사범대학","영어교육과","1.8 ~ 2.5","2.1 ~ 3.0","-","87.0% ~ 90.0%"],
+            [175,"교육","사범대학","일어교육과","1.9 ~ 2.6","2.1 ~ 3.1","-","86.0% ~ 89.0%"],
+            [176,"교육","사범대학","역사교육과","2.0 ~ 2.7","2.3 ~ 3.2","-","85.0% ~ 88.0%"],
+            [177,"교육","사범대학","일반사회교육과","2.1 ~ 2.8","2.4 ~ 3.3","-","84.5% ~ 87.5%"],
+            [178,"교육","사범대학","교육학과","2.1 ~ 2.9","2.4 ~ 3.4","-","84.0% ~ 87.0%"],
+            [179,"교육","사범대학","지리교육과","2.3 ~ 3.0","2.6 ~ 3.5","-","83.0% ~ 86.0%"],
+            [180,"교육","사범대학","윤리교육과","2.3 ~ 3.0","2.6 ~ 3.5","-","83.0% ~ 86.0%"],
+            [181,"교육","사범대학","중국어교육과","2.5 ~ 3.3","2.8 ~ 3.8","-","81.0% ~ 84.0%"],
+            [182,"교육","사범대학","독어교육과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [183,"교육","사범대학","불어교육과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [184,"교육","사범대학","문헌정보교육과","2.7 ~ 3.5","3.0 ~ 4.0","-","79.0% ~ 82.0%"],
+            [185,"교육","사범대학","한문교육과","2.8 ~ 3.7","3.1 ~ 4.2","-","78.0% ~ 81.0%"],
+            [186,"교육","사범대학","종교교육과","3.0 ~ 3.9","3.3 ~ 4.4","-","76.0% ~ 79.0%"],
+            [187,"교육","사범대학","수학교육과","1.7 ~ 2.4","1.9 ~ 2.9","-","88.0% ~ 91.0%"],
+            [188,"교육","사범대학","컴퓨터교육과","2.0 ~ 2.7","2.3 ~ 3.2","-","85.0% ~ 88.0%"],
+            [189,"교육","사범대학","생물교육과","2.1 ~ 2.8","2.4 ~ 3.3","-","84.0% ~ 87.0%"],
+            [190,"교육","사범대학","화학교육과","2.1 ~ 2.8","2.4 ~ 3.3","-","84.0% ~ 87.0%"],
+            [191,"교육","사범대학","물리교육과","2.3 ~ 3.0","2.6 ~ 3.5","-","83.0% ~ 86.0%"],
+            [192,"교육","사범대학","지구과학교육과","2.4 ~ 3.2","2.7 ~ 3.7","-","82.0% ~ 85.0%"],
+            [193,"교육","사범대학","환경교육과","2.8 ~ 3.7","3.1 ~ 4.2","-","78.0% ~ 81.0%"],
+            [194,"교육","사범대학","가정교육과","2.9 ~ 3.8","3.2 ~ 4.3","-","77.0% ~ 80.0%"],
+            [195,"교육","사범대학","기계교육과","3.2 ~ 4.1","3.5 ~ 4.6","-","75.0% ~ 78.0%"],
+            [196,"교육","사범대학","전기전자교육과","3.2 ~ 4.1","3.5 ~ 4.6","-","75.0% ~ 78.0%"],
+            [197,"교육","사범대학","경영금융교육과","3.3 ~ 4.2","3.6 ~ 4.7","-","74.0% ~ 77.0%"],
+            [198,"교육","사범대학","기술교육과","3.4 ~ 4.3","3.7 ~ 4.8","-","73.0% ~ 76.0%"],
+            [199,"교육","사범대학","농업교육과","3.8 ~ 4.8","4.1 ~ 5.3","-","70.0% ~ 73.0%"],
+            [200,"교육","사범대학","수해양산업교육과","4.0 ~ 5.0","4.3 ~ 5.5","-","68.0% ~ 71.0%"],
+            [201,"교육","사범대학","초등교육과","1.9 ~ 2.6","2.1 ~ 3.1","-","86.0% ~ 89.0%"],
+            [202,"교육","사범대학","한국어교육학과","2.3 ~ 3.0","2.6 ~ 3.5","-","83.0% ~ 86.0%"],
+            [203,"교육","사범대학","특수교육과","2.5 ~ 3.3","2.8 ~ 3.8","-","81.0% ~ 84.0%"],
+            [204,"교육","사범대학","유아교육과","2.6 ~ 3.4","2.9 ~ 3.9","-","80.0% ~ 83.0%"],
+            [205,"교육","사범대학","교육공학과","2.7 ~ 3.5","3.0 ~ 4.0","-","79.0% ~ 82.0%"],
+            [206,"교육","사범대학","체육교육과","3.4 ~ 4.3","3.7 ~ 4.8","4.3 ~ 5.8","73.0% ~ 76.0%"],
+            [207,"교육","사범대학","음악교육과","3.5 ~ 4.4","3.8 ~ 4.9","4.5 ~ 6.0","72.0% ~ 75.0%"],
+            [208,"교육","사범대학","미술교육과","3.6 ~ 4.5","3.9 ~ 5.1","4.6 ~ 6.2","71.0% ~ 74.0%"]
+        ];
+
+        const GUIDE_TAB_TITLES = {
+            susi: "수시모집 요강 (효빈 애니웨이 · 일반교과 · 개천용인재)",
+            jungsi: "정시모집 요강 (수능 반영비율 · 영어 변환점수)",
+            overseas: "재외국민 · 외국인 · 정원 외 특별전형 (1,055명)",
+            results: "28개 단과대학 & 208개 전 학과 수시·정시 입시결과 총람"
+        };
+
+        // 상단 메가메뉴에서 '수시모집', '정시모집', '재외국민' 클릭 시 즉시 해당 SPA 탭으로 전환
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuMap = {
+                "수시모집": "susi",
+                "정시모집": "jungsi",
+                "재외국민": "overseas"
+            };
+            if (menuMap[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                switchGuideTab(menuMap[txt]);
             }
-        };
+        }, true);
 
-        // 초기화 로직
-        window.onload = function() {
-            const data = ADMISSION_DB[deptName] || ADMISSION_DB["일반"];
-            
-            document.getElementById('dept-name-display').innerText = deptName;
-            document.getElementById('dept-desc-display').innerHTML = data.desc;
-            
-            // 전형 정보 렌더링
-            const container = document.getElementById('dept-criteria-container');
-            container.innerHTML = data.criteria.map(item => `
-                <div class="bg-white p-5 rounded border hover:shadow-md transition">
-                    <strong class="block mb-3 text-lg text-gray-800 border-b pb-1">${item.title}</strong>
-                    <ul class="list-disc pl-4 text-gray-600 space-y-1">
-                        ${item.content.map(text => `<li>${text}</li>`).join('')}
-                    </ul>
-                </div>
-            `).join('');
+        function switchGuideTab(tabKey) {
+            const validKey = GUIDE_TAB_TITLES[tabKey] ? tabKey : 'susi';
+            document.querySelectorAll('.guide-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-guide-' + validKey);
+            if (target) target.classList.remove('hidden');
 
-            lucide.createIcons();
-        };
+            Object.keys(GUIDE_TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('gtab-' + k);
+                if (!btn) return;
+                if (k === validKey) {
+                    btn.className = "guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-2 transition-all shadow-sm";
+                } else {
+                    btn.className = "guide-tab-btn px-4 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-2 transition-all";
+                }
+            });
 
-        function goBack() {
-            location.href = backUrl;
+            const bread = document.getElementById('guide-breadcrumb');
+            if (bread) bread.innerText = GUIDE_TAB_TITLES[validKey];
+
+            if (window.location.hash !== '#' + validKey) {
+                history.replaceState(null, null, '#' + validKey);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
+
+        function renderCollegeAvgTable() {
+            const tbody = document.getElementById('college-avg-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = COLLEGE_AVG_DB.map((row, idx) => `
+                <tr class="hover:bg-blue-50/40 ${idx < 4 ? 'bg-blue-50/20 font-bold' : ''}">
+                    <td class="py-2.5 px-3 text-slate-400 font-bold">${idx + 1}</td>
+                    <td class="py-2.5 px-4 font-sans text-left font-black text-slate-900">${row[0]}</td>
+                    <td class="py-2.5 px-3 font-black text-[#3344aa]">${row[1]}</td>
+                    <td class="py-2.5 px-3 text-slate-800">${row[2]}</td>
+                    <td class="py-2.5 px-3 text-slate-700">${row[3]}</td>
+                    <td class="py-2.5 px-4 font-sans text-slate-600">${row[4]}</td>
+                </tr>
+            `).join('');
+        }
+
+        function render208DeptsTable() {
+            const tbody = document.getElementById('depts-208-tbody');
+            if (!tbody) return;
+            const seriesFilter = document.getElementById('dept-series-filter').value;
+            const q = document.getElementById('dept-cutoff-search').value.trim().toLowerCase();
+
+            const filtered = ALL_208_DEPTS_DB.filter(d => {
+                const matchSeries = (seriesFilter === 'ALL' || d[1] === seriesFilter);
+                const matchQ = !q || d[2].toLowerCase().includes(q) || d[3].toLowerCase().includes(q) || String(d[0]) === q;
+                return matchSeries && matchQ;
+            });
+
+            document.getElementById('dept-208-count').innerText = filtered.length;
+
+            tbody.innerHTML = filtered.map(d => {
+                const isTopTier = d[7].startsWith('9') || d[7].startsWith('88') || d[7].startsWith('89');
+                return `
+                    <tr class="hover:bg-blue-50/50 transition ${isTopTier ? 'bg-blue-50/25' : ''}">
+                        <td class="py-2.5 px-2 font-mono-code text-slate-400 font-bold">${d[0]}</td>
+                        <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${d[1]}</span></td>
+                        <td class="py-2.5 px-3 font-bold text-slate-700">${d[2]}</td>
+                        <td class="py-2.5 px-4 text-left font-black text-slate-900">${d[3]}</td>
+                        <td class="py-2.5 px-3 font-mono-code font-bold text-[#1e2a78]">${d[4]}</td>
+                        <td class="py-2.5 px-3 font-mono-code font-bold text-[#3344aa]">${d[5]}</td>
+                        <td class="py-2.5 px-3 font-mono-code text-slate-500">${d[6]}</td>
+                        <td class="py-2.5 px-3 font-mono-code font-black ${isTopTier ? 'text-rose-600' : 'text-emerald-700'} bg-emerald-50/30">${d[7]}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function checkDeptUrlParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const deptParam = urlParams.get('dept');
+            const typeParam = urlParams.get('type');
+
+            if (deptParam) {
+                const found = ALL_208_DEPTS_DB.find(d => d[3].includes(deptParam) || deptParam.includes(d[3]));
+                if (found) {
+                    const banner = document.getElementById('dept-spotlight-banner');
+                    banner.classList.remove('hidden');
+                    banner.innerHTML = `
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded">선택 학과 맞춤 입시결과 브리핑 (연번 #${found[0]})</span>
+                                <h3 class="text-xl md:text-2xl font-black mt-1">${found[2]} — ${found[3]}</h3>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs font-mono-code bg-black/30 p-3.5 rounded-2xl border border-white/10">
+                                <div class="px-2"><span class="block text-[10px] text-blue-200 font-sans">수시 학생부교과</span><strong class="text-sm text-[#99dd88]">${found[4]}등급</strong></div>
+                                <div class="px-2 border-l border-white/15"><span class="block text-[10px] text-blue-200 font-sans">학종(효빈애니웨이)</span><strong class="text-sm text-white">${found[5]}등급</strong></div>
+                                <div class="px-2 border-l border-white/15"><span class="block text-[10px] text-blue-200 font-sans">수시 실기전형</span><strong class="text-sm text-slate-300">${found[6]}</strong></div>
+                                <div class="px-2 border-l border-white/15"><span class="block text-[10px] text-blue-200 font-sans">정시 백분위 컷</span><strong class="text-sm text-[#a0fff9]">${found[7]}</strong></div>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('dept-cutoff-search').value = found[3];
+                    render208DeptsTable();
+                    switchGuideTab('results');
+                    return;
+                }
+            }
+
+            if (typeParam === 'jungsi') {
+                switchGuideTab('jungsi');
+            } else if (typeParam === 'susi') {
+                switchGuideTab('susi');
+            }
+        }
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (GUIDE_TAB_TITLES[h]) switchGuideTab(h);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCollegeAvgTable();
+            render208DeptsTable();
+
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (GUIDE_TAB_TITLES[initHash]) {
+                switchGuideTab(initHash);
+            } else {
+                checkDeptUrlParam();
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
     </script>
-    <script src="common.js"></script>
 </body>
 </html>
