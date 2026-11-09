@@ -3,74 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대학연혁 - 효빈대학교</title>
+    <title>대학연혁 (History of HBNU 1925-2026) - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .font-serif-kr { font-family: 'Noto Serif KR', serif; }
+
+        /* ★ common.js 헤더/푸터 로고 이미지 폭주 절대 방지 ★ */
+        #header-area img {
+            max-height: 44px !important;
+            width: auto !important;
+            object-fit: contain !important;
+            margin-right: 12px !important;
+        }
+        #footer-area img {
+            max-height: 36px !important;
+            width: auto !important;
+            object-fit: contain !important;
+        }
+
+        .fade-in-up { animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #3344aa; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e2a78; }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-slate-50 flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- 공통 헤더 (common.js 연동) -->
     <div id="header-area"></div>
 
-    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow w-full">
-        <h1 class="text-3xl font-bold text-gray-800 mb-12 text-center">효빈 100년의 역사</h1>
-        
-        <div class="relative border-l-4 border-[#3344aa] ml-6 md:ml-10 space-y-12 pl-8">
-            <!-- 2025 -->
-            <div class="relative">
-                <div class="absolute -left-[42px] top-0 w-6 h-6 rounded-full bg-[#3344aa] border-4 border-white shadow-md"></div>
-                <h3 class="text-2xl font-black text-[#3344aa]">2025</h3>
-                <div class="bg-white p-6 rounded-xl shadow-sm border mt-3">
-                    <p class="text-gray-800 font-bold text-lg mb-2">개교 100주년 기념식 및 효빈 트램 7호선 교내 개통</p>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        불굴의 역사 100년을 기리는 타임캡슐 봉인식 거행. 지자체 협력으로 트램이 교내를 관통하는 스마트 캠퍼스 완성.
+    <!-- 상단 서브 비주얼 배너 (대학연혁 아카이브 헤더) -->
+    <section class="relative bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#1e3a8a] text-white py-14 md:py-20 overflow-hidden border-b-4 border-[#99dd88]">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/충승당.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <!-- 브레드크럼 (경로) -->
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-4">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <button onclick="navigateTo('hbnu_about.html')" class="hover:text-white">대학소개</button>
+                <span>›</span>
+                <span class="text-[#99dd88] font-bold">대학연혁 (1925~현재)</span>
+            </div>
+
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full tracking-wider uppercase mb-3">
+                        CENTENNIAL HISTORY OF HYOBIN NATIONAL UNIVERSITY
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight font-serif-kr">
+                        불굴(不屈)의 100년 역사,<br class="sm:hidden"> 개천(改天)의 미래로
+                    </h1>
+                    <p class="text-xs md:text-base text-blue-100 mt-3 max-w-3xl leading-relaxed">
+                        1925년 9월 14일 효빈상업대학(충승당)에서 시작된 작은 등불이 17개 단과대학·207개 학과·5대 캠퍼스를 아우르는 대한민국 최대 규모의 국가거점국립대학교로 성장하기까지의 장엄한 발자취를 기록합니다.
                     </p>
                 </div>
-            </div>
-
-            <!-- 2022 -->
-            <div class="relative">
-                <div class="absolute -left-[42px] top-0 w-6 h-6 rounded-full bg-gray-400 border-4 border-white"></div>
-                <h3 class="text-2xl font-bold text-gray-600">2022</h3>
-                <div class="bg-white p-6 rounded-xl shadow-sm border mt-3">
-                    <p class="text-gray-800 font-bold mb-2">AI융합대학 신설 및 박효빈 동문 시장 당선</p>
-                    <p class="text-gray-600 text-sm">
-                        사회복지정책학과 출신 박효빈 동문이 시장으로 당선되며 대학-도시 상생 모델 구축.
-                    </p>
-                </div>
-            </div>
-
-            <!-- 1995 -->
-            <div class="relative">
-                <div class="absolute -left-[42px] top-0 w-6 h-6 rounded-full bg-gray-400 border-4 border-white"></div>
-                <h3 class="text-2xl font-bold text-gray-600">1995</h3>
-                <div class="bg-white p-6 rounded-xl shadow-sm border mt-3">
-                    <p class="text-gray-800 font-bold mb-2">지하철 2호선 효빈대역 개통</p>
-                </div>
-            </div>
-
-            <!-- 1980 -->
-            <div class="relative">
-                <div class="absolute -left-[42px] top-0 w-6 h-6 rounded-full bg-gray-400 border-4 border-white"></div>
-                <h3 class="text-2xl font-bold text-gray-600">1980</h3>
-                <div class="bg-white p-6 rounded-xl shadow-sm border mt-3">
-                    <p class="text-gray-800 font-bold mb-2">종합대학교 승격 (효빈대학교)</p>
-                </div>
-            </div>
-
-            <!-- 1925 -->
-            <div class="relative">
-                <div class="absolute -left-[42px] top-0 w-6 h-6 rounded-full bg-gray-400 border-4 border-white"></div>
-                <h3 class="text-2xl font-bold text-gray-600">1925</h3>
-                <div class="bg-white p-6 rounded-xl shadow-sm border mt-3">
-                    <p class="text-gray-800 font-bold mb-2">효빈상업대학 개교</p>
-                    <p class="text-gray-600 text-sm">불굴의 정신으로 첫 발을 내딛은 효빈의 시작.</p>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="openArchiveModal('tram1968')" class="bg-[#FF8899] hover:bg-pink-400 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg flex items-center gap-1.5 transition-all">
+                        <i data-lucide="tram-front" class="w-4 h-4"></i> 구 효빈전차 본선 수호 & 7호선 공영화 사료실
+                    </button>
+                    <button onclick="openArchiveModal('medical1999')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                        <i data-lucide="scroll-text" class="w-4 h-4"></i> 1999 통합의과대학·사회복지대 출범 선언문
+                    </button>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- 시대별 탭 네비게이션 및 검색 바 (Sticky) -->
+    <div class="bg-white border-b border-gray-200 sticky top-[68px] z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 lg:pb-0" id="era-tabs">
+                <button onclick="setEraFilter('ALL')" data-era="ALL" class="era-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-[#3344aa] text-white shrink-0 transition-all">
+                    전체 연혁 (1925~2026)
+                </button>
+                <button onclick="setEraFilter('ERA1')" data-era="ERA1" class="era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all">
+                    태동·정초기 (1925~1959)
+                </button>
+                <button onclick="setEraFilter('ERA2')" data-era="ERA2" class="era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all">
+                    전차본선 수호·종합대 승격 (1960~1989)
+                </button>
+                <button onclick="setEraFilter('ERA3')" data-era="ERA3" class="era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all">
+                    메디컬그랜드슬램·A선 개통 (1990~2002)
+                </button>
+                <button onclick="setEraFilter('ERA4')" data-era="ERA4" class="era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all">
+                    교통수호 투쟁·7호선 공영화 (2003~2017)
+                </button>
+                <button onclick="setEraFilter('ERA5')" data-era="ERA5" class="era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all">
+                    베르데&샤이니·100주년 도약 (2018~현재)
+                </button>
+            </div>
+            <div class="relative min-w-[240px]">
+                <input type="text" id="history-search" oninput="filterHistorySearch(this.value)" placeholder="연도, 사건, 노선명(7호선, A선 등) 검색..." class="w-full pl-9 pr-4 py-1.5 text-xs border border-gray-300 rounded-xl focus:outline-none focus:border-[#3344aa]">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-2"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full space-y-16">
+
+        <!-- 1. 효빈대학교 100년사 4대 역사적 분수령 (핵심 요약 카드) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="bg-white p-6 rounded-2xl border-t-4 border-[#3344aa] shadow-sm">
+                <div class="text-xs font-extrabold text-[#3344aa] mb-1">1925. 09. 14.</div>
+                <h3 class="text-lg font-black text-gray-900 mb-2">효빈상업대학 개교와 충승당</h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    일제강점기 민족 자본과 지역 상공인의 염원으로 서구 당선동 대평원에 개교. 당시 건립된 붉은 벽돌 본관 <strong>'충승당(忠勝堂, 3동)'</strong>은 101년이 지난 오늘날까지 불굴의 학풍을 상징하고 있습니다.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border-t-4 border-[#FF8899] shadow-sm">
+                <div class="text-xs font-extrabold text-pink-600 mb-1">1968 본선 수호 ➔ 2010 공영화</div>
+                <h3 class="text-lg font-black text-gray-900 mb-2">구 효빈전차 본선과 7호선의 역사</h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    1968년 사능선·입리선·청엽선·고송방면 등 지선이 폐선될 때도 <strong>'남구~중구~효빈대앞' 핵심 본선은 대학과 시민의 생명줄로 굳건히 생존</strong>하였으며, 2010년 공영화를 거쳐 현재의 <strong>효빈 도시철도 7호선(#FF8899)</strong>으로 계승되었습니다.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border-t-4 border-[#37B484] shadow-sm">
+                <div class="text-xs font-extrabold text-emerald-700 mb-1">1999 학제 대개혁 & 2000 A선 개통</div>
+                <h3 class="text-lg font-black text-gray-900 mb-2">통합의대·사회복지대·HBNU Rail</h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    1999년 국내 최초 의·치·한·수 <strong>'One Health 통합의과대학'</strong> 출범 및 <strong>'사회복지학대학'</strong> 단과대 분화. 2000년에는 국내 유일 학부생 직영 교내철도 <strong>A선(노면전차)</strong>을 개통했습니다.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border-t-4 border-[#1e2a78] shadow-sm">
+                <div class="text-xs font-extrabold text-[#1e2a78] mb-1">2018 B선·베르데홀 ➔ 2025 100주년</div>
+                <h3 class="text-lg font-black text-gray-900 mb-2">베르데 & 샤이니 글로컬 혁신</h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    2018년 공중 모노레일 B선 개통과 2019년 베르데 홀(4,950석) 개관, 제26대 민부선 총장 취임(2021) 및 박효빈 동문 시장 당선(2022)을 거쳐 <strong>중앙일보 대학평가 종합 8위</strong>로 도약했습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- 2. 시대별 상세 타임라인 (동적 렌더링 루트) -->
+        <section id="timeline-root" class="space-y-14"></section>
+
+        <!-- 3. 효빈대학교와 철도·대중교통 100년 연대기 특별 섹션 (1968 효빈전차 팩트 완벽 정리) -->
+        <section class="bg-slate-900 text-white rounded-3xl p-6 md:p-10 shadow-xl border-2 border-[#FF8899]/50">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-700">
+                <div>
+                    <span class="px-3 py-1 rounded-full text-xs font-black text-slate-950" style="background-color:#FF8899;">
+                        🚊 HBNU & HYOBIN TRAM HERITAGE (효빈전차 ➔ 도시철도 7호선)
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-black mt-2">효빈대학교와 구 효빈전차(현 7호선)의 100년 동행사</h2>
+                    <p class="text-xs md:text-sm text-gray-300 mt-1">왜 효빈대학교가 대한민국 최고의 철도 특성화 대학(교통대학 S등급)이 되었는가에 대한 역사적 해답</p>
+                </div>
+                <button onclick="navigateTo('교내교통시스템.html')" class="bg-[#a0fff9] text-slate-950 px-5 py-2.5 rounded-xl text-xs font-black hover:bg-white transition-colors self-start shrink-0">
+                    교내철도(HBNU Rail) 관제 페이지 ➔
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 text-xs md:text-sm">
+                <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                    <div class="text-[#FF8899] font-black text-base mb-2">① 1968년 효빈전차 구조조정의 진실</div>
+                    <p class="text-gray-300 leading-relaxed">
+                        1968년 전국적인 노면전차 철거 열풍 속에서도 효빈전차는 전면 폐선되지 않았습니다. 수익성이 낮거나 도로 확장과 겹친 <strong>사능선, 입리선, 청엽선, 고송방면 등의 지선들만 폐선</strong>되었을 뿐, 도시의 핵심 대동맥인 <strong>『남구 ~ 중구 원도심 ~ 효빈대앞(현 효빈대입구역)』 본선은 효빈대 교수진과 학생, 시민들의 결사적인 수호로 살아남아</strong> 끊임없이 운행을 이어갔습니다. (당시 폐선된 지선 차량의 도면은 훗날 2000년 교내철도 A선 개통 당시 산학협력단이 복원 제작한 '백년호'의 설계 원형이 되었습니다.)
+                    </p>
+                </div>
+                <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                    <div class="text-[#01B7ED] font-black text-base mb-2">② 2006~2007 암흑기와 2010년 7호선 공영화</div>
+                    <p class="text-gray-300 leading-relaxed">
+                        2003~2007년 두청운수(실소유주 윤대환 전 시장)의 갈색 버스 독점 및 철도 공사 강제 중단 시기, 대학로가 마비되어 교수와 학생 절반이 지각·강제 휴강을 겪는 지옥이 펼쳐졌습니다. 윤대환 퇴출 후 2008년 시내버스 준공영제(3세대 스타더스트 작전)가 도입되었고, 마침내 <strong>2010년 구 효빈전차 생존 본선이 효빈교통공사로 완전 공영화되면서 공식 노선색 분홍색(#FF8899)의 『효빈 도시철도 7호선(마스코트: 임세정·임세하)』으로 재탄생</strong>했습니다.
+                    </p>
+                </div>
+                <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                    <div class="text-[#99dd88] font-black text-base mb-2">③ 캠퍼스를 감싸는 5대 철도망 완성</div>
+                    <p class="text-gray-300 leading-relaxed">
+                        오늘날 효빈대학교 당선캠퍼스는 <strong>● 2호선(#00CCAA 효빈대역, 1995)</strong>, <strong>● 5호선(#EE0022 당선역·소조역)</strong>, <strong>● 7호선(#FF8899 효빈대입구역·당선원마을역·효빈성북문역)</strong>의 3개 도시철도와 교내 <strong>🚃 A선 트램(#a0fff9, 2000)</strong>·<strong>🚟 B선 모노레일(#74f466, 2018)</strong>이 맞물려 돌아가며, 2027년 9월에는 <strong>● 창전선(#33AAFF, 효빈대병원역·소조역)</strong>까지 추가 개통될 예정입니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 역대 주요 총장 및 대학 중흥의 주역 -->
+        <section class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm">
+            <h2 class="text-xl md:text-2xl font-black text-[#1e2a78] mb-2">역대 주요 총장 및 대학 혁신의 이정표</h2>
+            <p class="text-xs text-gray-500 mb-6">1925년 초대 학장부터 제26대 민부선 총장까지 불굴(不屈)·혁신(革新)·개천(改天)의 교시를 실천한 리더십</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                    <span class="bg-gray-800 text-white px-2.5 py-0.5 rounded font-bold">초대 ~ 제14대 (1925~1979)</span>
+                    <h4 class="font-black text-base text-gray-900 mt-2">효빈상업대학 및 단과대 확장기</h4>
+                    <p class="text-gray-600 mt-1.5 leading-relaxed">
+                        • 1925년 충승당(3동) 건립 및 상학·어문학 기틀 확립<br>
+                        • 1946년 국립 효빈대학 승격 및 법문학부·공과학부 신설<br>
+                        • 1968년 구 효빈전차 지선 폐선 위기 당시 '남구-중구-효빈대앞 본선 존치 건의서'를 중앙정부에 제출하여 본선 사수
+                    </p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                    <span class="bg-[#3344aa] text-white px-2.5 py-0.5 rounded font-bold">제15대 ~ 제25대 (1980~2020)</span>
+                    <h4 class="font-black text-base text-gray-900 mt-2">종합대학교 승격 및 5대 캠퍼스 체제</h4>
+                    <p class="text-gray-600 mt-1.5 leading-relaxed">
+                        • 1980년 국립 종합대학교 '효빈대학교' 승격<br>
+                        • 1999년 국내 최초 의·치·한·수 통합의과대학 출범 및 사회복지학대학 단과대 독립<br>
+                        • 2000년 교내철도 A선 개통, 2018년 B선 모노레일 개통 및 2019년 베르데 홀(29동) 건립(당시 민부선 기획처장 주도)
+                    </p>
+                </div>
+                <div class="p-5 rounded-2xl bg-emerald-50/70 border-2 border-[#37B484]">
+                    <span class="bg-[#37B484] text-white px-2.5 py-0.5 rounded font-bold">제26대 총장 민부선 (2021~현재, 연임)</span>
+                    <h4 class="font-black text-base text-gray-900 mt-2">베르데(Verde) & 샤이니(Shiny) 전성시대</h4>
+                    <p class="text-gray-700 mt-1.5 leading-relaxed">
+                        • 만 44세 최연소급 국립대 총장 취임 (사회복지학 박사)<br>
+                        • 교비 100% 천원의 아침밥 '엠마의 식탁' 및 100억 콘텐츠 스타트업 펀드 조성, 등록금 5년 연속 동결<br>
+                        • 안농운·조창렬 일당 및 대학 과잠 사칭범 추한석 무관용 법적 철퇴로 학내 정의 확립, 2025 중앙일보 대학평가 8위 달성
+                    </p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- 사료실 상세 모달 -->
+    <div id="archive-modal" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden" onclick="closeArchiveModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-gray-200" onclick="event.stopPropagation()">
+            <div class="bg-[#1e2a78] text-white px-6 py-4 flex items-center justify-between">
+                <h3 id="archive-modal-title" class="text-base md:text-lg font-black"></h3>
+                <button onclick="closeArchiveModal()" class="text-gray-300 hover:text-white"><i data-lucide="x" width="22"></i></button>
+            </div>
+            <div id="archive-modal-body" class="p-6 md:p-8 text-sm text-gray-700 leading-relaxed space-y-4 max-h-[75vh] overflow-y-auto"></div>
+            <div class="bg-gray-50 px-6 py-3 border-t text-right">
+                <button onclick="closeArchiveModal()" class="bg-[#3344aa] text-white px-5 py-1.5 rounded-lg text-xs font-bold">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 푸터 (common.js 연동) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
     <script src="common.js"></script>
+
+    <script>
+        // ================= 효빈대학교 101년 역사 마스터 데이터베이스 =================
+        const HBNU_HISTORY_ERAS = [
+            {
+                id: "ERA5",
+                period: "2018 ~ 현재 (2026)",
+                title: "제5기 : 베르데(Verde) & 샤이니(Shiny) 글로컬 혁신과 개교 100주년",
+                subtitle: "B선 모노레일·베르데 홀 개관, 제26대 민부선 총장 취임과 박효빈 동문 시장 당선, 대학평가 종합 8위 도약",
+                badgeColor: "bg-[#3344aa]",
+                events: [
+                    {
+                        year: "2026",
+                        month: "09월 ~ 11월",
+                        highlight: true,
+                        tag: "개교 101주년 · 법치확립",
+                        title: "개교 101주년 기념 특별전 개최 및 학력·교표 사칭 외부 범죄자 무관용 법적 단죄 완수",
+                        desc: "법무감사실·학생처·사범대 체육교육과 및 효빈광역시청 공조로 본교 체교과 과잠·학생증을 무단 도용하고 사회복지학대학 재학생(마서령 학우, 현 부설 종합사회복지관 전임 사회복지사)을 위협한 타 대학 제적생 추한석에게 대법원 징역 15년·전자발찌 15년 확정 판결을 이끌어내며 학내 인권 보호의 철칙을 확립함. 또한 중앙환승장(A09-B06) 수업 교대 시간 '90초 상호 대기 연동 폐색(쿠쿠스미 평화 협정)' 상시 가동."
+                    },
+                    {
+                        year: "2025",
+                        month: "09월 14일",
+                        highlight: true,
+                        tag: "개교 100주년 · 대학평가 8위",
+                        title: "효빈대학교 개교 100주년 기념식 거행 · 중앙일보 대학평가 종합 8위 달성 · 7호선-A선 환승 현대화 및 '백년호' 부활",
+                        desc: "불굴의 역사 100년을 기리는 타임캡슐 봉인식 거행 및 2025 중앙일보 대학평가 종합 8위(2023년 11위 ➔ 2024년 9위 ➔ 2025년 8위) 및 3년 연속 거점국립대 유지취업률 1위 달성. 1968년 지선 폐선 당시 살아남아 2010년 도시철도 7호선(#FF8899)으로 공영화된 효빈대입구역과 교내철도 A선의 직결 환승체계를 고도화하고, 구 효빈전차 복원 차량에 최신 VVVF 제어장치를 이식한 개교 100주년 기념 트램 '백년호'를 정문~대학본부 스페셜 셔틀(토요일 12시 골든 크로스)로 정식 투입함."
+                    },
+                    {
+                        year: "2024",
+                        month: "04월 ~ 11월",
+                        highlight: true,
+                        tag: "민주주의 · 연대승리",
+                        title: "제22대 총선 『주권 수호 교내철도 투표 특급』 가동(청년 투표율 89.4%) 및 베르데 홀·트램 팥빵 수호",
+                        desc: "정치외교학과(김시연 학생회장)·사회복지학대학·교통대학 학생회 삼각 동맹으로 사전투표일 A·B선 3분 배차 '투표 특급'을 운행하여 서구 당선1동·북구 소조동 청년 투표율 89.4% 신화 달성. 같은 해 베르데 홀 로비 난입 및 결식아동 후원 '엠마의 빵' 테러 미수 사건 당시 조리과학과·사회복지학과·만화애니과·경호학과 학우들이 인간 바리케이드('메카쿠시테' 성우 보호 작전)로 테러범을 제압하고, 11월 학생회관 매점 트램 팥빵 훼손범을 A07 대학본부·충승당역 코드 레드(Code Red) 작전으로 검거함."
+                    },
+                    {
+                        year: "2023",
+                        month: "05월 ~ 12월",
+                        highlight: false,
+                        tag: "교권·인권수호",
+                        title: "교내 권력형 비위(안농운·조창렬 일당) 무관용 출교·파면 단행 및 거점국립대 최초 100억 콘텐츠 스타트업 펀드 조성",
+                        desc: "학생을 협박한 비위 교수 즉각 파면(특경법 횡령 등 징역 30년 확정) 및 가해 학생 3인 전원 영구 출교(징역 19년 확정) 처분으로 상아탑의 정의를 바로 세움. 같은 해 실패해도 책임을 묻지 않는 100억 원 규모 '효빈 콘텐츠 스타트업 펀드(Shiny Fund)' 출범."
+                    },
+                    {
+                        year: "2022",
+                        month: "06월 ~ 09월",
+                        highlight: true,
+                        tag: "동문시장 당선 · 고립주의 추방",
+                        title: "본교 사회복지정책학과 출신 박효빈 동문 민선 8기 효빈광역시장 당선 및 혐오·고립주의자 영구 제적",
+                        desc: "사회복지학대학 사회복지정책학과(15학번) 박효빈 동문이 헌정사상 최연소 광역단체장으로 당선되며 대학-지자체 문화·복지·교통 상생 모델 완성. 교권 침해 및 학우 패륜 폭언을 일삼던 부동산학과 고립주의자 A씨를 징계위원회 만장일치로 영구 제적(출교)하고 교내에서 혐오 사상을 추방함."
+                    },
+                    {
+                        year: "2021",
+                        month: "01월 ~ 03월",
+                        highlight: true,
+                        tag: "제26대 총장 취임 · PIS 문화유산",
+                        title: "제26대 민부선 총장 취임 ('베르데 & 샤이니' 비전 선포) 및 S-35-4 모노레일 정비센터 완공",
+                        desc: "만 44세의 젊은 사회복지학자 민부선 교수가 제26대 총장으로 취임하며 교비 100% 지원 천원의 아침밥 '엠마의 식탁'을 개시하고 5년 연속 등록금 동결의 기틀을 마련함. 동계방학 중 컴퓨터공학과·철도운영과 근로장학생의 72시간 밤샘 코딩으로 탄생한 전광판 오타('휴빈 휴빈', 'SMYRE LINE', '얀전', '종점 호계')를 학우 94.8%의 청원으로 교내 무형문화유산으로 영구 보존 결정. B07 예술대역 옆 S-35-4 공중 정비센터 증축 및 GALAXY!! 편성 도입."
+                    },
+                    {
+                        year: "2019",
+                        month: "03월",
+                        highlight: true,
+                        tag: "랜드마크 개관",
+                        title: "초대형 복합문화 공연장 『베르데 홀 (Verde Hall, 29동, 4,950석)』 개관",
+                        desc: "지상 5층·지하 2층, 에메랄드 그린 유리 외벽과 스위스 알프스 산장형 원목 로비를 갖춘 베르데 홀 개관. 효빈 애니메이션 페스티벌(HAF) Zone 4 공식 학술·문화 본부로 지정되며 대학 재정 혁명을 견인."
+                    },
+                    {
+                        year: "2018",
+                        month: "03월 02일",
+                        highlight: true,
+                        tag: "교내철도 B선 개통",
+                        title: "교내철도 HBNU Rail 『B선 과좌식 모노레일 (15개 역, 연두색 #74f466)』 전면 개통",
+                        desc: "북부 학생생활관(기숙사) 신축 및 사회복지대 인근 50년생 왕벚나무 군락 보존을 위해 지상 10~15m 고가를 달리는 과좌식 모노레일 B선 개통. 이로써 지상 트램(A선)과 공중 모노레일(B선)이 중앙환승장(A09/B06)에서 입체 교차하는 국내 유일 캠퍼스 도시철도망 완성."
+                    }
+                ]
+            },
+            {
+                id: "ERA4",
+                period: "2003 ~ 2017",
+                title: "제4기 : 대중교통 수호 투쟁과 구 효빈전차 7호선 공영화 · 빈효선 개통",
+                subtitle: "두청운수 독점 암흑기(2003~2007)를 이겨낸 지성인의 연대, 2010년 효빈전차 본선 7호선 공영화 및 5대 캠퍼스 광역철도 직결",
+                badgeColor: "bg-[#FF8899] text-slate-950",
+                events: [
+                    {
+                        year: "2017",
+                        month: "12월",
+                        highlight: true,
+                        tag: "광역전철 직결",
+                        title: "빈효선 광역전철(#6677CC) 개통으로 이자캠퍼스(리의역)·천주캠퍼스(궁하역) 통학 혁명 달성",
+                        desc: "과거 윤대환 전 시장의 강제 공사 중단으로 지연되었던 빈효선 광역전철(마스코트: 전노아)이 마침내 개통됨에 따라, 천주캠퍼스 및 이자캠퍼스 학우들이 6,300원 시외버스 폭리와 75인승 과적 고통에서 해방되어 전철로 안전하게 통학하게 됨."
+                    },
+                    {
+                        year: "2012",
+                        month: "05월",
+                        highlight: false,
+                        tag: "메디컬타운 확장",
+                        title: "효빈대학교 어린이병원(62동) 및 암센터(63동) 개원 · 5호선 소조역·당선역 캠퍼스 환승체계 확립",
+                        desc: "7호선 효빈성북문역 인접 구역에 소아 전문 어린이병원과 최첨단 암센터를 개원하고, 도시철도 5호선(#EE0022, 마스코트 미소하) 소조역(사회복지대 B03)·당선역(베르데홀 B09)을 통한 북부 캠퍼스 역세권 완성."
+                    },
+                    {
+                        year: "2010",
+                        month: "03월 01일",
+                        highlight: true,
+                        tag: "7호선 공영화 탄생",
+                        title: "1968년 구조조정에서도 살아남은 『구 효빈전차(남구~중구~효빈대앞 본선)』 공영화 ➔ 『효빈 도시철도 7호선(#FF8899)』 정식 출범",
+                        desc: "1968년 지선 폐선 이후에도 40여 년간 효빈대생들의 통학을 책임지며 끈질기게 생존해 온 구 효빈전차 본선이 효빈교통공사 소속 『도시철도 7호선(노선색 분홍색 #FF8899, 마스코트 임세정·임세하)』으로 완전 공영화됨. 본교 기계공학과 출신 임세하가 차량 정비 엔지니어 모티브로 참여하였으며, 정문 앞 효빈대입구역(A02 환승)과 교내철도 A선의 현대적 연계 체계가 확립됨."
+                    },
+                    {
+                        year: "2008",
+                        month: "02월 ~ 09월",
+                        highlight: false,
+                        tag: "대중교통 정상화",
+                        title: "효빈시 시내버스 3세대 개편(스타더스트 작전) 학술 자문 및 강주대교 개통",
+                        desc: "본교 교통대학 및 도시공학과 교수진이 시내버스 준공영제 및 노선별 컬러링 개편(간선 #01B7ED, 급행 #D81C2F, 좌석 #FF5800 등)을 총괄 자문하여 대학로 교통 대란을 해결함. 같은 해 강주대교 개통으로 강주캠퍼스 육로 접근성 획기적 개선."
+                    },
+                    {
+                        year: "2006 ~ 2007",
+                        month: "수난과 저항",
+                        highlight: true,
+                        tag: "두청운수 암흑기 투쟁",
+                        title: "윤대환 시정의 철도 탄압·두청운수 독점 사태('휴강의 추억')와 효빈대 교수·학생 대중교통 수호 선언",
+                        desc: "당시 윤대환 시장(두청운수 실소유주)이 5호선·빈효선 철도 공사를 강제 중단시키고 2세대 갈색 버스로 노선을 독점하면서, 대학로가 매일 아침 마비되어 교수와 수강생 절반이 강의실에 못 들어와 강제 휴강하는 초유의 사태 발생. 천주·낭원·강주캠퍼스 학우들이 75인승 가축 수송('인간 테트리스')과 2.7배 요금 폭리에 시달리자, 본교 교통대학·사회복지학대학·법학과 교수진과 총학생회가 시민사회와 연대하여 부패 시정 퇴출 및 대중교통 공공성 회복의 선봉에 섬. (2006년 교내철도 A선 A01 수의대·동물병원역 연장 개통을 자체 예산으로 강행하여 학내 이동권 사수)"
+                    }
+                ]
+            },
+            {
+                id: "ERA3",
+                period: "1990 ~ 2002",
+                title: "제3기 : 메디컬 그랜드슬램(One Health) 완성 · 사회복지대 독립 · 교내철도 A선 개통",
+                subtitle: "2호선 효빈대역 개통(1995), 통합의과대학 및 사회복지학대학 출범(1999), 밀레니엄 교내 트램 A선 개통(2000)",
+                badgeColor: "bg-[#37B484]",
+                events: [
+                    {
+                        year: "2000",
+                        month: "02월 28일",
+                        highlight: true,
+                        tag: "국내유일 교내철도 개통",
+                        title: "대한민국 대학 최초 교내 도시철도 실습 노선 『HBNU Rail A선 (노면전차, 민트색 #a0fff9)』 개통",
+                        desc: "'언덕은 없으나 끝에서 끝까지 도보 45분이 걸리는 광활한 평지 캠퍼스'의 연강 지각 사태를 해결하기 위해, 교통대학 교수진이 교육부·산학협력단 예산을 결집하여 A02(효빈대병원)~A09(중앙환승장) 구간 노면전차 개통. 개통과 동시에 1968년 폐선된 구 효빈전차 지선 차량 도면을 바탕으로 복원한 1세대 전동차(현 백년호)를 함께 선보임."
+                    },
+                    {
+                        year: "1999",
+                        month: "03월 01일",
+                        highlight: true,
+                        tag: "학제 대개혁",
+                        title: "국내 최초 의·치·한·수 『통합의과대학(One Health)』 출범 및 『사회복지학대학(S등급)』 단과대 전격 분화",
+                        desc: "전공 간 장벽을 허물고 기초의학 커리큘럼과 실험실을 통합한 '통합의과대학(1본부 의학·2본부 치의학·3본부 한의학·4본부 수의학)'을 출범시켜 약학대·간호대·보건대와 함께 메디컬 그랜드슬램 완성. 동시에 사회과학대학에서 '사회복지학대학(정책·경영·실천·상담 4개 학과)'을 독립 단과대학으로 승격시켜 대한민국 복지 정책의 성지로 자리매김함."
+                    },
+                    {
+                        year: "1995",
+                        month: "09월",
+                        highlight: true,
+                        tag: "도시철도 2호선 직결",
+                        title: "효빈 도시철도 2호선(#00CCAA) 『효빈대역』 개통 및 덕빈북도 이원화 캠퍼스(천주·낭원·강주) 체제 확립",
+                        desc: "캠퍼스 정중앙(대학본부·충승당 인근) 지하 40m 대심도에 도시철도 2호선 효빈대역이 개통되며 통학 환경이 비약적으로 발전함. 덕빈북도 거점 도시들과의 상생을 위해 천주(응용예술·과학), 낭원(첨단융합), 강주(해양·환경) 이원화 캠퍼스 네트워크 구축."
+                    }
+                ]
+            },
+            {
+                id: "ERA2",
+                period: "1960 ~ 1989",
+                title: "제2기 : 1968 구 효빈전차 본선 사수와 종합대학교 승격",
+                subtitle: "사능·입리·청엽·고송 지선 폐선 속에서도 지켜낸 '남구~중구~효빈대앞' 본선과 1980년 국립 종합대학교 승격",
+                badgeColor: "bg-amber-600",
+                events: [
+                    {
+                        year: "1985",
+                        month: "05월",
+                        highlight: false,
+                        tag: "캠퍼스 확장",
+                        title: "이자캠퍼스(농업·생명·디자인·수의예과) 조성 및 중앙도서관(23동)·방도도서관(36동) 준공",
+                        desc: "효빈시 안천구 신동(구 탄성군 이자읍) 일대에 대규모 실습 목장과 스마트 농장을 갖춘 이자캠퍼스를 확장하고, 당선캠퍼스 북구에 중앙도서관과 이공·예체능 전문 방도도서관을 준공함."
+                    },
+                    {
+                        year: "1980",
+                        month: "03월 01일",
+                        highlight: true,
+                        tag: "종합대학교 승격",
+                        title: "국립 종합대학교 『효빈대학교 (Hyobin National University)』 승격 및 의과대학·효빈대학병원 개원",
+                        desc: "인문·사회·상과·사범·공과·자연·의학·예체능을 망라한 국가거점 종합대학교로 정식 승격. 교시 '불굴(不屈)·혁신(革新)·개천(改天)' 및 교색 효빈대 파랑(#3344aa)·샛닢초록(#99dd88) 제정."
+                    },
+                    {
+                        year: "1968",
+                        month: "11월",
+                        highlight: true,
+                        tag: "효빈전차 본선 수호",
+                        title: "구 효빈전차 구조조정(사능선·입리선·청엽선·고송방면 지선 폐선) 속 『남구~중구~효빈대앞 본선』 존치 사수",
+                        desc: "전국적인 노면전차 철거 정책으로 효빈전차의 지선 노선(사능선, 입리선, 청엽선, 고송방면 등)이 대거 폐선되었으나, 본교 교수진과 재학생·시민들이 '남구~중구 도심~효빈대앞(현 효빈대입구역)을 잇는 지역 본선은 대학과 도시를 잇는 대체 불가 생명선'임을 입증하여 본선 구간을 끝까지 지켜냄. 이 생존 본선은 이후 42년간 계속 운행되다 2010년 효빈 도시철도 7호선(#FF8899)으로 공영화됨."
+                    }
+                ]
+            },
+            {
+                id: "ERA1",
+                period: "1925 ~ 1959",
+                title: "제1기 : 효빈상업대학 개교와 불굴(不屈)의 정초기",
+                subtitle: "1925년 9월 14일 충승당(3동)에서의 개교와 광복 후 국립대학 출범, 구 효빈전차 정문 연장",
+                badgeColor: "bg-slate-700",
+                events: [
+                    {
+                        year: "1954",
+                        month: "04월",
+                        highlight: false,
+                        tag: "전후 복구 · 철도공학",
+                        title: "전후 캠퍼스 재건 및 공과학부 내 철도·기계·토목 강좌 개설 (현 교통대학·공과대학의 모태)",
+                        desc: "한국전쟁 직후 파손된 교사를 복구하고 국가 기간산업 및 철도 교통망 재건을 위한 공학 인재 양성에 착수함."
+                    },
+                    {
+                        year: "1946",
+                        month: "08월",
+                        highlight: true,
+                        tag: "국립대학 승격",
+                        title: "광복 후 『국립 효빈대학』으로 개편 및 구 효빈전차 본선 효빈대 정문 앞 연장 개통",
+                        desc: "해방과 함께 국립 고등교육기관으로 재출범하며 상학부 외에 인문·사범·이공학부를 증설함. 당시 중구 원도심까지 운행하던 구 효빈전차 본선이 서구 당선동 효빈대 정문 앞까지 연장되면서 '전차 타고 통학하는 대학'의 전통이 시작됨."
+                    },
+                    {
+                        year: "1925",
+                        month: "09월 14일",
+                        highlight: true,
+                        tag: "역사의 시작",
+                        title: "『효빈상업대학』 개교 및 본관 『충승당(忠勝堂, 현 3번 건물)』 준공",
+                        desc: "효빈 지역 상공인과 교육 선각자들의 뜻을 모아 서구 당선동 대평원에 효빈상업대학 개교. 개교와 함께 지어진 붉은 벽돌 건축물 '충승당'은 온갖 역사적 시련 속에서도 굴하지 않는 효빈대학교 100년 정신의 발원지가 됨."
+                    }
+                ]
+            }
+        ];
+
+        let currentEraFilter = 'ALL';
+        let currentSearchKeyword = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHistoryTimeline();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        function setEraFilter(eraId) {
+            currentEraFilter = eraId;
+            document.querySelectorAll('.era-btn').forEach(btn => {
+                if (btn.getAttribute('data-era') === eraId) {
+                    btn.className = "era-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-[#3344aa] text-white shrink-0 transition-all shadow-sm";
+                } else {
+                    btn.className = "era-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 shrink-0 transition-all";
+                }
+            });
+            renderHistoryTimeline();
+        }
+
+        function filterHistorySearch(val) {
+            currentSearchKeyword = val.trim().toLowerCase();
+            renderHistoryTimeline();
+        }
+
+        function renderHistoryTimeline() {
+            const root = document.getElementById('timeline-root');
+            if (!root) return;
+
+            const filteredEras = HBNU_HISTORY_ERAS
+                .filter(era => currentEraFilter === 'ALL' || era.id === currentEraFilter)
+                .map(era => {
+                    const matchedEvents = era.events.filter(ev => {
+                        if (!currentSearchKeyword) return true;
+                        return ev.year.toLowerCase().includes(currentSearchKeyword) ||
+                               ev.title.toLowerCase().includes(currentSearchKeyword) ||
+                               ev.desc.toLowerCase().includes(currentSearchKeyword) ||
+                               ev.tag.toLowerCase().includes(currentSearchKeyword);
+                    });
+                    return { ...era, events: matchedEvents };
+                })
+                .filter(era => era.events.length > 0);
+
+            if (filteredEras.length === 0) {
+                root.innerHTML = `
+                    <div class="bg-white rounded-2xl p-12 text-center border border-gray-200">
+                        <p class="text-base font-bold text-gray-700">검색하신 키워드에 해당하는 연혁 기록이 없습니다.</p>
+                        <button onclick="document.getElementById('history-search').value=''; filterHistorySearch('');" class="mt-4 bg-[#3344aa] text-white px-4 py-2 rounded-xl text-xs font-bold">전체 연혁 다시 보기</button>
+                    </div>
+                `;
+                return;
+            }
+
+            root.innerHTML = filteredEras.map(era => `
+                <div class="fade-in-up">
+                    <!-- 시대 구분 헤더 배너 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-8 border-l-[#3344aa]">
+                        <div>
+                            <span class="inline-block text-xs font-black px-3 py-1 rounded-full text-white ${era.badgeColor} mb-2">${era.period}</span>
+                            <h2 class="text-xl md:text-2xl font-black text-gray-900">${era.title}</h2>
+                            <p class="text-xs md:text-sm text-gray-500 mt-1">${era.subtitle}</p>
+                        </div>
+                        <div class="text-xs font-bold text-[#3344aa] bg-blue-50 px-3.5 py-2 rounded-xl shrink-0 self-start md:self-center">
+                            수록 사건: ${era.events.length}건
+                        </div>
+                    </div>
+
+                    <!-- 수직 타임라인 리스트 -->
+                    <div class="relative border-l-4 border-[#3344aa] ml-4 md:ml-10 space-y-8 pl-6 md:pl-10">
+                        ${era.events.map(ev => `
+                            <div class="relative group">
+                                <!-- 타임라인 원형 노드 -->
+                                <div class="absolute -left-[34px] md:-left-[50px] top-1.5 w-5 h-5 rounded-full border-4 border-white shadow-md transition-transform group-hover:scale-125 ${ev.highlight ? 'bg-[#3344aa] ring-4 ring-blue-100' : 'bg-gray-400'}"></div>
+
+                                <div class="bg-white p-6 md:p-7 rounded-2xl shadow-sm border ${ev.highlight ? 'border-blue-200 hover:border-[#3344aa]' : 'border-gray-200'} transition-all">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                        <div class="flex items-center gap-2.5">
+                                            <span class="text-2xl md:text-3xl font-black ${ev.highlight ? 'text-[#3344aa]' : 'text-gray-700'} font-serif-kr">${ev.year}</span>
+                                            <span class="text-xs font-bold text-gray-400 bg-gray-100 px-2.5 py-0.5 rounded">${ev.month}</span>
+                                        </div>
+                                        <span class="text-xs font-extrabold px-3 py-1 rounded-full ${ev.highlight ? 'bg-blue-50 text-[#3344aa] border border-blue-200' : 'bg-gray-100 text-gray-600'}">
+                                            ${ev.tag}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-base md:text-lg font-extrabold text-gray-900 mb-2 leading-snug">${ev.title}</h3>
+                                    <p class="text-xs md:text-sm text-gray-600 leading-relaxed">${ev.desc}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 사료실 모달 열기
+        function openArchiveModal(type) {
+            const titleEl = document.getElementById('archive-modal-title');
+            const bodyEl = document.getElementById('archive-modal-body');
+            if (type === 'tram1968') {
+                titleEl.innerText = "📜 [사료실] 1968년 효빈전차 본선 존치 결의문 및 2010년 도시철도 7호선 공영화 연혁";
+                bodyEl.innerHTML = `
+                    <div class="p-4 bg-pink-50 border-l-4 border-[#FF8899] rounded-r-xl font-bold text-gray-900 text-xs md:text-sm">
+                        "사능선·입리선·청엽선·고송방면 지선은 역사의 뒤안길로 보내더라도, 남구와 중구 도심, 그리고 지성의 전당 효빈대학교 앞을 잇는 본선(本線) 궤도만큼은 절대로 걷어낼 수 없다."<br>
+                        <span class="text-xs text-gray-500 font-normal">— 1968년 11월, 효빈대학 교수협의회·총학생회·효빈시민 공동 성명서 中</span>
+                    </div>
+                    <p><strong>1. 1968년 지선 폐선과 본선 생존:</strong> 1960년대 말 자동차 중심 교통정책으로 인해 효빈전차의 지선망(사능선, 입리선, 청엽선, 고송방면 등)이 폐선 처리되었으나, <strong>남구 ~ 중구 ~ 효빈대앞(현 효빈대입구역)</strong>을 연결하는 핵심 본선은 압도적인 통학·통근 수요와 대학 구성원들의 수호 운동 덕분에 폐선을 면하고 살아남았습니다.</p>
+                    <p><strong>2. 2000년 교내철도 A선 개통과 백년호 복원:</strong> 2000년 효빈대학교가 캠퍼스 내부를 횡단하는 교내철도 A선(트램)을 개통할 때, 산학협력단은 1968년 당시 아쉽게 폐선되었던 지선 구형 전차의 설계 도면을 바탕으로 클래식 노면전차(현 개교 100주년 기념호 '백년호')를 복원 제작하여 역사적 맥을 이었습니다.</p>
+                    <p><strong>3. 2010년 공영화와 효빈 도시철도 7호선(#FF8899):</strong> 민간 운영으로 명맥을 이어오던 구 효빈전차 본선은 2010년 효빈교통공사로 완전 공영화되면서 <strong>효빈 도시철도 7호선(노선색 분홍색 #FF8899, 마스코트 임세정·임세하)</strong>으로 정식 편입되어 오늘날까지 효빈대 공대생과 의대생들의 주 출입 노선(효빈대입구역·당선원마을역·효빈성북문역)으로 활약하고 있습니다.</p>
+                `;
+            } else {
+                titleEl.innerText = "📜 [사료실] 1999년 통합의과대학(One Health) 및 사회복지학대학 출범 선언문";
+                bodyEl.innerHTML = `
+                    <div class="p-4 bg-blue-50 border-l-4 border-[#3344aa] rounded-r-xl font-bold text-[#1e2a78] text-xs md:text-sm">
+                        "사람과 동물의 건강은 하나로 연결되어 있으며(One Health), 동서양 의학의 벽을 허무는 자만이 미래 의료를 선도한다."<br>
+                        <span class="text-xs text-gray-500 font-normal">— 1999년 3월 1일, 효빈대학교 통합의과대학 출범 선언문 中</span>
+                    </div>
+                    <p><strong>1. 국내 최초 의·치·한·수 통합의과대학:</strong> 1999년 효빈대학교는 기존의 높은 전공 장벽(Silo)을 타파하고 의학과(1본부), 치의학과(2본부), 한의학과(3본부), 수의학과(4본부)를 단일 통합 학제로 개편하여 약학대학·간호대학·보건대학과 함께 '메디컬 그랜드슬램'을 완성했습니다.</p>
+                    <p><strong>2. 전국 유일 단과대 규모 사회복지학대학:</strong> 같은 해 사회과학대학에서 분리 독립한 사회복지학대학(사회복지정책학과·사회복지경영학과·사회복지실천학과·사회복지상담학과)은 단순 실무를 넘어 대한민국과 효빈시의 복지 정책을 설계하는 S등급 간판 단과대학으로 자리 잡았습니다.</p>
+                `;
+            }
+            document.getElementById('archive-modal').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeArchiveModal() {
+            document.getElementById('archive-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

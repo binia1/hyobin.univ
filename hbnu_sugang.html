@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU 수강신청 - 효빈대학교</title>
+    <title>HBNU 통합 수강신청 시스템 - 효빈대학교 (전 학과 개설강좌 총람)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .server-time { font-variant-numeric: tabular-nums; }
-        
-        /* 커스텀 스크롤바 */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #f1f5f9; }
+        .server-time { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 42px !important; width: auto !important; object-fit: contain !important; margin-right: 10px !important; }
+        #footer-area img { max-height: 34px !important; width: auto !important; object-fit: contain !important; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3344aa; }
 
         /* 시간표 블록 */
-        .course-block { 
-            position: absolute; border-radius: 4px; padding: 2px; color: white; 
-            font-size: 9px; font-weight: bold; overflow: hidden; display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; 
-            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-            border: 1px solid rgba(255,255,255,0.2); z-index: 10;
-            line-height: 1.2;
+        .course-block {
+            position: absolute; border-radius: 5px; padding: 3px 4px; color: white;
+            font-size: 10px; font-weight: 800; overflow: hidden; display: flex;
+            flex-direction: column; align-items: flex-start; justify-content: flex-start;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            border-left: 3px solid rgba(255,255,255,0.7); z-index: 10;
+            line-height: 1.15; cursor: pointer; transition: transform 0.15s;
         }
+        .course-block:hover { transform: scale(1.02); z-index: 25; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeIn 0.25s ease-out forwards; }
 
-        /* 모바일 대응 레이아웃 */
         @media (max-width: 1024px) {
             .desktop-table-container { display: none; }
             .mobile-list-container { display: block; }
@@ -38,357 +42,845 @@
             .desktop-table-container { display: block; }
             .mobile-list-container { display: none; }
         }
-
         .sticky-header { position: sticky; top: 0; z-index: 20; background: #f8fafc; }
     </style>
 </head>
-<body class="bg-slate-50 flex flex-col h-screen overflow-hidden text-slate-800">
+<body class="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden text-slate-800">
 
-    <!-- 상단 헤더 (효빈님 정보) -->
-    <div id="header-area"></div>
+    <!-- 상단 공통 헤더 (common.js 렌더링) -->
+    <div id="header-area" class="shrink-0"></div>
 
-    <!-- 검색 바 및 대시보드 -->
-    <main class="flex-grow max-w-[1600px] mx-auto w-full p-2 sm:p-4 flex flex-col gap-3 overflow-hidden">
+    <!-- 수강신청 전용 상태바 (서버시각 / 수험생 정보 / 빠른학수번호 입력 / 교내철도 연강경보) -->
+    <div class="bg-[#0f172a] text-white px-4 py-2 border-b border-slate-800 shrink-0">
+        <div class="max-w-[1680px] mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center space-x-3">
+                <span class="bg-[#3344aa] text-[#99dd88] font-black px-2.5 py-1 rounded flex items-center gap-1.5 border border-[#99dd88]/40">
+                    <span class="w-2 h-2 rounded-full bg-[#99dd88] animate-ping"></span> HBNU 수강신청 서버 정상
+                </span>
+                <span class="text-slate-300 hidden sm:inline">표준 서버시각: <strong id="server-clock" class="server-time text-[#a0fff9] text-sm">09:00:00.00</strong></span>
+                <span class="text-slate-600 hidden md:inline">|</span>
+                <span class="text-slate-300 hidden md:inline">전체 개설학과: <strong class="text-white">18개 대학(원) · 212개 학과(전공)</strong> · 총 <strong id="total-db-count" class="text-[#99dd88]">0</strong>개 강좌</span>
+            </div>
+
+            <!-- 학수번호 다이렉트 광클 입력기 -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
+                    <span class="px-2.5 text-[11px] font-bold text-slate-400">빠른학수번호</span>
+                    <input type="text" id="quick-code-input" onkeydown="if(event.key==='Enter') quickApplyByCode()" placeholder="예: SWP101, GEN001" class="bg-slate-900 text-white px-2.5 py-1 text-xs font-mono w-32 outline-none focus:bg-slate-950">
+                    <button onclick="quickApplyByCode()" class="bg-[#37B484] hover:bg-emerald-500 text-slate-950 font-black px-3 py-1 text-xs transition-colors">즉시신청</button>
+                </div>
+                <button onclick="openMyBasketModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white px-3 py-1 rounded-lg font-bold flex items-center gap-1">
+                    <i data-lucide="list-checks" class="w-3.5 h-3.5 text-[#99dd88]"></i> 신청내역 상세
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="flex-grow max-w-[1680px] mx-auto w-full p-2 sm:p-3.5 flex flex-col gap-3 lg:overflow-hidden">
         
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col gap-4 flex-shrink-0">
-            <div class="flex flex-wrap items-center gap-3 sm:gap-6">
-                <div class="flex flex-col gap-1 w-full sm:w-auto">
-                    <span class="text-[10px] font-black text-slate-400 uppercase ml-1">Department Selection</span>
-                    <select id="filter-dept" onchange="filterCourses()" class="border-2 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-[#3344aa] bg-slate-50 transition-all sm:w-64">
-                        <option value="ALL">전체 학과 조회</option>
-                        <option value="사회복지정책학과">사회복지정책학과</option>
-                        <option value="철도운전학과">철도운전학과</option>
-                        <option value="만화애니메이션학과">만화애니메이션학과</option>
-                        <option value="필리핀어학과">필리핀어학과</option>
-                        <option value="컴퓨터공학과">컴퓨터공학과</option>
-                        <option value="교양대학">교양대학 (HBNU Core)</option>
+        <!-- 상단 다중 필터 및 검색 컨트롤 박스 -->
+        <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col gap-3 flex-shrink-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 items-end">
+                
+                <!-- 1. 단과대학/계열 선택 (18개 분류) -->
+                <div class="lg:col-span-3 flex flex-col gap-1">
+                    <span class="text-[10px] font-black text-slate-500 uppercase ml-1">1. 단과대학 / 학부 선택 (18개 대학)</span>
+                    <select id="filter-college" onchange="onCollegeChange()" class="border-2 border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold outline-none focus:border-[#3344aa] bg-slate-50 transition-all">
+                        <option value="ALL">전체 단과대학 (18개 대학·학부 전체)</option>
                     </select>
                 </div>
 
-                <div class="flex flex-col gap-1 w-full sm:w-auto">
-                    <span class="text-[10px] font-black text-slate-400 uppercase ml-1">Type</span>
-                    <select id="filter-type" onchange="filterCourses()" class="border-2 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-[#3344aa] bg-slate-50 transition-all sm:w-32">
-                        <option value="ALL">이수구분</option>
-                        <option value="전필">전공필수</option>
-                        <option value="전선">전공선택</option>
-                        <option value="교필">교양필수</option>
-                        <option value="교선">교양선택</option>
+                <!-- 2. 학과/전공 선택 (212개 학과 연동) -->
+                <div class="lg:col-span-3 flex flex-col gap-1">
+                    <span class="text-[10px] font-black text-slate-500 uppercase ml-1">2. 개설 학과 / 전공 선택 (<span id="dept-option-count">212</span>개 학과)</span>
+                    <select id="filter-dept" onchange="resetPageAndFilter()" class="border-2 border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold outline-none focus:border-[#3344aa] bg-slate-50 transition-all">
+                        <option value="ALL">전체 학과 조회 (212개 학과·전공)</option>
                     </select>
                 </div>
 
-                <div class="flex-grow flex flex-col gap-1 w-full sm:w-auto">
-                    <span class="text-[10px] font-black text-slate-400 uppercase ml-1">Keyword Search</span>
+                <!-- 3. 이수구분 및 학년 -->
+                <div class="lg:col-span-2 grid grid-cols-2 gap-1.5">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] font-black text-slate-500 uppercase ml-1">이수구분</span>
+                        <select id="filter-type" onchange="resetPageAndFilter()" class="border-2 border-slate-200 rounded-xl px-2.5 py-2 text-xs font-bold outline-none focus:border-[#3344aa] bg-slate-50">
+                            <option value="ALL">전체</option>
+                            <option value="전필">전공필수</option>
+                            <option value="전선">전공선택</option>
+                            <option value="교필">교양필수</option>
+                            <option value="교선">교양선택</option>
+                            <option value="교직">교직과정</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] font-black text-slate-500 uppercase ml-1">대상학년</span>
+                        <select id="filter-grade" onchange="resetPageAndFilter()" class="border-2 border-slate-200 rounded-xl px-2.5 py-2 text-xs font-bold outline-none focus:border-[#3344aa] bg-slate-50">
+                            <option value="ALL">전학년</option>
+                            <option value="1">1학년</option>
+                            <option value="2">2학년</option>
+                            <option value="3">3학년</option>
+                            <option value="4">4학년</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 4. 키워드 통합 검색 -->
+                <div class="lg:col-span-2 flex flex-col gap-1">
+                    <span class="text-[10px] font-black text-slate-500 uppercase ml-1">과목명 · 교수명 · 학수번호 · 강의동 검색</span>
                     <div class="relative">
-                        <input type="text" id="search-input" oninput="filterCourses()" placeholder="과목명 또는 교수명 입력..." class="w-full border-2 rounded-xl pl-10 pr-4 py-2 text-sm font-medium outline-none focus:border-[#3344aa] bg-slate-50 transition-all">
-                        <i data-lucide="search" class="absolute left-3.5 top-2.5 text-slate-400" width="16"></i>
+                        <input type="text" id="search-input" oninput="resetPageAndFilter()" placeholder="예: 사회복지, 민부선, 베르데홀..." class="w-full border-2 border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs sm:text-sm font-medium outline-none focus:border-[#3344aa] bg-slate-50 transition-all">
+                        <i data-lucide="search" class="absolute left-2.5 top-2.5 text-slate-400" width="15"></i>
                     </div>
                 </div>
 
-                <!-- 학점 현황 -->
-                <div class="flex items-center gap-6 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-lg w-full sm:w-auto">
+                <!-- 5. 학점 현황 대시보드 -->
+                <div class="lg:col-span-2 flex items-center justify-around bg-slate-900 text-white px-3 py-2 rounded-xl shadow-md">
                     <div class="text-center">
-                        <span class="text-[9px] text-slate-400 uppercase font-black block">Limit</span>
-                        <span class="font-black text-lg">21.0</span>
+                        <span class="text-[9px] text-slate-400 uppercase font-black block">최대학점</span>
+                        <span class="font-black text-sm sm:text-base">21.0</span>
                     </div>
-                    <div class="h-8 w-px bg-slate-700"></div>
+                    <div class="h-6 w-px bg-slate-700"></div>
                     <div class="text-center">
-                        <span class="text-[9px] text-slate-400 uppercase font-black block">Registered</span>
-                        <span id="total-credits" class="font-black text-lg text-yellow-400">0.0</span>
+                        <span class="text-[9px] text-slate-400 uppercase font-black block">신청학점</span>
+                        <span id="total-credits" class="font-black text-sm sm:text-base text-[#99dd88]">0.0</span>
                     </div>
-                    <div class="h-8 w-px bg-slate-700"></div>
+                    <div class="h-6 w-px bg-slate-700"></div>
                     <div class="text-center">
-                        <span class="text-[9px] text-slate-400 uppercase font-black block">Count</span>
-                        <span id="reg-count-badge" class="font-black text-lg text-blue-300">0</span>
+                        <span class="text-[9px] text-slate-400 uppercase font-black block">신청과목</span>
+                        <span id="reg-count-badge" class="font-black text-sm sm:text-base text-[#a0fff9]">0</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex-grow flex flex-col lg:flex-row gap-4 overflow-hidden">
+        <!-- 하단 본문: 좌측 강좌 목록 + 우측 시간표 & 신청과목 바구니 -->
+        <div class="flex-grow flex flex-col lg:flex-row gap-3.5 lg:overflow-hidden">
             
-            <!-- 강의 목록 리스트 -->
-            <div class="flex-grow bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
-                <div class="bg-slate-50 px-5 py-3 border-b flex justify-between items-center flex-shrink-0">
-                    <h3 class="font-black text-slate-700 text-xs uppercase tracking-widest flex items-center gap-2">
-                        <i data-lucide="layout-list" class="w-4 h-4 text-[#3344aa]"></i> Open Courses
-                    </h3>
-                    <span class="text-[11px] text-slate-400 font-bold">Total <span id="course-count" class="text-[#3344aa]">0</span> subjects</span>
+            <!-- 좌측: 개설 강좌 테이블 (페이지네이션 및 강의계획서 연동) -->
+            <div class="flex-grow bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden min-h-[480px]">
+                <div class="bg-slate-50 px-4 py-2.5 border-b flex flex-wrap justify-between items-center gap-2 flex-shrink-0">
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-black text-slate-700 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="book-open-check" class="w-4 h-4 text-[#3344aa]"></i> 2026학년도 개설 강좌 일람
+                        </h3>
+                        <span class="text-xs text-slate-500 font-bold">(조건 일치: <strong id="course-count" class="text-[#3344aa]">0</strong>개 강좌)</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="text-[11px] text-slate-400 hidden sm:inline">💡 과목명을 클릭하면 상세 <strong>강의계획서(Syllabus)</strong>가 열립니다.</span>
+                        <div class="flex items-center space-x-1 bg-white border rounded-lg px-2 py-0.5">
+                            <button onclick="changeCoursePage(-1)" id="prev-page-btn" class="p-1 hover:text-[#3344aa] disabled:opacity-30"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>
+                            <span id="page-indicator" class="font-mono font-bold text-[11px] px-1">1 / 1</span>
+                            <button onclick="changeCoursePage(1)" id="next-page-btn" class="p-1 hover:text-[#3344aa] disabled:opacity-30"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="overflow-y-auto flex-grow relative scroll-smooth">
+                <div class="overflow-y-auto flex-grow relative scroll-smooth" id="course-scroll-box">
                     <!-- 데스크톱 테이블 뷰 -->
                     <div class="desktop-table-container">
-                        <table class="w-full text-sm text-center border-collapse">
+                        <table class="w-full text-xs text-center border-collapse">
                             <thead class="sticky-header shadow-sm border-b">
-                                <tr class="text-[10px] uppercase font-black text-slate-400">
-                                    <th class="p-4 w-24">신청</th>
-                                    <th class="p-4 w-24">구분</th>
-                                    <th class="p-4 text-left">과목명 (학수번호)</th>
-                                    <th class="p-4 w-16">학점</th>
-                                    <th class="p-4 w-24">교수</th>
-                                    <th class="p-4 text-left">시간/강의실</th>
-                                    <th class="p-4 w-28">여석</th>
+                                <tr class="text-[11px] font-black text-slate-500 bg-slate-100/90">
+                                    <th class="py-3 px-2 w-20">수강신청</th>
+                                    <th class="py-3 px-2 w-16">구분</th>
+                                    <th class="py-3 px-2 w-14">학년</th>
+                                    <th class="py-3 px-3 text-left w-40">개설학과(전공)</th>
+                                    <th class="py-3 px-3 text-left">교과목명 (학수번호 · 클릭시 계획서)</th>
+                                    <th class="py-3 px-2 w-14">학점</th>
+                                    <th class="py-3 px-2 w-24">담당교수</th>
+                                    <th class="py-3 px-3 text-left w-44">강의시간 / 강의실(건물번호)</th>
+                                    <th class="py-3 px-2 w-24">담은인원/정원</th>
                                 </tr>
                             </thead>
-                            <tbody id="course-list-desktop" class="divide-y divide-slate-50 text-slate-700 font-medium"></tbody>
+                            <tbody id="course-list-desktop" class="divide-y divide-slate-100 text-slate-700 font-medium"></tbody>
                         </table>
                     </div>
 
                     <!-- 모바일 카드 뷰 -->
-                    <div id="course-list-mobile" class="mobile-list-container p-3 space-y-3"></div>
+                    <div id="course-list-mobile" class="mobile-list-container p-3 space-y-2.5"></div>
                 </div>
             </div>
 
-            <!-- 우측 사이드바: 시간표 및 바구니 -->
-            <div class="lg:w-[450px] flex-shrink-0 flex flex-col gap-4 overflow-hidden">
+            <!-- 우측 사이드바: 실시간 시간표 + HBNU Rail 연강 환승 분석기 + 신청 목록 -->
+            <div class="lg:w-[430px] flex-shrink-0 flex flex-col gap-3 overflow-hidden">
                 
-                <!-- 시간표 미리보기 -->
-                <div class="h-1/2 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 overflow-hidden flex flex-col">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                            <i data-lucide="calendar" class="w-3.5 h-3.5"></i> My Timetable
+                <!-- 시간표 미리보기 (1~9교시) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-3.5 flex flex-col h-[410px] shrink-0">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="calendar-clock" class="w-4 h-4 text-[#3344aa]"></i> 실시간 개인 시간표
                         </h4>
-                        <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-black">2025-1</span>
+                        <span id="rail-transfer-badge" class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                            🚊 HBNU Rail 통학 동선 쾌적
+                        </span>
                     </div>
-                    <div class="flex-grow border border-slate-100 rounded-xl overflow-hidden flex flex-col relative bg-slate-50/50 shadow-inner">
-                        <div class="grid grid-cols-6 border-b border-slate-100 bg-slate-100/30 font-black text-[8px] text-slate-400 text-center items-center h-8">
-                            <div class="border-r border-slate-100 h-full flex items-center justify-center">T</div>
-                            <div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div>
+                    <div class="flex-grow border border-slate-200 rounded-xl overflow-hidden flex flex-col relative bg-slate-50/50">
+                        <div class="grid grid-cols-6 border-b border-slate-200 bg-slate-100 font-black text-[10px] text-slate-500 text-center items-center h-7 shrink-0">
+                            <div class="border-r border-slate-200 h-full flex items-center justify-center">교시</div>
+                            <div>월(MON)</div><div>화(TUE)</div><div>수(WED)</div><div>목(THU)</div><div>금(FRI)</div>
                         </div>
                         <div class="flex-grow relative overflow-y-auto" id="timetable-wrapper">
-                            <!-- 시간 가이드 라인 (9교시) -->
-                            <div class="absolute inset-0 grid grid-rows-9 pointer-events-none">
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">1</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">2</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">3</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">4</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">5</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">6</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">7</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">8</div>
-                                <div class="h-[40px] flex items-center justify-center text-[8px] text-slate-300 border-b border-r bg-white/50 font-bold">9</div>
+                            <div class=" relative h-[324px]">
+                                <!-- 1~9교시 (각 36px) -->
+                                <div class="absolute inset-0 grid grid-rows-9 pointer-events-none">
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">1 (09시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">2 (10시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">3 (11시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">4 (12시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">5 (13시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">6 (14시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">7 (15시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">8 (16시)</div>
+                                    <div class="h-[36px] flex items-center justify-center text-[9px] text-slate-400 border-b border-r bg-white font-mono">9 (17시)</div>
+                                </div>
+                                <div class="absolute inset-0 grid grid-cols-6 pointer-events-none">
+                                    <div class="border-r border-slate-200"></div><div class="border-r border-slate-200"></div><div class="border-r border-slate-200"></div><div class="border-r border-slate-200"></div><div class="border-r border-slate-200"></div><div></div>
+                                </div>
+                                <!-- 동적 시간표 블록 렌더링 -->
+                                <div id="timetable-content" class="absolute inset-0 left-[16.666%] pointer-events-auto"></div>
                             </div>
-                            <!-- 그리드 수직선 -->
-                            <div class="absolute inset-0 grid grid-cols-6 pointer-events-none">
-                                <div class="border-r border-slate-100"></div><div class="border-r border-slate-100"></div><div class="border-r border-slate-100"></div><div class="border-r border-slate-100"></div><div class="border-r border-slate-100"></div><div></div>
-                            </div>
-                            <!-- 동적 블록 렌더링 영역 -->
-                            <div id="timetable-content" class="absolute inset-0 left-[16.6%] pointer-events-none"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 최종 확정 버튼 영역 -->
-                <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 flex flex-col gap-3">
-                    <div class="flex justify-between items-center text-xs font-bold px-1">
-                        <span class="text-slate-400 uppercase">Registration Summary</span>
-                        <span class="text-[#3344aa]"><span id="summary-count">0</span> 과목 확정 대기</span>
+                <!-- 신청된 과목 미니 리스트 & 최종 확정 버튼 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex-grow flex flex-col justify-between overflow-hidden">
+                    <div class="overflow-y-auto pr-1 space-y-1.5 max-h-36" id="registered-mini-list">
+                        <div class="text-xs text-slate-400 text-center py-6 font-medium">아직 신청한 과목이 없습니다. 좌측 목록에서 [신청]을 누르세요.</div>
                     </div>
-                    <button onclick="submitFinal()" class="w-full bg-[#3344aa] text-white py-4 rounded-2xl font-black text-base hover:bg-[#2a3a9a] transition-all shadow-xl active:scale-[0.98] uppercase tracking-tighter">
-                        Confirm Registration
-                    </button>
-                    <p class="text-[9px] text-center text-slate-400 font-bold italic">Copyright © 2025 Hyobin National University</p>
+
+                    <div class="pt-3 border-t border-slate-100 mt-2 space-y-2">
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span class="text-slate-500">확정 대기 과목: <strong id="summary-count" class="text-[#3344aa]">0</strong>과목</span>
+                            <button onclick="resetAllRegistered()" class="text-red-500 hover:underline text-[11px]">전체 초기화</button>
+                        </div>
+                        <button onclick="submitFinal()" class="w-full bg-[#3344aa] text-white py-3 rounded-xl font-black text-sm hover:bg-[#1e2a78] transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-[#99dd88]"></i> 수강신청 내역 최종 확정 및 시간표 저장
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- 토스트 메시지 -->
-    <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
-    
-    <!-- 로딩 오버레이 -->
-    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[200] flex items-center justify-center hidden">
-        <div class="bg-white p-10 rounded-[32px] shadow-2xl flex flex-col items-center animate-in">
-            <div class="w-16 h-16 border-8 border-slate-100 border-t-[#3344aa] rounded-full animate-spin mb-6"></div>
-            <p class="font-black text-[#3344aa] text-xl uppercase">Updating...</p>
+    <!-- 강의계획서(Syllabus) 및 신청내역 상세 모달 -->
+    <div id="syllabus-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[150] flex items-center justify-center p-4 hidden" onclick="closeSyllabusModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200" onclick="event.stopPropagation()">
+            <div class="bg-[#1e2a78] text-white px-6 py-4 flex items-center justify-between">
+                <div>
+                    <span id="syl-badge" class="bg-[#99dd88] text-[#1e2a78] text-[10px] font-black px-2 py-0.5 rounded">전공필수</span>
+                    <h3 id="syl-title" class="text-lg font-black mt-1">과목명</h3>
+                </div>
+                <button onclick="closeSyllabusModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" width="22"></i></button>
+            </div>
+            <div id="syl-body" class="p-6 text-xs sm:text-sm text-slate-700 space-y-4 max-h-[75vh] overflow-y-auto"></div>
+            <div class="bg-slate-50 px-6 py-3 border-t flex justify-end gap-2">
+                <button id="syl-apply-btn" class="bg-[#3344aa] text-white px-5 py-2 rounded-xl text-xs font-black hover:bg-[#1e2a78]">이 과목 수강신청</button>
+                <button onclick="closeSyllabusModal()" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold">닫기</button>
+            </div>
         </div>
     </div>
 
+    <!-- 토스트 메시지 -->
+    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-2 w-[90%] max-w-md pointer-events-none"></div>
+    
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[250] flex items-center justify-center hidden">
+        <div class="bg-white px-8 py-6 rounded-3xl shadow-2xl flex flex-col items-center animate-in">
+            <div class="w-12 h-12 border-4 border-slate-200 border-t-[#3344aa] rounded-full animate-spin mb-3"></div>
+            <p class="font-black text-[#3344aa] text-sm">HBNU 전산교육관(45동) 서버 처리 중...</p>
+        </div>
+    </div>
+
+    <!-- 공통 스크립트 호출 -->
+    <script src="common.js"></script>
+
     <script>
-        // ================= 효빈대학교 수강신청 마스터 데이터 =================
-        const MASTER_DATA = [
-            // 사회복지정책학과
-            { id: 'SWP-001', type: '전필', title: '사회복지정책학의 이해', credit: 3, prof: '김정의', time: '월1,2,3', room: '사회301', dept: '사회복지정책학과', max: 30, current: 28, color: '#3b82f6' },
-            { id: 'SWP-002', type: '교필', title: '글쓰기 기초 (사회복지)', credit: 2, prof: '박문장', time: '금4,5', room: '인문102', dept: '사회복지정책학과', max: 40, current: 35, color: '#64748b' },
-            { id: 'SWP-105', type: '전필', title: '인간행동과 사회환경', credit: 3, prof: '이현대', time: '화2,3,4', room: '사회202', dept: '사회복지정책학과', max: 35, current: 33, color: '#2563eb' },
-            { id: 'SWP-302', type: '전선', title: '효빈시 사회복지 실무', credit: 3, prof: '박시장', time: '수7,8,9', room: '시청실습실', dept: '사회복지정책학과', max: 20, current: 18, color: '#1e40af' },
-            
-            // 철도운전학과
-            { id: 'TRA-101', type: '전필', title: '철도운전학의 이해', credit: 2, prof: '이철도', time: '화5,6', room: '교통201', dept: '철도운전학과', max: 40, current: 39, color: '#0ea5e9' },
-            { id: 'TRA-102', type: '교필', title: '글쓰기 기초 (공학)', credit: 2, prof: '최문장', time: '월7,8', room: '인문105', dept: '철도운전학과', max: 30, current: 15, color: '#64748b' },
-            { id: 'TRA-205', type: '전필', title: '도시철도 제어 실습', credit: 3, prof: '정안전', time: '목1,2,3', room: '트램관B1', dept: '철도운전학과', max: 15, current: 12, color: '#0284c7' },
-
-            // 만화애니메이션학과
-            { id: 'ANI-101', type: '전필', title: '만화애니메이션학의 이해', credit: 3, prof: '나작가', time: '금1,2,3', room: '예술관B1', dept: '만화애니메이션학과', max: 50, current: 48, color: '#a855f7' },
-            { id: 'ANI-102', type: '교필', title: '글쓰기 기초 (예술)', credit: 2, prof: '김스토리', time: '수1,2', room: '인문201', dept: '만화애니메이션학과', max: 40, current: 20, color: '#64748b' },
-
-            // 필리핀어학과
-            { id: 'FIL-101', type: '전필', title: '필리핀어학의 이해', credit: 3, prof: '김마리아', time: '월4,5,6', room: '언어205', dept: '필리핀어학과', max: 40, current: 15, color: '#f43f5e' },
-            { id: 'FIL-102', type: '교필', title: '글쓰기 기초 (어문)', credit: 2, prof: '한문장', time: '화7,8', room: '언어101', dept: '필리핀어학과', max: 30, current: 10, color: '#64748b' },
-
-            // 컴퓨터공학과
-            { id: 'CSE-101', type: '전필', title: '컴퓨터공학의 이해', credit: 3, prof: '박코드', time: '수1,2,3', room: 'IT101', dept: '컴퓨터공학과', max: 60, current: 59, color: '#10b981' },
-            { id: 'CSE-102', type: '교필', title: '글쓰기 기초 (기술)', credit: 2, prof: '최기술', time: '월8,9', room: 'IT202', dept: '컴퓨터공학과', max: 40, current: 32, color: '#64748b' },
-
-            // 교양대학 시그니처
-            { id: 'GEN-001', type: '교필', title: '효빈학의 이해', credit: 2, prof: '민부선', time: '수7,8', room: '베르데홀', dept: '교양대학', max: 500, current: 495, color: '#f59e0b' },
-            { id: 'GEN-002', type: '교선', title: '트램과 도시문명', credit: 2, prof: '박효빈', time: '화1,2', room: '인문관103', dept: '교양대학', max: 80, current: 78, color: '#d97706' },
-            { id: 'GEN-003', type: '교선', title: '서브컬처 비평', credit: 2, prof: '이문화', time: '목7,8', room: '인문관202', dept: '교양대학', max: 100, current: 99, color: '#ec4899' },
+        // ================= 1. 자연스러운 실제 한국 교수 성명 풀 (작위적 가짜 이름 완전 배제) =================
+        const REAL_PROF_NAMES = [
+            "강민석", "권태현", "김도현", "김상훈", "김성진", "김수현", "김승민", "김영준", "김원석", "김재호",
+            "김정훈", "김종민", "김지훈", "김창수", "김태우", "김현수", "김형준", "나승현", "남궁준", "노재현",
+            "류성민", "문정호", "박건우", "박기훈", "박동현", "박민규", "박상현", "박성호", "박승준", "박영수",
+            "박재현", "박정우", "박종혁", "박준영", "박지훈", "박진우", "박창현", "박태민", "배성훈", "백승호",
+            "서동현", "서민준", "서영호", "서재원", "서정민", "석진호", "성민규", "손정훈", "송민석", "송지은",
+            "신동욱", "신성호", "신재민", "신정훈", "심재현", "안성민", "안재홍", "양승호", "양정훈", "엄태영",
+            "오동현", "오성진", "오세훈", "오정식", "우성민", "유동현", "유승민", "유재석", "유정호", "윤기현",
+            "윤동주", "윤상현", "윤성호", "윤재원", "윤정훈", "윤지훈", "윤태호", "이동건", "이동현", "이민석",
+            "이상훈", "이성민", "이수현", "이승준", "이승현", "이영호", "이원재", "이재민", "이재현", "이정민",
+            "이정훈", "이종현", "이준혁", "이준호", "이지훈", "이진수", "이진우", "이창민", "이태현", "이현우",
+            "임동현", "임성훈", "임재현", "임정훈", "장동현", "장민석", "장성호", "장재원", "전민수", "전성호",
+            "정기훈", "정동현", "정민석", "정상훈", "정성민", "정승호", "정영수", "정우성", "정원석", "정재민",
+            "정재현", "정지훈", "정태현", "정현우", "조동현", "조민석", "조성민", "조성훈", "조승우", "조영호",
+            "조원희", "조재현", "조정석", "주성훈", "지성민", "차승원", "차정훈", "천성호", "최동현", "최민석",
+            "최상훈", "최성민", "최승현", "최영수", "최원석", "최유진", "최재민", "최재현", "최정훈", "최종현",
+            "최준호", "최지훈", "최진우", "하성민", "하정우", "한동현", "한민석", "한상훈", "한성민", "한승우",
+            "한재현", "한정훈", "한지민", "허성민", "허정훈", "현승우", "홍기훈", "홍동현", "홍성민", "홍정호",
+            "황동현", "황민석", "황성민", "황정민", "황지훈"
         ];
 
-        let registered = [];
+        // ================= 2. 효빈대학교 18개 단과대학 · 212개 전체 학과 및 실제 대학 표준 커리큘럼 마스터 DB =================
+        const HBNU_ACADEMIC_STRUCTURE = [
+            {
+                college: "교양대학 (HBNU Core · 기초/핵심교양)",
+                building: "베르데홀(29동)·교육혁신센터(42동)·인문관(9동)",
+                color: "#f59e0b",
+                depts: [
+                    { name: "교양필수 (지성·글쓰기·외국어)", code: "GEN", courses: ["효빈학의 이해", "창의적 사고와 학술적 글쓰기", "대학영어회화 1", "데이터리터러시와 파이썬기초", "시민사회와 헌법가치", "진로탐색과 글로컬리더십"], specialProfs: { "효빈학의 이해": "민부선" } },
+                    { name: "교양선택 (문화·예술·서브컬처)", code: "GEC", courses: ["트램과 도시문명사", "서브컬처 비평과 문화산업", "애니메이션 스토리텔링의 이해", "가상공동체(Fandom)와 사회적자본", "현대사회와 미디어리터러시", "유럽문화와 알프스생태학"], specialProfs: { "가상공동체(Fandom)와 사회적자본": "민부선", "트램과 도시문명사": "은권규" } },
+                    { name: "교양선택 (자연·과학·메디컬)", code: "GES", courses: ["원헬스(One Health)와 인간동물공존", "우주의 진화와 천체관측", "기후위기와 탄소중립2050", "인공지능 윤리와 미래사회", "뇌과학과 정신건강 힐링클리닉"], specialProfs: { "뇌과학과 정신건강 힐링클리닉": "오수아" } }
+                ]
+            },
+            {
+                college: "사회복지학대학 (특성화 S등급)",
+                building: "사회복지학대학(7-1동)·종합사회복지관(7-3동)",
+                color: "#2563eb",
+                depts: [
+                    { name: "사회복지정책학과", code: "SWP", courses: ["사회복지정책론", "사회보장론", "복지국가비교연구", "빈곤과 불평등 정책세미나", "사회복지재정과 예산분석", "청년돌봄(영케어러) 정책설계", "지방분권과 지역사회복지계획"], specialProfs: { "사회복지정책론": "은권규" } },
+                    { name: "사회복지경영학과", code: "SWM", courses: ["사회복지경영론", "비영리조직(NPO) 운영전략", "사회복지행정론", "문화복지 융합 모금(Fundraising)론", "사회적기업과 협동조합 창업", "사회복지 인적자원관리"], specialProfs: { "사회복지경영론": "민부선" } },
+                    { name: "사회복지실천학과", code: "SWC", courses: ["사회복지실천론", "사회복지실천기술론", "사례관리론(Case Management)", "지역사회복지론", "위기개입과 인권보호실습", "사회복지현장실습 세미나"] },
+                    { name: "사회복지상담학과", code: "SWG", courses: ["인간행동과 사회환경", "가족치료 및 가족상담", "아동·청소년 위기상담론", "집단상담 프로그램 개발", "심리외상(Trauma) 치유실습", "또래상담(효빈톡) 슈퍼비전"] }
+                ]
+            },
+            {
+                college: "교통대학 (특성화 S등급 · HBNU Rail)",
+                building: "교통대학(35-1~3동)·정비센터(35-4동)",
+                color: "#0284c7",
+                depts: [
+                    { name: "철도운전시스템공학과(철도운전학과)", code: "TRD", courses: ["전기철도운전론", "교내철도(A선 트램) 실전운전실습", "교내철도(B선 모노레일) 운전실습", "동력차 제어회로 및 VVVF 인버터", "비상시 운전취급 및 ATS/ATC 실무", "열차운전 시뮬레이터 종합실습"] },
+                    { name: "철도운영시스템공학과(철도운영학과)", code: "TRO", courses: ["열차운계획 및 스케줄링", "철도신호제어 및 연동폐색이론", "중앙관제(CTC) 3현시 신호기 실습", "복합환승센터(A09-B06) 동선최적화", "철도여객마케팅 및 역무자동화", "수송수요예측 및 빅데이터분석"] },
+                    { name: "철도산업학부", code: "TRI", courses: ["철도차량기계공학", "대차(Bogie) 구조 및 진동역학", "철도부품 표준화 및 품질관리", "고속철도 차량설계", "S-35-4 차량검수 및 중정비 실습"] },
+                    { name: "철도교통공학과", code: "TRE", courses: ["궤도역학 및 선로설계", "철도전력급전시스템", "도시철도 문화컨텐츠 융합론", "노면전차(Tram) 매립궤도 공학", "과좌식 모노레일 구조해석"], specialProfs: { "도시철도 문화컨텐츠 융합론": "오다구" } },
+                    { name: "철도관리학과", code: "TRM", courses: ["철도안전법규 및 사고조사론", "철도물류 및 화물수송관리", "철도공기업 경영분석", "철도노사관계 및 휴먼에러방지", "국제철도협약(OSJD) 실무"] },
+                    { name: "교통공학과", code: "TRP", courses: ["교통류이론(Traffic Flow Theory)", "도시교통계획 및 수요추정", "교차로 신호제어 및 연동화", "대중교통 노선망 설계(스타더스트 모델)", "지능형교통체계(ITS) 개론"] },
+                    { name: "자동차공학과", code: "AUT", courses: ["자동차섀시 및 현가장치설계", "전기자동차(EV) 배터리관리시스템", "자율주행 센서퓨전(LiDAR/Radar)", "내연기관 열유체역학", "차량동역학 및 제어"] },
+                    { name: "항공운항과", code: "AVF", courses: ["공중항법학 및 비행원리", "항공기상학", "비행시뮬레이터 계기비행실습", "항공법규 및 관제교신(ATC)", "조종사 인적요인(CRM)"] },
+                    { name: "해운학과", code: "SHP", courses: ["국제해운경영론", "해상운송법 및 용선계약", "항만물류시스템 운영론", "국제복합운송실무", "해사영어 및 국제물류보안"] },
+                    { name: "항공우주공학과", code: "AER", courses: ["압축성 공기역학", "로켓추진공학 및 연소이론", "항공우주 구조역학", "인공위성 궤도역학 및 자세제어", "무인항공기(UAV) 비행제어설계"] }
+                ]
+            },
+            {
+                college: "통합의과대학 · 약학 · 간호 · 보건대학 (메디컬타운)",
+                building: "의대(49동)·약대(50동)·간호대(48동)·보건대(47동)",
+                color: "#0d9488",
+                depts: [
+                    { name: "의학과 (의과대학 1본부)", code: "MED", courses: ["인체해부학 및 실습", "생리학", "병리학 총론", "신경외과학 임상실습", "정신건강의학 및 예술치유론", "내과학 총론"], specialProfs: { "신경외과학 임상실습": "서진희", "정신건강의학 및 예술치유론": "오수아" } },
+                    { name: "치의학과 (의과대학 2본부)", code: "DEN", courses: ["구강해부학", "치과생체재료학", "구강악안면외과학", "치과보철학 및 임플란트학", "치주과학 임상실습"] },
+                    { name: "한의학과 (의과대학 3본부)", code: "KMD", courses: ["한의학원론", "본초학 및 약용식물학", "경혈학 및 침구치료학", "방제학", "동서의학 협진 임상론"] },
+                    { name: "수의학과 (의과대학 4본부)", code: "VET", courses: ["수의해부학", "인수공통감염병학(One Health)", "수의외과학 및 야생동물구조실습", "수의내과학", "수의전염병학"], specialProfs: { "수의외과학 및 야생동물구조실습": "서수진" } },
+                    { name: "약학과 (약학대학)", code: "PHA", courses: ["약물동태학", "약제학 및 제제공학", "의약합성화학", "임상약학 및 복약지도실습", "약전 및 약사법규"] },
+                    { name: "한약학과 (약학대학)", code: "KPH", courses: ["한약포제학", "생약학 및 천연물화학", "한약제제학", "한약방제분석학", "약용자원식물학"] },
+                    { name: "간호학과 (간호대학)", code: "NUR", courses: ["기본간호학 및 실습", "성인간호학", "모성 및 아동간호학", "중환자 및 응급간호학", "지역사회간호학"] },
+                    { name: "응급구조학과", code: "EMT", courses: ["전문심장소생술(ACLS) 실습", "외상응급처치학", "대규모행사(HAF) 재난응급의료관리", "응급환자평가학"] },
+                    { name: "물리치료학과", code: "PTH", courses: ["근골격계 물리치료학", "신경계 운동치료학", "기능해부학 및 운동학", "정형도수치료실습"] },
+                    { name: "작업치료학과", code: "OTH", courses: ["일상생활동작(ADL) 훈련학", "감각통합치료학", "연하재활 및 인지작업치료", "보조공학기기 설계"] },
+                    { name: "방사선학과", code: "RAD", courses: ["진단방사선영상학", "자기공명영상학(MRI)", "방사선치료학 및 핵의학", "방사선안전관리학"] },
+                    { name: "임상병리학과", code: "MLS", courses: ["임상미생물학", "혈액학 및 수혈학", "분자진단유전학", "임상화학분석실습"] },
+                    { name: "치위생학과", code: "DHY", courses: ["예방치과학 및 치면세마실습", "구강보건교육학", "치과방사선학", "임상치위생학"] },
+                    { name: "치기공학과", code: "DTE", courses: ["치과도재기공학", "CAD/CAM 3D 디지털보철설계", "관교의치기공학", "국부의치기공학"] },
+                    { name: "보건행정학과", code: "HPA", courses: ["병원경영학 및 의료원가분석", "건강보험청구심사실무", "보건의료법규", "의무기록정보관리학"] },
+                    { name: "건강관리학과", code: "HMG", courses: ["운동처방론 및 체성분(InBody)분석", "만성질환 예방관리학", "생활습관의학", "스포츠영양관리"] },
+                    { name: "안경광학과", code: "OPT", courses: ["안광학 및 기하광학", "굴절검사 및 양안시실습", "콘택트렌즈학", "안경조제 및 가공학"] },
+                    { name: "의공학과", code: "BME", courses: ["생체신호처리 및 계측", "의용전자회로설계", "인공장기 및 수술로봇공학", "의료영상처리알고리즘"] },
+                    { name: "재활학과", code: "REH", courses: ["장애인 직업재활론", "재활보조공학", "지역사회중심재활(CBR)", "재활심리상담"] },
+                    { name: "언어치료학과", code: "SLP", courses: ["조음음운장애치료", "신경언어장애학", "유창성 및 음성장애실습", "아동언어발달평가"] }
+                ]
+            },
+            {
+                college: "언어문학대학 (어문계열)",
+                building: "동양언어관(10-1동)·서양언어관(10-2동)",
+                color: "#e11d48",
+                depts: [
+                    { name: "필리핀어학과", code: "FIL", courses: ["표준 타갈로그어 문법 및 회화", "필리핀 근현대사와 사회문화", "한·필리핀 외교통상 실무번역", "마닐라·세부 지역학 세미나", "동남아 다문화공동체 연구"] },
+                    { name: "국어국문학과", code: "KOR", courses: ["현대소설론 및 장르문학(웹소설) 창작", "한국어 음운론과 효빈지역 방언학", "고전문학사 강독", "현대시와 비평", "스토리텔링 세계관 설계론"] },
+                    { name: "영어영문학과", code: "ELL", courses: ["영미드라마와 셰익스피어", "고급시사영문번역 및 통역실습", "영어통사론", "영미현대소설 강독", "글로벌 비즈니스 영작문"] },
+                    { name: "중어중문학과(대외한어과)", code: "CHN", courses: ["현대중국어 어법", "한중 통상번역실무", "중국고전시가강독", "현대중국사회와 차이나타운 연구"] },
+                    { name: "노어노문학과", code: "RUS", courses: ["러시아어 격변화 및 중급문법", "도스토옙스키와 19세기 러시아문학", "유라시아 지역경제와 통상", "러시아 시사강독"] },
+                    { name: "독어독문학과", code: "GER", courses: ["독일어 텍스트분석", "괴테와 독일 고전주의 문학", "현대독일사회와 유럽연합", "독일문화와 예술비평"] },
+                    { name: "불어불문학과", code: "FRE", courses: ["프랑스어 문장구조와 작문", "프랑스 현대철학과 비평", "프랑스 문화예술사", "프랑스어권(AUF) 국제교류실무"] },
+                    { name: "서어서문학과", code: "SPA", courses: ["스페인어 중급회화 및 작문", "중남미 문학과 마술적 사실주의", "이베로아메리카 지역경제론", "스페인 문화와 예술"] },
+                    { name: "언어학과", code: "LIN", courses: ["일반언어학 개론", "전산언어학 및 자연어처리(NLP)", "음성학 및 음운분석", "의미론과 화용론"] },
+                    { name: "한문학과", code: "HJM", courses: ["한국한문학사", "효빈·덕빈 고문헌 번역 및 디지털아카이빙", "사서삼경 강독", "고전한시창작 및 비평"] }
+                ]
+            },
+            {
+                college: "인문대학 (순수·응용인문학)",
+                building: "인문대학 1·2호관(9-1~2동)",
+                color: "#db2777",
+                depts: [
+                    { name: "철학과", code: "PHI", courses: ["기호논리학 및 비판적 논증", "서양근대철학(칸트와 독일관념론)", "현대윤리학과 존재론적 정의", "동양철학사(성리학과 실학)"] },
+                    { name: "사학과 (역사학과)", code: "HIS", courses: ["한국근현대사 세미나", "효빈지역 향토사 및 야외답사실습", "동아시아 국제관계사", "서양중세와 르네상스사"] },
+                    { name: "고고학과", code: "ARC", courses: ["야외고고학 발굴조사실습", "한국청동기·철기시대 고고학", "도시재개발과 매장문화재 보호법", "고고학 자료분석론"] },
+                    { name: "문화재보존학과", code: "CHC", courses: ["무기문화재(금속·석조) 보존과학", "유기문화재(지류·목재) 복원실습", "문화재 비파괴 진단분석", "박물관 환경관리학"] },
+                    { name: "문화콘텐츠학과", code: "CCT", courses: ["문화콘텐츠 기획 및 IP 비즈니스", "메가페스티벌(HAF) 브랜딩 및 운영론", "스토리텔링과 캐릭터 머천다이징", "디지털 문화유산 큐레이션"] },
+                    { name: "미술사학과", code: "AHS", courses: ["한국회화사 및 불교미술사", "동아시아 도자사", "서양현대미술사조와 비평", "박물관 큐레이터십 실습"] },
+                    { name: "문화인류학과", code: "ANT", courses: ["문화인류학 현지조사방법론(Ethnography)", "도시하위문화(서브컬처)와 팬덤인류학", "비교문화론", "디지털 인류학"] },
+                    { name: "종교학과", code: "REL", courses: ["비교종교학 개론", "세계신화와 상징체계", "종교사회학", "동양종교사상사"] },
+                    { name: "문예창작과", code: "CRW", courses: ["현대시 창작합평", "중·단편소설 창작워크숍", "드라마 및 웹소설 극작법", "문학비평실습"] },
+                    { name: "음악학과 (인문대)", code: "MTH", courses: ["서양음악사 및 악식론", "고전 및 현대 화성학 분석", "대중음악 및 서브컬처 사운드 비평", "음악미학 세미나"] }
+                ]
+            },
+            {
+                college: "사회과학대학 (사회계열)",
+                building: "사회과학대학 1~3호관(6-1~3동)",
+                color: "#4f46e5",
+                depts: [
+                    { name: "정치외교학과", code: "POL", courses: ["비교정치론", "한국정치과정과 선거데이터분석", "국제정치경제론", "정당론과 여론조사실습", "동북아 외교안보 세미나"] },
+                    { name: "경찰행정학과", code: "PAD", courses: ["범죄학 및 형사정책", "경찰행정법 및 수사절차론", "형법총론 및 판례연구", "체포호신술 및 범죄예방환경설계(CPTED)"] },
+                    { name: "문헌정보학과", code: "LIS", courses: ["한국십진분류법(KDC) 및 자료조직론", "도서관경영 및 정보서비스론", "디지털아카이브 및 메타데이터설계", "계량정보학"] },
+                    { name: "미디어커뮤니케이션학과", code: "COM", courses: ["저널리즘 원리와 팩트체킹 보도론", "디지털 영상제작 및 4K 편집실습", "미디어효과이론", "뉴미디어와 여론형성"] },
+                    { name: "국제학부", code: "INT", courses: ["Global Governance and UN(영강)", "International Trade Law(영강)", "East Asian Political Economy(영강)", "Cross-Cultural Negotiation(영강)"] },
+                    { name: "군사학과", code: "MIL", courses: ["군사전략론 및 전술학", "국방정책 및 안보론", "군 리더십 및 부대지휘관리", "전쟁사와 미래무기체계"] },
+                    { name: "사회학과", code: "SOC", courses: ["현대사회학이론", "사회조사방법론 및 SPSS/R 통계분석", "도시사회학과 공간불평등", "노동과 산업사회학"] },
+                    { name: "심리학과", code: "PSY", courses: ["인지심리학", "이상심리학 및 정신병리", "심리검사 및 성격평가실습", "사회심리학 및 집단역학"] },
+                    { name: "지리학과", code: "GEO", courses: ["도시지리학 및 상권입지분석", "지리정보시스템(GIS) 공간분석실습", "기후학 및 지형학", "경제지리학 야외답사"] },
+                    { name: "정책학과", code: "PLC", courses: ["정책학원론 및 정책결정론", "공공선택론과 규제정책", "정책평가 및 비용편익분석(B/C)", "국가행정고시 헌법·행정법 특강"] },
+                    { name: "공공학과", code: "PUB", courses: ["공공가치론과 공익행정", "공기업경영론 및 대중교통 준공영제 분석", "갈등관리와 공공협상론", "시민사회와 거버넌스"] },
+                    { name: "행정학과", code: "ADM", courses: ["행정학원론", "행정법총론", "재무행정론 및 정부예산회계", "인사행정론", "지방자치행정론"] }
+                ]
+            },
+            {
+                college: "상과대학 (경영·경제·회계)",
+                building: "상과대학 1~2호관(8-1~2동)",
+                color: "#0369a1",
+                depts: [
+                    { name: "경영학과", code: "BUS", courses: ["경영학원론", "마케팅원론 및 브랜드전략", "재무관리(Corporate Finance)", "조직행동론", "생산운영관리(SCM)", "경영전략 캡스톤디자인"] },
+                    { name: "경제학과", code: "ECO", courses: ["미시경제학", "거시경제학", "계량경제학(Econometrics)", "화폐금융론", "게임이론과 산업조직론"] },
+                    { name: "회계학과", code: "ACC", courses: ["중급재무회계 1", "원가관리회계", "회계감사론(CPA 대비)", "고급회계", "재무제표분석"] },
+                    { name: "세무학과", code: "TAX", courses: ["세법개론(법인세·소득세·부가세)", "세무회계실무(CTA 대비)", "조세법판례연구", "지방세법 및 부동산세제"] },
+                    { name: "금융보험학과", code: "FIN", courses: ["투자론 및 포트폴리오관리", "파생상품론(선물·옵션)", "보험수리학 및 리스크관리", "금융기관경영론"] },
+                    { name: "무역학과", code: "TRD", courses: ["국제무역이론", "무역상무론(신용장·Incoterms)", "해상보험 및 국제물류론", "글로벌 전자상거래(E-Commerce)"] },
+                    { name: "부동산학과", code: "RES", courses: ["부동산학원론", "광역철도망(빈효선·5호선) 역세권 개발타당성분석", "부동산감정평가이론", "부동산금융 및 리츠(REITs)", "도시및부동산공법"] },
+                    { name: "광고홍보학과", code: "ADV", courses: ["광고학개론", "카피라이팅 및 크리에이티브전략", "PR캠페인 기획 및 위기관리커뮤니케이션", "디지털 퍼포먼스 마케팅"] }
+                ]
+            },
+            {
+                college: "기계공업대학 (공과대학)",
+                building: "기계공업대학 1~5호관(14-1~5동)",
+                color: "#334155",
+                depts: [
+                    { name: "기계공학과", code: "MEC", courses: ["고체역학(재료역학)", "열역학", "유체역학", "동역학 및 기계진동학", "기계요소설계 및 정밀용접실습"] },
+                    { name: "드론학과", code: "DRN", courses: ["무인비행체(Drone) 공기역학", "비행제어컴퓨터(FCC) 펌웨어설계", "초경량비행장치 조종실습", "도심항공교통(UAM) 항로설계"] },
+                    { name: "로봇공학과", code: "ROB", courses: ["로봇기구학 및 동역학", "ROS 기반 자율주행로봇 프로그래밍", "휴머노이드 액추에이터 제어", "마이크로프로세서 응용"] },
+                    { name: "기전공학과", code: "MCT", courses: ["메카트로닉스 시스템설계", "센서 및 인터페이스공학", "PLC 시퀀스제어실습", "서보모터 정밀제어"] },
+                    { name: "금형공학과", code: "MLD", courses: ["사출금형설계", "프레스금형공학", "3D CAD/CAM 정밀가공", "소성가공학"] },
+                    { name: "설비공학과", code: "HVA", courses: ["공기조화 및 냉동공학", "건축기계설비설계", "클린룸(Fab) 항온항습 제어공학", "에너지절약형 빌딩자동화(BAS)"] },
+                    { name: "원자력공학과", code: "NUC", courses: ["원자로이론 및 노심설계", "방사선계측 및 보건물리", "원자력발전 계통공학", "원자력안전해석"] }
+                ]
+            },
+            {
+                college: "전기공업대학 (IT·전기·반도체)",
+                building: "전기공업대학 1~4호관(15-1~4동)·전산교육관(45동)",
+                color: "#0f766e",
+                depts: [
+                    { name: "컴퓨터공학과", code: "CSE", courses: ["자료구조 및 알고리즘", "운영체제(Operating Systems)", "컴퓨터네트워크", "데이터베이스시스템", "소프트웨어공학 및 풀스택캡스톤"] },
+                    { name: "인공지능학과", code: "AIE", courses: ["머신러닝 및 딥러닝개론", "컴퓨터비전과 영상인식", "거대언어모델(LLM) 및 음성합성엔진 설계", "강화학습"] },
+                    { name: "반도체공학과", code: "SEM", courses: ["반도체소자물리", "반도체 8대 공정실습(포토·식각·증착)", "VLSI 집적회로설계", "차세대 메모리소자공학"] },
+                    { name: "전기전자공학과", code: "EEE", courses: ["회로이론", "전자기학", "전력전자공학(인버터·컨버터)", "전자회로설계 및 납땜실습"] },
+                    { name: "정보보안학과", code: "SEC", courses: ["현대의호학", "네트워크보안 및 침해사고대응", "시스템해킹과 시큐어코딩", "디지털포렌식 실습"] },
+                    { name: "광공학과", code: "PHO", courses: ["레이저공학", "광전자소자 및 디스플레이공학", "무대홀로그램 및 광학설계", "광통신시스템"] },
+                    { name: "산업공학과", code: "INE", courses: ["경영과학(Operations Research)", "생산계획 및 재고통제", "인간공학 및 시스템안전", "품질경영 및 식스시그마"] },
+                    { name: "정보통신공학과", code: "ICE", courses: ["디지털통신시스템", "이동통신공학(5G/6G 네트워크)", "디지털신호처리(DSP)", "초고주파 및 안테나공학"] },
+                    { name: "제어계측공학과", code: "CON", courses: ["자동제어시스템", "디지털제어 및 상태공간해석", "정밀계측센서공학", "스마트팩토리 공정제어"] }
+                ]
+            },
+            {
+                college: "토목공업대학 · 화학공업대학 · 응용과학대학",
+                building: "토목대(16동)·화공대(17동)·천주캠퍼스",
+                color: "#4338ca",
+                depts: [
+                    { name: "도시공학과 (도시계획학)", code: "URB", courses: ["도시계획원론", "대중교통지향형 도시개발(TOD) 설계", "토지이용계획 및 공간구문론", "스마트시티 인프라설계"] },
+                    { name: "토목공학과", code: "CIV", courses: ["구조역학", "토질역학 및 기초공학", "철근콘크리트 및 교량공학", "수리학 및 터널공학"] },
+                    { name: "건축학과 (5년제)", code: "ARH", courses: ["건축설계스튜디오 1", "한국건축사 및 근대건축보존론", "친환경 공공건축 디자인", "도시주거단지계획"] },
+                    { name: "건축공학과", code: "ARE", courses: ["건축구조역학", "건축시공학 및 공정관리(BIM)", "건축재료학", "내진구조설계"] },
+                    { name: "안전공학과", code: "SAF", courses: ["산업안전관리론", "화재및폭발방지공학", "건설안전공학", "시스템위험성평가(HAZOP)"] },
+                    { name: "화학공학과", code: "CHE", courses: ["화공양론", "화공열역학", "이동현상 및 단위조작", "화학반응공학 및 공정설계"] },
+                    { name: "고분자공학과", code: "POL", courses: ["고분자합성화학", "고분자물성 및 유변학", "친환경 생분해성 플라스틱공학"] },
+                    { name: "나노공학과 / 재료공학과", code: "MAT", courses: ["재료과학개론", "결정학 및 X선회절분석", "나노소재합성 및 전자현미경실습", "금속상변태론"] },
+                    { name: "섬유공학과 / 식품공학과 / 에너지공학과", code: "ENE", courses: ["스마트 웨어러블 섬유소재", "식품가공학 및 식품미생물학", "이차전지(리튬이온·전고체) 전극공학", "수소에너지 및 연료전지"] },
+                    { name: "소방학과 / 특수장비과 / 기관학과 / 예술공학과 / 출판인쇄과 (응용과학대)", code: "APS", courses: ["소방유체역학 및 화재진압전술", "특수궤도차량(장갑·특장) 정비공학", "선박및대형디젤기관공학", "VR 프로젝션맵핑 미디어아트공학", "디지털출판 및 색채인쇄공학"] }
+                ]
+            },
+            {
+                college: "자연과학대학 · 생활과학대학 · 농업 · 생명 · 해양 · 환경대학",
+                building: "자연대(28동)·생활대(12동)·이자캠퍼스·강주캠퍼스",
+                color: "#15803d",
+                depts: [
+                    { name: "수학과 / 통계학과", code: "MTH", courses: ["미적분학 및 해석학개론", "선형대수학", "수리통계학", "회귀분석 및 시계열데이터분석"] },
+                    { name: "물리학과 / 천문학과 / 대기과학과 / 지질학과 / 화학과", code: "SCI", courses: ["고전역학(운동량보존과 충격량 해석)", "양자역학개론", "천체물리학 및 야간천문관측실습", "종관기상학 및 수치예보모델", "유기화학 및 분석화학실습"] },
+                    { name: "조리과학과 / 제과제빵과 / 식품영양학과", code: "CUL", courses: ["조리원리 및 서양조리실습", "천연발효 제빵학 및 스위스 브런치 실습", "생애주기영양학 및 단체급식(엠마의 식탁) 식단설계"] },
+                    { name: "소비자학과 / 의류의상학과 / 주거환경학과 / 아동가족학과", code: "HEC", courses: ["소비자트렌드분석 및 재무설계", "입체패턴제도 및 특수무대의상(코스프레·정복) 제작", "스마트홈 실내환경디자인", "아동발달과 보육과정"] },
+                    { name: "식물의학과 / 산림과학과 / 수산생명의학과 / 수산자원학과 / 식물자원학과 / 원예학과 (농업대)", code: "AGR", courses: ["식물병리학 및 수목진단학", "산림생태학 및 탄소흡수원관리", "어류질병학(수산질병관리사 과정)", "스마트팜 작물재배학", "화훼장식 및 조경원예학"] },
+                    { name: "애완동물과 / 동물과학과 / 축산학과 / 생명공학과 / 생명과학과 (생명대)", code: "LIF", courses: ["반려동물 행동교정 및 복지학", "유가공학(수제 치즈·요구르트 발효실습)", "유전자가위(CRISPR) 및 분자생물학", "세포생물학 및 생태학"] },
+                    { name: "항해학과 / 해양공학과 / 조선해양공학과 / 해양학과 (해양대·강주)", code: "OCN", courses: ["선박조종학 및 실습선(효빈호) 승선실습", "해상풍력 및 해양구조물설계", "선박저항추진론", "물리해양학 및 해무관측"] },
+                    { name: "조경학과 / 환경공학과 (환경산업대)", code: "ENV", courses: ["캠퍼스 생태조경설계", "수질오염제어 및 상하수도공학", "대기오염방지기술", "폐기물자원화 및 전과정평가(LCA)"] }
+                ]
+            },
+            {
+                college: "응용예술 · 미술 · 디자인 · 음악 · 예술 · 무용대학 (예체능)",
+                building: "예술타운(24~27동)·베르데홀(29동)·천주캠퍼스",
+                color: "#9333ea",
+                depts: [
+                    { name: "만화애니메이션학과 (성우전공 포함)", code: "ANI", courses: ["캐릭터 원화 및 동화 작화실습", "3D 애니메이션 리깅 및 연출", "성우 화술 및 애니메이션 마이크워크(더빙) 실습", "웹툰 스토리보드 제작"] },
+                    { name: "게임학과 / 귀금속공예과 / 모델과 / 미용학과 / 사진학과", code: "APA", courses: ["언리얼엔진 게임프로그래밍", "금속세공 및 아트주얼리 캐드", "런웨이 워킹 및 패션포즈실습", "특수분장 및 메이크업아트", "4K 디지털 보도사진 및 스튜디오조명"] },
+                    { name: "동양화과 / 서양화과 / 조소과 / 판화과 / 보석감정과 / 종교미술학과 (미술대)", code: "FIN", courses: ["수묵담채화 실기", "유화 및 현대회화 스튜디오", "인체조소 및 대형공공조형물(우레탄·인조모피) 제작", "다이아몬드 감별 및 루페실습"] },
+                    { name: "시각디자인학과 / 산업디자인학과 / 실내디자인학과 / 패션디자인학과 (디자인대)", code: "DES", courses: ["타이포그래피 및 브랜드아이덴티티(BI) 디자인", "모빌리티(차세대 트램·모노레일) 외관디자인", "전시 및 상업공간 3D 렌더링", "컬렉션 패션디자인 실기"] },
+                    { name: "실용음악과 / 성악과 / 작곡과 / 기악과 / 국악과 / 음향과 / 음악학과 (음악대)", code: "MUS", courses: ["보컬 퍼포먼스 및 밴드앙상블", "오페라 아리아 및 벨칸토 발성실습", "MIDI 컴퓨터음악 및 애니메이션 OST 작편곡", "콘서트홀(베르데홀) 라이브 음향엔지니어링"] },
+                    { name: "연극학과 / 영화영상학과 / 공연제작과 / 극작과 (예술대)", code: "ART", courses: ["무대연기 및 열차안내방송 성우발성법", "단편영화 연출 및 시네마토그래피", "대공연장(베르데홀) 무대음향·조명 프로덕션", "시나리오 창작론"] },
+                    { name: "경호학과 / 무용학과 / 스포츠의학과 / 체육학과 (무용·체육대)", code: "PHE", courses: ["요인경호학 및 VIP 근접방어실습", "현대무용 및 발레 창작실기", "스포츠손상 재활트레이닝", "유도·구기 전공실기 및 운동생리학"] }
+                ]
+            },
+            {
+                college: "사범대학 (36개 전 교육학과 · 임용고시 메카)",
+                building: "사범대학 타운 1~6호관(11-1~6동)",
+                color: "#c026d3",
+                depts: [
+                    { name: "교육학과 / 국어교육과 / 영어교육과 / 한문교육과", code: "EDU", courses: ["교육철학 및 교육사", "중세국어문법 및 국어교재연구", "영어교수법(TESOL) 및 원어민수업실연", "한문고전교수법"] },
+                    { name: "일어교육과 / 독어교육과 / 불어교육과 / 중국어교육과", code: "EDL", courses: ["일본어학개론 및 JLPT 고급청해", "독일어교과교육론", "프랑스어권 문화교육론", "중국어발음 및 성조교수법"] },
+                    { name: "역사교육과 / 지리교육과 / 일반사회교육과 / 윤리교육과 / 문헌정보교육과 / 종교교육과", code: "EDS", courses: ["한국사교재연구 및 역사답사지도", "시민교육론과 법·정치 교수법", "도덕·윤리과 교육과정", "학교도서관 미디어교육론(사서교사)"] },
+                    { name: "수학교육과 / 물리교육과 / 화학교육과 / 생물교육과 / 지구과학교육과", code: "EDN", courses: ["수학교육론 및 기하학탐구", "물리실험지도법", "화학교재연구 및 안전실험설계", "생명과학탐구지도법", "천체및지구과학 야외실습"] },
+                    { name: "컴퓨터교육과 / 기술교육과 / 기계교육과 / 전기전자교육과 / 가정교육과 / 환경교육과 / 경영금융교육과 / 농업교육과 / 수해양산업교육과", code: "EDT", courses: ["정보·인공지능 교과교육론", "창의공학 및 목공·용접 실습지도법", "직업교육과정 및 공업교수법", "기후변화 환경교육론"] },
+                    { name: "유아교육과 / 초등교육과 / 특수교육과 / 음악교육과 / 미술교육과 / 체육교육과 / 한국어교육학과 / 교육공학과", code: "EDA", courses: ["유아놀이지도 및 교구제작", "통합학급 특수교육론", "중등체육 임용실기 및 체육교수법", "외국어로서의 한국어교수법(KFL)", "에듀테크(VR/AI) 교수설계론"] }
+                ]
+            },
+            {
+                college: "융합학부 (6대 미래 전략 독립학부)",
+                building: "낭원캠퍼스 Fab · 당선캠퍼스 전산관(45동)",
+                color: "#7c3aed",
+                depts: [
+                    { name: "메타버스/엔터테인먼트 전공", code: "MTB", courses: ["버추얼 아이돌(VTuber) 모션캡처 및 리깅실습", "XR 가상전시장(HAF 메타버스) 월드구축", "디지털 휴먼 제작론"] },
+                    { name: "IAB(인문·예술·경영) 융합전공", code: "IAB", courses: ["예술경영과 문화콘텐츠 투자분석", "인문학적 디자인씽킹과 비즈니스모델", "컬처노믹스 데이터분석"] },
+                    { name: "예술융합창작전공", code: "AFC", courses: ["인터랙티브 사운드 & 미디어아트", "다원예술 퍼포먼스 창작스튜디오"] },
+                    { name: "에너지신산업융합전공", code: "ENS", courses: ["스마트그리드 및 마이크로그리드 설계", "수소연료전지 및 탄소포집(CCUS) 공학"] },
+                    { name: "반도체융합전공", code: "SMC", courses: ["시스템반도체 RTL 설계(Verilog)", "낭원캠퍼스 클린룸(Fab) 웨이퍼 공정실습"] },
+                    { name: "반도체 소재·부품·장비(소부장) 전공", code: "SMP", courses: ["극자외선(EUV) 포토레지스트 소재화학", "반도체 진공장비 및 플라즈마 식각공학"] }
+                ]
+            }
+        ];
 
-        window.onload = () => {
-            updateClock();
-            setInterval(updateClock, 1000);
-            filterCourses(); // 초기 렌더링
-            lucide.createIcons();
+        // ================= 3. 전체 학과 강좌 데이터 자동 생성 엔진 (총 320+ 강좌) =================
+        const MASTER_DATA = [];
+        const DAYS = ['월', '화', '수', '목', '금'];
+        const TIME_PATTERNS = [
+            '1,2', '2,3,4', '3,4', '4,5,6', '5,6', '6,7,8', '7,8', '8,9', '1,2,3'
+        ];
+        const ROOM_PREFIXES = {
+            "사회복지학대학": ["복지관(7-1동) 201호", "복지관(7-1동) 304호", "종합복지관(7-3동) 세미나실"],
+            "교통대학": ["교통관(35-1동) 102호", "교통관(35-2동) 신호제어실", "S-35-4 공중정비기지 실습장", "A선 트램 시뮬레이터실"],
+            "교양대학": ["베르데홀(29동) 대강의실", "교육혁신센터(42동) 201호", "인문1호관(9-1동) 105호"]
         };
 
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('server-clock').innerText = now.toLocaleTimeString('ko-KR', { hour12: false });
+        function buildMasterCourses() {
+            let profIdx = 0;
+            let globalSeq = 1;
+
+            HBNU_ACADEMIC_STRUCTURE.forEach((colObj) => {
+                colObj.depts.forEach((deptObj) => {
+                    deptObj.courses.forEach((courseTitle, cIdx) => {
+                        const isCoreCollege = colObj.college.includes("교양대학");
+                        let courseType = '전선';
+                        if (isCoreCollege) {
+                            courseType = deptObj.name.includes("필수") ? '교필' : '교선';
+                        } else if (colObj.college.includes("사범대학") && cIdx === 0) {
+                            courseType = '교직';
+                        } else {
+                            courseType = (cIdx % 2 === 0) ? '전필' : '전선';
+                        }
+
+                        const grade = isCoreCollege ? 1 : ((cIdx % 4) + 1);
+                        const timePattern = TIME_PATTERNS[(globalSeq + cIdx) % TIME_PATTERNS.length];
+                        const day = DAYS[(globalSeq * 3 + cIdx) % DAYS.length];
+                        const timeStr = `${day}${timePattern}`;
+                        const credit = timePattern.split(',').length >= 3 ? 3 : 2;
+
+                        // 교수명 배정 (특정 네임드 교수가 지정된 과목은 해당 교수 배정, 나머지는 자연스러운 실제 한국 이름 배정)
+                        let profName = (deptObj.specialProfs && deptObj.specialProfs[courseTitle])
+                            ? deptObj.specialProfs[courseTitle]
+                            : REAL_PROF_NAMES[profIdx % REAL_PROF_NAMES.length];
+                        profIdx++;
+
+                        // 강의실 배정
+                        let roomName = `${colObj.building.split('·')[0]} ${(grade * 100) + ((cIdx % 8) + 1)}호`;
+                        if (courseTitle.includes("베르데") || profName === "민부선") {
+                            roomName = "베르데홀(29동) 대공연장";
+                        }
+
+                        const maxSeats = (profName === "민부선") ? 300 : (isCoreCollege ? 80 : 40);
+                        const curSeats = (profName === "민부선") ? 298 : Math.min(maxSeats - 1, Math.floor(maxSeats * (0.55 + ((globalSeq % 4) * 0.11))));
+
+                        const numCode = String(grade * 100 + cIdx + 1).padStart(3, '0');
+                        MASTER_DATA.push({
+                            id: `${deptObj.code}-${numCode}`,
+                            college: colObj.college,
+                            dept: deptObj.name,
+                            type: courseType,
+                            grade: grade,
+                            title: courseTitle,
+                            credit: credit,
+                            prof: profName,
+                            time: timeStr,
+                            room: roomName,
+                            max: maxSeats,
+                            current: curSeats,
+                            color: colObj.color
+                        });
+                        globalSeq++;
+                    });
+                });
+            });
         }
 
-        // ================= 핵심: 검색 및 필터링 로직 =================
+        let registered = [];
+        let filteredListCache = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 25;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            buildMasterCourses();
+            initFilterSelects();
+            updateClock();
+            setInterval(updateClock, 1000);
+            resetPageAndFilter();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        function updateClock() {
+            const el = document.getElementById('server-clock');
+            if (!el) return;
+            const now = new Date();
+            el.innerText = now.toLocaleTimeString('ko-KR', { hour12: false });
+        }
+
+        function initFilterSelects() {
+            const colSel = document.getElementById('filter-college');
+            const totalDbEl = document.getElementById('total-db-count');
+            if (totalDbEl) totalDbEl.innerText = MASTER_DATA.length.toLocaleString();
+
+            HBNU_ACADEMIC_STRUCTURE.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.college;
+                opt.innerText = `${c.college} (${c.depts.length}개 학과군)`;
+                colSel.appendChild(opt);
+            });
+            populateDeptSelect('ALL');
+        }
+
+        function onCollegeChange() {
+            const selectedCol = document.getElementById('filter-college').value;
+            populateDeptSelect(selectedCol);
+            resetPageAndFilter();
+        }
+
+        function populateDeptSelect(selectedCol) {
+            const deptSel = document.getElementById('filter-dept');
+            deptSel.innerHTML = '<option value="ALL">선택 대학 내 전체 학과 조회</option>';
+            let count = 0;
+
+            HBNU_ACADEMIC_STRUCTURE.forEach(c => {
+                if (selectedCol === 'ALL' || c.college === selectedCol) {
+                    c.depts.forEach(d => {
+                        const opt = document.createElement('option');
+                        opt.value = d.name;
+                        opt.innerText = d.name;
+                        deptSel.appendChild(opt);
+                        count++;
+                    });
+                }
+            });
+            const cntEl = document.getElementById('dept-option-count');
+            if (cntEl) cntEl.innerText = count;
+        }
+
+        function resetPageAndFilter() {
+            currentPage = 1;
+            filterCourses();
+        }
+
+        function changeCoursePage(delta) {
+            const totalPages = Math.max(1, Math.ceil(filteredListCache.length / PAGE_SIZE));
+            currentPage = Math.min(totalPages, Math.max(1, currentPage + delta));
+            renderList();
+            const scrollBox = document.getElementById('course-scroll-box');
+            if (scrollBox) scrollBox.scrollTop = 0;
+        }
+
+        // ================= 검색 및 필터링 =================
         function filterCourses() {
+            const col = document.getElementById('filter-college').value;
             const dept = document.getElementById('filter-dept').value;
             const type = document.getElementById('filter-type').value;
+            const grade = document.getElementById('filter-grade').value;
             const search = document.getElementById('search-input').value.trim().toLowerCase();
 
-            const filtered = MASTER_DATA.filter(c => {
+            filteredListCache = MASTER_DATA.filter(c => {
+                const matchCol = (col === 'ALL' || c.college === col);
                 const matchDept = (dept === 'ALL' || c.dept === dept);
                 const matchType = (type === 'ALL' || c.type === type);
-                const matchSearch = (
-                    c.title.toLowerCase().includes(search) || 
-                    c.prof.includes(search) || 
-                    c.id.toLowerCase().includes(search)
+                const matchGrade = (grade === 'ALL' || String(c.grade) === grade);
+                const matchSearch = !search || (
+                    c.title.toLowerCase().includes(search) ||
+                    c.prof.toLowerCase().includes(search) ||
+                    c.id.toLowerCase().includes(search) ||
+                    c.dept.toLowerCase().includes(search) ||
+                    c.room.toLowerCase().includes(search)
                 );
-                return matchDept && matchType && matchSearch;
+                return matchCol && matchDept && matchType && matchGrade && matchSearch;
             });
 
-            renderList(filtered);
+            renderList();
         }
 
-        function renderList(list) {
+        function renderList() {
             const desktopBody = document.getElementById('course-list-desktop');
             const mobileContainer = document.getElementById('course-list-mobile');
-            document.getElementById('course-count').innerText = list.length;
+            document.getElementById('course-count').innerText = filteredListCache.length.toLocaleString();
+
+            const totalPages = Math.max(1, Math.ceil(filteredListCache.length / PAGE_SIZE));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            document.getElementById('page-indicator').innerText = `${currentPage} / ${totalPages}`;
+            document.getElementById('prev-page-btn').disabled = (currentPage <= 1);
+            document.getElementById('next-page-btn').disabled = (currentPage >= totalPages);
+
+            const startIdx = (currentPage - 1) * PAGE_SIZE;
+            const pageItems = filteredListCache.slice(startIdx, startIdx + PAGE_SIZE);
 
             desktopBody.innerHTML = '';
             mobileContainer.innerHTML = '';
 
-            if (list.length === 0) {
-                const emptyHTML = `<tr><td colspan="7" class="py-20 text-slate-300 font-bold">조회된 과목이 없습니다.</td></tr>`;
-                desktopBody.innerHTML = emptyHTML;
-                mobileContainer.innerHTML = `<div class="py-20 text-center text-slate-300 font-bold">조회된 과목이 없습니다.</div>`;
+            if (pageItems.length === 0) {
+                desktopBody.innerHTML = `<tr><td colspan="9" class="py-20 text-slate-400 font-bold">조건에 해당하는 개설 강좌가 없습니다. 검색어를 변경해 보세요.</td></tr>`;
+                mobileContainer.innerHTML = `<div class="py-16 text-center text-slate-400 font-bold">조건에 해당하는 개설 강좌가 없습니다.</div>`;
                 return;
             }
 
-            list.forEach(c => {
+            pageItems.forEach(c => {
                 const isReg = registered.some(r => r.id === c.id);
                 const isFull = c.current >= c.max;
 
-                // 1. 데스크톱용 Row 생성
+                // 데스크톱 Row
                 const tr = document.createElement('tr');
-                tr.className = `animate-in transition-colors ${isReg ? 'bg-blue-50/50' : 'hover:bg-slate-50/80'}`;
+                tr.className = `transition-colors ${isReg ? 'bg-blue-50/70' : 'hover:bg-slate-50'}`;
                 tr.innerHTML = `
-                    <td class="p-4">
+                    <td class="py-2.5 px-2">
                         <button onclick="${isReg ? `cancel('${c.id}')` : `apply('${c.id}')`}" ${!isReg && isFull ? 'disabled' : ''} 
-                            class="w-16 py-1.5 rounded-xl text-[10px] font-black transition-all ${isReg ? 'bg-red-50 text-red-500 border border-red-200 hover:bg-red-500 hover:text-white' : isFull ? 'bg-slate-100 text-slate-300 cursor-not-allowed' : 'bg-white border-2 border-[#3344aa] text-[#3344aa] hover:bg-[#3344aa] hover:text-white shadow-sm'}">
+                            class="w-16 py-1.5 rounded-lg text-[11px] font-black transition-all ${isReg ? 'bg-red-500 text-white hover:bg-red-600' : isFull ? 'bg-slate-100 text-slate-300 cursor-not-allowed' : 'bg-[#3344aa] text-white hover:bg-[#1e2a78] shadow-sm'}">
                             ${isReg ? '취소' : isFull ? '마감' : '신청'}
                         </button>
                     </td>
-                    <td class="p-4"><span class="px-2 py-1 rounded-lg text-[10px] font-black ${getTypeClass(c.type)}">${c.type}</span></td>
-                    <td class="p-4 text-left">
-                        <div class="font-black text-slate-800">${c.title}</div>
-                        <div class="text-[10px] text-slate-400 font-mono">${c.id}</div>
+                    <td class="py-2.5 px-2"><span class="px-2 py-0.5 rounded text-[10px] font-black ${getTypeClass(c.type)}">${c.type}</span></td>
+                    <td class="py-2.5 px-2 text-slate-500 font-bold">${c.grade}학년</td>
+                    <td class="py-2.5 px-3 text-left font-bold text-slate-600 truncate max-w-[150px]" title="${c.dept}">${c.dept}</td>
+                    <td class="py-2.5 px-3 text-left">
+                        <div onclick="openSyllabusModal('${c.id}')" class="font-black text-slate-800 hover:text-[#3344aa] cursor-pointer hover:underline flex items-center gap-1">
+                            <span>${c.title}</span>
+                            <i data-lucide="file-text" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                        </div>
+                        <div class="text-[10px] text-slate-400 font-mono">${c.id} · ${c.college.split('(')[0]}</div>
                     </td>
-                    <td class="p-4 font-black text-[#3344aa]">${c.credit.toFixed(1)}</td>
-                    <td class="p-4 font-bold text-slate-500">${c.prof}</td>
-                    <td class="p-4 text-left">
-                        <div class="text-[11px] font-black text-slate-700">${c.time}</div>
-                        <div class="text-[9px] text-slate-400 font-bold uppercase">${c.room}</div>
+                    <td class="py-2.5 px-2 font-black text-[#3344aa]">${c.credit.toFixed(1)}</td>
+                    <td class="py-2.5 px-2 font-bold text-slate-700">${c.prof}</td>
+                    <td class="py-2.5 px-3 text-left">
+                        <div class="text-[11px] font-black text-slate-800">${c.time}교시</div>
+                        <div class="text-[10px] text-slate-500 truncate max-w-[170px]">${c.room}</div>
                     </td>
-                    <td class="p-4">
+                    <td class="py-2.5 px-2">
                         <div class="flex flex-col items-center">
-                            <span class="text-[10px] font-black ${isFull ? 'text-red-500' : 'text-[#3344aa]'}">${c.current}/${c.max}</span>
+                            <span class="text-[10px] font-mono font-black ${isFull ? 'text-red-500' : 'text-slate-700'}">${c.current} / ${c.max}</span>
                             <div class="w-16 h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden border">
-                                <div class="h-full bg-[#3344aa] transition-all" style="width: ${(c.current/c.max)*100}%"></div>
+                                <div class="h-full ${isFull ? 'bg-red-500' : 'bg-[#3344aa]'}" style="width: ${(c.current/c.max)*100}%"></div>
                             </div>
                         </div>
                     </td>
                 `;
                 desktopBody.appendChild(tr);
 
-                // 2. 모바일용 카드 생성
+                // 모바일 카드
                 const card = document.createElement('div');
-                card.className = `bg-white p-4 rounded-2xl border-2 ${isReg ? 'border-blue-400 ring-4 ring-blue-50' : 'border-slate-100'} shadow-sm animate-in`;
+                card.className = `bg-white p-3.5 rounded-xl border ${isReg ? 'border-blue-500 bg-blue-50/20' : 'border-slate-200'} shadow-sm`;
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex-grow">
-                            <span class="text-[9px] font-black px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500 uppercase mr-1.5">${c.type}</span>
-                            <span class="text-[9px] font-bold text-slate-300 font-mono">${c.id}</span>
-                            <h4 class="font-black text-slate-800 mt-1.5 text-base leading-tight">${c.title}</h4>
+                    <div class="flex justify-between items-start gap-2 mb-2">
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded ${getTypeClass(c.type)}">${c.type}</span>
+                                <span class="text-[10px] font-bold text-slate-500">${c.dept} (${c.grade}학년)</span>
+                                <span class="text-[10px] font-mono text-slate-400">${c.id}</span>
+                            </div>
+                            <h4 onclick="openSyllabusModal('${c.id}')" class="font-black text-slate-800 mt-1 text-sm cursor-pointer hover:text-[#3344aa]">${c.title}</h4>
                         </div>
                         <button onclick="${isReg ? `cancel('${c.id}')` : `apply('${c.id}')`}" ${!isReg && isFull ? 'disabled' : ''} 
-                                class="flex-shrink-0 w-16 py-2 rounded-xl text-xs font-black shadow-sm transition-all ${isReg ? 'bg-red-500 text-white' : isFull ? 'bg-slate-100 text-slate-300' : 'bg-[#3344aa] text-white'}">
+                            class="shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-black ${isReg ? 'bg-red-500 text-white' : isFull ? 'bg-slate-100 text-slate-400' : 'bg-[#3344aa] text-white'}">
                             ${isReg ? '취소' : isFull ? '마감' : '신청'}
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-y-2 mb-4 border-t border-slate-50 pt-3">
-                        <div class="flex items-center gap-1.5 text-[11px] font-bold text-slate-500"><i data-lucide="user" width="12"></i> ${c.prof}</div>
-                        <div class="flex items-center gap-1.5 text-[11px] font-bold text-slate-500"><i data-lucide="clock" width="12"></i> ${c.time}</div>
-                        <div class="flex items-center gap-1.5 text-[11px] font-bold text-slate-500"><i data-lucide="map-pin" width="12"></i> ${c.room}</div>
-                        <div class="flex items-center gap-1.5 text-[11px] font-black text-[#3344aa]"><i data-lucide="award" width="12"></i> ${c.credit.toFixed(1)} Credits</div>
-                    </div>
-                    <div class="bg-slate-50 p-2 rounded-xl flex items-center justify-between">
-                        <span class="text-[10px] font-black text-slate-400 uppercase">Seats Available</span>
-                        <div class="flex items-center gap-3">
-                             <span class="text-[10px] font-black ${isFull ? 'text-red-500' : 'text-[#3344aa]'}">${c.current} / ${c.max}</span>
-                             <div class="w-20 h-2 bg-white rounded-full overflow-hidden border">
-                                <div class="h-full bg-[#3344aa]" style="width: ${(c.current/c.max)*100}%"></div>
-                             </div>
-                        </div>
+                    <div class="text-[11px] text-slate-600 flex flex-wrap gap-x-4 gap-y-1 pt-2 border-t border-slate-100">
+                        <span><strong>교수:</strong> ${c.prof}</span>
+                        <span><strong>학점:</strong> ${c.credit.toFixed(1)}</span>
+                        <span><strong>시간:</strong> ${c.time}교시</span>
+                        <span><strong>강의실:</strong> ${c.room}</span>
+                        <span><strong>여석:</strong> ${c.current}/${c.max}</span>
                     </div>
                 `;
                 mobileContainer.appendChild(card);
             });
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function getTypeClass(type) {
             if (type === '전필') return 'bg-blue-100 text-blue-800';
             if (type === '전선') return 'bg-indigo-100 text-indigo-800';
             if (type === '교필') return 'bg-amber-100 text-amber-800';
-            return 'bg-slate-100 text-slate-800';
+            if (type === '교직') return 'bg-purple-100 text-purple-800';
+            return 'bg-emerald-100 text-emerald-800';
         }
 
-        // ================= 신청 로직 =================
+        // ================= 수강신청 / 취소 / 빠른학수번호 로직 =================
         async function apply(id) {
             const c = MASTER_DATA.find(i => i.id === id);
+            if (!c) return toast("존재하지 않는 학수번호입니다.", "error");
+            if (registered.some(r => r.id === c.id)) return toast("이미 신청된 과목입니다.", "error");
+            if (c.current >= c.max) return toast("수강 정원이 초과되었습니다.", "error");
+
             const curCredits = registered.reduce((s, r) => s + r.credit, 0);
-            
-            if (curCredits + c.credit > 21) return toast("학점 제한 초과 (최대 21.0)", "error");
-            if (checkTimeOverlap(c.time)) return toast("강의 시간이 중복됩니다!", "error");
+            if (curCredits + c.credit > 21) return toast("최대 신청 가능 학점(21.0학점)을 초과할 수 없습니다!", "error");
+            if (checkTimeOverlap(c.time)) return toast(`강의 시간(${c.time}교시)이 기존 신청 과목과 중복됩니다!`, "error");
 
             const overlay = document.getElementById('loading-overlay');
             overlay.classList.remove('hidden');
-            await new Promise(r => setTimeout(r, 400));
+            await new Promise(r => setTimeout(r, 220));
             
             registered.push(c);
             c.current++;
             overlay.classList.add('hidden');
             updateUI();
-            toast(`[${c.title}] 신청 완료!`);
+            toast(`[${c.title} (${c.prof} 교수)] 수강신청 완료!`);
+        }
+
+        function quickApplyByCode() {
+            const input = document.getElementById('quick-code-input');
+            const raw = input.value.trim().toUpperCase().replace(/\s+/g, '');
+            if (!raw) return toast("학수번호를 입력하세요 (예: SWP-101 또는 SWP101)", "error");
+            const normalized = raw.includes('-') ? raw : raw.slice(0, 3) + '-' + raw.slice(3);
+            const found = MASTER_DATA.find(c => c.id.toUpperCase() === normalized || c.id.toUpperCase() === raw);
+            if (!found) return toast(`학수번호 [${raw}] 과목을 찾을 수 없습니다.`, "error");
+            input.value = '';
+            apply(found.id);
         }
 
         function cancel(id) {
             const c = MASTER_DATA.find(i => i.id === id);
+            if (!c) return;
             registered = registered.filter(i => i.id !== id);
             c.current--;
             updateUI();
-            toast("취소되었습니다.", "info");
+            toast(`[${c.title}] 수강 취소되었습니다.`, "info");
+        }
+
+        function resetAllRegistered() {
+            if (registered.length === 0) return;
+            registered.forEach(c => c.current--);
+            registered = [];
+            updateUI();
+            toast("신청 내역이 전체 초기화되었습니다.", "info");
         }
 
         function checkTimeOverlap(newTime) {
@@ -408,7 +900,8 @@
             document.getElementById('summary-count').innerText = registered.length;
             
             renderTimetable();
-            filterCourses(); // 리스트의 신청버튼 상태 갱신
+            renderRegisteredMiniList();
+            renderList();
         }
 
         function renderTimetable() {
@@ -423,15 +916,113 @@
                 const len = ps.length;
 
                 const block = document.createElement('div');
-                block.className = 'course-block animate-in shadow-lg';
+                block.className = 'course-block animate-in';
                 block.style.backgroundColor = r.color;
-                block.style.left = (day * 20) + '%';
-                block.style.top = ((start - 1) * 40) + 'px'; // 1교시당 40px
+                block.style.left = (day * 20 + 0.5) + '%';
+                block.style.top = ((start - 1) * 36 + 1) + 'px';
                 block.style.width = '19%';
-                block.style.height = (len * 40 - 1) + 'px';
-                block.innerHTML = `<span class="px-0.5">${r.title.substring(0,6)}..</span>`;
+                block.style.height = (len * 36 - 2) + 'px';
+                block.title = `${r.title} (${r.prof}) - 클릭 시 취소`;
+                block.onclick = () => cancel(r.id);
+                block.innerHTML = `
+                    <div class="truncate w-full font-black">${r.title}</div>
+                    <div class="text-[8px] opacity-90 truncate w-full">${r.prof} · ${r.room.split(' ')[0]}</div>
+                `;
                 content.appendChild(block);
             });
+
+            // 교내철도(HBNU Rail) 연강 동선 자동 점검
+            const badge = document.getElementById('rail-transfer-badge');
+            if (registered.length >= 2) {
+                badge.className = "text-[10px] bg-blue-50 text-[#3344aa] border border-blue-200 px-2 py-0.5 rounded font-bold";
+                badge.innerText = "🚊 연강 감지: 중앙환승장 90초 상호대기 연동 적용";
+            } else {
+                badge.className = "text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-bold";
+                badge.innerText = "🚊 HBNU Rail 통학 동선 쾌적";
+            }
+        }
+
+        function renderRegisteredMiniList() {
+            const box = document.getElementById('registered-mini-list');
+            if (registered.length === 0) {
+                box.innerHTML = `<div class="text-xs text-slate-400 text-center py-6 font-medium">아직 신청한 과목이 없습니다. 좌측 목록에서 [신청]을 누르세요.</div>`;
+                return;
+            }
+            box.innerHTML = registered.map(r => `
+                <div class="flex items-center justify-between bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
+                    <div class="truncate pr-2">
+                        <span class="font-black text-slate-800">${r.title}</span>
+                        <span class="text-slate-500 text-[11px] ml-1">(${r.prof} · ${r.time}교시 · ${r.credit}학점)</span>
+                    </div>
+                    <button onclick="cancel('${r.id}')" class="text-red-500 hover:bg-red-50 px-2 py-0.5 rounded font-bold text-[11px] shrink-0">삭제</button>
+                </div>
+            `).join('');
+        }
+
+        // ================= 강의계획서(Syllabus) 상세 모달 =================
+        function openSyllabusModal(id) {
+            const c = MASTER_DATA.find(item => item.id === id);
+            if (!c) return;
+
+            document.getElementById('syl-badge').innerText = `${c.college} · ${c.type} (${c.grade}학년)`;
+            document.getElementById('syl-title').innerText = `${c.title} (${c.id})`;
+            document.getElementById('syl-body').innerHTML = `
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+                    <div><span class="text-slate-400 block">개설학과</span><strong>${c.dept}</strong></div>
+                    <div><span class="text-slate-400 block">담당교수</span><strong>${c.prof} 교수</strong></div>
+                    <div><span class="text-slate-400 block">학점/시간</span><strong>${c.credit}.0학점 (${c.time}교시)</strong></div>
+                    <div><span class="text-slate-400 block">강의실</span><strong>${c.room}</strong></div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-black text-slate-800 text-sm">1. 교과목 개요 및 학습 목표</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        본 강좌는 <strong>${c.dept}</strong> 전공 교육과정의 핵심 교과목으로서, 이론적 기초와 효빈광역시·덕빈북도 지역사회의 실무 사례를 융합하여 깊이 있게 탐구합니다. 수강생은 학기 말 캡스톤 프로젝트 및 사례 분석을 통해 현장 문제 해결 역량을 함양합니다.
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-black text-slate-800 text-sm">2. 평가 방법 및 비율</h4>
+                    <div class="grid grid-cols-4 gap-2 text-center text-xs">
+                        <div class="p-2 rounded-lg bg-blue-50 text-[#3344aa] font-bold">중간고사 30%</div>
+                        <div class="p-2 rounded-lg bg-blue-50 text-[#3344aa] font-bold">기말고사 35%</div>
+                        <div class="p-2 rounded-lg bg-emerald-50 text-emerald-800 font-bold">과제/실습 25%</div>
+                        <div class="p-2 rounded-lg bg-slate-100 text-slate-700 font-bold">출석 10%</div>
+                    </div>
+                </div>
+                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
+                    <strong>🚊 교내철도(HBNU Rail) 통학 안내:</strong> 본 강의실(${c.room})은 교내트램 A선 및 모노레일 B선 환승역과 인접해 있으며, 수업 교대 시간 중앙환승장(A09-B06) 90초 상호 대기 연동 폐색이 적용됩니다.
+                </div>
+            `;
+            const applyBtn = document.getElementById('syl-apply-btn');
+            applyBtn.onclick = () => { closeSyllabusModal(); apply(c.id); };
+
+            document.getElementById('syllabus-modal').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openMyBasketModal() {
+            if (registered.length === 0) return toast("현재 신청된 과목이 없습니다.", "info");
+            document.getElementById('syl-badge').innerText = "2026학년도 수강신청 확인서";
+            document.getElementById('syl-title').innerText = `신청 과목 상세 내역 (총 ${registered.length}과목 / ${registered.reduce((s,r)=>s+r.credit,0).toFixed(1)}학점)`;
+            document.getElementById('syl-body').innerHTML = `
+                <div class="divide-y divide-slate-200 border rounded-xl overflow-hidden">
+                    ${registered.map(r => `
+                        <div class="p-3 flex items-center justify-between text-xs bg-white">
+                            <div>
+                                <div class="font-black text-slate-800">${r.title} <span class="font-mono text-slate-400">(${r.id})</span></div>
+                                <div class="text-slate-500 mt-0.5">${r.dept} · ${r.prof} 교수 · ${r.time}교시 · ${r.room}</div>
+                            </div>
+                            <span class="font-black text-[#3344aa]">${r.credit}.0학점</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('syl-apply-btn').onclick = () => closeSyllabusModal();
+            document.getElementById('syl-apply-btn').innerText = "확인";
+            document.getElementById('syllabus-modal').classList.remove('hidden');
+        }
+
+        function closeSyllabusModal() {
+            document.getElementById('syllabus-modal').classList.add('hidden');
         }
 
         function toast(msg, type = "success") {
@@ -441,19 +1032,17 @@
             if (type === "error") bg = "bg-red-600";
             if (type === "info") bg = "bg-[#3344aa]";
             
-            div.className = `${bg} text-white px-5 py-4 rounded-[20px] shadow-2xl text-xs font-black text-center animate-in pointer-events-auto mb-2 border border-white/10`;
+            div.className = `${bg} text-white px-5 py-3.5 rounded-2xl shadow-2xl text-xs font-black text-center animate-in pointer-events-auto border border-white/15`;
             div.innerText = msg;
             container.appendChild(div);
-            setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 500); }, 2500);
+            setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 400); }, 2400);
         }
 
         function submitFinal() {
-            if (registered.length === 0) return toast("신청된 내역이 없습니다.", "error");
-            if (confirm(`총 ${registered.length}과목을 최종 저장하시겠습니까?`)) {
-                toast("수강신청이 성공적으로 저장되었습니다!", "success");
-            }
+            if (registered.length === 0) return toast("신청된 과목이 없습니다.", "error");
+            const totalCredits = registered.reduce((s, r) => s + r.credit, 0);
+            toast(`총 ${registered.length}과목 (${totalCredits.toFixed(1)}학점) 수강신청이 전산교육관(45동) 서버에 최종 확정되었습니다!`, "success");
         }
     </script>
-    <script src="common.js"></script>
 </body>
 </html>

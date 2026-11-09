@@ -3,97 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU 학사일정</title>
+    <title>학사안내 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        /* SPA 탭 전환 애니메이션 */
+        .tab-content { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        /* LNB 활성화 스타일 */
+        .nav-item.active { background-color: #3344aa; color: white; border-color: #3344aa; }
+        .nav-item.active span { font-weight: 700; }
+        .nav-item.active i { color: white; }
+        
+        /* 상세 테이블 스타일 */
+        .academic-table th { background-color: #f8fafc; font-weight: 700; text-align: center; border: 1px solid #e2e8f0; padding: 12px 8px; }
+        .academic-table td { border: 1px solid #e2e8f0; padding: 12px 16px; font-size: 14px; }
+        .table-row-hover:hover td { background-color: #f0f7ff; }
+        
+        /* 절차(Step) 디자인 */
+        .step-box { position: relative; padding-left: 2rem; border-left: 2px solid #e5e7eb; padding-bottom: 1.5rem; }
+        .step-box::before { content: ''; position: absolute; left: -9px; top: 0; width: 16px; height: 16px; border-radius: 50%; background-color: #3344aa; border: 4px solid white; box-shadow: 0 0 0 1px #e5e7eb; }
+        .step-box:last-child { border-left-color: transparent; padding-bottom: 0; }
+    </style>
 </head>
-<body class="bg-white flex flex-col min-h-screen">
+<body class="bg-[#f4f6f9] flex flex-col min-h-screen">
+    <!-- 헤더 렌더링 영역 -->
     <div id="header-area"></div>
 
-    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow w-full">
-        <h1 class="text-3xl font-bold text-[#3344aa] mb-8 text-center">2025학년도 주요 학사일정</h1>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- 1학기 -->
-            <div>
-                <h2 class="bg-gray-100 text-lg font-bold p-3 rounded-t-lg border-l-4 border-[#3344aa]">1학기 (Spring 2025)</h2>
-                <div class="border border-t-0 rounded-b-lg p-4 space-y-4">
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">2월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">13-16</span> 수강신청 기간</p>
-                            <p><span class="text-[#3344aa] font-bold">28</span> 신입생 입학식</p>
+    <!-- 서브페이지 타이틀 배너 -->
+    <div class="bg-[#1e2a78] text-white py-16 text-center bg-cover bg-center relative" style="background-image: linear-gradient(rgba(30, 42, 120, 0.9), rgba(30, 42, 120, 0.9)), url('이미지/효빈대_캠퍼스배경.webp');">
+        <h1 class="text-4xl font-black mb-3 tracking-tight">학사안내</h1>
+        <p class="text-base font-light text-blue-200">국가거점국립대학교 효빈대학교의 학사행정, 학적변동, 교류 프로그램을 상세히 안내해 드립니다.</p>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full flex flex-col lg:flex-row gap-8">
+        <!-- 좌측 LNB (사이드바 메뉴) -->
+        <aside class="w-full lg:w-72 shrink-0">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden sticky top-24">
+                <div class="bg-gray-50 px-6 py-5 border-b border-gray-200">
+                    <h2 class="text-xl font-black text-gray-800 tracking-tight">학사 및 학적</h2>
+                </div>
+                <nav class="flex flex-col text-[15px]" id="sidebar-nav">
+                    <a href="#calendar" data-target="calendar" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b border-gray-100 transition-colors">
+                        <span>학사일정안내</span><i data-lucide="calendar" class="w-5 h-5 text-gray-400"></i>
+                    </a>
+                    <a href="#exchange" data-target="exchange" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b border-gray-100 transition-colors">
+                        <span>타대학교류</span><i data-lucide="repeat" class="w-5 h-5 text-gray-400"></i>
+                    </a>
+                    <a href="#status" data-target="status" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b border-gray-100 transition-colors">
+                        <span>휴학 / 복학 / 자퇴</span><i data-lucide="user-minus" class="w-5 h-5 text-gray-400"></i>
+                    </a>
+                    <a href="#transfer" data-target="transfer" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b border-gray-100 transition-colors">
+                        <span>다중전공 / 전과</span><i data-lucide="arrow-right-left" class="w-5 h-5 text-gray-400"></i>
+                    </a>
+                    <a href="#graduation" data-target="graduation" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <span>졸업 / 수료 / 논문</span><i data-lucide="graduation-cap" class="w-5 h-5 text-gray-400"></i>
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- 사이드바 고객센터 배너 -->
+            <div class="mt-6 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-gray-800 text-white px-5 py-3 text-sm font-bold flex items-center">
+                    <i data-lucide="phone-call" class="w-4 h-4 mr-2"></i> 학사지원과 문의처
+                </div>
+                <div class="p-5 text-sm text-gray-700 space-y-3">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="text-gray-500">수강/성적</span>
+                        <span class="font-bold text-[#3344aa]">063-123-4561</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="text-gray-500">휴학/복학/자퇴</span>
+                        <span class="font-bold text-[#3344aa]">063-123-4562</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="text-gray-500">다중전공/전과</span>
+                        <span class="font-bold text-[#3344aa]">063-123-4563</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">졸업/국내외교류</span>
+                        <span class="font-bold text-[#3344aa]">063-123-4564</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 우측 메인 콘텐츠 영역 -->
+        <section class="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-8 lg:p-12 min-h-[800px]">
+            
+            <!-- ===================== 1. 학사일정 탭 ===================== -->
+            <div id="calendar" class="tab-content">
+                <div class="mb-8 border-b-2 border-gray-800 pb-4">
+                    <h2 class="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                        <i data-lucide="calendar-days" class="w-8 h-8 mr-3 text-[#3344aa]"></i> 2026-2027 학사일정
+                    </h2>
+                    <p class="text-gray-500 mt-2 ml-11 text-sm">일정은 학내 사정 및 교육부 지침에 따라 일부 변경될 수 있으며, 변동 시 HBNU 포털 학사공지 게시판에 우선 공지됩니다.</p>
+                </div>
+                
+                <div class="space-y-12">
+                    <!-- 1학기 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#3344aa] mb-4 flex items-center">
+                            <span class="w-2 h-6 bg-[#3344aa] mr-3"></span> 2026학년도 1학기 (Spring Semester)
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full academic-table text-left">
+                                <colgroup>
+                                    <col style="width: 15%">
+                                    <col style="width: 30%">
+                                    <col style="width: 55%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>월별</th>
+                                        <th>일자</th>
+                                        <th>주요 일정</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="3" class="text-center font-bold bg-gray-50/50">2월</td>
+                                        <td class="text-center text-[#3344aa] font-bold">02. 10.(화) ~ 02. 14.(토)</td>
+                                        <td>
+                                            <p class="font-bold text-gray-800">재학생 1학기 수강신청</p>
+                                            <p class="text-xs text-gray-500 mt-1">※ 홀짝수년생 교차 신청, 4학년(화), 3학년(수), 2학년(목), 1학년(금), 전학년(토)</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">02. 18.(수) ~ 02. 20.(금)</td>
+                                        <td>1학기 재학생 등록금 납부기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">02. 27.(금)</td>
+                                        <td>2026학년도 신입생 입학식 및 오리엔테이션</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="2" class="text-center font-bold bg-gray-50/50">3월</td>
+                                        <td class="text-center text-red-600 font-bold">03. 02.(월)</td>
+                                        <td class="font-bold text-gray-900">1학기 개강</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">03. 05.(목) ~ 03. 07.(토)</td>
+                                        <td>수강신청 변경 및 확인 기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-bold bg-gray-50/50">4월</td>
+                                        <td class="text-center font-semibold">04. 20.(월) ~ 04. 24.(금)</td>
+                                        <td class="font-bold text-[#3344aa]">1학기 중간고사 기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-bold bg-gray-50/50">5월</td>
+                                        <td class="text-center font-semibold">05. 20.(수) ~ 05. 22.(금)</td>
+                                        <td>효빈 대동제 (HAF 축제 주간 - 학사일정 정상 운영)</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="3" class="text-center font-bold bg-gray-50/50">6월</td>
+                                        <td class="text-center font-semibold">06. 15.(월) ~ 06. 19.(금)</td>
+                                        <td class="font-bold text-red-600">1학기 기말고사 기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">06. 20.(토)</td>
+                                        <td class="font-bold">하계 방학 시작</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">06. 22.(월) ~ 07. 10.(금)</td>
+                                        <td>하계 계절수업 기간 (3주간)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">3월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">02</span> 1학기 개강</p>
-                            <p><span class="text-[#3344aa] font-bold">05-07</span> 수강신청 정정 기간</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">4월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">21-25</span> 중간고사 기간</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">5월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">14</span> 개교 100주년 기념식</p>
-                            <p><span class="text-[#3344aa] font-bold">21-23</span> 효빈 대동제 (축제)</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">6월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">16-20</span> 기말고사 기간</p>
-                            <p><span class="text-[#3344aa] font-bold">21</span> 하계 방학 시작</p>
+
+                    <!-- 2학기 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#00a885] mb-4 flex items-center">
+                            <span class="w-2 h-6 bg-[#00a885] mr-3"></span> 2026학년도 2학기 (Fall Semester)
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full academic-table text-left">
+                                <colgroup>
+                                    <col style="width: 15%">
+                                    <col style="width: 30%">
+                                    <col style="width: 55%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>월별</th>
+                                        <th>일자</th>
+                                        <th>주요 일정</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="3" class="text-center font-bold bg-gray-50/50">8월</td>
+                                        <td class="text-center text-[#00a885] font-bold">08. 11.(화) ~ 08. 15.(토)</td>
+                                        <td>재학생 2학기 수강신청</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">08. 18.(화) ~ 08. 20.(목)</td>
+                                        <td>2학기 재학생 등록금 납부기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold text-gray-800">08. 21.(금)</td>
+                                        <td class="font-bold">2025학년도 후기 학위수여식 (졸업식)</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="2" class="text-center font-bold bg-gray-50/50">9월</td>
+                                        <td class="text-center text-red-600 font-bold">09. 01.(화)</td>
+                                        <td class="font-bold text-gray-900">2학기 개강</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-bold text-[#1e2a78]">09. 14.(월)</td>
+                                        <td class="font-black text-[#1e2a78]">🎊 개교 101주년 기념일 (임시휴업)</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-bold bg-gray-50/50">10월</td>
+                                        <td class="text-center font-semibold">10. 20.(화) ~ 10. 26.(월)</td>
+                                        <td class="font-bold text-[#00a885]">2학기 중간고사 기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td rowspan="2" class="text-center font-bold bg-gray-50/50">12월</td>
+                                        <td class="text-center font-semibold">12. 15.(화) ~ 12. 21.(월)</td>
+                                        <td class="font-bold text-red-600">2학기 기말고사 기간</td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="text-center font-semibold">12. 22.(화)</td>
+                                        <td class="font-bold">동계 방학 시작</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2학기 -->
-            <div>
-                <h2 class="bg-gray-100 text-lg font-bold p-3 rounded-t-lg border-l-4 border-[#99dd88]">2학기 (Fall 2025)</h2>
-                <div class="border border-t-0 rounded-b-lg p-4 space-y-4">
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">8월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">18-22</span> 수강신청 기간</p>
-                            <p><span class="text-[#3344aa] font-bold">22</span> 후기 학위수여식</p>
+            <!-- ===================== 2. 타대학교류 탭 ===================== -->
+            <div id="exchange" class="tab-content">
+                <div class="mb-8 border-b-2 border-gray-800 pb-4">
+                    <h2 class="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                        <i data-lucide="network" class="w-8 h-8 mr-3 text-[#3344aa]"></i> 타대학교류(국내/국외) 안내
+                    </h2>
+                    <p class="text-gray-500 mt-2 ml-11 text-sm">국내 국가거점국립대학교 및 해외 명문대학과의 학점교류 제도를 통해 폭넓은 수학 기회를 제공합니다.</p>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- 국내교류 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#3344aa] mb-4 border-b pb-2">1. 국내 학점교류 (국가거점국립대학교 KNU10 등)</h3>
+                        <p class="text-gray-700 text-sm mb-6 leading-relaxed">
+                            효빈대학교는 국가거점국립대학교 총장협의회(KNU10) 소속 대학 및 수도권 주요 학술교류 협정 대학과 매 학기 교류 수학을 진행합니다. 교류 대학에서 취득한 학점은 본교 이수 학점으로 100% 인정됩니다.
+                        </p>
+
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                            <h4 class="font-bold text-gray-900 mb-3"><i data-lucide="map-pin" class="w-4 h-4 inline-block mr-1"></i> 교류 가능 주요 대학 (KNU10)</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-center">
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">서울대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">부산대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">경북대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">전남대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">충남대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">전북대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">충북대학교</div>
+                                <div class="bg-white border border-gray-300 py-2 rounded shadow-sm font-bold text-gray-700">강원·제주·경상국립대</div>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-[#3344aa] mb-2 text-sm">지원 자격</h4>
+                                <ul class="list-disc pl-5 space-y-1.5 text-sm text-gray-600">
+                                    <li>2개 학기 이상 이수한 재학생 (편입생은 1개 학기 이상)</li>
+                                    <li>기수료 학기의 <strong>총 평점평균이 3.0 이상</strong>인 자</li>
+                                    <li>학칙에 의거하여 징계를 받은 사실이 없는 자</li>
+                                    <li class="text-red-600 font-medium">졸업 마지막 학기는 반드시 본교에서 수학해야 함</li>
+                                </ul>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-[#3344aa] mb-2 text-sm">학점 인정 범위</h4>
+                                <ul class="list-disc pl-5 space-y-1.5 text-sm text-gray-600">
+                                    <li>정규학기: 1학기당 최대 18학점 이내 (의/약/간호 등 일부 20학점)</li>
+                                    <li>계절학기: 최대 6학점 이내</li>
+                                    <li>재학 기간 중 타대학 취득 총 학점은 <strong>졸업소요학점의 2분의 1</strong>을 초과할 수 없음</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">9월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">01</span> 2학기 개강</p>
+
+                    <!-- 국외교류 (간단히) -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#00a885] mb-4 border-b pb-2">2. 국외 교환학생 (글로벌 프런티어)</h3>
+                        <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                            효빈대학교 국제교류본부에서는 미주, 유럽, 아시아 등 전 세계 60개국 350여 개 자매결연 대학과 교환학생 프로그램을 운영합니다. 지원은 매 학기 초 국제교류본부 홈페이지를 통해 별도 접수합니다. (외국어 성적 및 면접 필수)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== 3. 휴학/복학/자퇴 탭 ===================== -->
+            <div id="status" class="tab-content">
+                <div class="mb-8 border-b-2 border-gray-800 pb-4">
+                    <h2 class="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                        <i data-lucide="user-minus" class="w-8 h-8 mr-3 text-[#3344aa]"></i> 휴학 · 복학 · 자퇴
+                    </h2>
+                    <p class="text-gray-500 mt-2 ml-11 text-sm">학적 변동은 정해진 기간(매 학기 개강 전후 한 달) 내에 HBNU 포털 시스템을 통해 신청 및 승인받아야 합니다.</p>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- 휴학 종류 안내 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-5">■ 휴학의 종류 및 기준</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full academic-table text-left text-sm">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%">구분</th>
+                                        <th style="width: 35%">신청 자격 및 기간제한</th>
+                                        <th style="width: 50%">제출 서류 및 유의사항</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold text-center text-[#3344aa]">일반휴학</td>
+                                        <td>
+                                            - 1회 신청 시 최대 2학기 (1년)<br>
+                                            - 재학 중 <strong>통산 6개 학기 초과 불가</strong>
+                                        </td>
+                                        <td>
+                                            - HBNU 포털에서 직접 신청 (온라인 자동 승인)<br>
+                                            - <span class="text-red-500 font-bold">신/편입생은 첫 학기 일반휴학 절대 불가</span> (질병/군입대 예외)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-center text-emerald-600">군휴학(입대)</td>
+                                        <td>
+                                            - 입영일 전까지 상시 신청 가능<br>
+                                            - 일반휴학 기간에 미산입 (별도 계산)
+                                        </td>
+                                        <td>
+                                            - 입영통지서 사본 1부 (포털 업로드 필수)<br>
+                                            - 전역 후 복학학기 시작 4주 전까지 복학 신청 필수
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-center text-orange-500">질병휴학</td>
+                                        <td>- 4주 이상의 입원/요양 시 (학기당 연장 가능)</td>
+                                        <td>- 종합병원(3차 의료기관) 진단서 1부 첨부</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-center text-purple-600">창업휴학</td>
+                                        <td>- 창업으로 인한 휴학 시 연속 최대 4학기</td>
+                                        <td>- 사업자등록증, 창업교육센터장 추천서 첨부</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">10월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">20-24</span> 중간고사 기간</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="w-16 font-bold text-gray-500">12월</div>
-                        <div class="flex-1">
-                            <p><span class="text-[#3344aa] font-bold">15-19</span> 기말고사 기간</p>
-                            <p><span class="text-[#3344aa] font-bold">20</span> 동계 방학 시작</p>
+
+                    <!-- 자퇴 및 제적 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-red-700 mb-3 flex items-center border-b border-gray-200 pb-2">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 mr-2"></i> 자퇴 및 제적 경고
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 mt-4">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">▶ 자퇴 (본인 의사)</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed">자퇴 희망자는 소속 학과(부)장 및 지도교수 면담 후, <strong>'보호자 도장'</strong>이 날인된 자퇴원서를 학사지원과에 서면 제출해야 합니다. (온라인 처리 불가)</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">▶ 제적 (강제 퇴학)</h4>
+                                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
+                                    <li>휴학 기간 만료 후 소정 기간 내 복학하지 않은 자 (미복학제적)</li>
+                                    <li>정해진 기간 내에 등록금을 납부하지 않은 자 (미등록제적)</li>
+                                    <li>연속 3회 학사경고(평점 1.5 미만)를 받은 자 (학사경고제적)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- ===================== 4. 다중전공/전과 탭 ===================== -->
+            <div id="transfer" class="tab-content">
+                <div class="mb-8 border-b-2 border-gray-800 pb-4">
+                    <h2 class="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                        <i data-lucide="arrow-right-left" class="w-8 h-8 mr-3 text-[#3344aa]"></i> 다중전공 및 전과
+                    </h2>
+                    <p class="text-gray-500 mt-2 ml-11 text-sm">융합형 인재 양성을 위해 제2전공(복수/부/연계전공) 이수를 권장하며, 소속 학과 변경(전과)의 기회를 부여합니다.</p>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- 다중전공 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-600 mb-4 border-b pb-2">■ 다중전공 제도 (복수전공 / 부전공 / 연계전공)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border border-emerald-200 bg-emerald-50 rounded-lg p-5">
+                                <h4 class="font-bold text-emerald-800 text-base mb-2">복수전공</h4>
+                                <p class="text-sm text-gray-700 mb-2">주전공과 제2전공을 동시에 이수하여 <strong>2개의 학위증</strong>을 수여받는 제도</p>
+                                <p class="text-xs text-gray-500">- 필요학점: 주전공 완화 + 복수전공 학과 요구 이수학점 (최소 39학점 이상)</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-gray-800 text-base mb-2">부전공</h4>
+                                <p class="text-sm text-gray-700 mb-2">타 학과의 전공과목을 일정 학점 이상 이수하여 학위증에 부전공 사실을 표기하는 제도</p>
+                                <p class="text-xs text-gray-500">- 필요학점: 부전공 지정과목 21학점 이상 이수</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-gray-800 text-base mb-2">연계/융합전공</h4>
+                                <p class="text-sm text-gray-700 mb-2">2개 이상의 학과가 융합하여 만든 새로운 전공 교육과정을 복수/부전공 형태로 이수</p>
+                                <p class="text-xs text-gray-500">- 예: 빅데이터사이언스연계전공, 공공인재융합전공 등</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 전과 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#3344aa] mb-4 border-b pb-2">■ 전과 (소속 학과 이동)</h3>
+                        
+                        <div class="mb-6">
+                            <div class="step-box">
+                                <h4 class="font-bold text-gray-800 mb-1">1단계: 신청 자격 확인</h4>
+                                <p class="text-sm text-gray-600">2학년 이상 진급 예정자 (2개 학기 이상 정규학기 이수자). 재학 중 1회에 한하여 신청 가능.</p>
+                            </div>
+                            <div class="step-box">
+                                <h4 class="font-bold text-gray-800 mb-1">2단계: 포털 온라인 신청 (매년 1월 중)</h4>
+                                <p class="text-sm text-gray-600">전학년 평점평균 <strong>2.75 (B-) 이상</strong>인 학생만 온라인 접수 가능.</p>
+                            </div>
+                            <div class="step-box">
+                                <h4 class="font-bold text-gray-800 mb-1">3단계: 학과 면접 및 선발 기준</h4>
+                                <p class="text-sm text-gray-600">일반 학과: 전적대학 성적(80%) + 전입학과 면접(20%)<br>예체능 계열: 전적대학 성적(40%) + 실기/면접(60%)</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-5 flex items-start">
+                            <i data-lucide="info" class="w-5 h-5 text-red-600 mr-3 mt-0.5 shrink-0"></i>
+                            <div>
+                                <h4 class="font-bold text-red-800 mb-1">전입 제한 특수학과 안내</h4>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    인력 수급 및 국가 면허 취득이 직결되는 보건/의료계열 <strong>(의과대학, 약학대학, 간호대학, 보건대학 물리치료/방사선 등)</strong> 및 사범대학 일부 학과는 학칙 제42조에 의거하여 <strong>일반 학과에서의 전입이 절대 불가</strong>합니다. (단, 해당 학과 소속 학생이 타 학과로 전출가는 것은 가능)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== 5. 졸업/수료 탭 ===================== -->
+            <div id="graduation" class="tab-content">
+                <div class="mb-8 border-b-2 border-gray-800 pb-4">
+                    <h2 class="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                        <i data-lucide="graduation-cap" class="w-8 h-8 mr-3 text-[#3344aa]"></i> 졸업 및 수료 · 논문심사
+                    </h2>
+                    <p class="text-gray-500 mt-2 ml-11 text-sm">학사학위 취득을 위한 졸업 이수학점, 외국어 자격, 졸업논문(작품) 제출 요건을 확인하세요.</p>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- 졸업 요건 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">■ 학사학위 취득 기본 요건</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-[#3344aa] mb-2 text-base flex items-center"><span class="w-6 h-6 rounded-full bg-[#3344aa] text-white flex items-center justify-center text-xs mr-2">1</span> 이수 학점 (최소 130학점)</h4>
+                                <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                                    <li><strong>교양:</strong> 공통교양 및 핵심교양 36~42학점 이수</li>
+                                    <li><strong>전공:</strong> 단일전공 시 최소 66학점 이상 (단과대별 상이)</li>
+                                    <li><strong>총 평점평균:</strong> 전학년 누적 평점 <strong>1.75 이상</strong></li>
+                                    <li>의/약학계열 및 공과대학 ABEEK 심화전공은 별도 기준 적용</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                                <h4 class="font-bold text-[#3344aa] mb-2 text-base flex items-center"><span class="w-6 h-6 rounded-full bg-[#3344aa] text-white flex items-center justify-center text-xs mr-2">2</span> 외국어/자격증 졸업인증제</h4>
+                                <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                                    <li>토익 700점 이상, 오픽 IM2 이상 등 (학과별 요구 점수 상이)</li>
+                                    <li>또는 기사/산업기사, 컴퓨터활용능력 1급 등 전공 인정 자격증</li>
+                                    <li>대체 프로그램(교내 어학특강 60시간 이수) 수료 시 면제</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 논문 및 조기졸업 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">■ 졸업논문 및 조기졸업</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full academic-table text-left text-sm">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%">구분</th>
+                                        <th style="width: 80%">상세 내용 및 절차</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold text-center bg-gray-50">졸업 논문 / 작품</td>
+                                        <td>
+                                            - 4학년 1학기 초 지도교수 배정 및 논문/작품 주제 선정<br>
+                                            - 졸업 전 최종 학기(4학년 2학기) 11월 말 / 5월 말까지 학과 사무실 제출<br>
+                                            - 일부 학과는 졸업종합시험(전공 3과목) 또는 인턴십 결과보고서로 대체 가능
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-center bg-gray-50">수료 (학위수여 유예)</td>
+                                        <td>
+                                            - 이수 학점은 모두 채웠으나 외국어 인증, 논문 등을 통과하지 못한 경우<br>
+                                            - 학적 상태가 '재학'에서 '수료'로 변경되며, 졸업식 참석 및 학위증 수여 불가 (수료증 발급 가능)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-center bg-gray-50 text-[#3344aa]">조기 졸업</td>
+                                        <td>
+                                            - 6학기 또는 7학기 만에 졸업소요학점을 모두 취득한 자<br>
+                                            - <strong>전학년 평점평균 4.0 이상</strong> 유지 및 징계 사실이 없어야 함<br>
+                                            - 매 학기 초 HBNU 포털에서 '조기졸업 신청서' 제출 필수
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
     </main>
 
+    <!-- 푸터 렌더링 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+    
+    <!-- 필수 스크립트 연결 (정상적인 방식) -->
     <script src="common.js"></script>
+    <script>
+        // SPA 탭 전환 코어 로직
+        function switchTab(hashId) {
+            // 모든 탭 숨기기
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // 모든 LNB 메뉴 비활성화
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // 타겟 탭 및 메뉴 활성화
+            const targetContent = document.getElementById(hashId);
+            const targetNav = document.querySelector(`.nav-item[data-target="${hashId}"]`);
+            
+            if (targetContent) {
+                targetContent.classList.add('active');
+            } else {
+                // 존재하지 않는 해시일 경우 디폴트로 calendar 표시
+                document.getElementById('calendar').classList.add('active');
+                document.querySelector('.nav-item[data-target="calendar"]').classList.add('active');
+            }
+            
+            if (targetNav) targetNav.classList.add('active');
+            
+            // 현재 스크롤 위치를 살짝 위로 부드럽게 올려줌 (UX 향상)
+            if (window.scrollY > 200) {
+                window.scrollTo({ top: 350, behavior: 'smooth' });
+            }
+        }
+
+        // 해시 파싱 및 이벤트 리스너 등록
+        function handleHashChange() {
+            let hash = window.location.hash.replace('#', '');
+            if (!hash) hash = 'calendar'; // 해시가 없으면 기본값 설정
+            switchTab(hash);
+        }
+
+        // DOM 로드 시 아이콘 렌더링 및 해시 인식
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            handleHashChange();
+        });
+        
+        // 브라우저 뒤로가기, a 태그 해시 클릭 등 해시 변경 시 실행
+        window.addEventListener('hashchange', handleHashChange);
+
+        // common.js 내 navigateTo 함수에서 다른 페이지에서 #해시로 넘어올 때 SPA 렌더링 강제 업데이트용 글로벌 노출
+        window.handleAboutHashChange = handleHashChange;
+    </script>
 </body>
 </html>

@@ -3,99 +3,900 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대학소개 - 효빈대학교</title>
+    <title>대학소개 · 대학본부 · 조직도 · 통계연보 통합허브 - 효빈대학교 (HBNU)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .font-serif-kr { font-family: 'Noto Serif KR', serif; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* common.js 로고 폭주 절대 방지 */
+        #header-area img { max-height: 42px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
-    
+<body class="flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
-        <!-- 네비게이션 탭 -->
-        <div class="flex flex-wrap justify-center gap-2 mb-12">
-            <button onclick="scrollToSection('president')" class="px-5 py-2 rounded-full bg-white border hover:bg-[#3344aa] hover:text-white transition shadow-sm">총장인사말</button>
-            <button onclick="scrollToSection('identity')" class="px-5 py-2 rounded-full bg-white border hover:bg-[#3344aa] hover:text-white transition shadow-sm">건학이념</button>
-            <button onclick="scrollToSection('history')" class="px-5 py-2 rounded-full bg-white border hover:bg-[#3344aa] hover:text-white transition shadow-sm">대학연혁</button>
-            <button onclick="scrollToSection('campus')" class="px-5 py-2 rounded-full bg-white border hover:bg-[#3344aa] hover:text-white transition shadow-sm">캠퍼스 안내</button>
-            <button onclick="scrollToSection('location')" class="px-5 py-2 rounded-full bg-white border hover:bg-[#3344aa] hover:text-white transition shadow-sm">오시는 길</button>
+    <!-- 상단 서브 비주얼 헤더 -->
+    <section class="relative bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-12 md:py-16 border-b-4 border-[#99dd88] overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/효빈대학교 본부.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-3">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>대학소개</span>
+                <span>›</span>
+                <span id="breadcrumb-current" class="text-[#99dd88] font-bold">열린총장실 (제26대 민부선 총장)</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2.5">
+                        ABOUT HYOBIN NATIONAL UNIVERSITY · SINCE 1925 (101ST ANNIVERSARY)
+                    </span>
+                    <h1 class="text-3xl md:text-4xl font-black tracking-tight">효빈대학교 대학소개 및 대학본부 행정허브</h1>
+                    <p class="text-xs md:text-sm text-blue-100 mt-2 max-w-3xl leading-relaxed">
+                        제26대 민부선 총장실(1동 3층), 대학본부 1~7층 전 부서(28개 팀) 업무·내선번호, 17개 단과대학·207개 학과·5대 캠퍼스 전체 조직도, VISION 2030 플러스 & 글로컬대학30, 상징·UI·고양이 명예총장, 2026 통계연보 및 대학헌장을 집대성한 공식 백서 페이지입니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="navigateTo('hbnu_history.html')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                        <i data-lucide="history" class="w-4 h-4 text-[#99dd88]"></i> 100년 대학연혁 보러가기
+                    </button>
+                    <button onclick="navigateTo('hbnu_campus.html')" class="bg-[#a0fff9] text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg hover:bg-white transition-all flex items-center gap-1.5">
+                        <i data-lucide="building" class="w-4 h-4"></i> 5대 캠퍼스 163개 건물도감
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ★ 수정 완료: 화면을 따라다니며 가리지 않고 가로 스크롤바(파란 줄)가 절대 생기지 않는 깔끔한 2열 그리드 탭 네비게이션 박스 ★ -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                <button onclick="switchAboutTab('president')" id="tab-btn-president" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm">
+                    <i data-lucide="award" class="w-4 h-4 shrink-0"></i> <span>열린총장실</span>
+                </button>
+                <button onclick="switchAboutTab('hq')" id="tab-btn-hq" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="landmark" class="w-4 h-4 shrink-0"></i> <span>대학본부(1동)</span>
+                </button>
+                <button onclick="switchAboutTab('org')" id="tab-btn-org" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="network" class="w-4 h-4 shrink-0"></i> <span>기구표·조직도</span>
+                </button>
+                <button onclick="switchAboutTab('vision')" id="tab-btn-vision" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="rocket" class="w-4 h-4 shrink-0"></i> <span>VISION·글로컬30</span>
+                </button>
+                <button onclick="switchAboutTab('symbol')" id="tab-btn-symbol" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="palette" class="w-4 h-4 shrink-0"></i> <span>상징·UI·교가</span>
+                </button>
+                <button onclick="switchAboutTab('stats')" id="tab-btn-stats" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 shrink-0"></i> <span>현황·통계연보</span>
+                </button>
+                <button onclick="switchAboutTab('charter')" id="tab-btn-charter" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="scroll-text" class="w-4 h-4 shrink-0"></i> <span>대학헌장·이념</span>
+                </button>
+                <button onclick="switchAboutTab('corp')" id="tab-btn-corp" class="about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="building-2" class="w-4 h-4 shrink-0"></i> <span>법인·의료원</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 SPA 컨텐츠 루트 -->
+    <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+
+        <!-- ================= [SPA 탭 1] 열린총장실 (인사말·프로필·서한문·연설문·현장스케치·역대총장) ================= -->
+        <div id="view-president" class="about-view fade-in space-y-10">
+            <!-- 1-1. 총장 인사말 및 프로필 메인 카드 -->
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-4 bg-slate-50 rounded-2xl p-6 border border-gray-200 text-center flex flex-col items-center">
+                    <div class="w-48 h-60 rounded-2xl overflow-hidden bg-[#1e2a78] border-4 border-[#99dd88] shadow-lg mb-4 flex items-center justify-center text-white">
+                        <img src="이미지/민부선 총장.webp" alt="제26대 총장 민부선" class="w-full h-full object-cover" onerror="this.src='이미지/민부선.webp'; this.onerror=function(){this.style.display='none';}">
+                    </div>
+                    <span class="bg-[#3344aa] text-white text-xs font-black px-3 py-1 rounded-full mb-1.5">제26대 효빈대학교 총장 (2021~현재, 연임)</span>
+                    <h2 class="text-2xl font-black text-gray-900">민 부 선 <span class="text-sm font-normal text-gray-500">(閔富善 / Min Buson)</span></h2>
+                    <p class="text-xs text-[#37B484] font-extrabold mt-1">"고립을 추방하고 연결(Connecting)을 가르칩니다."</p>
+
+                    <div class="w-full text-left text-xs text-gray-600 mt-5 pt-4 border-t border-gray-200 space-y-2">
+                        <div><strong class="text-gray-900">• 출생:</strong> 1976년 5월 5일 (효빈광역시 창전구 동곡동, 여흥 민씨)</div>
+                        <div><strong class="text-gray-900">• 신체·성향:</strong> 178cm, 75kg, A형 / ENFJ (포용적 리더십)</div>
+                        <div><strong class="text-gray-900">• 학력:</strong> 이엽고 졸업 ➔ 효빈대학교 사회복지학과 학사(수석)·석사·박사 (성골 효빈맨)</div>
+                        <div><strong class="text-gray-900">• 박사학위 논문:</strong> 『가상 공동체(Fandom)의 정서적 유대가 사회적 자본 형성에 미치는 영향』(문화-복지 상생 모델 정립)</div>
+                        <div><strong class="text-gray-900">• 주요경력:</strong> 효빈대 사회복지경영학과 교수(30대 초반 최연소급 임용), 기획처장(2018~2019 베르데 홀 건립 총괄), 사회복지학대학장, 제26대 총장(만 44세 취임 후 압도적 지지율로 연임), 전국국·공립대학교총장협의회 부회장</div>
+                        <div><strong class="text-gray-900">• 가족관계:</strong> 배우자 정유진 여사 및 1남 2녀 (민현우·민서윤·민서아)</div>
+                    </div>
+
+                    <div class="w-full grid grid-cols-2 gap-2 mt-5">
+                        <button onclick="navigateTo('hbnu_member_service.html')" class="bg-[#3344aa] text-white py-2.5 rounded-xl text-xs font-black hover:bg-[#1e2a78]">총장과의 만남 신청</button>
+                        <button onclick="navigateTo('hbnu_history.html')" class="bg-white border border-gray-300 text-gray-700 py-2.5 rounded-xl text-xs font-bold hover:bg-gray-100">100년 연혁 보기</button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="border-b border-gray-200 pb-4">
+                        <span class="text-xs font-extrabold text-[#3344aa] tracking-widest uppercase">PRESIDENT'S MESSAGE & EDUCATIONAL PHILOSOPHY</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-gray-900 mt-1 leading-snug font-serif-kr">
+                            "불굴(不屈)의 100년 역사를 넘어,<br>포용(Verde)과 도전(Shiny)의 광장으로 나아갑니다."
+                        </h3>
+                    </div>
+
+                    <div class="text-sm text-gray-700 leading-7 space-y-4">
+                        <p>
+                            존경하는 효빈대학교 3만 학우와 4천 교직원, 그리고 세계 각지에서 활약하시는 30만 동문 여러분. 국립 효빈대학교 제26대 총장 민부선입니다.
+                        </p>
+                        <p>
+                            1925년 효빈상업대학(충승당)으로 첫발을 내디딘 우리 대학은 지난 한 세기 동안 지역사회의 아픔과 성장을 함께하며 대한민국 최대 규모의 국가거점국립대학교(17개 단과대학·207개 학과·5대 캠퍼스)로 우뚝 섰습니다. 저는 총장 취임 일성으로 <strong>"고립된 상아탑을 부수고, 연결된 광장으로 나아가겠다"</strong>고 약속드리며 <strong>'내치(內治)의 베르데(Verde)'</strong>와 <strong>'외치(外治)의 샤이니(Shiny)'</strong>라는 양날개 혁신을 추진해 왔습니다.
+                        </p>
+                        <p>
+                            첫째, <strong>'베르데(Verde: 푸른 숲·치유·연결)' 정신</strong>은 경쟁과 혐오에 지친 청년들에게 대학이 가장 안전하고 따뜻한 마이 페이스(My Pace)의 보금자리가 되어야 한다는 신념입니다. 정부 지원 사업보다 앞서 교비 100%로 시작한 천원의 아침밥 <strong>『엠마의 식탁』</strong>, 기숙사 전 층에 도입한 셰어하우스형 커뮤니티 라운지, 4,950석 규모의 문화 복지 성지 <strong>『베르데 홀(29동)』</strong>이 그 결실입니다. 특히 학우의 존엄과 인권을 짓밟거나 본교 교표(과잠·학생증)를 사칭해 범죄를 저지르는 내·외부 세력에 대해서는 단 1원의 합의도 없이 대학의 모든 법적·행정적 권력을 총동원해 끝까지 단죄하고 피해 학우를 완벽히 보호하는 <strong>'무관용 방패 원칙'</strong>을 확고히 세웠습니다.
+                        </p>
+                        <p>
+                            둘째, <strong>'샤이니(Shiny: 글로벌 도전과 과감한 투자)' 비전</strong>은 지방 대학의 한계를 정면 돌파하는 엔진입니다. 거점국립대 최초로 성실 실패를 100% 면책하는 <strong>100억 원 규모의 『효빈 콘텐츠 스타트업 펀드』</strong>를 조성하고, HAF(효빈 애니메이션 페스티벌) 공식 학술·문화 본부(Zone 4) 공동 주관을 통해 연간 185억 원의 자체 재원을 창출하여 <strong>전국 유일 5년 연속 등록금 동결</strong>과 <strong>3년 연속 거점국립대 유지취업률 1위(2025 중앙일보 대학평가 종합 8위)</strong>를 달성했습니다.
+                        </p>
+                        <p class="font-bold text-[#1e2a78]">
+                            우리 효빈대학교에 혐오와 고립이 설 자리는 없습니다. 여러분의 청춘이 늘 푸른(Evergreen) 숲에서 가장 눈부시게(Shiny) 빛나도록 총장실의 문은 언제나 활짝 열려 있습니다. 감사합니다.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div class="text-xs text-gray-500">대학본부(1동) 3층 총장집무실 · 직통전화: 079-550-0001 (비서실)</div>
+                        <div class="font-serif-kr font-black text-lg text-gray-900">효빈대학교 제26대 총장 &nbsp;민 부 선</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1-2. 총장 공식 서한문 · 연설문 · 특별담화문 전문 아카이브 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">PRESIDENTIAL SPEECHES, LETTERS & SPECIAL STATEMENTS</span>
+                    <h3 class="text-xl font-black text-gray-900 mt-1">제26대 민부선 총장 주요 연설문 · 서한문 · 특별담화록</h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
+                    <div class="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between space-y-3">
+                        <div>
+                            <span class="bg-emerald-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded">기념사 · 연설문 제26-01호</span>
+                            <h4 class="font-black text-base text-emerald-950 mt-2 mb-2">베르데 홀(29동) 개관식 및 신입생 환영 축사</h4>
+                            <p class="text-emerald-900 leading-relaxed">
+                                "친애하는 학우 여러분, 오늘 문을 여는 이 에메랄드 그린빛 전당의 이름은 '베르데 홀(Verde Hall)'입니다. 과거 일부 편협한 고립주의자들이 주창했던 분리와 혐오의 철학은 오늘부로 우리 캠퍼스에서 영원히 추방되었습니다. 유학생과 장애 학우, 지역 시민과 청년들이 문화와 예술로 서로 연결(Connecting)되고 치유받는 포용의 광장, 이곳이 바로 우리의 약속의 땅입니다. Shiny하게 나아갑시다! 우리 대학의 미래는 에버그린(Evergreen)입니다!"
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-emerald-200/80 text-[11px] text-emerald-800 font-bold">📍 베르데 홀 대공연장 (4,950석 만석)</div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-rose-50/70 border border-rose-200 flex flex-col justify-between space-y-3">
+                        <div>
+                            <span class="bg-rose-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded">특별담화문 · 법무 제2025-04호</span>
+                            <h4 class="font-black text-base text-rose-950 mt-2 mb-2">교권 남용 비위 및 '효빈대 과잠 사칭 성범죄자' 무관용 단죄 담화문</h4>
+                            <p class="text-rose-900 leading-relaxed">
+                                "교육자로서, 그리고 이 대학의 총장으로서 천명합니다. 과거 학우를 협박한 비위 교수(파면·징역 30년)와 가해 학생 3인방(영구 출교·징역 19년)에 이어, 감히 타 부실대 제적생(추 모 씨)이 우리 국립 효빈대학교 사범대학 체육교육과의 신성한 과잠을 도둑질하듯 사 입고 학력과 생일까지 위조해 사회복지학대학 후배 학우를 위협한 사건은 대학 전체에 대한 테러입니다. 따뜻한 치유와 포용은 사람에게나 베푸는 것이지, 남의 학교 이름을 훔쳐 입고 학우의 영혼을 해치려 한 해충에게 베푸는 것이 아닙니다. 우리 대학이 가진 모든 법적·행정적 권력으로 영원히 Lock-On(대법원 징역 15년 확정)하였으며, 피해 학우는 본교 부설 종합사회복지관 정식 사회복지사로 끝까지 보호하겠습니다."
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-rose-200/80 text-[11px] text-rose-800 font-bold">📍 대학본부 3층 총장실 긴급 담화 (무관용 원칙)</div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-blue-50/70 border border-blue-200 flex flex-col justify-between space-y-3">
+                        <div>
+                            <span class="bg-[#3344aa] text-white text-[10px] font-black px-2.5 py-0.5 rounded">서한문 · 총장서신 제2026-09호</span>
+                            <h4 class="font-black text-base text-[#1e2a78] mt-2 mb-2">『엠마의 트램 탑승 단팥빵』 수호와 5년 연속 등록금 동결 서한</h4>
+                            <p class="text-blue-950 leading-relaxed">
+                                "사랑하는 효빈 가족 여러분, 학생회관 매점의 빵은 단순한 밀가루 덩어리가 아니라 결식아동들에게 전해지는 도시의 온기이자 연결의 증거입니다. 이 성스러운 빵과 교내철도(HBNU Rail)를 모욕하는 자에게는 총장이 직접 A07 대학본부역 승강장으로 출격해 책임을 물을 것입니다. 아울러 HAF Zone 4 문화사업과 산학협력 수익금 185억 원을 전액 학생 복지와 장학금으로 환원하여 올해도 등록금 전면 동결과 천원의 아침밥 '엠마의 식탁'을 흔들림 없이 지켜내겠습니다."
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-blue-200/80 text-[11px] text-[#3344aa] font-bold">📍 전교생 및 학부모 대상 공식 서한문</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1-3. 현장스케치 & 역대 총장 요약표 -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
+                <h3 class="text-lg font-black text-gray-900 mb-4">🏛️ 효빈대학교 역대 총장 계보 요약 (1925~2026)</h3>
+                <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b border-slate-300">
+                                <th class="py-2.5 px-4 w-36">대수 및 재임기</th>
+                                <th class="py-2.5 px-4 w-48">교명 및 체제</th>
+                                <th class="py-2.5 px-4">재임 중 핵심 업적 및 역사적 사건</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">초대~제5대 (1925~1945)</td>
+                                <td class="py-2.5 px-4">효빈상업대학 (개교기)</td>
+                                <td class="py-2.5 px-4 text-gray-600">1925.09.14 개교 및 본관 충승당(3동) 준공, 민족 상학·경제 인재 양성</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">제6대~제14대 (1946~1979)</td>
+                                <td class="py-2.5 px-4">국립 효빈대학</td>
+                                <td class="py-2.5 px-4 text-gray-600">1946년 국립대 승격 및 구 효빈전차 정문 연장, <strong>1968년 지선 폐선 당시 '남구~중구~효빈대앞 본선' 존치 결사 수호</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">제15대~제21대 (1980~2002)</td>
+                                <td class="py-2.5 px-4">국립 효빈대학교 (종합대)</td>
+                                <td class="py-2.5 px-4 text-gray-600">1980년 종합대 승격, 1995년 2호선 효빈대역 개통, <strong>1999년 의·치·한·수 통합의과대학 및 사회복지학대학 출범, 2000년 교내철도 A선(트램) 개통</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">제22대~제25대 (2003~2020)</td>
+                                <td class="py-2.5 px-4">5대 멀티캠퍼스 확장기</td>
+                                <td class="py-2.5 px-4 text-gray-600">2006~2007 두청운수 독점 사태 극복, <strong>2010년 구 효빈전차 본선 7호선(#FF8899) 공영화</strong>, 2017년 빈효선 개통, 2018년 B선 모노레일 개통, 2019년 베르데 홀 개관</td>
+                            </tr>
+                            <tr class="bg-blue-50/50">
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]">제26대 민부선 (2021~현재)</td>
+                                <td class="py-2.5 px-4 font-bold text-[#1e2a78]">글로컬 혁신 선도대학 (연임)</td>
+                                <td class="py-2.5 px-4 text-gray-800 font-medium">천원의 아침밥 '엠마의 식탁', 100억 콘텐츠 스타트업 펀드, 등록금 5년 연속 동결, 유지취업률 3년 연속 1위, 2025 개교 100주년 및 중앙일보 대학평가 종합 8위 달성</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="space-y-20">
-            <!-- 총장 인사말 -->
-            <section id="president" class="scroll-mt-24">
-                <div class="bg-white p-8 rounded-xl shadow-sm border flex flex-col md:flex-row gap-8 items-center">
-                    <div class="md:w-1/3 text-center">
-                        <img src="이미지/민부선.webp" onerror="this.src='https://via.placeholder.com/400x500?text=President'" class="rounded-lg shadow-md mx-auto mb-4 w-full max-w-xs">
-                        <p class="font-bold text-gray-700">제26대 총장 민부선</p>
-                    </div>
-                    <div class="md:w-2/3">
-                        <h2 class="text-3xl font-bold text-[#3344aa] mb-4">"불굴의 역사 100년, 혁신의 미래"</h2>
-                        <p class="text-gray-700 leading-relaxed mb-4">
-                            1925년 효빈상업대학으로 시작한 우리 대학이 어느덧 개교 100주년을 맞이했습니다.
-                            우리는 지난 세기, 지역 사회의 아픔과 성장을 함께하며 <b>'불굴(不屈)'</b>의 정신을 증명해왔습니다.<br><br>
-                            이제 우리는 4차 산업혁명 시대를 맞아 <b>'혁신(革新)'</b>하고, 세상을 새롭게 여는 <b>'개천(改天)'</b>의 인재를 길러낼 것입니다.
+        <!-- ================= [SPA 탭 2] 대학본부 안내 (제1동 층별 부서·28개 전 팀 직무·내선번호 완벽 수록) ================= -->
+        <div id="view-hq" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm space-y-8">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-gray-200">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">UNIVERSITY HEADQUARTERS DIRECTORY (BUILDING NO. 1)</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 대학본부 (제1번 건물) 층별 안내 및 28개 행정부서 총람</h2>
+                        <p class="text-xs text-gray-500 mt-1">
+                            📍 위치: 효빈광역시 서구 대학로 1, 제1동 (● 2호선 효빈대역 / 🚃 교내트램 A07 대학본부·충승당역 / 🚟 모노레일 B13 본부.충승당역 앞)
                         </p>
-                        <img src="이미지/signature.webp" onerror="this.src='https://via.placeholder.com/150x50?text=Signature'" class="opacity-50">
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl text-xs font-bold text-emerald-900 shrink-0">
+                        ✅ 사회복지정책학과 『행정력 낭비 감시단』 인증: 종이 서류 없는 100% 원스톱 전자행정 구현
                     </div>
                 </div>
-            </section>
 
-            <!-- 건학 이념 -->
-            <section id="identity" class="text-center scroll-mt-24">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8">HBNU IDENTITY</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#3344aa]"><i data-lucide="shield" class="w-8 h-8"></i></div>
-                        <h3 class="text-xl font-bold mb-2">불굴 (不屈)</h3>
-                        <p class="text-gray-600 text-sm">어떤 시련에도 굴하지 않는<br>강인한 도전 정신</p>
+                <!-- 층별 입주 현황 카드 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">1층 (로비·민원)</span>
+                        <h4 class="font-black text-sm text-gray-900 mt-2 mb-1">학생원스톱서비스센터 & 본부카페</h4>
+                        <p class="text-gray-600 leading-relaxed">종합민원실(국·영문 증명서 무인발급기), 총무과(문서수발·관인날인), 장학복지상담실, 1층 오픈 라운지 생협 카페(학생 휴게공간).</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600"><i data-lucide="zap" class="w-8 h-8"></i></div>
-                        <h3 class="text-xl font-bold mb-2">혁신 (革新)</h3>
-                        <p class="text-gray-600 text-sm">기존의 틀을 깨고<br>새로운 가치를 창조</p>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">2층 (교무·학생)</span>
+                        <h4 class="font-black text-sm text-gray-900 mt-2 mb-1">교무처 · 학생처 · 인권센터</h4>
+                        <p class="text-gray-600 leading-relaxed">교무팀, 학사관리팀(수강·성적·졸업), 교원인사팀, 학생지원팀(총학·동아리), 후생복지팀('엠마의 식탁'), 인권·성평등센터.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600"><i data-lucide="globe" class="w-8 h-8"></i></div>
-                        <h3 class="text-xl font-bold mb-2">개천 (改天)</h3>
-                        <p class="text-gray-600 text-sm">세상을 새롭게 여는<br>글로벌 리더 양성</p>
+                    <div class="p-5 rounded-2xl bg-blue-50/70 border-2 border-[#3344aa]">
+                        <span class="bg-[#1e2a78] text-[#99dd88] font-black px-2.5 py-0.5 rounded">3층 (총장·감사)</span>
+                        <h4 class="font-black text-sm text-[#1e2a78] mt-2 mb-1">총장실 · 부총장실 · 법무감사실</h4>
+                        <p class="text-gray-700 leading-relaxed">제26대 민부선 총장 집무실, 학무·연구부총장실, <strong>법무감사실(교권침해 특별감사, 대학 과잠·학생증 사칭 범죄 형사고소 전담)</strong>.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">4층~7층 (기획·사무)</span>
+                        <h4 class="font-black text-sm text-gray-900 mt-2 mb-1">기획처 · 사무국 · 대외협력처 · 회의실</h4>
+                        <p class="text-gray-600 leading-relaxed">4층 기획처(예산·통계·평가), 5층 사무국(재무과·시설관리과), 6층 입학처·대외협력홍보처, 7층 대학평의원회 및 대회의실.</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- 캠퍼스 맵 (연결) -->
-            <section id="campus" class="scroll-mt-24">
-                <div class="bg-white p-8 rounded-xl shadow-sm border text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">캠퍼스 안내</h2>
-                    <p class="text-gray-600 mb-8">평지 캠퍼스와 교내 트램, 모노레일 등 효빈대만의 특별한 시설을 확인하세요.</p>
-                    
-                    <a href="hbnu_transport_system.html" class="inline-flex items-center justify-center px-6 py-3 bg-[#3344aa] text-white rounded-lg font-bold hover:bg-[#2a3a9a] transition mb-4">
-                        <i data-lucide="train-front" class="w-5 h-5 mr-2"></i> 교내 교통 시스템 (트램/모노레일) 상세 보기
-                    </a>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                        <a href="hbnu_directory.html" class="block p-4 border rounded hover:bg-gray-50 transition">
-                            <h4 class="font-bold text-[#3344aa] mb-1">전화번호 안내</h4>
-                            <p class="text-sm text-gray-500">교내 부서 및 학과 연락처 검색</p>
-                        </a>
-                        <div class="p-4 border rounded bg-gray-50">
-                            <h4 class="font-bold text-gray-800 mb-1">오시는 길</h4>
-                            <p class="text-sm text-gray-600">효빈광역시 서구 대학로 1 (효빈대역 1번 출구)</p>
+                <!-- 대학본부 전 처·국·과 28개 부서 상세 업무 및 전화번호 일람표 -->
+                <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3 px-4 w-36">소속 처·국</th>
+                                <th class="py-3 px-4 w-44">담당 과·팀 명칭</th>
+                                <th class="py-3 px-3 w-28 text-center">위치(동/층)</th>
+                                <th class="py-3 px-4">세부 분장 업무 안내</th>
+                                <th class="py-3 px-3 w-32 text-center">직통 전화번호</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#1e2a78]" rowspan="2">총장직속기구</td>
+                                <td class="py-2.5 px-4 font-bold">총장비서실 · 의전팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 3층</td>
+                                <td class="py-2.5 px-4 text-gray-700">총장 일정·의전, 전국국공립대총장협의회 협력, 열린총장실 민원 핫라인 운영</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code font-bold">079-550-0001</td>
+                            </tr>
+                            <tr class="bg-rose-50/40">
+                                <td class="py-2.5 px-4 font-bold text-rose-900">법무감사실 (특별감사팀)</td>
+                                <td class="py-2.5 px-3 text-center">1동 3층</td>
+                                <td class="py-2.5 px-4 text-gray-700">교내 권력형 비위·연구비 횡령 직권 조사, 본교 교표(과잠·학생증) 도용 및 에브리타임 허위사실 유포자 IP 색출·형사고소·징벌적 손해배상</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code font-bold text-rose-700">079-550-0112</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]" rowspan="3">교무처</td>
+                                <td class="py-2.5 px-4 font-bold">교무팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 2층</td>
+                                <td class="py-2.5 px-4 text-gray-700">학칙 제·개정, 17개 단과대학·207개 학과 정원 조정, 학사일정 수립</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0201</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">학사관리팀 (증명발급)</td>
+                                <td class="py-2.5 px-3 text-center">1동 1~2층</td>
+                                <td class="py-2.5 px-4 text-gray-700">수강신청, 성적·학점 관리, 복수·부전공·마이크로디그리, 휴·복학 및 졸업·제적(출교), 28종 인터넷 증명발급</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0210</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">교원인사팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 2층</td>
+                                <td class="py-2.5 px-4 text-gray-700">전임·비전임·해외 객원교수(일본 도쿄·누마즈 등) 초빙 임용, 승진·재임용 심사 및 교권 보호</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0230</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]" rowspan="3">학생처</td>
+                                <td class="py-2.5 px-4 font-bold">학생지원팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 2층</td>
+                                <td class="py-2.5 px-4 text-gray-700">총학생회·단과대 학생회, 총동아리연합회(89개 중앙동아리), 대동제 및 HAF 학생기획단 지원, 학생상벌위원회</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0301</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">장학복지팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 1층</td>
+                                <td class="py-2.5 px-4 text-gray-700">국가장학금, 교내 베르데(성적·보호)·샤이니(글로벌·도전) 장학금, 국가근로장학(시급 보장), 학자금대출</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0320</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">후생복지팀 (생협연계)</td>
+                                <td class="py-2.5 px-3 text-center">1동 2층</td>
+                                <td class="py-2.5 px-4 text-gray-700">교비 100% 천원의 아침밥 『엠마의 식탁』 운영, 22개 교내 식당·카페 위생·가격 관리</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0340</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]" rowspan="3">기획처</td>
+                                <td class="py-2.5 px-4 font-bold">기획조정팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 4층</td>
+                                <td class="py-2.5 px-4 text-gray-700">VISION 2030 플러스 중장기 발전계획, 교육부 글로컬대학30 및 국립대학육성사업 총괄</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0401</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">예산총괄팀</td>
+                                <td class="py-2.5 px-3 text-center">1동 4층</td>
+                                <td class="py-2.5 px-4 text-gray-700">대학회계 예산 편성·결산, 등록금심의위원회(5년 연속 동결), HAF Zone 4 문화사업 수익금(연 185억) 장학 전입</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0420</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">대학평가·통계팀 (IR센터)</td>
+                                <td class="py-2.5 px-3 text-center">1동 4층</td>
+                                <td class="py-2.5 px-4 text-gray-700">국내외 대학평가(중앙일보 종합 8위·QS 평가), 대학정보공시, 효빈대학교 통계연보 발간</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0440</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]" rowspan="3">사무국</td>
+                                <td class="py-2.5 px-4 font-bold">총무과 (보안·인사)</td>
+                                <td class="py-2.5 px-3 text-center">1동 1층</td>
+                                <td class="py-2.5 px-4 text-gray-700">행정직원 인사, 대학 직인 관리, 캠퍼스 청원경찰 및 야간 순찰·보안 관제</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0501</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">재무과 (경리·구매)</td>
+                                <td class="py-2.5 px-3 text-center">1동 5층</td>
+                                <td class="py-2.5 px-4 text-gray-700">국고 및 대학회계 지출, 실험·실습 기자재 구매 계약, 국유재산 관리</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0520</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">시설관리처 (건축·설비·토목)</td>
+                                <td class="py-2.5 px-3 text-center">1동 5층</td>
+                                <td class="py-2.5 px-4 text-gray-700">5대 캠퍼스 163개 건물 신·증축 및 냉난방 설비, 2027 개통 예정 도시철도 창전선(#33AAFF) 환승통로 직결 공사</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0550</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]" rowspan="2">입학·대외협력</td>
+                                <td class="py-2.5 px-4 font-bold">입학관리과 / 대외협력홍보과</td>
+                                <td class="py-2.5 px-3 text-center">1동 6층</td>
+                                <td class="py-2.5 px-4 text-gray-700">수시·정시·편입학 전형, 입시 브로셔(교통대 정복 모델) 제작, 발전기금재단, 공식 SNS·보도자료 배포</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0601</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">국제교류과 (마부하이 센터)</td>
+                                <td class="py-2.5 px-3 text-center">10-1동 1층</td>
+                                <td class="py-2.5 px-4 text-gray-700">해외 자매대학(일본 누마즈·치바·도쿄, 필리핀 UP, 유럽) 교환학생 파견, 2,000명 유학생 비자·생활 지원</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code">079-550-0650</td>
+                            </tr>
+                            <tr class="bg-teal-50/40">
+                                <td class="py-2.5 px-4 font-black text-teal-900">교통대학 직할</td>
+                                <td class="py-2.5 px-4 font-bold text-teal-900">HBNU Rail 사업단 · 중앙관제실</td>
+                                <td class="py-2.5 px-3 text-center">35-2동 / 35-4동</td>
+                                <td class="py-2.5 px-4 text-gray-700">교내철도 A선(트램 9역)·B선(모노레일 15역) 열차 운행·검수, 중앙환승장 90초 상호대기 연동 폐색 및 코드레드 통제</td>
+                                <td class="py-2.5 px-3 text-center font-mono-code font-bold text-teal-800">079-550-3500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 3] 대학 기구표·조직도 (전체 편제 다이어그램 & 207개 학과 구조) ================= -->
+        <div id="view-org" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm space-y-8">
+                <div>
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">OFFICIAL UNIVERSITY ORGANIZATION CHART</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 공식 기구표 및 전 학문·행정 편제 조직도</h2>
+                    <p class="text-xs text-gray-500 mt-1">1총장 · 4부총장 · 8처 1국 2본부 · 17개 단과대학 · 2개 독립학부 · 10개 대학원 · 24개 부속/부설기관 · 5대 캠퍼스 체제</p>
+                </div>
+
+                <!-- 상단 지휘부 트리 다이어그램 -->
+                <div class="flex flex-col items-center space-y-5 bg-slate-50 p-6 rounded-3xl border border-slate-200">
+                    <div class="bg-gradient-to-r from-[#1e2a78] to-[#3344aa] text-white px-12 py-4 rounded-2xl shadow-lg text-center border-2 border-[#99dd88]">
+                        <div class="text-[11px] text-[#99dd88] font-bold">제26대 효빈대학교 총장 (President)</div>
+                        <div class="text-2xl font-black mt-0.5">민 부 선 (閔富善)</div>
+                        <div class="text-[11px] text-blue-200 mt-1">명예총장(校獸): 고양이 (S-35-4 대차 교수님 외)</div>
+                    </div>
+
+                    <div class="w-1 h-5 bg-[#3344aa]"></div>
+
+                    <!-- 의결·감사기구 & 4대 부총장 -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 w-full">
+                        <div class="p-4 rounded-xl bg-white border-2 border-slate-300 text-center shadow-sm">
+                            <div class="font-black text-xs text-slate-800">대학평의원회 · 교수회 · 감사</div>
+                            <div class="text-[11px] text-slate-500 mt-1">등록금심의위원회(5년 동결)<br>법무감사실 · 인권성평등센터</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white border-2 border-[#3344aa] text-center shadow-sm">
+                            <div class="font-black text-xs text-[#1e2a78]">학무부총장 (교학총괄)</div>
+                            <div class="text-[11px] text-slate-600 mt-1">교무처 · 학생처 · 기획처<br>입학처 · 사무국 · 정보화본부</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white border-2 border-[#3344aa] text-center shadow-sm">
+                            <div class="font-black text-xs text-[#1e2a78]">연구·산학부총장</div>
+                            <div class="text-[11px] text-slate-600 mt-1">연구처 · 산학협력단(LINC 3.0)<br>창업지원단(100억 펀드) · HBNU Rail</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white border-2 border-teal-600 text-center shadow-sm">
+                            <div class="font-black text-xs text-teal-900">의무부총장 (메디컬타운)</div>
+                            <div class="text-[11px] text-teal-800 mt-1">통합의과대학(1~4본부) · 약대 · 간호대<br>효빈대병원 본원 및 4대 분원</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white border-2 border-emerald-600 text-center shadow-sm">
+                            <div class="font-black text-xs text-emerald-900">멀티캠퍼스 부총장단</div>
+                            <div class="text-[11px] text-emerald-800 mt-1">이자(농생명·디자인) · 천주(예술·과학)<br>낭원(반도체Fab) · 강주(해양·환경)</div>
                         </div>
                     </div>
                 </div>
-            </section>
+
+                <!-- 17개 단과대학 & 2개 독립학부 산하 전체 학과 조직표 -->
+                <div>
+                    <h3 class="text-lg font-black text-[#1e2a78] mb-4">🎓 학부 교육조직 (17개 단과대학 · 2개 독립학부 · 207개 학과/전공)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                        <div class="p-5 rounded-2xl border border-gray-200 bg-white">
+                            <span class="bg-[#3344aa] text-white font-black px-2 py-0.5 rounded text-[10px]">인문·사회·복지·상과 (5개 단과대)</span>
+                            <ul class="mt-3 space-y-2 text-gray-700 leading-relaxed">
+                                <li>• <strong>사회복지학대학(S등급, 7-1동):</strong> 사회복지정책학과, 사회복지경영학과, 사회복지실천학과, 사회복지상담학과</li>
+                                <li>• <strong>사회과학대학(6동):</strong> 정치외교, 경찰행정, 문헌정보, 미디어커뮤니케이션, 국제학부, 군사, 사회, 심리, 지리, 정책, 공공, 행정학과</li>
+                                <li>• <strong>상과대학(8동):</strong> 경영, 경제, 회계, 세무, 금융보험, 무역, 부동산, 광고홍보학과</li>
+                                <li>• <strong>언어문학대학(10동):</strong> 필리핀어, 국어국문, 영어영문, 중어중문, 노어노문, 독어독문, 불어불문, 서어서문, 언어, 한문학과</li>
+                                <li>• <strong>인문대학(9동):</strong> 철학, 사학, 고고학, 문화재보존, 문화콘텐츠, 미술사, 문화인류, 종교, 문예창작, 음악학과</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-2xl border border-gray-200 bg-white">
+                            <span class="bg-teal-700 text-white font-black px-2 py-0.5 rounded text-[10px]">메디컬 그랜드슬램 & 자연·생명·해양 (10개 단과대)</span>
+                            <ul class="mt-3 space-y-2 text-gray-700 leading-relaxed">
+                                <li>• <strong>통합의과대학(49동):</strong> 의학과(1본부), 치의학과(2본부), 한의학과(3본부), 수의학과(4본부)</li>
+                                <li>• <strong>약학대학(50동) · 간호대학(48동):</strong> 약학과, 한약학과 / 간호학과</li>
+                                <li>• <strong>보건대학(47동):</strong> 응급구조, 물리치료, 작업치료, 방사선, 임상병리, 치위생, 치기공, 보건행정, 건강관리, 안경광학, 의공학, 재활, 언어치료학과</li>
+                                <li>• <strong>자연과학대(28동) · 생활과학대(12동):</strong> 물리, 수학, 통계, 화학, 천문, 대기과학, 지질 / 조리과학, 제과제빵, 식품영양, 소비자, 의류의상, 주거환경, 아동가족</li>
+                                <li>• <strong>농업대·생명대(이자) / 해양대·환경산업대(강주):</strong> 식물의학, 수산생명의학, 식물자원, 원예, 애완동물, 축산, 생명공학 / 항해, 해양공학, 조선해양공학, 조경, 환경공학</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-2xl border border-gray-200 bg-white">
+                            <span class="bg-indigo-700 text-white font-black px-2 py-0.5 rounded text-[10px]">공학·교통·예체능·사범·융합 (12개 대학/학부)</span>
+                            <ul class="mt-3 space-y-2 text-gray-700 leading-relaxed">
+                                <li>• <strong>교통대학(S등급, 35동):</strong> 철도운전시스템, 철도운영시스템, 철도산업, 철도교통공학, 철도관리, 교통공학, 자동차공학, 항공운항, 해운, 항공우주공학과</li>
+                                <li>• <strong>기계(14)·전기(15)·토목(16)·화공(17)·응용과학(천주):</strong> 기계, 로봇, 드론, 반도체, AI, 컴퓨터, 정보보안, 도시공학, 건축(5년), 토목, 화공, 에너지, 소방, 특수장비, 기관학과 등</li>
+                                <li>• <strong>응용예술·미술·디자인·음악·예술·무용대:</strong> 만화애니메이션(성우전공), 게임, 조소, 서양화, 시각·산업디자인, 실용음악, 성악, 작곡, 연극, 영화영상, 경호, 체육학과 등</li>
+                                <li>• <strong>사범대학(11-1~6동):</strong> 국어·영어·일어·수학·화학·체육·기술·유아·특수교육 등 36개 전 교육학과</li>
+                                <li>• <strong>독립학부:</strong> 융합학부(메타버스·IAB·반도체·소부장·에너지신산업·예술융합), 지역개발학부</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- ================= [SPA 탭 4] VISION 2030 플러스 & 글로컬대학30 ================= -->
+        <div id="view-vision" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm space-y-8">
+                <div class="border-b border-gray-200 pb-5">
+                    <span class="text-xs font-extrabold text-emerald-700 uppercase tracking-widest">HBNU VISION 2030 PLUS & GLOCAL UNIVERSITY 30 ROADMAP</span>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 mt-1">VISION 2030 플러스 & 교육부 『글로컬대학30』 실행 마스터플랜</h2>
+                    <p class="text-xs md:text-sm text-gray-600 mt-1">5년간 국비 1,000억 원 + 효빈광역시·덕빈북도 지방비 1,000억 원 + 자체 HAF·산학 기금 1,000억 원 = 총 3,000억 원 투입</p>
+                </div>
+
+                <!-- 3대 전략 9대 핵심 과제 카드 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+                        <span class="bg-emerald-700 text-white text-xs font-black px-3 py-1 rounded-full">전략 1 · 내치의 베르데 (Verde)</span>
+                        <h3 class="text-lg font-black text-emerald-950 mt-3 mb-2">포용·치유·복지 공동체 완성</h3>
+                        <ul class="text-xs text-emerald-900 space-y-2 leading-relaxed">
+                            <li>• <strong>과제 1-1:</strong> 교비 100% 지원 천원의 아침밥 『엠마의 식탁』 전 캠퍼스 확대 및 영구 법제화</li>
+                            <li>• <strong>과제 1-2:</strong> 전국 유일 단과대 규모 『사회복지학대학(S등급)』 및 부설 종합사회복지관(7-3동) 중심 국가 청년돌봄(영 케어러)·아동복지 표준 모델 수립</li>
+                            <li>• <strong>과제 1-3:</strong> 고립·혐오 범죄 무관용 방패 시스템 및 교내철도(A·B선) 100% 배리어프리 무임 복지 완성</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-amber-50 border-2 border-amber-200">
+                        <span class="bg-amber-600 text-white text-xs font-black px-3 py-1 rounded-full">전략 2 · 외치의 샤이니 (Shiny)</span>
+                        <h3 class="text-lg font-black text-amber-950 mt-3 mb-2">문화·서브컬처×첨단공학 산학혁명</h3>
+                        <ul class="text-xs text-amber-900 space-y-2 leading-relaxed">
+                            <li>• <strong>과제 2-1:</strong> 거점국립대 최초 『효빈 콘텐츠 스타트업 펀드』 100억 ➔ 300억 원 확대 (100% 성실실패 면책 '마리 쌤의 무한 도전' 원칙)</li>
+                            <li>• <strong>과제 2-2:</strong> 베르데 홀(29동) 및 애니-철도 박물관(58동) 기반 HAF Zone 4 연중 상설화로 학부 등록금 동결 기조 영구 유지</li>
+                            <li>• <strong>과제 2-3:</strong> 낭원캠퍼스 Class 10 반도체 클린룸(Nano-Fab) 및 천주캠퍼스 웹툰·특장차 클러스터 지산학 일체화</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-blue-50 border-2 border-blue-200">
+                        <span class="bg-[#3344aa] text-white text-xs font-black px-3 py-1 rounded-full">전략 3 · 개천(改天) 연구혁신</span>
+                        <h3 class="text-lg font-black text-[#1e2a78] mt-3 mb-2">One Health 의학 & 스마트 철도모빌리티</h3>
+                        <ul class="text-xs text-blue-950 space-y-2 leading-relaxed">
+                            <li>• <strong>과제 3-1:</strong> 1999 통합의과대학(의·치·한·수)·약학·간호·보건 『메디컬 그랜드슬램』 인수공통감염병·뇌과학·중입자 암치료 글로벌 연구단</li>
+                            <li>• <strong>과제 3-2:</strong> 국내 유일 교내철도(HBNU Rail) Living Lab 기반 무인 자율주행 트램 및 AI 신호관제 국제 표준 선도</li>
+                            <li>• <strong>과제 3-3:</strong> 효빈시·덕빈북도 공공기관 지역인재 채용 광역화로 유지취업률 전국 1위 수성</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- VISION 2030 연차별 핵심 성과지표(KPI) 로드맵 표 -->
+                <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                <th class="py-3 px-4">VISION 2030 핵심 성과지표 (KPI)</th>
+                                <th class="py-3 px-4">2024년 (실적)</th>
+                                <th class="py-3 px-4 text-[#3344aa]">2026년 (현재)</th>
+                                <th class="py-3 px-4 text-emerald-700">2030년 (목표)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">중앙일보 대학평가 종합순위</td>
+                                <td class="py-2.5 px-4">종합 9위</td>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]">종합 8위 (국립대 최상위)</td>
+                                <td class="py-2.5 px-4 font-black text-emerald-700">국내 종합 TOP 5 진입</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">거점국립대 유지취업률</td>
+                                <td class="py-2.5 px-4">89.2% (1위)</td>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]">91.1% (3년 연속 1위)</td>
+                                <td class="py-2.5 px-4 font-black text-emerald-700">93.5% (전국 1위 수성)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">효빈 콘텐츠 스타트업 펀드 누적 투자액</td>
+                                <td class="py-2.5 px-4">65억 원</td>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]">100억 원 (동문 유니콘 2개사)</td>
+                                <td class="py-2.5 px-4 font-black text-emerald-700">300억 원 (학내 창업 100개사)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-bold">외국인 유학생 및 글로벌 파견 규모</td>
+                                <td class="py-2.5 px-4">1,650명</td>
+                                <td class="py-2.5 px-4 font-black text-[#3344aa]">2,120명 (일본·필리핀·유럽 특화)</td>
+                                <td class="py-2.5 px-4 font-black text-emerald-700">3,500명 (글로벌 캠퍼스 완성)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 5] 상징 · UI · 교시 · 마스코트(고양이 교수님) · 교가 ================= -->
+        <div id="view-symbol" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm space-y-10">
+                <div>
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">HBNU IDENTITY · UI · COLORS · MASCOT · ANTHEM</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 교시 · UI 심볼 · 전용 색상 · 상징 동물(교수) · 교가</h2>
+                </div>
+
+                <!-- 3대 교시 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-gray-200 text-center">
+                        <div class="w-14 h-14 rounded-2xl bg-[#3344aa] text-white flex items-center justify-center mx-auto mb-3 font-serif-kr font-black text-xl">不屈</div>
+                        <h3 class="text-lg font-black text-gray-900">불굴 (不屈 · Unbending Spirit)</h3>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">어떠한 역사적 시련과 불의 앞에서도 결코 꺾이지 않는 효빈 지성인의 강인한 기개 (슬로건: 어려움에 굴하지 않는 불굴의 효빈대)</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-gray-200 text-center">
+                        <div class="w-14 h-14 rounded-2xl bg-[#37B484] text-white flex items-center justify-center mx-auto mb-3 font-serif-kr font-black text-xl">革新</div>
+                        <h3 class="text-lg font-black text-gray-900">혁신 (革新 · Innovation)</h3>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">학문 간 장벽(Silo)을 허문 1999 통합의과대학과 국내 유일 교내철도 Living Lab처럼 시대를 앞서가는 창조적 파괴</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-gray-200 text-center">
+                        <div class="w-14 h-14 rounded-2xl bg-[#1e2a78] text-[#99dd88] flex items-center justify-center mx-auto mb-3 font-serif-kr font-black text-xl">改天</div>
+                        <h3 class="text-lg font-black text-gray-900">개천 (改天 · Opening a New World)</h3>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">고립된 상아탑을 넘어 도시와 세계를 하나로 연결(Connecting)하여 새로운 하늘을 여는 실천적 지성</p>
+                    </div>
+                </div>
+
+                <!-- 공식 교색(Color System) 및 교내철도/연계철도 노선색 -->
+                <div>
+                    <h3 class="text-base font-black text-gray-900 mb-3">🎨 공식 전용 색상(Color System) 및 교내·연계 철도 표준 컬러 코드</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="p-5 rounded-2xl text-white shadow-sm" style="background-color:#3344aa;">
+                            <div class="font-mono-code font-bold opacity-80">PRIMARY COLOR</div>
+                            <div class="text-lg font-black mt-1">효빈대 파랑 (HBNU Blue)</div>
+                            <div class="font-mono-code mt-2">HEX: #3344AA / RGB(51, 68, 170)</div>
+                            <p class="mt-2 opacity-90">진리 탐구의 깊이와 지성의 신뢰를 상징하는 대표 교색</p>
+                        </div>
+                        <div class="p-5 rounded-2xl text-slate-900 shadow-sm border border-green-300" style="background-color:#99dd88;">
+                            <div class="font-mono-code font-bold opacity-75">SECONDARY COLOR</div>
+                            <div class="text-lg font-black mt-1">효빈대 샛닢초록 (Sprout Green)</div>
+                            <div class="font-mono-code mt-2">HEX: #99DD88 / RGB(153, 221, 136)</div>
+                            <p class="mt-2">베르데(Verde)의 치유와 평원 캠퍼스의 생명력을 상징</p>
+                        </div>
+                        <div class="p-5 rounded-2xl text-slate-900 shadow-sm border border-teal-300" style="background-color:#a0fff9;">
+                            <div class="font-mono-code font-bold opacity-75">HBNU RAIL LINE A</div>
+                            <div class="text-lg font-black mt-1">교내철도 A선 민트 (쿠쿠선)</div>
+                            <div class="font-mono-code mt-2">HEX: #A0FFF9</div>
+                            <p class="mt-2">남부 평지 구간을 횡단하는 초저상 노면전차(트램) 상징색</p>
+                        </div>
+                        <div class="p-5 rounded-2xl text-slate-900 shadow-sm border border-lime-400" style="background-color:#74f466;">
+                            <div class="font-mono-code font-bold opacity-75">HBNU RAIL LINE B</div>
+                            <div class="text-lg font-black mt-1">교내철도 B선 연두 (스미레선)</div>
+                            <div class="font-mono-code mt-2">HEX: #74F466</div>
+                            <p class="mt-2">캠퍼스 하늘을 순환하는 과좌식 모노레일(GALAXY!!) 상징색</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 상징 동물(교수 校獸): 고양이 & 교가(효빈찬가) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-7 bg-slate-900 text-white rounded-2xl p-6 md:p-8 flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full">효빈대학교 공식 상징 동물 (校獸) · 고양이</span>
+                            <h3 class="text-xl font-black mt-3 mb-2">"진짜 총장님은 총장실 소파의 고양이이고, 민부선 총장님은 대외협력처장(집사)일 뿐이다"</h3>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                권위에 얽매이지 않고 자유롭고 유연한 사고로 밤낮없이 캠퍼스를 누비는 <strong>고양이(Cat)</strong>는 효빈대학교의 공식 상징 동물(교수)입니다. 생명대학 애완동물과 학우들이 주축이 된 길고양이 돌봄 동아리 『냥냥펀치』와 수의과대학 부속 동물병원(61동)이 캠퍼스 전역의 고양이들을 돌보고 있습니다.
+                            </p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/15 text-xs space-y-1.5">
+                            <div class="font-black text-[#99dd88]">🐾 캠퍼스 3대 권력묘(猫) 공식 레지스트리</div>
+                            <div>• <strong>대차(Bogie) 교수님 (12세, 고등어태비, 9.8kg):</strong> B07 예술대역 옆 S-35-4 모노레일 정비센터 명예 기지장. 미술대학 조소과가 제작한 '2.2m 초대형 식빵 고양이 우레탄 벤치' 머리 위에서 2단 마트료시카 식빵을 굽는 성물(聖物).</div>
+                            <div>• <strong>충승이 (7세, 치즈태비):</strong> 대학본부(1동) 3층 총장실 소파 및 충승당(3동) 잔디밭 상주.</div>
+                            <div>• <strong>방도냥 (5세, 삼색묘):</strong> 방도도서관(36동) 24시 열람실 야간 순찰 담당.</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-slate-50 rounded-2xl p-6 border border-gray-200 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-extrabold text-[#3344aa]">HYOBIN UNIVERSITY ANTHEM</span>
+                            <h3 class="text-lg font-black text-gray-900 mt-1 mb-3 font-serif-kr">효빈대학교 교가 (효빈찬가)</h3>
+                            <div class="text-xs text-gray-700 leading-relaxed space-y-2.5 font-serif-kr bg-white p-4 rounded-xl border border-gray-200">
+                                <p><strong>1절:</strong> 끝없이 펼쳐진 당선벌 푸른 대지 위에 / 진리의 등불 밝힌 충승의 옛터전 / 모진 바람 불어와도 꺾이지 않는 / 불굴의 기상으로 천년을 가리라</p>
+                                <p><strong>2절:</strong> 낡은 벽을 허물고서 하나로 잇는 길 / 대지를 가르는 철마와 푸른 숲(Verde)의 노래 / 생명과 정의를 품은 지성의 용광로 / 혁신과 개천으로 새 하늘을 열리라</p>
+                                <p class="font-bold text-[#1e2a78]"><strong>후렴:</strong> 아아 영원하라 빛나는 우리의 모교 / 세계로 뻗어가는 국립 효빈대학교!</p>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-gray-500 mt-3">※ 입학식 및 학위수여식(베르데 홀 29동) 시 음악대학 오케스트라(HBNUPO) 반주로 제창</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 6] 학교현황 · 2026 통계연보 ================= -->
+        <div id="view-stats" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm space-y-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b pb-5">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">UNIVERSITY STATUS & STATISTICAL YEARBOOK 2026</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-1">학교현황 및 2026학년도 효빈대학교 통계연보 (기준일: 2026. 10. 01.)</h2>
+                    </div>
+                    <button onclick="navigateTo('hbnu_info_disclosure.html')" class="bg-[#3344aa] text-white px-4 py-2 rounded-xl text-xs font-bold self-start">대학정보공시 상세보기 ➔</button>
+                </div>
+
+                <!-- 핵심 수치 4대 카드 -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <div class="text-xs text-gray-500 font-bold">학부 재학생 수</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#1e2a78] mt-1 font-mono-code">26,321명</div>
+                        <div class="text-[11px] text-gray-500 mt-1">거점국립대 최대 매머드 규모</div>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <div class="text-xs text-gray-500 font-bold">대학원 재학생 수</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#1e2a78] mt-1 font-mono-code">3,081명</div>
+                        <div class="text-[11px] text-gray-500 mt-1">석·박사 통합 및 전문·특수대학원</div>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-gray-200">
+                        <div class="text-xs text-gray-500 font-bold">교원 및 행정직원</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#1e2a78] mt-1 font-mono-code">3,984명</div>
+                        <div class="text-[11px] text-gray-500 mt-1">교원 2,939명 · 직원 1,045명</div>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-200">
+                        <div class="text-xs text-emerald-800 font-bold">중앙일보 대학평가 순위</div>
+                        <div class="text-2xl md:text-3xl font-black text-emerald-700 mt-1 font-mono-code">종합 8위</div>
+                        <div class="text-[11px] text-emerald-800 font-bold mt-1">23년 11위 ➔ 24년 9위 ➔ 25년 8위</div>
+                    </div>
+                </div>
+
+                <!-- 단과대학 계열별 학생·교원·취업률 세부 통계연보 표 -->
+                <div>
+                    <h3 class="text-base font-black text-gray-900 mb-3">📊 단과대학 클러스터별 재학생 · 교원 · 유지취업률 상세 통계 (2026 통계연보 제14장)</h3>
+                    <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+                        <table class="w-full text-xs text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
+                                    <th class="py-3 px-4">단과대학 클러스터 구분</th>
+                                    <th class="py-3 px-3 text-center">소속 학과 수</th>
+                                    <th class="py-3 px-3 text-center">학부 재학생</th>
+                                    <th class="py-3 px-3 text-center">대학원생</th>
+                                    <th class="py-3 px-3 text-center">전임·비전임 교원</th>
+                                    <th class="py-3 px-3 text-center text-[#3344aa]">유지취업률</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">사회복지학대학(S등급) · 사회과학대학 · 상과대학</td>
+                                    <td class="py-2.5 px-3 text-center">24개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">4,420명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">610명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">425명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-[#3344aa]">92.4%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">인문대학 · 언어문학대학 (어문·순수인문)</td>
+                                    <td class="py-2.5 px-3 text-center">20개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">2,680명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">245명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">290명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-[#3344aa]">84.8% (필리핀어 96%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">교통대학(S등급) · 기계 · 전기 · 토목 · 화공 · 응용과학대</td>
+                                    <td class="py-2.5 px-3 text-center">43개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">8,950명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">980명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">840명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-[#3344aa]">94.7% (철도운전 99%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">통합의과대학(의·치·한·수) · 약학 · 간호 · 보건대학</td>
+                                    <td class="py-2.5 px-3 text-center">20개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">3,410명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">690명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">685명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-emerald-700">98.9%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">자연과학 · 생활과학 · 농업 · 생명 · 해양 · 환경산업대</td>
+                                    <td class="py-2.5 px-3 text-center">31개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">3,120명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">340명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">354명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-[#3344aa]">88.5%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-4 font-bold">사범대학(36과) · 예체능(6개 단과대) · 융합학부(6전공)</td>
+                                    <td class="py-2.5 px-3 text-center">69개 학과</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">3,741명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">216명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code">345명</td>
+                                    <td class="py-2.5 px-3 text-center font-mono-code font-bold text-[#3344aa]">89.2% (반도체융합 98%)</td>
+                                </tr>
+                                <tr class="bg-blue-50/70 font-black text-[#1e2a78]">
+                                    <td class="py-3 px-4">효빈대학교 총계 (Total)</td>
+                                    <td class="py-3 px-3 text-center">207개 학과</td>
+                                    <td class="py-3 px-3 text-center font-mono-code">26,321명</td>
+                                    <td class="py-3 px-3 text-center font-mono-code">3,081명</td>
+                                    <td class="py-3 px-3 text-center font-mono-code">2,939명</td>
+                                    <td class="py-3 px-3 text-center font-mono-code text-emerald-700">평균 91.1% (전국 1위)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 7] 효빈대학헌장 · 건학이념 ================= -->
+        <div id="view-charter" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-8 md:p-12 border-2 border-[#1e2a78] shadow-sm max-w-5xl mx-auto space-y-8">
+                <div class="text-center border-b-2 border-gray-800 pb-6">
+                    <span class="text-xs font-black text-[#3344aa] tracking-widest uppercase">THE CHARTER OF HYOBIN NATIONAL UNIVERSITY</span>
+                    <h2 class="text-3xl font-serif-kr font-black text-gray-900 mt-2">효 빈 대 학 헌 장 (孝彬大學憲章)</h2>
+                    <p class="text-xs text-gray-500 mt-2">1925년 9월 14일 제정 · 1980년 종합대 승격 개정 · 2025년 개교 100주년 전문 개정</p>
+                </div>
+
+                <div class="space-y-6 text-sm md:text-base text-gray-800 leading-8 font-serif-kr">
+                    <p>
+                        국립 효빈대학교는 1925년 암울했던 시대의 어둠을 밝히려는 민족적 염원으로 서구 당선벌 충승당에서 개교한 이래, 한 세기 동안 어떠한 억압과 고난 앞에서도 무릎 꿇지 않는 <strong>불굴(不屈)</strong>의 정신으로 진리와 정의의 등불을 지켜왔다.
+                    </p>
+                    <p>
+                        오늘날 개교 제2세기를 맞이한 우리는 학문과 학문, 인간과 자연, 대학과 도시를 가로막던 모든 낡은 벽을 허무는 <strong>혁신(革新)</strong>을 통해, 세상을 새롭게 여는 <strong>개천(改天)</strong>의 사명을 다하고자 다음과 같이 헌장을 선포한다.
+                    </p>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3.5 font-sans text-xs md:text-sm">
+                        <div><strong class="text-[#1e2a78]">제1장 (포용과 연결의 베르데 공동체):</strong> 본교는 출신, 국적, 다문화 배경, 장애, 경제적 여건에 따른 그 어떠한 차별과 고립도 거부하며, 모든 구성원이 굶주림과 소외 없이 존엄을 지키는 베르데(Verde) 교육 공동체를 구현한다.</div>
+                        <div><strong class="text-[#1e2a78]">제2장 (통합과 실용의 학문):</strong> 본교는 인간과 동물의 건강을 하나로 잇는 원헬스(One Health) 통합의학과 살아있는 캠퍼스 철도·공학 실험실(Living Lab)을 통해 인류 사회에 실질적으로 기여하는 지식을 창출한다.</div>
+                        <div><strong class="text-[#1e2a78]">제3장 (문화와 복지의 동행):</strong> 본교는 청년들의 자유로운 문화적 상상력과 서브컬처·예술적 열정을 존중하며, 효빈광역시 및 덕빈북도 지역사회와 상생하는 글로컬 문화·복지 수도의 중추가 된다.</div>
+                        <div><strong class="text-[#1e2a78]">제4장 (불의와 혐오에 타협하지 않는 지성):</strong> 본교는 교권을 침해하거나 학우의 안전과 인권을 유린하는 어떠한 내·외부 폭력(권력형 성비위, 대학 사칭, 고립주의 혐오 선동)에도 타협하지 아니하며, 법과 지성의 이름으로 끝까지 책임을 묻는다.</div>
+                        <div><strong class="text-[#1e2a78]">제5장 (세계를 향한 샤이니 도전):</strong> 본교는 실패를 두려워하지 않는 학문적·창업적 도전을 전폭 지원하며, 인류의 지속 가능한 미래를 여는 세계적 리더를 양성한다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 8] 법인 · 부설기관 · 의료원 네트워크 ================= -->
+        <div id="view-corp" class="about-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-200 shadow-sm space-y-8">
+                <div>
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">AFFILIATED CORPORATIONS, HOSPITALS & SCHOOLS</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">산하 법인 · 효빈대학교의료원(5대 병원) · 부설학교 및 복지기관 총람</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-gray-200 space-y-3">
+                        <span class="bg-teal-700 text-white font-black px-2.5 py-0.5 rounded">특수법인 · 상급종합병원 클러스터</span>
+                        <h3 class="text-lg font-black text-gray-900">효빈대학교병원 본원(59~63동) 및 4대 권역 분원</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            • <strong>당선 메디컬타운 본원 (총 2,450병상):</strong> 본관 권역응급의료센터·외래관(59동, 신경외과 서진희 교수·정신건강의학과 오수아 전문의 등 재직), 치과병원(60동), 부속 동물병원 및 야생동물구조센터(61동, 원장 서수진), 어린이병원(62동), 중입자 암센터(63동)<br>
+                            • <strong>4대 광역 분원 네트워크:</strong> 효빈대 천주병원(덕빈북도 천주시 권역거점), 중구분원(효빈시 원도심 공공의료), 강주병원(해양·잠수병 특화), 약산병원(약산시 개원 예정)
+                        </p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-gray-200 space-y-3">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">산학 · 창업 · 복지 · 교육 법인</span>
+                        <h3 class="text-lg font-black text-gray-900">산학협력단 · 발전기금 · 생협 · 종합복지관 · 부설학교</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            • <strong>효빈대학교 산학협력단 & 기술지주회사(41·43동):</strong> 100억 규모 '효빈 콘텐츠 스타트업 펀드(Shiny Fund)' 운용 및 낭원 Nano-Fab·교통대 신호제어 특허 기술이전<br>
+                            • <strong>소비자생활협동조합(생협):</strong> 전 캠퍼스 22개 직영 식당·카페 및 결식아동 후원 PB '엠마의 트램 탑승 단팥빵' 유통<br>
+                            • <strong>효빈대 부설 종합사회복지관(7-3동):</strong> 북구 소조동 지역 복지 거점 및 블루버드 멘토단 본부 (마서령 전임 사회복지사 재직)<br>
+                            • <strong>부설학교:</strong> 효빈대학교 사범대학 부설고등학교(57동)·부설중학교, 과학기술정보통신부 지정 대학부설 과학영재교육원
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 공통 푸터 (common.js 렌더링) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
+    <script src="common.js"></script>
 
     <script>
-        lucide.createIcons();
-        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+        const TAB_TITLES = {
+            president: "열린총장실 (제26대 민부선 총장)",
+            hq: "대학본부 안내 (제1번 건물 28개 부서·내선번호)",
+            org: "대학 공식 기구표 및 조직도",
+            vision: "VISION 2030 플러스 & 글로컬대학30",
+            symbol: "대학 상징 · UI · 교시 · 고양이 명예총장 · 교가",
+            stats: "학교현황 및 2026 통계연보",
+            charter: "효빈대학헌장 및 건학이념",
+            corp: "산하 법인 · 효빈대의료원 · 부설기관"
+        };
+
+        function switchAboutTab(tabKey) {
+            const validKey = TAB_TITLES[tabKey] ? tabKey : 'president';
+            document.querySelectorAll('.about-view').forEach(el => el.classList.add('hidden'));
+            const targetEl = document.getElementById('view-' + validKey);
+            if (targetEl) targetEl.classList.remove('hidden');
+
+            Object.keys(TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('tab-btn-' + k);
+                if (!btn) return;
+                if (k === validKey) {
+                    btn.className = "about-tab-btn px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm";
+                } else {
+                    btn.className = "about-tab-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all";
+                }
+            });
+
+            const breadEl = document.getElementById('breadcrumb-current');
+            if (breadEl) breadEl.innerText = TAB_TITLES[validKey];
+
+            if (window.location.hash !== '#' + validKey) {
+                history.replaceState(null, null, '#' + validKey);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        window.handleAboutHashChange = function() {
+            const rawHash = window.location.hash.replace('#', '').trim();
+            if (rawHash && TAB_TITLES[rawHash]) {
+                switchAboutTab(rawHash);
+            } else {
+                switchAboutTab('president');
+            }
+        };
+
+        window.addEventListener('hashchange', window.handleAboutHashChange);
+        document.addEventListener('DOMContentLoaded', () => {
+            window.handleAboutHashChange();
+        });
     </script>
-    <script src="common.js"></script>
 </body>
 </html>

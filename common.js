@@ -1,29 +1,31 @@
-// ================= [완전판] 실제 보유 파일(50여 개) 기준 1:1 완벽 양방향 매핑 테이블 =================
+// ================= [완전판] 실제 보유 파일 + SPA 해시(#) 1:1 완벽 양방향 매핑 테이블 =================
 const OLD_URLS = {
     // 1. 대학소개 / 총장실 관련
-    "총장인사말": "hbnu_intro.html",
-    "총장프로필": "hbnu_intro.html",
-    "서한문": "hbnu_intro.html",
-    "연설문": "hbnu_intro.html",
-    "현장스케치": "hbnu_intro.html",
+    "총장인사말": "hbnu_about.html#president",
+    "총장프로필": "hbnu_about.html#president",
+    "서한문": "hbnu_about.html#president",
+    "연설문": "hbnu_about.html#president",
+    "현장스케치": "hbnu_about.html#president",
     "역대총장": "hbnu_history.html",
     "만남신청": "hbnu_member_service.html",
-    "VISION 2030 플러스": "hbnu_about.html",
-    "VISION2030": "hbnu_about.html",
-    "글로컬대학30": "hbnu_about.html",
+    "만남 신청": "hbnu_member_service.html",
+    "VISION 2030 플러스": "hbnu_about.html#vision",
+    "VISION2030": "hbnu_about.html#vision",
+    "글로컬대학30": "hbnu_about.html#vision",
     "대학연혁": "hbnu_history.html",
-    "헌장": "hbnu_about.html",
-    "상징": "hbnu_about.html",
-    "UI": "hbnu_about.html",
-    "학교현황": "hbnu_about.html",
-    "통계연보": "hbnu_about.html",
+    "헌장": "hbnu_about.html#charter",
+    "상징": "hbnu_about.html#symbol",
+    "UI": "hbnu_about.html#symbol",
+    "학교현황": "hbnu_about.html#stats",
+    "통계연보": "hbnu_about.html#stats",
     "대학정보공시": "hbnu_info_disclosure.html",
-    "조직도": "hbnu_about.html",
-    "대학본부": "hbnu_about.html",
+    "조직도": "hbnu_about.html#org",
+    "대학본부": "hbnu_about.html#hq",
     "교육시설": "hbnu_campus.html",
     "지원시설": "hbnu_campus.html",
     "부속시설": "hbnu_campus.html",
-    "법인 기타": "hbnu_about.html",
+    "법인 기타": "hbnu_about.html#corp",
+    "법인기타": "hbnu_about.html#corp",
     "캠퍼스안내": "hbnu_campus.html",
     "캠퍼스 지도": "hbnu_campus.html",
     "캠퍼스지도": "hbnu_campus.html",
@@ -43,8 +45,11 @@ const OLD_URLS = {
     "고교대학연계": "hbnu_admissions.html",
     "외국인전형": "hbnu_global.html",
     "GKSProgram": "hbnu_global.html",
+    "GKS Program": "hbnu_global.html",
     "ExchangeStudents": "hbnu_global.html",
+    "Exchange Students": "hbnu_global.html",
     "StudentSupport": "hbnu_global.html",
+    "Student Support": "hbnu_global.html",
 
     // 3. 연구 / 산학
     "연구뉴스": "hbnu_research.html",
@@ -63,7 +68,6 @@ const OLD_URLS = {
     "연구자 정보": "hbnu_research.html",
 
     // 4. 학사안내
-    "학사일정안내": "hbnu_calendar.html",
     "교양과목": "Hbnu_general_edu.html",
     "전공과목": "Hbnu_general_edu.html",
     "교양/전공과목": "Hbnu_general_edu.html",
@@ -75,20 +79,21 @@ const OLD_URLS = {
     "시험성적": "hbnu_grade_check.html",
     "시험/성적": "hbnu_grade_check.html",
     "강의평가": "hbnu_grade_check.html",
-    "타대학교류": "hbnu_calendar.html",
     "졸업학점관리": "hbnu_grade_check.html",
     "졸업/논문심사": "hbnu_grade_check.html",
     "조기졸업": "hbnu_grade_check.html",
     "논문심사": "hbnu_grade_check.html",
-    "휴학 복학": "hbnu_calendar.html",
-    "휴학복학": "hbnu_calendar.html",
-    "휴학/복학": "hbnu_calendar.html",
-    "자퇴 제적": "hbnu_calendar.html",
-    "자퇴제적": "hbnu_calendar.html",
-    "자퇴/제적": "hbnu_calendar.html",
-    "전학 전과": "hbnu_calendar.html",
-    "전학전과": "hbnu_calendar.html",
-    "전학/전과": "hbnu_calendar.html",
+    "학사일정안내": "hbnu_calendar.html#calendar",
+    "타대학교류": "hbnu_calendar.html#exchange",
+    "휴학 복학": "hbnu_calendar.html#status",
+    "휴학복학": "hbnu_calendar.html#status",
+    "휴학/복학": "hbnu_calendar.html#status",
+    "자퇴 제적": "hbnu_calendar.html#status",
+    "자퇴제적": "hbnu_calendar.html#status",
+    "자퇴/제적": "hbnu_calendar.html#status",
+    "전학 전과": "hbnu_calendar.html#transfer",
+    "전학전과": "hbnu_calendar.html#transfer",
+    "전학/전과": "hbnu_calendar.html#transfer",
     "등록금": "hbnu_scholarship.html",
     "교내장학금": "hbnu_scholarship.html",
     "교외장학금": "hbnu_scholarship.html",
@@ -195,25 +200,6 @@ function getMenuUrl(label) {
     return clean.replace(/\//g, '_').replace(/\s+/g, '') + ".html";
 }
 
-document.addEventListener('click', (e) => {
-    const anchor = e.target.closest('a');
-    if (!anchor) return;
-    const rawHref = anchor.getAttribute('href');
-    if (!rawHref || rawHref.startsWith('http') || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.includes('?')) return;
-
-    if (rawHref.toLowerCase().startsWith('hbnu_') || rawHref === '교내교통시스템.html' || rawHref === '단과대.html' || rawHref === '학과상세.html' || rawHref === '웹메일.html' || rawHref === '차량등록.html') return;
-
-    if (rawHref.endsWith('.html')) {
-        const labelKey = decodeURIComponent(rawHref.replace(/\.html$/i, ''));
-        const resolved = getMenuUrl(labelKey);
-        if (resolved && resolved !== rawHref) {
-            e.preventDefault();
-            window.location.href = resolved;
-        }
-    }
-});
-
-// 전북대 스타일 메가 메뉴
 const MEGA_MENU = [
     { title: "대학소개", url: "hbnu_about.html", groups: [
         { name: "총장실", items: ["총장인사말", "총장프로필", "서한문", "연설문", "현장스케치", "역대총장", "만남신청"] },
@@ -276,7 +262,6 @@ const TEXT_CONTENT = {
             { text: "천원의아침(식단)", url: "hbnu_welfare.html", type: "PHONE" }
         ],
         footer: {
-            addresses: { main: "효빈광역시 서구 대학로 1 (당선1동 / 북구 소조동)" },
             rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
         }
     },
@@ -293,7 +278,6 @@ const TEXT_CONTENT = {
             { text: "Emma's Table", url: "hbnu_welfare.html", type: "PHONE" }
         ],
         footer: {
-            addresses: { main: "1 Daehak-ro, Seo-gu, Hyobin Metropolitan City" },
             rights: "COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED."
         }
     }
@@ -303,10 +287,16 @@ const globalState = { language: localStorage.getItem('hbnu_lang') || 'KOR', scro
 
 function navigateTo(url) {
     if (!url) return;
-    const target = (url.includes('.html') && !url.startsWith('hbnu_') && !url.includes('?'))
+    const target = (url.includes('.html') && !url.startsWith('hbnu_') && !url.includes('?') && !url.includes('#'))
         ? getMenuUrl(url.replace(/\.html$/i, ''))
         : url;
-    try { window.location.href = target; } catch (e) { console.warn('Navigation:', e); }
+    try {
+        window.location.href = target;
+        // 동일 페이지 내 해시(#) 전환 시 즉시 SPA 뷰 갱신 트리거
+        if (target.includes('#') && typeof window.handleAboutHashChange === 'function') {
+            setTimeout(() => window.handleAboutHashChange(), 10);
+        }
+    } catch (e) { console.warn('Navigation:', e); }
 }
 
 function getIcon(type) {
@@ -330,7 +320,6 @@ function changeLang(l) {
     if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ★★★ 핵심 추가: 모달 닫기 함수 영구 박제 (Uncaught ReferenceError 원천 차단) ★★★
 function closeModal() {
     const overlay = document.getElementById('modal-overlay');
     if (overlay) overlay.classList.add('hidden');
@@ -374,7 +363,7 @@ function renderHeader() {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="navigateTo('hbnu_main.html')">
-                        <img src="이미지/효빈대_로고.webp" alt="HBNU 로고" class="w-10 h-10 mr-3 object-contain shrink-0" style="max-height:40px; width:auto;" onerror="this.src='https://imgur.com/Uvf0SqH.png'">
+                        <img src="이미지/효빈대_로고.webp" alt="HBNU 로고" class="w-10 h-10 mr-3 object-contain shrink-0" style="max-height:40px; width:auto;" onerror="this.style.display='none'">
                         <div class="flex flex-col">
                             <span class="font-black text-2xl tracking-tight leading-none text-[#3344aa] group-hover:text-[#1e2a78] transition-colors">${T.universityName}</span>
                             <span class="text-[10px] text-gray-500 tracking-widest uppercase font-bold mt-0.5">${T.universitySub}</span>
@@ -431,7 +420,7 @@ function renderFooter() {
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 border-b border-gray-700 pb-8">
                 <div class="col-span-1">
                     <div class="text-white font-bold text-xl mb-3 flex items-center cursor-pointer" onclick="navigateTo('hbnu_main.html')">
-                        <img src="이미지/효빈대_로고.webp" class="w-9 h-9 mr-2.5 bg-white rounded-lg p-1 object-contain" style="max-height:36px; width:auto;" onerror="this.src='https://imgur.com/Uvf0SqH.png'" />
+                        <img src="이미지/효빈대_로고.webp" class="w-9 h-9 mr-2.5 bg-white rounded-lg p-1 object-contain" style="max-height:36px; width:auto;" onerror="this.style.display='none'" />
                         <div>
                             <div>${T.universityName}</div>
                             <div class="text-[10px] text-[#99dd88] font-normal tracking-wider">SINCE 1925 · 101ST ANNIVERSARY</div>
@@ -443,30 +432,36 @@ function renderFooter() {
                         제26대 총장 민부선 (Evergreen & Shiny)
                     </p>
                 </div>
-                <div class="col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+                <div class="col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <h4 class="text-white font-bold mb-3 text-sm">5대 캠퍼스 안내</h4>
-                        <ul class="text-xs text-gray-400 space-y-1.5">
-                            <li><b class="text-gray-200">당선(본):</b> ${T.footer.addresses.main}</li>
+                        <h4 class="text-white font-bold mb-3 text-sm">5대 캠퍼스 안내 및 연락처</h4>
+                        <ul class="text-[11.5px] text-gray-400 space-y-3 leading-tight">
+                            <li><b class="text-gray-200 text-xs">당선(본):</b> 효빈광역시 서구 대학로 1 <span class="text-[#99dd88] ml-1">TEL: 079-649-2312</span></li>
+                            <li><b class="text-gray-200 text-xs">이자:</b> 효빈광역시 안천구 원세로 22 <span class="text-[#99dd88] ml-1">TEL: 079-938-4811</span></li>
+                            <li><b class="text-gray-200 text-xs">천주:</b> 덕빈북도 천주시 궁하구 세동로 13 <span class="text-[#99dd88] ml-1">TEL: 078-238-3812</span></li>
+                            <li><b class="text-gray-200 text-xs">낭원:</b> 덕빈북도 낭원군 전포읍 도경로 213 <span class="text-[#99dd88] ml-1">TEL: 078-211-3821</span></li>
+                            <li><b class="text-gray-200 text-xs">강주:</b> 덕빈북도 강주시 서류로 11 <span class="text-[#99dd88] ml-1">TEL: 078-574-9391</span></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-3 text-sm">대학 행정 · 법규 공시</h4>
-                        <ul class="text-xs text-gray-400 space-y-2">
-                            <li><button onclick="navigateTo('개인정보처리방침.html')" class="text-[#99dd88] font-bold hover:underline">개인정보처리방침</button></li>
-                            <li><button onclick="navigateTo('hbnu_info_disclosure.html')" class="hover:text-white">대학정보공시 (등록금 5년 동결)</button></li>
-                            <li><button onclick="navigateTo('이메일무단수집거부.html')" class="hover:text-white">이메일무단수집거부</button></li>
-                            <li><button onclick="navigateTo('교내교통시스템.html')" class="hover:text-white">HBNU Rail 중앙관제실(CTC)</button></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-3 text-sm">빠른 메뉴</h4>
-                        <ul class="text-xs text-gray-400 space-y-2">
-                            <li><button onclick="navigateTo('hbnu_sitemap.html')" class="text-white font-bold hover:underline">전체 사이트맵</button></li>
-                            <li><button onclick="navigateTo('hbnu_calendar.html')" class="hover:text-white">학사일정안내</button></li>
-                            <li><button onclick="navigateTo('hbnu_directory.html')" class="hover:text-white">교내 전화번호안내</button></li>
-                            <li><button onclick="navigateTo('hbnu_portal.html')" class="hover:text-white text-[#a0fff9] font-bold">HBNU 종합정보시스템(포털)</button></li>
-                        </ul>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-white font-bold mb-3 text-sm">대학 행정 · 법규 공시</h4>
+                            <ul class="text-xs text-gray-400 space-y-2">
+                                <li><button onclick="navigateTo('개인정보처리방침.html')" class="text-[#99dd88] font-bold hover:underline">개인정보처리방침</button></li>
+                                <li><button onclick="navigateTo('hbnu_info_disclosure.html')" class="hover:text-white">대학정보공시 (등록금 5년 동결)</button></li>
+                                <li><button onclick="navigateTo('이메일무단수집거부.html')" class="hover:text-white">이메일무단수집거부</button></li>
+                                <li><button onclick="navigateTo('교내교통시스템.html')" class="hover:text-white">HBNU Rail 관제실(CTC)</button></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold mb-3 text-sm">빠른 메뉴</h4>
+                            <ul class="text-xs text-gray-400 space-y-2">
+                                <li><button onclick="navigateTo('hbnu_sitemap.html')" class="text-white font-bold hover:underline">전체 사이트맵</button></li>
+                                <li><button onclick="navigateTo('hbnu_calendar.html')" class="hover:text-white">학사일정안내</button></li>
+                                <li><button onclick="navigateTo('hbnu_directory.html')" class="hover:text-white">교내 전화번호안내</button></li>
+                                <li><button onclick="navigateTo('hbnu_portal.html')" class="hover:text-white text-[#a0fff9] font-bold">HBNU 종합정보(포털)</button></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

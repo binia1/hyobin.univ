@@ -3,95 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>효빈광장 - 효빈대학교</title>
+    <title>효빈광장 - 효빈대학교 공식 커뮤니티</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; }
+        .nav-item.active { background-color: #3344aa; color: white; border-color: #3344aa; }
+        .nav-item.active span { font-weight: 700; }
+        .nav-item.active i { color: white; }
+        
+        .board-table th { background-color: #f8fafc; font-weight: 700; text-align: center; border-bottom: 1px solid #cbd5e1; border-top: 2px solid #3344aa; padding: 14px 8px; color: #1e293b; }
+        .board-table td { border-bottom: 1px solid #e2e8f0; padding: 14px 10px; font-size: 14px; text-align: center; color: #334155; }
+        .board-table td.title-cell { text-align: left; padding-left: 20px; cursor: pointer; }
+        .board-table tr:hover td { background-color: #f0f7ff; }
+        
+        .badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-right: 6px; display: inline-block; }
+        .badge-notice { background-color: #ef4444; color: white; }
+        .badge-cat { border: 1px solid #cbd5e1; color: #475569; background: #fff; }
+        .badge-ing { background-color: #10b981; color: white; }
+        .badge-end { background-color: #94a3b8; color: white; }
+
+        .view-section { display: none; opacity: 0; animation: fadeIn 0.3s forwards; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        /* 댓글 스타일 */
+        .comment-box { border-top: 1px solid #e2e8f0; padding-top: 1.5rem; margin-top: 2rem; }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
     
+    <!-- 상단 헤더 영역 -->
     <div id="header-area"></div>
 
-    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
-        <div class="flex flex-col md:flex-row gap-8">
-            <!-- 사이드바 -->
-            <div class="md:w-1/4">
-                <div class="bg-white rounded-lg border shadow-sm overflow-hidden sticky top-24">
-                    <div class="bg-[#3344aa] text-white p-4 font-bold">효빈광장</div>
-                    <ul class="divide-y text-sm">
-                        <li class="p-3 hover:bg-gray-50 cursor-pointer font-bold text-[#3344aa] border-l-4 border-[#3344aa]">공지사항</li>
-                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">자유게시판</li>
-                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">벼룩시장</li>
-                        <li class="p-3 hover:bg-gray-50 cursor-pointer border-l-4 border-transparent hover:border-gray-300">분실물센터</li>
-                    </ul>
+    <!-- 타이틀 배너 -->
+    <div class="bg-[#1e2a78] text-white py-16 text-center bg-cover bg-center relative shadow-inner" style="background-image: linear-gradient(rgba(30, 42, 120, 0.92), rgba(30, 42, 120, 0.92)), url('이미지/효빈대_캠퍼스배경.webp');">
+        <h1 class="text-4xl font-black mb-3 tracking-tight">효빈광장 (HBNU Plaza)</h1>
+        <p class="text-base font-light text-blue-200">국가거점국립대학교 효빈대학교 17개 단과대학, 20만 동문 및 재학생을 위한 통합 소통 공간</p>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full flex flex-col lg:flex-row gap-8">
+        
+        <!-- 좌측 LNB (사이드바) -->
+        <aside class="w-full lg:w-72 shrink-0">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden sticky top-24">
+                <div class="bg-gray-50 px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="text-lg font-black text-gray-800">효빈광장 메뉴</h2>
+                    <span class="text-xs bg-blue-100 text-[#3344aa] font-bold px-2 py-0.5 rounded-full">Official</span>
                 </div>
+                <nav class="flex flex-col text-[15px]" id="sidebar-nav">
+                    <button onclick="switchTab('notice')" id="nav-notice" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b w-full text-left transition-colors">
+                        <span class="flex items-center"><i data-lucide="megaphone" class="w-4 h-4 mr-3 text-red-500"></i>공지사항</span><i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                    </button>
+                    <button onclick="switchTab('free')" id="nav-free" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b w-full text-left transition-colors">
+                        <span class="flex items-center"><i data-lucide="message-square" class="w-4 h-4 mr-3 text-blue-500"></i>자유게시판</span><i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                    </button>
+                    <button onclick="switchTab('market')" id="nav-market" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 border-b w-full text-left transition-colors">
+                        <span class="flex items-center"><i data-lucide="shopping-bag" class="w-4 h-4 mr-3 text-emerald-500"></i>벼룩시장</span><i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                    </button>
+                    <button onclick="switchTab('lost')" id="nav-lost" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 hover:bg-gray-50 w-full text-left transition-colors">
+                        <span class="flex items-center"><i data-lucide="search" class="w-4 h-4 mr-3 text-amber-500"></i>분실물센터</span><i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                    </button>
+                </nav>
             </div>
 
-            <!-- 본문 (게시판 리스트) -->
-            <div class="md:w-3/4">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-gray-800 pb-2">공지사항</h2>
-                
-                <!-- 검색창 -->
-                <div class="flex justify-end mb-4">
-                    <div class="flex border rounded overflow-hidden">
-                        <select class="bg-gray-50 text-sm px-3 outline-none border-r">
-                            <option>제목</option>
-                            <option>내용</option>
-                        </select>
-                        <input type="text" placeholder="검색어를 입력하세요" class="p-2 text-sm outline-none w-48">
-                        <button class="bg-gray-100 px-3 hover:bg-gray-200"><i data-lucide="search" class="w-4 h-4 text-gray-600"></i></button>
+            <!-- 캠퍼스 실시간 정보 위젯 -->
+            <div class="mt-6 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                <h3 class="font-bold text-gray-800 text-sm mb-3 flex items-center border-b pb-2">
+                    <i data-lucide="activity" class="w-4 h-4 mr-2 text-[#3344aa]"></i> HBNU 실시간 핫이슈
+                </h3>
+                <ul class="space-y-2.5 text-xs text-gray-600">
+                    <li class="flex justify-between items-center hover:text-[#3344aa] cursor-pointer">
+                        <span>🔥 사회복지학대학 S등급 선정 축하연</span>
+                        <span class="text-red-500 font-bold">HOT</span>
+                    </li>
+                    <li class="flex justify-between items-center hover:text-[#3344aa] cursor-pointer">
+                        <span>🚆 교내 트램 7호선 (하루빈 열차) 증차</span>
+                        <span class="text-blue-500 font-bold">NEW</span>
+                    </li>
+                    <li class="flex justify-between items-center hover:text-[#3344aa] cursor-pointer">
+                        <span>📊 빅데이터분석기사 실기 대비 특강</span>
+                        <span class="text-emerald-500 font-bold">INFO</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 우측 본문 영역 -->
+        <section class="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-8 lg:p-10 min-h-[800px] relative">
+            
+            <!-- 뷰 1: 게시글 목록 (List View) -->
+            <div id="view-list" class="view-section active">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b-2 border-gray-800 pb-4 mb-6 gap-4">
+                    <div>
+                        <h2 id="board-title" class="text-2xl font-black text-gray-900 flex items-center tracking-tight">
+                            <i id="board-icon" data-lucide="megaphone" class="w-7 h-7 mr-2 text-[#3344aa]"></i> <span id="board-title-text">공지사항</span>
+                        </h2>
+                        <p id="board-desc" class="text-xs text-gray-500 mt-1">효빈대학교 본부 및 각 단과대학에서 전달하는 공식 행정 공지입니다.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                        <button onclick="showWriteForm()" id="btn-write" class="bg-[#3344aa] hover:bg-[#1e2a78] text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center shadow-sm hidden">
+                            <i data-lucide="pencil" class="w-4 h-4 mr-1.5"></i> 글쓰기
+                        </button>
+                        <div class="flex border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+                            <select id="search-type" class="bg-gray-50 text-xs px-3 py-2 outline-none border-r text-gray-700 font-medium">
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                                <option value="author">작성자</option>
+                            </select>
+                            <input type="text" id="search-input" placeholder="검색어 입력" class="p-2 px-3 text-xs outline-none w-36 sm:w-48">
+                            <button onclick="handleSearch()" class="bg-gray-100 hover:bg-gray-200 px-3 transition-colors"><i data-lucide="search" class="w-4 h-4 text-gray-600"></i></button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 리스트 -->
-                <div class="bg-white border rounded-lg shadow-sm overflow-hidden">
-                    <table class="w-full text-sm text-left">
-                        <thead class="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th class="p-3 w-16 text-center">번호</th>
-                                <th class="p-3">제목</th>
-                                <th class="p-3 w-24 text-center">작성자</th>
-                                <th class="p-3 w-24 text-center">날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            <tr class="hover:bg-gray-50 cursor-pointer">
-                                <td class="p-3 text-center text-[#3344aa] font-bold">공지</td>
-                                <td class="p-3 font-bold">[필독] 2025학년도 1학기 수강신청 안내</td>
-                                <td class="p-3 text-center">교무과</td>
-                                <td class="p-3 text-center">02.10</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 cursor-pointer">
-                                <td class="p-3 text-center text-[#3344aa] font-bold">공지</td>
-                                <td class="p-3 font-bold">[교통] 교내 트램 7호선 운행 시간표 변경</td>
-                                <td class="p-3 text-center">시설과</td>
-                                <td class="p-3 text-center">02.15</td>
-                            </tr>
-                            <!-- 더미 데이터 -->
-                            <tr class="hover:bg-gray-50 cursor-pointer">
-                                <td class="p-3 text-center">1024</td>
-                                <td class="p-3">2025학년도 학생증 발급 신청 안내</td>
-                                <td class="p-3 text-center">학생과</td>
-                                <td class="p-3 text-center">02.12</td>
-                            </tr>
-                        </tbody>
+                <div class="overflow-x-auto">
+                    <table class="w-full board-table">
+                        <thead id="board-thead"></thead>
+                        <tbody id="board-tbody"></tbody>
                     </table>
                 </div>
-
+                
                 <!-- 페이지네이션 -->
-                <div class="flex justify-center mt-6 space-x-2">
-                    <button class="w-8 h-8 rounded border hover:bg-gray-100 flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                    <button class="w-8 h-8 rounded bg-[#3344aa] text-white font-bold">1</button>
-                    <button class="w-8 h-8 rounded border hover:bg-gray-100">2</button>
-                    <button class="w-8 h-8 rounded border hover:bg-gray-100 flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                <div id="pagination" class="flex justify-center mt-8 space-x-1.5"></div>
+            </div>
+
+            <!-- 뷰 2: 게시글 상세 (Detail View) -->
+            <div id="view-detail" class="view-section">
+                <div class="border-b-2 border-gray-800 pb-4 mb-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span id="detail-badge" class="badge badge-cat">분류</span>
+                        <h2 id="detail-title" class="text-2xl font-black text-gray-900 tracking-tight">제목</h2>
+                    </div>
+                    <div class="flex justify-between items-center text-xs text-gray-500 mt-4 border-t pt-3 bg-gray-50 px-4 py-2.5 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-bold text-gray-800 text-sm" id="detail-author">작성자명</span>
+                            <span class="text-gray-300">|</span>
+                            <span id="detail-date">2026.02.16</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>조회수</span>
+                            <span id="detail-views" class="font-bold text-[#3344aa]">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 본문 내용 -->
+                <div id="detail-content" class="min-h-[250px] text-gray-800 leading-relaxed text-[15px] whitespace-pre-wrap py-4 px-2"></div>
+
+                <!-- 댓글 영역 -->
+                <div class="comment-box">
+                    <h3 class="font-bold text-gray-800 text-sm mb-4 flex items-center">
+                        <i data-lucide="message-circle" class="w-4 h-4 mr-2 text-[#3344aa]"></i> 댓글 <span id="comment-count" class="text-[#3344aa] ml-1">0</span>
+                    </h3>
+                    <div id="comment-list" class="space-y-3 mb-6">
+                        <!-- 댓글 아이템들이 동적으로 들어감 -->
+                    </div>
+                    <!-- 댓글 작성 폼 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col gap-3">
+                        <input type="text" id="comment-author" placeholder="작성자명 (예: 사회복지25, 철도덕후)" class="border rounded-lg p-2 text-xs outline-none w-48 font-medium bg-white">
+                        <textarea id="comment-text" placeholder="타인을 비방하거나 불쾌감을 주는 댓글은 제재될 수 있습니다." class="border rounded-lg p-3 text-xs outline-none h-20 resize-none bg-white"></textarea>
+                        <div class="flex justify-end">
+                            <button onclick="addComment()" class="bg-[#3344aa] hover:bg-[#1e2a78] text-white px-5 py-2 rounded-lg text-xs font-bold transition-colors">댓글 등록</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t mt-8 pt-6 flex justify-between items-center">
+                    <button onclick="showListView()" class="bg-gray-100 hover:bg-gray-200 border text-gray-800 px-6 py-2.5 rounded-lg font-bold text-xs transition-colors flex items-center">
+                        <i data-lucide="list" class="w-4 h-4 mr-1.5"></i> 목록으로
+                    </button>
+                    <button onclick="deleteCurrentPost()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 px-4 py-2.5 rounded-lg font-bold text-xs transition-colors">
+                        게시글 삭제
+                    </button>
                 </div>
             </div>
-        </div>
+
+            <!-- 뷰 3: 게시글 작성 (Write View) -->
+            <div id="view-write" class="view-section">
+                <div class="border-b-2 border-gray-800 pb-4 mb-6">
+                    <h2 class="text-2xl font-black text-gray-900 flex items-center">
+                        <i data-lucide="pencil" class="w-7 h-7 mr-2 text-[#3344aa]"></i> <span id="write-board-name">자유게시판</span> 글쓰기
+                    </h2>
+                    <p class="text-xs text-gray-500 mt-1">학내 구성원 간의 건전하고 예의 바른 소통 문화를 지켜주세요.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <select id="write-category" class="w-full sm:w-1/4 border rounded-xl p-3 outline-none text-sm bg-gray-50 font-bold text-gray-700"></select>
+                        <input type="text" id="write-title" placeholder="제목을 입력해주세요." class="w-full sm:w-3/4 border rounded-xl p-3 outline-none text-sm font-medium">
+                    </div>
+                    <div>
+                        <input type="text" id="write-author" placeholder="작성자명 (예: 사회복지23, 철도덕후)" class="w-full border rounded-xl p-3 outline-none text-sm max-w-xs font-medium">
+                    </div>
+                    <div>
+                        <textarea id="write-content" placeholder="내용을 입력해주세요. (세계관 설정에 맞는 리얼한 학내 이야기나 질문을 남겨보세요!)" class="w-full border rounded-xl p-4 outline-none text-sm h-80 resize-none leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-3 mt-8">
+                    <button onclick="showListView()" class="bg-gray-100 hover:bg-gray-200 border text-gray-800 px-6 py-2.5 rounded-xl font-bold text-sm transition-colors">취소</button>
+                    <button onclick="submitPost()" class="bg-[#3344aa] hover:bg-[#1e2a78] text-white px-8 py-2.5 rounded-xl font-bold text-sm transition-colors shadow-sm">등록하기</button>
+                </div>
+            </div>
+
+        </section>
     </main>
 
+    <!-- 푸터 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+    
+    <!-- 절대 삭제하지 말라고 당부하신 common.js 연동 코드 -->
     <script src="common.js"></script>
+    
+    <script>
+        let currentTab = 'notice'; 
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let globalPostIdCounter = 60000;
+        let currentViewingPostId = null;
+
+        // V2 키값 적용: 이전 캐시로 인해 갱신되지 않는 현상 방지
+        let DB = JSON.parse(localStorage.getItem('hyobin_board_db_v2'));
+        
+        // 데이터가 없거나 갱신을 위해 초기 DB 재세팅 (내용 대폭 강화, 없는 캠퍼스 삭제)
+        if (!DB) {
+            DB = {
+                notice: [
+                    { id: 9999, type: 'notice', cat: '필독', title: '2026학년도 1학기 수강신청 및 S등급 사회복지학대학 수강지도 안내', author: '학사지원과', date: '2026.02.05', views: 14250, content: '효빈대학교 학우 여러분 안녕하십니까.\n2026학년도 1학기 수강신청 일정을 아래와 같이 안내합니다.\n\n1. 수강신청 기간: 2.10(화) ~ 2.14(토)\n2. 이번 평가에서 S등급 인증을 획득한 사회복지학대학 소속 학생들은 전공 필수 쏠림 현상을 방지하기 위해 단과대 행정실의 사전 수강 지도를 반드시 이수하시기 바랍니다.\n3. 서버 과부하 방지를 위해 학년별 분산 로그인을 엄수해주십시오.', comments: [] },
+                    { id: 9998, type: 'notice', cat: '중요', title: '[교통] HBNU Rail 교내 트램 7호선(당선캠퍼스~소조역) 출근길 증차 운행', author: '안전관리본부', date: '2026.02.10', views: 9321, content: '캠퍼스 내 핵심 대중교통인 HBNU Rail 트램 7호선의 등하교 시간대 배차 간격이 기존 10분에서 7분으로 단축되었습니다. 최근 새롭게 단장한 "하루빈(2호선 마스코트)" 래핑 열차도 교내 노선에 2대 추가 투입되었으니 학생 여러분의 많은 이용 바랍니다.', comments: [] },
+                    { id: 9997, type: 'notice', cat: '행사', title: '제101주년 효빈대학교 개교기념식 및 베르데 홀 문화 행사 개최', author: '총무과', date: '2026.02.15', views: 6102, content: '1925년 개교 이래 101주년을 맞이한 효빈대학교의 개교기념식이 본교 베르데 홀에서 성대하게 개최됩니다. 특히 이번 행사에는 인문대학과 예술대학 연합의 성대한 퍼포먼스가 준비되어 있습니다. 당일 학내 모든 강의와 행정 업무는 휴무 처리됩니다.', comments: [] },
+                    { id: 9996, type: 'notice', cat: '학사', title: '2026년도 1학기 전과(소속학과 이동) 전형 최종 합격자 발표', author: '교무처', date: '2026.02.14', views: 4102, content: '2026학년도 전과 최종 합격자 명단을 HBNU 포털에서 발표합니다. 올해 특히 경쟁이 치열했던 사회복지학대학 및 공과대학 교통학과 전과 합격생들은 수강 정정기간 내에 전입 학과 지도교수 상담을 반드시 진행하세요.', comments: [] },
+                    { id: 9995, type: 'notice', cat: '일반', title: '효빈대학교 중앙도서관 24시간 특별 개방 안내 (중간고사 기간)', author: '중앙도서관', date: '2026.02.12', views: 3201, content: '학우들의 면학 분위기 조성을 위해 다가오는 중간고사 기간 동안 제1, 제2 열람실을 24시간 개방합니다. 심야 시간대에는 안전을 위해 교내 경찰대 순찰이 강화됩니다.', comments: [] },
+                    { id: 9994, type: 'notice', cat: '장학', title: '2026년 1학기 국가장학금 1유형 신청 기한 연장 안내', author: '장학과', date: '2026.02.11', views: 5520, content: '한국장학재단의 요청에 따라 국가장학금 신청 기한이 2월 20일까지 연장되었습니다. 아직 신청하지 않은 학우들은 불이익을 받지 않도록 기한 내 반드시 신청 바랍니다.', comments: [] },
+                    { id: 9993, type: 'notice', cat: '일반', title: '예비군 연대 전입신고 안내 (2026학년도 복학생 대상)', author: '예비군연대', date: '2026.02.10', views: 2100, content: '군 복무를 마치고 복학하는 학생들은 반드시 예비군 연대(학생회관 3층)에 방문하여 학생예비군 전입신고를 마치시기 바랍니다.', comments: [] },
+                    { id: 9992, type: 'notice', cat: '일반', title: '기숙형대학(RC) 생활관 1학기 호실 배정 결과 발표', author: '생활관행정실', date: '2026.02.09', views: 4302, content: '포털 시스템을 통해 본인의 호실을 확인하시기 바랍니다. 룸메이트 변경은 원칙적으로 불가하며, 부득이한 사유 발생 시 행정실로 개별 문의 바랍니다.', comments: [] },
+                    { id: 9991, type: 'notice', cat: '안전', title: '캠퍼스 내 전동 킥보드(PM) 무면허 및 2인 탑승 집중 단속', author: '학생처', date: '2026.02.08', views: 1800, content: '효빈경찰서와 합동으로 교내 PM 단속을 실시합니다. 헬멧 미착용 및 2인 탑승 시 과태료가 즉각 부과되며, 교내 벌점도 병과됩니다.', comments: [] },
+                    { id: 9990, type: 'notice', cat: '취업', title: '효빈광역시 산하 공공기관 지역인재 추천 채용 설명회', author: '취업지원센터', date: '2026.02.05', views: 3750, content: '효빈광역시청 및 산하 공기업, 공단 등 지역인재 할당제 채용 설명회가 3월 5일 베르데 홀 소강당에서 개최됩니다. 공기업 취업을 준비하는 학우들의 많은 참여 바랍니다.', comments: [] },
+                    { id: 9989, type: 'notice', cat: '학사', title: '졸업유예(학사학위취득유예) 신청 추가 접수 안내', author: '교무처', date: '2026.02.03', views: 2400, content: '취업 준비, 고시 및 자격증 준비 등의 사유로 졸업 유예를 희망하는 학생은 2월 10일까지 소속 단과대학 행정실로 신청서를 제출하시기 바랍니다.', comments: [] },
+                    { id: 9988, type: 'notice', cat: '교통', title: '천주캠퍼스 ↔ 당선캠퍼스 셔틀버스 배차 시간표 변경 안내', author: '총무과', date: '2026.02.01', views: 3120, content: '의학계열 실습이 주로 진행되는 천주캠퍼스와 당선 본교를 오가는 셔틀버스의 배차 간격이 일부 조정되었습니다. 천주병원 실습생 및 의과/간호/약학대학 학우분들은 첨부파일의 변경된 시간표를 필히 확인하시어 통학에 차질이 없으시길 바랍니다.', comments: [] }
+                ],
+                free: [
+                    { id: 8596, type: 'normal', cat: '잡담', title: '이번 학기 사복과 전공수업 빡세다는데 진짜임?', author: '전과희망생', date: '2026.02.16', views: 421, content: '우리 학교 사회복지학대학이 S등급 받으면서 교수님들 눈높이가 엄청 올라갔다고 들었는데... 이번에 전과했는데 벌써부터 쫄림. 과제 진짜 맨날 밤새야 함?', comments: [{author:'사복과고인물', text:'ㅇㅇ 웰컴투 헬. 중간고사 대체 리포트만 30장 씀 ㅅㄱ'}, {author:'사복24', text:'그래도 취업 깡패라 꾹 참고 버티는 중입니다 ㅠㅠ'}] },
+                    { id: 8595, type: 'normal', cat: '정보', title: '서브컬처 동아리 이번 신입 모집 언제하나요?', author: '오타쿠아님', date: '2026.02.16', views: 288, content: '뱅드림이랑 럽라 좋아하는데, 혼자 덕질하려니까 너무 심심함. 학교에 애니메이션/서브컬처 동아리 있다던데 가두모집 기간에 나오나요? 네소베리 들고 가도 되나요?', comments: [{author:'동아리회장', text:'3월 첫째 주 학생회관 앞에서 부스 엽니다! 네소베리 대환영이구요 카스밍 굿즈 있으시면 가산점 드림ㅋㅋ'}, {author:'사아야맘', text:'우와 저도 가입하고 싶어요! 럽라 뱅드림 다 좋아함!'}] },
+                    { id: 8594, type: 'normal', cat: '잡담', title: '구청 공익근무 중인데 진짜 미치겠음', author: '사회복무요원', date: '2026.02.15', views: 560, content: '효빈시 구청에서 공익하면서 학교 다니고 있는데, 낮에는 밖에서 불법 현수막 다 떼고 다니고 밤에는 전공 과제하니까 사람 미칠거같다. 멘탈 나가서 서울우유 프로틴 초코맛으로 겨우 연명중임. 빅분기 공부도 해야되는데 걍 다 부수고 싶다.', comments: [{author:'군필복학생', text:'와... 현수막 떼는거 진짜 중노동인데 그걸 하면서 학교까지 ㄷㄷ 리스펙합니다'}, {author:'헬창', text:'프로틴은 역시 초코맛 ㅆㅇㅈ. 바벨컬 조지고 한잔 마시면 극락감'}, {author:'데이터지망생', text:'저도 빅분기 준비중인데 힘내세요!! 실기 빡셈 ㅠ'}] },
+                    { id: 8593, type: 'normal', cat: '질문', title: '내일 당선캠퍼스 중앙도서관 몇 시에 열나요? ㅠㅠ', author: '도서관메뚜기', date: '2026.02.15', views: 156, content: '방학 기간이라 단축 운영하는지 헷갈리네요. 빅분기 기출 돌려야해서 아침 일찍 가야하는데 9시인가요?', comments: [{author:'도서관알바', text:'아침 8시부터 밤 11시까지 정상 운영합니다! 화이팅!'}, {author:'지나가던화석', text:'방학엔 1열람실만 열어용'}] },
+                    { id: 8592, type: 'normal', cat: '모임', title: '빅데이터분석기사 실기 같이 준비하실 스터디원 구해요 (현재 2/4)', author: '데이터분석가', date: '2026.02.14', views: 320, content: '매주 화목 저녁에 캠퍼스타운 카페에서 모입니다. 파이썬 Pandas 기본적으로 다루실 줄 아는 분 우대합니다. 저번 시험 억까당해서 이번엔 진짜 빡세게 할 예정입니다. 노쇼 절대 사절.', comments: [{author:'컴공복전생', text:'저 SQLD 따고 바로 빅분기 넘어가려는데 참여 가능할까요?'}, {author:'데이터분석가', text:'네 쪽지 드렸습니다 확인해주세요!'}] },
+                    { id: 8591, type: 'normal', cat: '잡담', title: '이번 학기 수강신청 대기열 5000명 실화입니까 ㅋㅋ', author: '경영아싸', date: '2026.02.14', views: 712, content: '전공 2개 다 튕기고 교양도 조졌네요. 학교 서버 왜 이 모양인지 하... PC방까지 왔는데 멘탈 터져서 그냥 제로콜라만 마시고 있음.', comments: [{author:'졸업생', text:'원래 거점국대 수강신청은 전쟁입니다 힘내세요 ㅋㅋ'}, {author:'눈물나는24학번', text:'저도 올클 실패함 ㅠㅠ 정정기간에 서버 열리자마자 클릭해야할듯'}] },
+                    { id: 8590, type: 'normal', cat: '잡담', title: '교내 트램 타고 가는데 하루빈 얼굴 래핑된 거 봄 졸귀탱', author: '철도덕후', date: '2026.02.13', views: 530, content: '효빈지하철 2호선 마스코트 하루빈 래핑 열차 드디어 캠퍼스 내부 HBNU Rail 7호선에도 들어오네요 ㅋㅋㅋ 퀄리티 진짜 미쳤음. 아침에 1교시 가기 싫어 죽겠는데 그거 보고 빵터져서 잠 다 깼다.', comments: [{author:'대중교통마스터', text:'저도 오늘 봤어요ㅋㅋ 디자인팀 일 진짜 잘하는듯'}, {author:'하루빈팬클럽', text:'어디 정류장이었음?? 당장 카메라 들고 간다'}] },
+                    { id: 8589, type: 'normal', cat: '정보', title: '혹시 작년에 김치쿠라 페스 다녀오신 분 계심?', author: '뱅드림조아', date: '2026.02.13', views: 290, content: '저번 8월에 경희대 평화의전당에서 했던 거 뽕이 아직도 안 빠짐 ㅠㅠ 모카 누이 들고 펜라이트 흔들던 사람 나야나... 이번 11월 원더리벳 마이고랑 로젤리아 오는데 팟 구함.', comments: [{author:'오타쿠아님', text:'헐 저도 김치쿠라 감 ㅋㅋㅋㅋ 핫시 최고 ㅠㅠ'}, {author:'유키나맘', text:'원더리벳 토요일권 끊었습니다 현장에서 뵈어요!'}] },
+                    { id: 8588, type: 'normal', cat: '잡담', title: '이번 덕주1호선 마스코트 이덕희 눈나 너무 예쁘지 않음?', author: '덕주주민', date: '2026.02.12', views: 610, content: '핫핑크 컬러 은근 소화하기 힘든데 디자인 엄청 잘 빠진 듯. 단정한 승무원 정복 핏 미쳤음. 효빈시 캐릭터 사업은 진짜 인정해줘야됨.', comments: [{author:'동의보감', text:'ㅇㅈ ㅋㅋㅋㅋ 뭔가 친근하면서도 되게 이쁨'}, {author:'철덕', text:'효빈시 마스코트 세계관 퀄리티 갈수록 좋아지네요'}] },
+                    { id: 8587, type: 'normal', cat: '질문', title: '빅분기, SQLD 연달아 따신 분들 팁 좀 부탁드립니다', author: '취준생', date: '2026.02.11', views: 340, content: '자격증 준비 중인데 공부 순서나 방법 조언 좀 부탁드려요. SQLD 노랭이 책만 파면 되나요? 빅분기는 실기가 헬이라던데 ㅠㅠ', comments: [{author:'데이터석사', text:'SQLD는 노랭이 기출 3회독 돌리시고, 빅분기는 무조건 파이썬 코딩 손에 익혀두세요. 눈으로만 보면 시험장 가서 멘붕옵니다.'}] },
+                    { id: 8586, type: 'normal', cat: '질문', title: '아싸 3학년인데 지금 중앙동아리 들어가도 됨?', author: '늦깎이', date: '2026.02.10', views: 220, content: '맨날 패스트푸드점 설거지 알바나 편의점 알바만 하다가 대학생활 추억이 너무 없어서... 3학년도 받아주는 밴드나 음악 동아리 있을까요', comments: [{author:'밴드기타리스트', text:'저희 밴드동아리 3학년도 쌉환영입니다! 베이스 치실줄 아시면 그랜절하고 모셔감'}] },
+                    { id: 8585, type: 'normal', cat: '잡담', title: '도서관 열람실에 짐만 두고 하루종일 안오는 사람 극혐', author: '도서관지박령', date: '2026.02.09', views: 510, content: '아니 자리가 꽉 찼는데 3시간째 안 돌아오는 메뚜기들 뭡니까 진짜. 전공책이랑 텀블러만 덜렁 놔두고. 사서 선생님한테 찌릅니다 조심하세요.', comments: [{author:'사이다', text:'다 치워버려야함 진짜 이기적인 인간들 ㅡㅡ'}] }
+                ],
+                market: [
+                    { id: 5132, type: 'normal', cat: '판매중', title: '[서적] 이기적 빅데이터분석기사 실기 (파이썬) 팝니다', author: '데이터마스터', date: '2026.02.16', views: 88, extra: '15,000원', content: '접힌 자국 조금 있고 안에 필기 아예 없습니다. 저번 시험 합격해서 합격 기운 담아서 팝니다. 당선캠 정문 직거래 원해요.', comments: [{author:'합격자', text:'혹시 내일 점심때 직거래 되나요? 쪽지 드렸습니다!'}] },
+                    { id: 5131, type: 'normal', cat: '판매중', title: '[서적] SQLD 노란책 (노랭이) 개정판 양도', author: '디비초보', date: '2026.02.15', views: 120, extra: '10,000원', content: '앞부분 1단원만 연필로 살짝 풀었습니다. 거래하시면 지우개로 깨끗하게 지워드립니다.', comments: [] },
+                    { id: 5130, type: 'normal', cat: '거래완료', title: '[굿즈] 뱅드림 아오바 모카 네소베리 팝니다', author: '모카빵', date: '2026.02.15', views: 240, extra: '25,000원', content: '상태 S급입니다. 장식장에만 모셔뒀어요. 탈덕은 아니고 자취방 짐 정리 차원에서 넘깁니다.', comments: [{author:'애프터글로우', text:'저 살게요! 평화의전당 갈때 들고가야함 ㅠ 쪽지 확인해주세요'}] },
+                    { id: 5129, type: 'normal', cat: '구해요', title: '[굿즈] 러브라이브 나카스 카스미 누이 구합니다', author: '카스밍', date: '2026.02.14', views: 95, extra: '가격제시', content: '카스미 누이구루미 구합니다! 심한 오염이나 찢어짐만 없으면 바로 계좌이체 해드립니다.', comments: [{author:'동호회', text:'저 2개 있어서 하나 넘길 수 있는데 연락주세요!'}] },
+                    { id: 5128, type: 'normal', cat: '판매중', title: '[전자기기] 삼성 노트북 NT750XHD 팝니다', author: '노트북변경', date: '2026.02.13', views: 320, extra: '500,000원', content: '코어 울트라 5, 램 8GB 모델입니다. 파이썬이랑 VS Code 돌리면서 코딩용으로 무난하게 잘 썼습니다. 포맷 다 해놨어요.', comments: [{author:'신입생', text:'학생이라 돈이 빠듯한데 45에 안될까요 ㅠㅠ'}] },
+                    { id: 5127, type: 'normal', cat: '판매중', title: '[자취] 당선캠 북문 원룸 1학기 단기 양도합니다', author: '자취생', date: '2026.02.12', views: 540, extra: '보증금 100 / 월 35', content: '구청 공익근무 배정받아서 본가로 들어가게 되어 방 급하게 뺍니다. 남향이라 채광 좋고 집주인 터치 전혀 없습니다.', comments: [{author:'통학러', text:'관리비는 얼마 나오나요? 수도세 포함인가요?'}] },
+                    { id: 5126, type: 'normal', cat: '구해요', title: '[서적] 공학용 계산기 삽니다 (카시오 우대)', author: '공대생', date: '2026.02.11', views: 76, extra: '20,000원 이하', content: '모델명 크게 상관없이 공학용 기능 정상 작동만 하면 됩니다. 흠집 많아도 괜찮아요.', comments: [{author:'복학생', text:'카시오 FX-570ES PLUS 배터리 새걸로 교체해서 1.5에 팔아요'}] },
+                    { id: 5125, type: 'normal', cat: '판매중', title: '[서적] 맨큐의 경제학 9판 팝니다 (필기 없음)', author: '경제학도', date: '2026.02.10', views: 189, extra: '35,000원', content: '태블릿으로 스캔본만 띄워놓고 공부해서 실물 책 상태는 아주 깨끗합니다. 당선캠퍼스 북문 앞 직거래 원해요.', comments: [] },
+                    { id: 5124, type: 'normal', cat: '거래완료', title: '[전자기기] 아이패드 프로 5세대 12.9인치 256GB 풀박스', author: '앱등이', date: '2026.02.09', views: 620, extra: '850,000원', content: '액정 기스 일절 없고 배터리 효율 92%입니다. 쓰던 애플펜슬 2세대랑 종이질감 필름도 같이 포함해서 드립니다.', comments: [] },
+                    { id: 5123, type: 'normal', cat: '판매중', title: '[운동] 제로투히어로 헬스 스트랩 프로 팝니다', author: '헬창', date: '2026.02.08', views: 145, extra: '15,000원', content: '근처 구청 헬스장에서 바벨컬, 케이블로우 할때 몇번 썼는데 그립 재질이 저랑 안맞아서 팝니다. 세탁 완료.', comments: [{author:'삼대오백', text:'오늘 학생회관 거래 됨?'}] }
+                ],
+                lost: [
+                    { id: 3212, type: 'normal', cat: '보관중', title: '[습득] 에어팟 프로 우측 유닛 (파란색 철가루 스티커)', author: '도서관근로', date: '2026.02.16', views: 212, extra: '중앙도서관 3열람실', content: '3열람실 창가 쪽 45번 좌석 바닥에서 주웠습니다. 현재 중앙도서관 1층 안내데스크에 분실물 접수해 두었습니다.', comments: [{author:'칠칠이', text:'헉 저녁에 밥먹고 찾으러 갈게요 진짜 감사합니다!!'}] },
+                    { id: 3211, type: 'normal', cat: '찾아요', title: '[분실] 효빈대 학생증(사회복지학대학 25학번) 잃어버렸습니다', author: '눈물콸콸', date: '2026.02.15', views: 440, extra: '당선캠 인문대 부근', content: '프라이탁 지갑이랑 학생증 같이 잃어버렸는데 혹시 주우신 분 제발 연락 부탁드립니다. 안에 신분증도 있어서 너무 급해요. 사례 넉넉히 합니다 ㅠㅠ', comments: [{author:'천사', text:'학생회관 앞 벤치에 지갑 있던데 학생지원과 분실물센터에 맡겼어요~'}] },
+                    { id: 3210, type: 'normal', cat: '보관중', title: '[습득] 검은색 닥스 남성용 지갑 주웠습니다', author: '지나가던행인', date: '2026.02.14', views: 120, extra: '북문 편의점 앞', content: '안에 민증 보니까 컴공과 22학번 김XX 학우님이시네요. 북문 앞 GS25 편의점 알바생한테 맡겨뒀으니 찾아가세요.', comments: [] },
+                    { id: 3209, type: 'normal', cat: '찾아요', title: '[분실] 비닐우산 (투명, 손잡이 하얀색) ㅠㅠ', author: '비맞은생쥐', date: '2026.02.13', views: 88, extra: '학생식당', content: '점심 밥먹고 나오니까 우산꽂이에서 누가 제꺼 가져가고 다 부서진 뼈대 나간 우산 꽂아놨네요 하... 실수로 가져가신 분 제발 돌려주세요', comments: [{author:'목격자', text:'다이소 우산이라 비슷하게 생긴게 많아서 헷갈리고 가져간듯 ㅠ'}] },
+                    { id: 3208, type: 'normal', cat: '찾아요', title: '[분실] 갤럭시 버즈2 프로 케이스만 잃어버림', author: '갤럭시유저', date: '2026.02.12', views: 95, extra: '운동장 스탠드', content: '유닛은 양쪽 다 귀에 꽂고 있었는데 주머니에서 케이스 본체만 빠진거 같아요... 보라색입니다.', comments: [] },
+                    { id: 3207, type: 'normal', cat: '보관중', title: '[습득] 기초통계학 전공 서적 주웠음', author: '청소노동자', date: '2026.02.11', views: 60, extra: '사회과학대 204호', content: '오후 강의실 청소하다가 맨 뒷자리에서 발견했습니다. 책 맨 앞장에 이름 안적혀있네요. 학과 사무실 조교한테 넘겼으니 찾아가세요.', comments: [] },
+                    { id: 3206, type: 'normal', cat: '수령완료', title: '[습득] 파란색 스탠리 텀블러 주웠습니다', author: '착한학생', date: '2026.02.10', views: 45, extra: '베르데 홀', content: '어제 행사 끝나고 구석 의자에 덩그러니 있길래 씻어서 베르데 홀 1층 관리실에 맡겼습니다.', comments: [{author:'주인', text:'방금 관리실 가서 잘 찾아갔습니다! 정말 감사합니다!!'}] },
+                    { id: 3205, type: 'normal', cat: '보관중', title: '[습득] 현대자동차 스마트키 주웠어요', author: '주차요원', date: '2026.02.09', views: 130, extra: '지하주차장 B2', content: '차키에 카카오프렌즈 춘식이 키링 달려있습니다. 정문 경비실에 분실물 대장에 적고 보관중입니다.', comments: [] },
+                    { id: 3204, type: 'normal', cat: '찾아요', title: '[분실] 뿔테 안경집 잃어버렸습니다', author: '눈뜬장님', date: '2026.02.08', views: 55, extra: '도서관 매점 앞', content: '검은색 가죽 안경집입니다 ㅠㅠ 안경 없으면 앞이 하나도 안보여서 너무 불편하네요. 보신 분 꼭 좀 댓글 남겨주세요', comments: [] },
+                    { id: 3203, type: 'normal', cat: '보관중', title: '[습득] 아이폰 14 프로 주웠습니다 (잠금화면 고양이)', author: '정직한사람', date: '2026.02.07', views: 250, extra: '교내 트램 7호선 내부', content: '트램 좌석 구석에 떨어져 있길래 종점 도착해서 트램 운전기사님한테 인계했습니다. 배터리 10% 남았었어요.', comments: [{author:'친구', text:'헐 제 친구 폰이에요 ㅠㅠ 기사님 어느 역에 계신지 아시나요? 당선역인가요?'}] }
+                ]
+            };
+            localStorage.setItem('hyobin_board_db_v2', JSON.stringify(DB));
+        }
+
+        // DB 갱신 함수 (로컬 스토리지 저장 포함)
+        function saveDB() {
+            localStorage.setItem('hyobin_board_db_v2', JSON.stringify(DB));
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            currentPage = 1;
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`nav-${tabId}`).classList.add('active');
+
+            const titleMap = { 
+                notice: ['공지사항', 'megaphone', '효빈대학교 본부 및 각 단과대학에서 전달하는 공식 행정 공지입니다.'], 
+                free: ['자유게시판', 'message-square', '학내 구성원 누구나 자유롭게 의견을 나누고 소통하는 공간입니다.'], 
+                market: ['벼룩시장', 'shopping-bag', '교내 중고 물품 거래 및 자취방 양도를 위한 직거래 장터입니다.'], 
+                lost: ['분실물센터', 'search', '캠퍼스 내에서 분실하거나 습득한 물품을 신고하고 찾는 공간입니다.'] 
+            };
+            document.getElementById('board-title-text').innerText = titleMap[tabId][0];
+            document.getElementById('board-desc').innerText = titleMap[tabId][2];
+            document.getElementById('board-icon').setAttribute('data-lucide', titleMap[tabId][1]);
+            document.getElementById('btn-write').style.display = tabId === 'notice' ? 'none' : 'flex';
+
+            showListView();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function showListView() {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-list').classList.add('active');
+            renderTable();
+        }
+
+        function renderTable(searchKeyword = '') {
+            const tbody = document.getElementById('board-tbody');
+            const thead = document.getElementById('board-thead');
+            
+            // 내림차순 정렬 (최신글이 위로)
+            let data = [...DB[currentTab]].sort((a, b) => b.id - a.id);
+            
+            // 검색 필터링
+            if(searchKeyword.trim() !== '') {
+                const type = document.getElementById('search-type').value;
+                data = data.filter(p => p[type].toLowerCase().includes(searchKeyword.toLowerCase()));
+            }
+
+            if(currentTab === 'market') {
+                thead.innerHTML = `<tr><th style="width:12%">상태</th><th style="width:48%">물품명 (제목)</th><th style="width:15%">희망가격</th><th style="width:15%">작성자</th><th style="width:10%">날짜</th></tr>`;
+            } else if(currentTab === 'lost') {
+                thead.innerHTML = `<tr><th style="width:12%">상태</th><th style="width:43%">분실/습득 내용</th><th style="width:20%">장소</th><th style="width:15%">작성자</th><th style="width:10%">날짜</th></tr>`;
+            } else {
+                thead.innerHTML = `<tr><th style="width:10%">번호</th><th style="width:53%">제목</th><th style="width:15%">작성자</th><th style="width:12%">등록일</th><th style="width:10%">조회</th></tr>`;
+            }
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const pageData = data.slice(startIdx, startIdx + itemsPerPage);
+            
+            tbody.innerHTML = '';
+            if(pageData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-12 text-center text-gray-400">등록된 게시글이 없습니다.</td></tr>`;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            pageData.forEach(post => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 cursor-pointer";
+                tr.onclick = () => viewPost(post.id);
+
+                let badgeHtml = '';
+                if(post.type === 'notice') badgeHtml = `<span class="badge badge-notice">${post.cat}</span>`;
+                else if(['보관중','판매중'].includes(post.cat)) badgeHtml = `<span class="badge badge-ing">${post.cat}</span>`;
+                else if(['수령완료','거래완료'].includes(post.cat)) badgeHtml = `<span class="badge badge-end">${post.cat}</span>`;
+                else badgeHtml = `<span class="badge badge-cat">${post.cat}</span>`;
+
+                const commentCount = post.comments && post.comments.length > 0 ? ` <span class="text-[#3344aa] font-bold text-xs">[${post.comments.length}]</span>` : '';
+
+                if(currentTab === 'market' || currentTab === 'lost') {
+                    tr.innerHTML = `<td>${badgeHtml}</td><td class="title-cell font-medium text-gray-800">${post.title}${commentCount}</td><td class="font-bold text-gray-600">${post.extra}</td><td>${post.author}</td><td class="text-gray-500">${post.date.substring(5)}</td>`;
+                } else {
+                    tr.innerHTML = `<td class="${post.type==='notice'?'font-bold text-[#3344aa]':''}">${post.type==='notice'?'공지':post.id}</td><td class="title-cell font-medium text-gray-800">${badgeHtml} ${post.title}${commentCount}</td><td>${post.author}</td><td class="text-gray-500">${post.date.substring(5)}</td><td class="text-gray-500">${post.views}</td>`;
+                }
+                tbody.appendChild(tr);
+            });
+
+            renderPagination(data.length);
+        }
+
+        function handleSearch() {
+            const keyword = document.getElementById('search-input').value;
+            currentPage = 1;
+            renderTable(keyword);
+        }
+
+        function renderPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pDiv = document.getElementById('pagination');
+            pDiv.innerHTML = '';
+
+            for(let i=1; i<=totalPages; i++) {
+                if(i > 7) break;
+                const btn = document.createElement('button');
+                btn.className = `w-9 h-9 rounded-lg border text-xs transition-colors font-bold ${i === currentPage ? 'bg-[#3344aa] text-white border-[#3344aa] shadow-sm' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`;
+                btn.innerText = i;
+                btn.onclick = () => { currentPage = i; renderTable(); };
+                pDiv.appendChild(btn);
+            }
+        }
+
+        function viewPost(postId) {
+            const post = DB[currentTab].find(p => p.id === postId);
+            if(!post) return;
+            currentViewingPostId = postId;
+            
+            // 조회수 증가 및 저장
+            post.views++;
+            saveDB();
+
+            document.getElementById('detail-badge').innerText = post.cat;
+            document.getElementById('detail-title').innerText = post.title;
+            document.getElementById('detail-author').innerText = post.author;
+            document.getElementById('detail-date').innerText = post.date;
+            document.getElementById('detail-views').innerText = post.views;
+            document.getElementById('detail-content').innerText = post.content;
+
+            if(currentTab === 'market' || currentTab === 'lost') {
+                document.getElementById('detail-content').innerText = `[${currentTab === 'market'?'희망가격':'장소'}: ${post.extra}]\n\n` + post.content;
+            }
+
+            renderComments(post);
+
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-detail').classList.add('active');
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function renderComments(post) {
+            const listDiv = document.getElementById('comment-list');
+            document.getElementById('comment-count').innerText = post.comments ? post.comments.length : 0;
+            listDiv.innerHTML = '';
+
+            if(!post.comments || post.comments.length === 0) {
+                listDiv.innerHTML = `<p class="text-xs text-gray-400 italic">등록된 댓글이 없습니다. 첫 댓글을 남겨보세요!</p>`;
+                return;
+            }
+
+            post.comments.forEach(c => {
+                const cBox = document.createElement('div');
+                cBox.className = "bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs flex flex-col gap-1";
+                cBox.innerHTML = `
+                    <div class="flex justify-between items-center"><span class="font-bold text-gray-800">${c.author}</span><span class="text-gray-400 text-[10px]">방금 전</span></div>
+                    <p class="text-gray-700 leading-relaxed">${c.text}</p>
+                `;
+                listDiv.appendChild(cBox);
+            });
+        }
+
+        function addComment() {
+            const author = document.getElementById('comment-author').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+            if(!author || !text) {
+                alert("작성자와 댓글 내용을 모두 입력해주세요!");
+                return;
+            }
+            const post = DB[currentTab].find(p => p.id === currentViewingPostId);
+            if(post) {
+                if(!post.comments) post.comments = [];
+                post.comments.push({ author, text });
+                
+                // 댓글 작성 후 데이터 영구 저장
+                saveDB();
+                
+                document.getElementById('comment-author').value = '';
+                document.getElementById('comment-text').value = '';
+                renderComments(post);
+            }
+        }
+
+        function deleteCurrentPost() {
+            if(confirm("정말 이 게시글을 삭제하시겠습니까?")) {
+                DB[currentTab] = DB[currentTab].filter(p => p.id !== currentViewingPostId);
+                saveDB(); // 삭제 후 저장
+                alert("게시글이 삭제되었습니다.");
+                showListView();
+            }
+        }
+
+        function showWriteForm() {
+            document.getElementById('write-board-name').innerText = document.getElementById('board-title-text').innerText;
+            document.getElementById('write-title').value = '';
+            document.getElementById('write-author').value = '';
+            document.getElementById('write-content').value = '';
+            
+            const dummyCats = { notice: ['일반', '학사', '장학', '취업'], free: ['잡담', '질문', '정보'], market: ['판매중', '거래완료', '구해요'], lost: ['보관중', '찾아요', '수령완료'] };
+            const catSelect = document.getElementById('write-category');
+            catSelect.innerHTML = '';
+            dummyCats[currentTab].forEach(cat => {
+                let op = document.createElement('option');
+                op.value = cat; op.innerText = cat;
+                catSelect.appendChild(op);
+            });
+
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-write').classList.add('active');
+        }
+
+        function submitPost() {
+            const cat = document.getElementById('write-category').value;
+            const title = document.getElementById('write-title').value.trim();
+            const author = document.getElementById('write-author').value.trim();
+            const content = document.getElementById('write-content').value.trim();
+
+            if(!title || !author || !content) {
+                alert("제목, 작성자, 내용 모두 입력해주세요!");
+                return;
+            }
+
+            // 고유 ID 생성 (기존 포스트 중 가장 큰 ID + 1)
+            let maxId = 0;
+            for (let tab in DB) {
+                DB[tab].forEach(p => { if(p.id > maxId) maxId = p.id; });
+            }
+            globalPostIdCounter = maxId + 1;
+
+            const today = new Date();
+            const dateStr = `2026.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
+
+            const newPost = {
+                id: globalPostIdCounter, 
+                type: 'normal', 
+                cat: cat, 
+                title: title, 
+                author: author,
+                date: dateStr, 
+                views: 1, 
+                extra: currentTab === 'market' ? '가격협의' : currentTab === 'lost' ? '확인요망' : '',
+                content: content, 
+                comments: []
+            };
+
+            // 새 글을 배열 맨 뒤에 추가 (정렬 시 최신 글로 올라옴)
+            DB[currentTab].push(newPost);
+            saveDB(); // 게시글 작성 후 저장
+
+            alert("게시글이 성공적으로 등록되었습니다!");
+            currentPage = 1;
+            showListView();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            switchTab('notice');
+            const hash = window.location.hash.replace('#', '');
+            if(['notice','free','market','lost'].includes(hash)) switchTab(hash);
+        });
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if(['notice','free','market','lost'].includes(hash)) switchTab(hash);
+        });
+    </script>
 </body>
 </html>

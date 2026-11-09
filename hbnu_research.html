@@ -3,117 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연구소 - 효빈대학교</title>
+    <title>연구·산학 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f4f6f9; }
+        
+        /* 사이드바 LNB 스타일 */
+        .nav-item { transition: all 0.2s ease; border-left: 4px solid transparent; }
+        .nav-item.active { background-color: #ebf0fe; border-left-color: #3344aa; color: #3344aa; }
+        .nav-item.active span { font-weight: 800; }
+        .nav-item:hover:not(.active) { background-color: #f8fafc; border-left-color: #cbd5e1; }
+
+        /* SPA 뷰 전환 애니메이션 */
+        .view-section { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .view-section.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* 연구뉴스 테이블 */
+        .news-table th { background-color: #f8fafc; font-weight: 700; border-top: 2px solid #3344aa; border-bottom: 1px solid #cbd5e1; padding: 14px 10px; color: #1e293b; text-align: center; }
+        .news-table td { border-bottom: 1px solid #e2e8f0; padding: 16px 10px; font-size: 14px; text-align: center; color: #475569; }
+        .news-table tr:hover td { background-color: #f0f7ff; }
+        
+        .badge-type { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .badge-paper { background-color: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .badge-patent { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .badge-project { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+        /* 카드 호버 이펙트 */
+        .research-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .research-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
     
+    <!-- 상단 헤더 영역 -->
     <div id="header-area"></div>
 
-    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">부설 연구소</h1>
-            <p class="text-gray-600">미래 사회의 난제를 해결하고 지역 발전을 선도하는 효빈대학교의 핵심 연구 기관입니다.</p>
-        </div>
+    <!-- 타이틀 배너 -->
+    <div class="bg-[#1e2a78] text-white py-16 text-center bg-cover bg-center relative shadow-inner" style="background-image: linear-gradient(rgba(30, 42, 120, 0.92), rgba(30, 42, 120, 0.92)), url('이미지/효빈대_연구배경.webp');">
+        <h1 class="text-4xl font-black mb-3 tracking-tight">연구·산학 (Research & Industry)</h1>
+        <p class="text-base font-light text-blue-200">글로벌 수준의 연구 인프라와 산학협력을 통해 미래 사회의 난제를 해결합니다.</p>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full flex flex-col lg:flex-row gap-8">
+        
+        <!-- 좌측 LNB (사이드바) -->
+        <aside class="w-full lg:w-72 shrink-0">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden sticky top-24">
+                <div class="bg-gray-50 px-6 py-5 border-b border-gray-200">
+                    <h2 class="text-lg font-black text-gray-800">연구/산학 메뉴</h2>
+                </div>
+                <nav class="flex flex-col text-[15px]" id="sidebar-nav">
+                    <button onclick="switchTab('news')" id="nav-news" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 border-b w-full text-left">
+                        <span class="flex items-center"><i data-lucide="newspaper" class="w-4 h-4 mr-3 text-blue-500"></i>연구뉴스/성과</span>
+                    </button>
+                    <button onclick="switchTab('institutes')" id="nav-institutes" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 border-b w-full text-left">
+                        <span class="flex items-center"><i data-lucide="building-2" class="w-4 h-4 mr-3 text-emerald-500"></i>부설 연구소 현황</span>
+                    </button>
+                    <button onclick="switchTab('industry')" id="nav-industry" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 border-b w-full text-left">
+                        <span class="flex items-center"><i data-lucide="handshake" class="w-4 h-4 mr-3 text-amber-500"></i>산학협력단</span>
+                    </button>
+                    <button onclick="switchTab('infra')" id="nav-infra" class="nav-item flex items-center justify-between px-6 py-4 text-gray-600 w-full text-left">
+                        <span class="flex items-center"><i data-lucide="microscope" class="w-4 h-4 mr-3 text-purple-500"></i>연구 인프라/검색</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- 빠른 링크 배너 -->
+            <div class="mt-6 flex flex-col gap-3">
+                <button class="bg-[#3344aa] text-white rounded-xl p-4 flex items-center justify-between hover:bg-[#1e2a78] transition shadow-sm">
+                    <div class="text-left">
+                        <span class="block font-black text-lg">산학협력단 포털</span>
+                        <span class="block text-xs text-blue-200 mt-1">연구비 관리 및 과제 신청</span>
+                    </div>
+                    <i data-lucide="external-link" class="w-6 h-6 opacity-50"></i>
+                </button>
+                <button class="bg-gray-800 text-white rounded-xl p-4 flex items-center justify-between hover:bg-black transition shadow-sm">
+                    <div class="text-left">
+                        <span class="block font-black text-lg">공동실험실습관</span>
+                        <span class="block text-xs text-gray-400 mt-1">첨단 분석 장비 예약 시스템</span>
+                    </div>
+                    <i data-lucide="flask-conical" class="w-6 h-6 opacity-50"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- 우측 본문 영역 -->
+        <section class="flex-1 min-h-[800px] relative">
             
-            <!-- 사회과학연구원 -->
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
-                <div class="h-40 bg-blue-600 relative p-6 flex flex-col justify-center text-white">
-                    <i data-lucide="users" class="w-10 h-10 mb-3 opacity-80"></i>
-                    <h3 class="text-2xl font-bold">사회과학연구원</h3>
-                    <p class="text-sm opacity-80">Institute of Social Science</p>
+            <!-- 뷰 1: 연구뉴스/성과 -->
+            <div id="view-news" class="view-section active bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+                <div class="border-b-2 border-gray-800 pb-4 mb-6 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900 tracking-tight flex items-center">
+                            <i data-lucide="newspaper" class="w-7 h-7 mr-2 text-[#3344aa]"></i> 연구뉴스 및 성과
+                        </h2>
+                        <p class="text-sm text-gray-500 mt-2">효빈대학교 연구자들의 우수한 연구 성과와 최신 동향을 안내합니다.</p>
+                    </div>
+                    <div class="hidden md:flex gap-2">
+                        <select class="border border-gray-300 text-sm p-2 rounded-lg outline-none bg-gray-50">
+                            <option>전체 성과</option>
+                            <option>우수 논문</option>
+                            <option>특허/기술이전</option>
+                        </select>
+                        <div class="border border-gray-300 rounded-lg flex overflow-hidden">
+                            <input type="text" placeholder="연구자 또는 키워드 검색" class="p-2 text-sm outline-none w-48">
+                            <button class="bg-gray-100 px-3 hover:bg-gray-200"><i data-lucide="search" class="w-4 h-4 text-gray-600"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-6">
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                        효빈시의 복지 정책을 설계하고 평가하는 싱크탱크입니다. 박효빈 시장 당선 이후 시청과의 공동 연구 프로젝트가 활발히 진행 중입니다.
+
+                <div class="overflow-x-auto">
+                    <table class="w-full news-table">
+                        <thead>
+                            <tr>
+                                <th style="width:12%">분류</th>
+                                <th style="width:53%">연구 성과 제목</th>
+                                <th style="width:15%">소속/연구자</th>
+                                <th style="width:20%">게재/등록일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge-type badge-paper">우수논문</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer cursor-pointer">사회복지학대학, '효빈형 맞춤 복지 모델' 네이처(Nature) 자매지 등재</td>
+                                <td>사회복지학 김민수</td>
+                                <td>2026.10.15</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-type badge-patent">특허출원</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer">차세대 트램(HBNU Rail) AI 자율주행 신호 제어 시스템 기술 특허 등록</td>
+                                <td>교통공학 박지훈</td>
+                                <td>2026.09.28</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-type badge-project">대형과제</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer">K-컬처 융합 연구소, 한국연구재단 '서브컬처 산업 동향 분석' 과제 수주</td>
+                                <td>문화콘텐츠 이수아</td>
+                                <td>2026.09.10</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-type badge-paper">우수논문</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer">빅데이터 기반 전염병 확산 예측 모델 개발 (의과대학 공동연구)</td>
+                                <td>컴퓨터공학 최현우</td>
+                                <td>2026.08.22</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-type badge-patent">기술이전</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer">고효율 태양광 패널 소재 기술, 지역 강소기업에 10억 원 규모 기술 이전</td>
+                                <td>신소재공학 정태영</td>
+                                <td>2026.07.11</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-type badge-project">대형과제</span></td>
+                                <td class="text-left font-medium text-gray-900 hover:text-[#3344aa] cursor-pointer">글로컬대학30 연계 '효빈-덕북 지역 혁신 메가 플랫폼' 구축 사업 선정</td>
+                                <td>산학협력단장</td>
+                                <td>2026.06.05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-center mt-8 space-x-2">
+                    <button class="w-8 h-8 rounded border bg-[#3344aa] text-white font-bold shadow-sm">1</button>
+                    <button class="w-8 h-8 rounded border bg-white text-gray-600 hover:bg-gray-50">2</button>
+                    <button class="w-8 h-8 rounded border bg-white text-gray-600 hover:bg-gray-50">3</button>
+                </div>
+            </div>
+
+            <!-- 뷰 2: 부설 연구소 현황 -->
+            <div id="view-institutes" class="view-section">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8 mb-6">
+                    <h2 class="text-2xl font-black text-gray-900 tracking-tight mb-2">부설 연구소 현황</h2>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        효빈대학교는 국가거점국립대학으로서 학제 간 융합을 주도하는 50여 개의 부설 연구소를 운영하고 있습니다. 특히 사회복지, 미래교통, K-컬처 분야에서 독보적인 연구 성과를 창출하며 지역사회 발전을 선도합니다.
                     </p>
-                    <div class="bg-blue-50 p-3 rounded text-sm text-blue-800 border border-blue-100">
-                        <span class="font-bold block mb-1">주요 연구 센터:</span>
-                        <ul class="list-disc pl-4 space-y-1 text-xs">
-                            <li>복지국가 전략 연구소</li>
-                            <li>지역사회 혁신 센터</li>
-                            <li>다문화 정책 연구소 (필리핀어학과 연계)</li>
-                        </ul>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 사회과학연구원 -->
+                    <div class="research-card bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="h-32 bg-blue-600 relative p-6 flex flex-col justify-center text-white">
+                            <h3 class="text-xl font-bold flex items-center"><i data-lucide="users" class="w-6 h-6 mr-2 opacity-80"></i>사회과학연구원</h3>
+                            <p class="text-xs opacity-80 mt-1">Institute of Social Science</p>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">
+                                효빈시의 복지 정책을 설계하고 평가하는 씽크탱크입니다. 박효빈 시장 당선 이후 시청과의 공동 연구 프로젝트가 활발히 진행 중입니다.
+                            </p>
+                            <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-900">
+                                <span class="font-bold block mb-1 text-xs">산하 주요 센터</span>
+                                <ul class="list-disc pl-4 space-y-1 text-xs opacity-90">
+                                    <li>복지국가 전략 연구소 (S등급 사회복지학 연계)</li>
+                                    <li>지역사회 혁신 센터</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 미래교통기술연구소 -->
+                    <div class="research-card bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="h-32 bg-[#00ccaa] relative p-6 flex flex-col justify-center text-white">
+                            <h3 class="text-xl font-bold flex items-center"><i data-lucide="train-front" class="w-6 h-6 mr-2 opacity-80"></i>미래교통기술연구소</h3>
+                            <p class="text-xs opacity-80 mt-1">Future Mobility Research Institute</p>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">
+                                국내 유일의 트램 및 경전철 실증 연구 기관입니다. HBNU Rail 노선을 테스트베드로 활용하여 차세대 철도 신호 시스템을 개발합니다.
+                            </p>
+                            <div class="bg-teal-50 p-3 rounded-lg text-sm text-teal-900">
+                                <span class="font-bold block mb-1 text-xs">주요 연구 분야</span>
+                                <ul class="list-disc pl-4 space-y-1 text-xs opacity-90">
+                                    <li>스마트 트램 관제 및 무인 운전 시스템</li>
+                                    <li>철도 안전 심리학 및 승객 동선 분석</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- K-컬처 융합 연구소 -->
+                    <div class="research-card bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="h-32 bg-purple-600 relative p-6 flex flex-col justify-center text-white">
+                            <h3 class="text-xl font-bold flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-2 opacity-80"></i>K-컬처 융합 연구소</h3>
+                            <p class="text-xs opacity-80 mt-1">Institute of K-Culture Convergence</p>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">
+                                애니메이션, 웹툰, 게임 등 서브컬처 산업의 학술적 가치를 탐구하며, HAF(효빈 애니 페스티벌)의 전략 수립 및 성과 분석을 담당합니다.
+                            </p>
+                            <div class="bg-purple-50 p-3 rounded-lg text-sm text-purple-900">
+                                <span class="font-bold block mb-1 text-xs">주요 프로젝트</span>
+                                <ul class="list-disc pl-4 space-y-1 text-xs opacity-90">
+                                    <li>한일 서브컬처 팬덤 비교 연구</li>
+                                    <li>오타쿠 문화 행사와 지역 경제 활성화 상관관계</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 기초과학연구소 -->
+                    <div class="research-card bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="h-32 bg-gray-700 relative p-6 flex flex-col justify-center text-white">
+                            <h3 class="text-xl font-bold flex items-center"><i data-lucide="microscope" class="w-6 h-6 mr-2 opacity-80"></i>기초과학연구소</h3>
+                            <p class="text-xs opacity-80 mt-1">Institute for Basic Science</p>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">
+                                자연과학의 기초 이론 정립과 응용 가능성을 탐구합니다. 세계 최고 수준의 초고분해능 전자현미경 등 첨단 분석 장비를 보유하고 있습니다.
+                            </p>
+                            <div class="bg-gray-100 p-3 rounded-lg text-sm text-gray-800">
+                                <span class="font-bold block mb-1 text-xs">산하 주요 부서</span>
+                                <ul class="list-disc pl-4 space-y-1 text-xs opacity-90">
+                                    <li>방사광 가속기 활용 연구센터</li>
+                                    <li>나노바이오 융합 물질 개발팀</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 미래교통기술연구소 -->
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
-                <div class="h-40 bg-[#00ccaa] relative p-6 flex flex-col justify-center text-white">
-                    <i data-lucide="train-front" class="w-10 h-10 mb-3 opacity-80"></i>
-                    <h3 class="text-2xl font-bold">미래교통기술연구소</h3>
-                    <p class="text-sm opacity-80">Future Mobility Research Institute</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                        국내 유일의 트램 및 모노레일 실증 연구 기관입니다. 교내 A/B 노선을 테스트베드로 활용하여 차세대 철도 신호 시스템을 개발합니다.
-                    </p>
-                    <div class="bg-teal-50 p-3 rounded text-sm text-teal-800 border border-teal-100">
-                        <span class="font-bold block mb-1">주요 연구 분야:</span>
-                        <ul class="list-disc pl-4 space-y-1 text-xs">
-                            <li>스마트 트램 관제 시스템</li>
-                            <li>도심형 모노레일 구조 해석</li>
-                            <li>철도 안전 심리학 (철도운전학과 연계)</li>
-                        </ul>
+            <!-- 뷰 3: 산학협력단 -->
+            <div id="view-industry" class="view-section">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-8 border-b">
+                        <h2 class="text-2xl font-black text-gray-900 tracking-tight flex items-center mb-4">
+                            <i data-lucide="handshake" class="w-7 h-7 mr-3 text-amber-500"></i> 산학협력단 (HBNU IACF)
+                        </h2>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                            효빈대학교 산학협력단은 대학이 보유한 우수 연구 인력과 기술력을 바탕으로 기업과의 실질적인 동반 성장을 이끌어냅니다. 지식재산권 창출, 기술이전, 창업 보육 및 지역사회 맞춤형 인재 양성의 허브 역할을 수행하고 있습니다.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="bg-gray-50 p-4 rounded-xl border">
+                                <span class="block text-xs font-bold text-gray-500 mb-1">연간 연구비 수주액</span>
+                                <span class="block text-2xl font-black text-[#3344aa]">1,250<span class="text-sm font-medium ml-1">억원</span></span>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border">
+                                <span class="block text-xs font-bold text-gray-500 mb-1">보유 특허(국내외)</span>
+                                <span class="block text-2xl font-black text-[#3344aa]">4,521<span class="text-sm font-medium ml-1">건</span></span>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border">
+                                <span class="block text-xs font-bold text-gray-500 mb-1">가족회사 네트워크</span>
+                                <span class="block text-2xl font-black text-[#3344aa]">2,104<span class="text-sm font-medium ml-1">개사</span></span>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border">
+                                <span class="block text-xs font-bold text-gray-500 mb-1">학생 창업 기업 수</span>
+                                <span class="block text-2xl font-black text-[#3344aa]">128<span class="text-sm font-medium ml-1">개사</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 bg-gray-50">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">주요 지원 사업 및 플랫폼</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3">
+                                    <i data-lucide="briefcase"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-2">가족회사 가입/지원</h4>
+                                <p class="text-xs text-gray-500">효빈대와 기업 간의 상호 협력 체계 구축 및 기술 자문 지원</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-3">
+                                    <i data-lucide="lightbulb"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-2">창업보육센터 (BI)</h4>
+                                <p class="text-xs text-gray-500">유망 스타트업 및 교원/학생 창업 기업을 위한 공간과 멘토링 제공</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-lg border shadow-sm flex flex-col items-center text-center">
+                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-3">
+                                    <i data-lucide="network"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-2">LINC 3.0 사업단</h4>
+                                <p class="text-xs text-gray-500">산업계 맞춤형 융합 인재 양성 및 산학연 협력 생태계 조성</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center">
+                            <button class="bg-[#3344aa] text-white px-8 py-3 rounded-lg font-bold shadow-md hover:bg-[#1e2a78] transition">산학협력단 홈페이지 바로가기</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- K-컬처 융합 연구소 -->
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
-                <div class="h-40 bg-purple-600 relative p-6 flex flex-col justify-center text-white">
-                    <i data-lucide="sparkles" class="w-10 h-10 mb-3 opacity-80"></i>
-                    <h3 class="text-2xl font-bold">K-컬처 융합 연구소</h3>
-                    <p class="text-sm opacity-80">Institute of K-Culture Convergence</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                        웹툰, 애니메이션, 게임 등 서브컬처 산업의 학술적 가치를 연구합니다. HAF(효빈 애니 페스티벌)의 성과 분석 및 전략 수립을 담당합니다.
-                    </p>
-                    <div class="bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-100">
-                        <span class="font-bold block mb-1">주요 프로젝트:</span>
-                        <ul class="list-disc pl-4 space-y-1 text-xs">
-                            <li>한일 서브컬처 비교 연구 (일어일문학과 연계)</li>
-                            <li>버추얼 유튜버 캐릭터 조형론</li>
-                            <li>오타쿠 문화와 지역 경제 활성화</li>
-                        </ul>
+            <!-- 뷰 4: 연구 인프라/검색 -->
+            <div id="view-infra" class="view-section">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+                    <h2 class="text-2xl font-black text-gray-900 tracking-tight mb-2">연구 인프라 및 연구자 검색</h2>
+                    <p class="text-sm text-gray-600 mb-8">효빈대학교의 핵심 연구 인력과 공동 활용 가능한 첨단 실험 장비를 검색할 수 있습니다.</p>
+
+                    <div class="bg-[#1e2a78] rounded-xl p-8 text-white relative overflow-hidden mb-8 shadow-inner">
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-xl mb-4">HBNU 연구자 통합 검색</h3>
+                            <div class="flex gap-2">
+                                <select class="bg-white text-gray-800 text-sm rounded-lg px-3 py-3 outline-none w-1/4 font-medium">
+                                    <option>이름으로 검색</option>
+                                    <option>연구 키워드로 검색</option>
+                                    <option>단과대학별 검색</option>
+                                </select>
+                                <input type="text" placeholder="예: 빅데이터, 사회복지, 트램 제어..." class="bg-white text-gray-800 text-sm rounded-lg px-4 py-3 flex-1 outline-none">
+                                <button class="bg-[#00ccaa] hover:bg-teal-500 text-white font-bold px-6 py-3 rounded-lg transition flex items-center shadow-md">
+                                    <i data-lucide="search" class="w-4 h-4 mr-2"></i> 검색
+                                </button>
+                            </div>
+                        </div>
+                        <i data-lucide="microscope" class="w-48 h-48 absolute -right-6 -bottom-10 opacity-10"></i>
+                    </div>
+
+                    <h3 class="font-bold text-lg text-gray-800 mb-4 border-b pb-2">공동실험실습관 주요 장비 현황</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="border rounded-lg p-4 flex items-start gap-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="w-16 h-16 bg-gray-200 rounded object-cover flex-shrink-0 flex items-center justify-center"><i data-lucide="camera" class="text-gray-400"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">고분해능 투과전자현미경 (HR-TEM)</h4>
+                                <p class="text-xs text-gray-500 mb-2">나노 소재 및 바이오 샘플의 초정밀 원자 구조 분석</p>
+                                <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold">당선캠퍼스 공동실험관 101호</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 flex items-start gap-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="w-16 h-16 bg-gray-200 rounded object-cover flex-shrink-0 flex items-center justify-center"><i data-lucide="activity" class="text-gray-400"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">초전도 핵자기공명 분광기 (800MHz NMR)</h4>
+                                <p class="text-xs text-gray-500 mb-2">천연물, 신약 후보 물질의 3차원 분자 구조 규명</p>
+                                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">천주캠퍼스 의학연구센터 B1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-6">
+                        <button class="text-sm font-bold text-[#3344aa] hover:underline">장비 사용 예약 및 전체 목록 보기 &rarr;</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 기초과학연구소 -->
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition">
-                <div class="h-40 bg-gray-600 relative p-6 flex flex-col justify-center text-white">
-                    <i data-lucide="microscope" class="w-10 h-10 mb-3 opacity-80"></i>
-                    <h3 class="text-2xl font-bold">기초과학연구소</h3>
-                    <p class="text-sm opacity-80">Research Institute for Basic Science</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                        자연과학의 기초 이론 정립과 응용 가능성을 탐구합니다. 물리, 화학, 생명과학 분야의 첨단 장비를 보유하고 있습니다.
-                    </p>
-                    <div class="bg-gray-50 p-3 rounded text-sm text-gray-800 border border-gray-100">
-                        <span class="font-bold block mb-1">보유 장비:</span>
-                        <ul class="list-disc pl-4 space-y-1 text-xs">
-                            <li>초고분해능 전자현미경 (TEM)</li>
-                            <li>핵자기공명분광기 (NMR)</li>
-                            <li>기상 관측 레이더 (대기과학과 연계)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        </section>
     </main>
 
+    <!-- 푸터 영역 -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+    
+    <!-- common.js 연동 (절대 삭제 금지) -->
     <script src="common.js"></script>
+    
+    <script>
+        // SPA 탭 전환 로직
+        function switchTab(tabId) {
+            // LNB 활성화 처리
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if(activeNav) activeNav.classList.add('active');
+
+            // 뷰 전환 처리
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+                // 애니메이션 리셋을 위한 트릭
+                el.style.opacity = '0';
+            });
+            
+            const activeView = document.getElementById(`view-${tabId}`);
+            if(activeView) {
+                activeView.classList.add('active');
+                // 강제 리플로우 후 투명도 복구
+                void activeView.offsetWidth;
+                activeView.style.opacity = '1';
+            }
+            
+            // 해시 변경 (뒤로가기 지원용, 페이지 스크롤 방지)
+            if(window.location.hash !== `#${tabId}`) {
+                history.replaceState(null, null, `#${tabId}`);
+            }
+        }
+
+        // 초기 로드 시 해시 확인 및 탭 설정
+        window.addEventListener('DOMContentLoaded', () => {
+            let hash = window.location.hash.replace('#', '');
+            const validTabs = ['news', 'institutes', 'industry', 'infra'];
+            
+            if (!validTabs.includes(hash)) {
+                hash = 'news'; // 기본 탭
+            }
+            
+            switchTab(hash);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        // 해시 변경 감지 (뒤로가기 시)
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            const validTabs = ['news', 'institutes', 'industry', 'infra'];
+            if (validTabs.includes(hash)) {
+                switchTab(hash);
+            }
+        });
+    </script>
 </body>
 </html>
