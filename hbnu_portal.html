@@ -3,97 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU Portal - 효빈대학교 차세대 종합정보시스템 (클라우드 통합포털)</title>
+    <title>HBNU OASIS - 효빈대학교 차세대 종합정보시스템 (통합학사포털)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f1f5f9; color: #1e293b; }
         .font-mono-code { font-family: 'JetBrains Mono', monospace; }
-        .login-card { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .login-card { animation: fadeIn 0.35s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .loader { border-top-color: #3344aa; animation: spinner 0.8s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-100 flex flex-col min-h-screen text-slate-800">
+<body class="flex flex-col min-h-screen text-slate-800">
     
-    <!-- 포털 전용 상단 헤더 (스크롤 시 따라오지 않도록 일반 배치) -->
-    <header class="bg-white border-b h-16 flex items-center px-6 justify-between shadow-sm z-40">
-        <div class="flex items-center gap-4">
-            <a href="hbnu_main.html" class="font-black text-[#3344aa] text-xl flex items-center hover:opacity-80 transition">
+    <!-- 포털 전용 상단 헤더 -->
+    <header class="bg-white border-b border-slate-200 h-16 flex items-center px-4 md:px-6 justify-between shadow-sm z-40">
+        <div class="flex items-center gap-3">
+            <a href="hbnu_main.html" class="font-black text-[#3344aa] text-xl flex items-center hover:opacity-85 transition">
                 <img src="이미지/효빈대_로고.webp" 
-                     onerror="this.src='https://imgur.com/Uvf0SqH.png'" 
+                     onerror="this.style.display='none'" 
                      alt="HBNU 로고" 
-                     class="w-9 h-9 mr-2.5 rounded-md object-contain">
+                     class="w-9 h-9 mr-2.5 rounded-md object-contain" style="max-height:36px; width:auto;">
                 <div class="flex flex-col">
-                    <span id="portal-title" class="text-lg tracking-tight leading-none font-black text-[#1e2a78]">효빈대학교 차세대 포털 (HBNU OASIS)</span>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Integrated Academic & Rail Pass System</span>
+                    <span class="text-base md:text-lg tracking-tight leading-none font-black text-[#1e2a78]">효빈대학교 차세대 종합정보시스템 (HBNU OASIS)</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Enterprise Academic, Administrative & Smart Campus Portal</span>
                 </div>
             </a>
         </div>
-        <div class="flex items-center gap-3">
+
+        <div class="flex items-center gap-2 md:gap-3">
+            <!-- 로그인 상태에서 빠른 학적 세션 전환 셀렉터 -->
+            <div id="header-session-switcher" class="hidden items-center gap-1.5 bg-slate-100 px-2.5 py-1 rounded-xl border border-slate-200">
+                <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#3344aa]"></i>
+                <span class="text-[11px] font-bold text-slate-500 hidden xl:inline">접속계정:</span>
+                <select id="header-account-select" onchange="activateDashboard(this.value)" class="bg-transparent text-xs font-extrabold text-[#1e2a78] outline-none cursor-pointer">
+                </select>
+            </div>
+
             <a href="hbnu_main.html" class="text-xs font-bold text-slate-600 hover:text-[#3344aa] px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition flex items-center gap-1">
-                <i data-lucide="home" class="w-3.5 h-3.5"></i> 대학 대표홈페이지
+                <i data-lucide="home" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">대학 대표홈페이지</span>
             </a>
-            <a href="hbnu_sitemap.html" class="text-xs font-bold text-slate-600 hover:text-[#3344aa] px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition hidden sm:flex items-center gap-1">
+            <a href="hbnu_sitemap.html" class="text-xs font-bold text-slate-600 hover:text-[#3344aa] px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition hidden md:flex items-center gap-1">
                 <i data-lucide="map" class="w-3.5 h-3.5"></i> 사이트맵
             </a>
-            <div id="header-user- status" class="hidden items-center gap-2">
-                <button onclick="handleLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1">
+            <div id="header-user-status" class="hidden items-center gap-2">
+                <button onclick="handleLogout()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1">
                     <i data-lucide="log-out" class="w-3.5 h-3.5"></i> 로그아웃
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ================= 1. 로그인 뷰 (비로그인 시 표시) ================= -->
-    <main id="login-view" class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- ================= 1. SSO 통합 로그인 뷰 (비로그인 시 표시) ================= -->
+    <main id="login-view" class="flex-grow flex items-center justify-center p-4 md:p-6 relative overflow-hidden">
         <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-emerald-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
-        <div class="login-card bg-white p-8 md:p-10 rounded-[28px] shadow-2xl shadow-blue-900/10 max-w-md w-full border border-slate-200/80 relative z-10">
-            <div class="text-center mb-7">
-                <div class="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner border border-slate-200">
+        <div class="login-card bg-white p-7 md:p-9 rounded-[28px] shadow-2xl shadow-blue-900/10 max-w-lg w-full border border-slate-200/80 relative z-10">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner border border-slate-200">
                     <img src="이미지/효빈대_로고.webp" 
-                         onerror="this.src='https://imgur.com/Uvf0SqH.png'" 
+                         onerror="this.style.display='none'" 
                          alt="HBNU 로고" 
-                         class="w-14 h-14 object-contain">
+                         class="w-12 h-12 object-contain" style="max-height:48px; width:auto;">
                 </div>
-                <span class="inline-block bg-blue-50 text-[#3344aa] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-blue-200 mb-1.5">SSO 통합인증 · HIPA 보안방화벽 가동중</span>
-                <h1 class="text-2xl font-black text-slate-800 tracking-tight" id="login-title">HBNU 클라우드 통합 로그인</h1>
-                <p class="text-slate-400 text-xs mt-1 font-medium">종합정보시스템 · 웹메일 · e-루리(LMS) · 교내철도 무임패스</p>
+                <span class="inline-block bg-blue-50 text-[#3344aa] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-blue-200 mb-1.5">SSO 통합인증 · 전산교육관(45동) 보안서버 가동중</span>
+                <h1 class="text-2xl font-black text-slate-800 tracking-tight">HBNU 차세대 종합정보시스템</h1>
+                <p class="text-slate-400 text-xs mt-1 font-medium">통합학사(OASIS) · 스마트학습관리(LMS) · 전자결재 · HBNU Rail 패스</p>
             </div>
 
-            <!-- 빠른 계정 프리셋 선택 (테스트 및 세계관 캐릭터 체험용) -->
-            <div class="mb-5 bg-slate-50 p-3 rounded-2xl border border-slate-200">
-                <div class="text-[11px] font-extrabold text-slate-500 mb-2 flex items-center justify-between">
-                    <span>⚡ 원클릭 계정 자동입력 (학번 프리셋)</span>
-                    <span class="text-[10px] text-[#3344aa]">클릭 시 자동 입력</span>
+            <!-- 7인 등록 학적 계정 빠른 선택 (실제 포털 통합인증 계정 선택기) -->
+            <div class="mb-5 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                <div class="text-[11px] font-extrabold text-slate-600 mb-2 flex items-center justify-between">
+                    <span>🔐 등록 학적 계정 선택 (7인 학사DB 연동)</span>
+                    <span class="text-[10px] text-[#3344aa]">선택 시 학번 자동 입력</span>
                 </div>
-                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
-                    <button type="button" onclick="fillPreset('202501234', '사회복지정책학과')" class="px-2.5 py-1.5 bg-white hover:bg-blue-50 border border-slate-200 rounded-lg font-bold text-slate-700 text-left truncate">🎓 202501234 (사회복지정책)</button>
-                    <button type="button" onclick="fillPreset('202335012', '철도운전시스템공학과')" class="px-2.5 py-1.5 bg-white hover:bg-blue-50 border border-slate-200 rounded-lg font-bold text-slate-700 text-left truncate">🚊 202335012 (철도운전 4학년)</button>
-                    <button type="button" onclick="fillPreset('202406001', '정치외교학과(김시연)')" class="px-2.5 py-1.5 bg-white hover:bg-blue-50 border border-slate-200 rounded-lg font-bold text-slate-700 text-left truncate">⚖️ 202406001 (사회대 학생회장)</button>
-                    <button type="button" onclick="fillPreset('199500001', '제26대 총장 민부선')" class="px-2.5 py-1.5 bg-white hover:bg-emerald-50 border border-emerald-200 rounded-lg font-bold text-emerald-800 text-left truncate">🍞 199500001 (민부선 총장실)</button>
-                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]" id="login-preset-buttons"></div>
             </div>
 
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 ml-1 uppercase">ID / Student & Staff No.</label>
+                    <label class="text-[10px] font-black text-slate-500 ml-1 uppercase">Student / Alumni ID (학번)</label>
                     <div class="relative">
                         <i data-lucide="user" class="absolute left-4 top-3.5 text-slate-400 w-4 h-4"></i>
-                        <input type="text" id="inp-id" value="202501234" placeholder="학번 또는 교번 (예: 202501234)" required
-                            class="w-full pl-11 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#3344aa] focus:bg-white outline-none transition-all font-bold text-sm">
+                        <input type="text" id="inp-id" value="202306001" placeholder="학번 9자리 입력 (예: 202306001)" required
+                            class="w-full pl-11 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#3344aa] focus:bg-white outline-none transition-all font-bold text-sm font-mono-code">
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 ml-1 uppercase">Password</label>
+                    <label class="text-[10px] font-black text-slate-500 ml-1 uppercase">Password (비밀번호)</label>
                     <div class="relative">
                         <i data-lucide="key-round" class="absolute left-4 top-3.5 text-slate-400 w-4 h-4"></i>
-                        <input type="password" id="inp-pw" value="hbnu1925!" placeholder="비밀번호 (아무 키나 입력 가능)" required
+                        <input type="password" id="inp-pw" value="hbnu1925!" placeholder="비밀번호 입력" required
                             class="w-full pl-11 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#3344aa] focus:bg-white outline-none transition-all font-bold text-sm">
                     </div>
                 </div>
@@ -103,70 +107,94 @@
                         <input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-[#3344aa] focus:ring-[#3344aa]">
                         <span class="text-xs font-bold text-slate-500 group-hover:text-slate-800 transition">학번 저장</span>
                     </label>
-                    <button type="button" onclick="openHelperModal('pw')" class="text-xs font-bold text-[#3344aa] hover:underline">비밀번호 초기화</button>
+                    <button type="button" onclick="openHelperModal('pw')" class="text-xs font-bold text-[#3344aa] hover:underline">비밀번호 초기화 안내</button>
                 </div>
 
                 <button type="submit" id="btn-login" class="w-full bg-[#3344aa] text-white py-3.5 rounded-2xl font-black text-sm hover:bg-[#1e2a78] transition shadow-xl shadow-blue-900/20 active:scale-[0.98] flex justify-center items-center">
-                    <span>종합정보시스템 로그인</span>
+                    <span>종합정보시스템 통합 로그인</span>
                     <div id="login-spinner" class="loader ease-linear rounded-full border-2 border-t-2 border-gray-200 h-4 w-4 ml-3 hidden"></div>
                 </button>
             </form>
 
-            <div id="error-message" class="mt-4 p-3 bg-red-50 text-red-600 text-xs rounded-xl border border-red-200 hidden text-center font-bold"></div>
-
-            <div class="mt-6 pt-6 border-t border-slate-100 text-center">
-                <p class="text-[11px] text-slate-400 font-medium">신입생·편입생은 최초 로그인 시 수험번호 기반 학번 조회가 필요합니다.</p>
-                <div class="flex justify-center gap-3 mt-3">
-                    <button type="button" onclick="openHelperModal('id')" class="text-xs font-black text-[#3344aa] bg-blue-50 px-3.5 py-1.5 rounded-xl hover:bg-blue-100 transition">신입생 학번조회</button>
-                    <button type="button" onclick="openHelperModal('guide')" class="text-xs font-black text-slate-600 bg-slate-100 px-3.5 py-1.5 rounded-xl hover:bg-slate-200 transition">인증서·보안 안내</button>
+            <div class="mt-5 pt-5 border-t border-slate-100 text-center">
+                <div class="flex justify-center gap-2.5">
+                    <button type="button" onclick="openHelperModal('id')" class="text-xs font-black text-[#3344aa] bg-blue-50 px-3.5 py-1.5 rounded-xl hover:bg-blue-100 transition">학번 체계 안내</button>
+                    <button type="button" onclick="openHelperModal('guide')" class="text-xs font-black text-slate-600 bg-slate-100 px-3.5 py-1.5 rounded-xl hover:bg-slate-200 transition">정보보안 정책 안내</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ================= 2. 종합정보시스템 메인 대시보드 뷰 (로그인 성공 시 즉시 렌더링) ================= -->
-    <section id="dashboard-view" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-6">
-        <!-- 상단 환영 배너 및 학적 요약 -->
-        <div class="bg-gradient-to-r from-[#1e2a78] via-[#3344aa] to-[#1e3a8a] rounded-3xl p-6 md:p-8 text-white shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div class="flex items-center gap-5">
+    <!-- ================= 2. 종합정보시스템 메인 대시보드 뷰 (로그인 성공 시) ================= -->
+    <section id="dashboard-view" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
+        
+        <!-- 상단 사용자 학적 원부 요약 배너 -->
+        <div class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] rounded-3xl p-6 md:p-7 text-white shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b-4 border-[#99dd88]">
+            <div class="flex items-start sm:items-center gap-4 md:gap-5">
                 <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/15 border-2 border-[#99dd88] flex items-center justify-center text-2xl md:text-3xl font-black shrink-0" id="dash-avatar">
-                    H
+                    김
                 </div>
-                <div>
-                    <div class="flex flex-wrap items-center gap-2 mb-1">
-                        <span id="dash-role-badge" class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded-full">학부 재학생 (정규학기)</span>
-                        <span class="text-xs text-blue-200 font-mono-code" id="dash-student-id">학번: 202501234</span>
+                <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="dash-role-badge" class="bg-[#99dd88] text-[#1e2a78] text-xs font-black px-2.5 py-0.5 rounded-full">재학 (4학년 7학기)</span>
+                        <span class="text-xs text-[#a0fff9] font-mono-code font-bold" id="dash-student-id">학번: 202306001</span>
+                        <span class="text-xs text-blue-200" id="dash-commute-badge">🚇 통학: 5호선 소조역 ↔ B03/B04역</span>
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-black tracking-tight"><span id="dash-user-name">박효빈</span> 님, 환영합니다!</h2>
-                    <p class="text-xs md:text-sm text-blue-100 mt-1" id="dash-user-dept">소속: 사회복지학대학 사회복지정책학과 (제1전공) · 상과대학 경영학과 (복수전공) | 지도교수: 민부선</p>
+                    <h2 class="text-xl md:text-2xl font-black tracking-tight"><span id="dash-user-name">김시연 (金始延)</span> 님의 학사포털</h2>
+                    <p class="text-xs text-blue-100 leading-relaxed" id="dash-user-dept"></p>
                 </div>
             </div>
-            <div class="grid grid-cols-3 gap-3 bg-black/25 p-4 rounded-2xl border border-white/10 text-center shrink-0">
-                <div class="px-3">
-                    <div class="text-[11px] text-blue-200">취득학점 / 졸업기준</div>
-                    <div class="text-lg md:text-xl font-black text-[#99dd88] mt-0.5">108 / 130</div>
+
+            <!-- 우측 핵심 수치 4칸 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-black/30 p-4 rounded-2xl border border-white/10 text-center shrink-0 text-xs">
+                <div class="px-2">
+                    <div class="text-[10px] text-blue-200">취득학점 / 졸업기준</div>
+                    <div class="text-base md:text-lg font-black text-[#99dd88] font-mono-code mt-0.5" id="dash-credits">126 / 130</div>
                 </div>
-                <div class="px-3 border-x border-white/15">
-                    <div class="text-[11px] text-blue-200">전체 평점평균(GPA)</div>
-                    <div class="text-lg md:text-xl font-black text-white mt-0.5">4.32 <span class="text-xs font-normal text-gray-300">/ 4.5</span></div>
+                <div class="px-2 border-l border-white/15">
+                    <div class="text-[10px] text-blue-200">누적 평점평균(GPA)</div>
+                    <div class="text-base md:text-lg font-black text-amber-300 font-mono-code mt-0.5" id="dash-gpa">4.28 / 4.50</div>
                 </div>
-                <div class="px-3">
-                    <div class="text-[11px] text-blue-200">2026-2 등록금</div>
-                    <div class="text-lg md:text-xl font-black text-[#a0fff9] mt-0.5">전액장학(0원)</div>
+                <div class="px-2 border-l border-white/15">
+                    <div class="text-[10px] text-blue-200">학과 누적석차</div>
+                    <div class="text-base md:text-lg font-black text-white mt-0.5" id="dash-rank">2 / 64명</div>
+                </div>
+                <div class="px-2 border-l border-white/15">
+                    <div class="text-[10px] text-blue-200">등록금 실납부액</div>
+                    <div class="text-base md:text-lg font-black text-[#a0fff9] font-mono-code mt-0.5" id="dash-tuition">0원 (전액장학)</div>
                 </div>
             </div>
         </div>
 
-        <!-- 포털 내부 서브탭 -->
-        <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
-            <button onclick="switchPortalTab('overview')" id="ptab-overview" class="px-4 py-2 rounded-xl text-xs md:text-sm font-black bg-[#3344aa] text-white transition">📊 학사·수강·성적 종합</button>
-            <button onclick="switchPortalTab('railpass')" id="ptab-railpass" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold text-slate-600 hover:bg-slate-100 transition">🚊 모바일 학생증 & HBNU Rail 무임패스</button>
-            <button onclick="switchPortalTab('welfare')" id="ptab-welfare" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold text-slate-600 hover:bg-slate-100 transition">🥪 천원의 아침밥(엠마의 식탁) & 기숙사</button>
-            <button onclick="switchPortalTab('cert')" id="ptab-cert" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold text-slate-600 hover:bg-slate-100 transition">📄 원스톱 전자결재·증명서 발급</button>
+        <!-- 종합정보시스템 7대 행정 모듈 네비게이션 탭 -->
+        <div class="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1.5">
+                <button onclick="switchPortalTab('overview')" id="ptab-overview" class="px-3 py-2.5 rounded-xl text-xs font-black bg-[#3344aa] text-white transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 shrink-0"></i> <span>종합 대시보드</span>
+                </button>
+                <button onclick="switchPortalTab('record')" id="ptab-record" class="px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="user-cog" class="w-3.5 h-3.5 shrink-0"></i> <span>학적·전공·휴복학</span>
+                </button>
+                <button onclick="switchPortalTab('academic')" id="ptab-academic" class="px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="book-open-check" class="w-3.5 h-3.5 shrink-0"></i> <span>수강·성적·졸업사정</span>
+                </button>
+                <button onclick="switchPortalTab('tuition')" id="ptab-tuition" class="px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="landmark" class="w-3.5 h-3.5 shrink-0"></i> <span>등록금·장학·계좌</span>
+                </button>
+                <button onclick="switchPortalTab('railpass')" id="ptab-railpass" class="px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="tram-front" class="w-3.5 h-3.5 shrink-0"></i> <span>학생증·교통패스</span>
+                </button>
+                <button onclick="switchPortalTab('welfare')" id="ptab-welfare" class="px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="utensils" class="w-3.5 h-3.5 shrink-0"></i> <span>식권·도서관·대관</span>
+                </button>
+                <button onclick="switchPortalTab('cert')" id="ptab-cert" class="col-span-2 sm:col-span-1 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="file-check-2" class="w-3.5 h-3.5 shrink-0"></i> <span>전자결재·증명발급</span>
+                </button>
+            </div>
         </div>
 
-        <!-- 포털 탭 컨텐츠 영역 -->
-        <div id="portal-tab-content"></div>
+        <!-- 포털 탭 컨텐츠 렌더링 루트 -->
+        <div id="portal-tab-content" class="space-y-6"></div>
     </section>
 
     <!-- 학번조회 / 안내 모달 -->
@@ -183,80 +211,314 @@
         </div>
     </div>
 
-    <footer id="portal-footer" class="text-center py-6 text-[11px] text-slate-400 font-bold uppercase tracking-widest border-t bg-white mt-auto">
-        COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED. | 전산교육관(45동) 정보화본부
+    <footer class="text-center py-6 text-[11px] text-slate-400 font-bold uppercase tracking-widest border-t bg-white mt-auto">
+        COPYRIGHT © 1925-2026 HYOBIN NATIONAL UNIVERSITY. ALL RIGHTS RESERVED. | 전산교육관(45동) 정보화본부 통합학사서버
     </footer>
 
-    <!-- 로컬 스토리지 + Firebase 하이브리드 완벽 동작 스크립트 -->
     <script>
-        const PRESET_PROFILES = {
-            '202501234': {
-                name: '박효빈',
-                role: '학부 재학생 (복수전공)',
-                dept: '사회복지학대학 사회복지정책학과 (제1전공) · 상과대학 경영학과 (복수전공)',
-                advisor: '민부선 교수 (사회복지경영학)',
-                dorm: '통학 (5호선 소조역 ↔ B03 사회복지대역 루트)',
-                scholarship: '베르데 성적우수 전액장학금 & 블루버드 멘토단 활동장학금',
+        // ================= 7인 통합 학사·행정 마스터 데이터베이스 (김시연 통학 및 박효빈 경영복전 등 100% 반영) =================
+        const PORTAL_USERS_DB = {
+            '202306001': {
+                id: '202306001',
+                name: '김시연 (金始延)',
+                birth: '2004. 03. 01.',
+                role: '재학 (4학년 7학기 · 사회과학대학 학생회장)',
+                college: '사회과학대학 (당선본캠 6-1동)',
+                dept: '정치외교학과',
+                doubleMajor: '법학전문대학원 학부법학연계전공 (부전공 · 로스쿨 준비반 저스티스)',
+                advisor: '은권규 교수 · 하성휘 겸임교수',
+                commuteType: '통학 (자택 통학)',
+                commuteRoute: '효빈시 자택 ➔ 도시철도 5호선 소조역 하차 ➔ 교내 모노레일 B선 B03(사회복지대역)·B04(미술사회대역) 환승 통학',
+                earnedCredits: 126,
+                reqCredits: 130,
+                gpa: '4.28',
+                percentile: '97.1',
+                rank: '2 / 64명',
+                tuitionRaw: 1945000,
+                scholarshipName: '사회과학대학 자치리더십 전액장학금',
+                scholarshipAmt: 1945000,
+                bankAccount: '효빈은행 302-****-8841-11 (예금주: 김시연)',
+                libraryLoans: [
+                    { title: '현대 비교정치경제론과 선거 데이터 분석', due: '2026.11.20', loc: '중앙도서관(23동) 제2자료실' },
+                    { title: '형사소송법 판례백선 (제8판)', due: '2026.11.24', loc: '법학전문도서관(31동) 지정도서실' }
+                ],
+                counselingLogs: [
+                    { date: '2026.10.12', advisor: '하성휘 겸임교수', topic: '2027학년도 본교 법학전문대학원(31동) 진학 및 공익법무 트랙 상담', status: '상담완료' },
+                    { date: '2026.05.08', advisor: '은권규 교수', topic: '사회과학대학 학생회 선거캠프 정책공약 및 교내 인권보호 조례 자문', status: '상담완료' }
+                ],
+                railLogs: [
+                    { time: '금일 08:32', station: 'B03 사회복지대역 (5호선 소조역 환승)', line: 'B선 모노레일', fare: '0원 (재학생 무임)' },
+                    { time: '금일 12:15', station: 'A07 대학본부·충승당역 (본부 회의 참석)', line: 'A선 트램', fare: '0원 (재학생 무임)' }
+                ],
                 courses: [
-                    { code: 'SWP301', title: '사회복지경영론 (애니메이션 팬덤과 사회적 자본)', prof: '민부선', credit: 3, time: '화 2-3 / 목 2 (사회복지대 7-1동 302호)', grade: 'A+' },
-                    { code: 'SWP304', title: '지방분권과 대중교통 복지정책론', prof: '이찬대(초빙)', credit: 3, time: '월 4 / 수 3-4 (사회복지대 7-1동 201호)', grade: 'A+' },
-                    { code: 'BUS208', title: '재무관리와 경영통계분석', prof: '박현만(명예)', credit: 3, time: '화 5-6 / 목 5 (상과대 8-1동 104호)', grade: 'A0' },
-                    { code: 'GEN109', title: '서브컬처로 배우는 지역사회학 (HAF Zone 4 실습)', prof: '오다구', credit: 2, time: '금 3-4 (베르데 홀 29동 소극장)', grade: 'A+' },
-                    { code: 'LLL102', title: '실무 필리핀어 회화 입문', prof: '마리아 산토스', credit: 3, time: '월 1-2 / 수 1 (동양언어관 10-1동 마부하이라운지)', grade: 'A+' },
-                    { code: 'TRN201', title: '도시철도 운영 및 신호제어 개론 (일선교양)', prof: '김철도', credit: 3, time: '수 6-8 (교통대학 35-2동 디오라마 강의실)', grade: 'A+' }
+                    { code: 'POL-401', title: '한국정치과정과 선거빅데이터분석', prof: '강민석', credit: 3, time: '월 2-3 / 수 2 (사회대 6-1동 401호)', lmsTask: '유권자 지형 분석 리포트 제출완료', attRate: '100%', grade: 'A+' },
+                    { code: 'POL-308', title: '비교정치론 세미나', prof: '류성민', credit: 3, time: '화 3-4 / 목 3 (사회대 6-1동 302호)', lmsTask: '내각제·대통령제 비교 발표완료', attRate: '100%', grade: 'A+' },
+                    { code: 'PUB-304', title: '행정법총론 및 판례연구', prof: '하성휘', credit: 3, time: '화 5-6 / 목 5 (사회대 6-2동 205호)', lmsTask: '행정소송 적법절차 판례평석 제출완료', attRate: '100%', grade: 'A+' },
+                    { code: 'PAD-302', title: '형법각론과 인권보호실무', prof: '차정훈', credit: 3, time: '월 5-6 / 수 5 (사회대 6-2동 104호)', lmsTask: '정보통신망법·무고죄 법리 검토완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWP-301', title: '사회보장론 (인접단과대 교차수강)', prof: '은권규', credit: 3, time: '수 7-9 (사회복지대 7-1동 201호)', lmsTask: '청년복지 예산 분석과제 제출완료', attRate: '100%', grade: 'A0' },
+                    { code: 'GEC-201', title: '트램과 도시문명사', prof: '오다구', credit: 3, time: '금 3-5 (베르데 홀 29동 대강의실)', lmsTask: '대중교통과 도시연결성 에세이 완료', attRate: '100%', grade: 'A+' }
                 ]
             },
-            '202335012': {
-                name: '이철도',
-                role: '학부 4학년 (HBNU Rail A선 기관사 실습생)',
-                dept: '교통대학 철도운전시스템공학과 (제1분반 A선 트램 전담)',
-                advisor: '오다구 명예교수',
-                dorm: '아파트형 기숙사 B동 아와관(52동) 1402호',
-                scholarship: '효빈교통공사 산학협력 예약장학금',
+
+            '201507009': {
+                id: '201507009',
+                name: '박효빈 (朴孝彬 · 15학번 동문)',
+                birth: '1996. 07. 09.',
+                role: '졸업 (2021.02 학위수여 · 사회복지학사 / 경영학사)',
+                college: '사회복지학대학 (당선본캠 7-1동)',
+                dept: '사회복지정책학과 (제1전공)',
+                doubleMajor: '상과대학 경영학과 (복수전공 · 36학점 이수완료)',
+                advisor: '민부선 교수 (사회복지학대학) · 박정우 교수 (경영학과)',
+                commuteType: '통학 (재학 당시 자택·알바지 통학)',
+                commuteRoute: '도시철도 5호선 소조역 ↔ 교내 모노레일 B03 사회복지대역 및 A08 상과대·학생회관역 통학',
+                earnedCredits: 140,
+                reqCredits: 130,
+                gpa: '4.05',
+                percentile: '94.6',
+                rank: '14 / 115명',
+                tuitionRaw: 1945000,
+                scholarshipName: '국가근로장학금 & 베르데 성적우수 전액장학금',
+                scholarshipAmt: 1945000,
+                bankAccount: '효빈은행 302-****-0709-96 (예금주: 박효빈)',
+                libraryLoans: [
+                    { title: '[영구보존논문] 대중교통 소외지역의 이동권 박탈과 문화·철도 복지 결합 경영 모델 (박효빈, 2021)', due: '영구보존본', loc: '중앙도서관(23동) 학위논문실' }
+                ],
+                counselingLogs: [
+                    { date: '2020.11.18', advisor: '민부선 교수', topic: '졸업논문 최종 심사 및 가족돌봄청년(영 케어러) 130쪽 실습프로포절 피드백', status: '학위승인' },
+                    { date: '2020.05.12', advisor: '박정우 교수', topic: '상과대학 경영학과 복수전공 졸업대체인증(ADsP·SQLD·사조사2급) 최종 확인', status: '인증완료' }
+                ],
+                railLogs: [
+                    { time: '동문 예우 패스', station: 'B09 베르데홀역 (모교 초청 특강 방문)', line: 'B선 모노레일', fare: '0원 (동문 무임)' }
+                ],
                 courses: [
-                    { code: 'TRN401', title: '교내철도 A선(초저상트램) 실전 운전실습 I', prof: '김관제', credit: 4, time: '월·수 08:30~12:30 (A01 수의대~A09 중앙환승장)', grade: 'A0 (A05역 ATS 주의)' },
-                    { code: 'TRN405', title: '열차 신호 및 폐색 연동 제어 시스템', prof: '박신호', credit: 3, time: '화·목 14:00 (교통대 35-1동 3현시 신호기 강의실)', grade: 'A+' },
-                    { code: 'TRN412', title: '정문 백년호(1968 구 효빈전차) VVVF 중정비 실습', prof: '최대차', credit: 3, time: '금 13:00~17:00 (S-35-4 공중 정비센터)', grade: 'A+' }
+                    { code: 'SWP-401', title: '지방분권과 지역사회복지계획', prof: '은권규', credit: 3, time: '2020-2학기 이수완료 (7-1동)', lmsTask: '이수완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWM-402', title: '사회복지경영론', prof: '민부선', credit: 3, time: '2020-2학기 이수완료 (7-1동)', lmsTask: '이수완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWC-308', title: '사회복지현장실습 (160시간 · 130쪽 제본록)', prof: '신정훈', credit: 3, time: '2020-1학기 이수완료 (7-3동)', lmsTask: '이수완료', attRate: '100%', grade: 'A+' },
+                    { code: 'BUS-401', title: '경영전략론 (경영학과 복수전공)', prof: '박정우', credit: 3, time: '2020-2학기 이수완료 (8-1동)', lmsTask: '이수완료', attRate: '100%', grade: 'A+' },
+                    { code: 'BUS-301', title: '재무관리 (경영학과 복수전공)', prof: '김상훈', credit: 3, time: '2017-2학기 이수완료 (8-1동)', lmsTask: '이수완료', attRate: '100%', grade: 'A0' },
+                    { code: 'BUS-312', title: '경영정보시스템 및 데이터베이스 (복수전공)', prof: '최동현', credit: 3, time: '2020-1학기 이수완료 (8-2동)', lmsTask: '이수완료', attRate: '100%', grade: 'A0' }
                 ]
             },
-            '202406001': {
-                name: '김시연',
-                role: '사회과학대학 학생회장',
-                dept: '사회과학대학 정치외교학과 (제1전공) · 법학전문대학원 준비반(저스티스)',
-                advisor: '은권규 교수',
-                dorm: '아파트형 기숙사 A동 니나관(51동) 1901호',
-                scholarship: '사회대 리더십 전액장학금',
+
+            '202307015': {
+                id: '202307015',
+                name: '강하애 (姜下愛)',
+                birth: '2004. 05. 30.',
+                role: '재학 (4학년 7학기 · 사회복지대 홍보부장)',
+                college: '사회복지학대학 (당선본캠 7-1동)',
+                dept: '사회복지정책학과',
+                doubleMajor: '사회과학대학 정책학과 (부전공)',
+                advisor: '은권규 교수 (사회복지정책학과)',
+                commuteType: '광역전철 통학 (천주시 본가 통학)',
+                commuteRoute: '천주시 궁하구 아이동 본가 ➔ 빈효선 궁하역 승차 ➔ 효빈역·5호선 소조역 환승 ➔ 모노레일 B03 사회복지대역 통학',
+                earnedCredits: 126,
+                reqCredits: 130,
+                gpa: '4.11',
+                percentile: '95.2',
+                rank: '54 / 112명',
+                tuitionRaw: 1945000,
+                scholarshipName: '베르데 성적장학금 및 학생회 임원장학금',
+                scholarshipAmt: 1450000,
+                bankAccount: '효빈은행 302-****-0530-23 (예금주: 강하애)',
+                libraryLoans: [
+                    { title: '복지국가 비교연구와 조세재정 정책', due: '2026.11.18', loc: '중앙도서관(23동) 사회과학실' }
+                ],
+                counselingLogs: [
+                    { date: '2026.10.20', advisor: '은권규 교수', topic: '전통시장 소상공인·결식아동 바우처 연계 졸업논문 본심사 지도', status: '심사합격' }
+                ],
+                railLogs: [
+                    { time: '금일 08:40', station: 'B03 사회복지대역 (5호선 소조역 환승)', line: 'B선 모노레일', fare: '0원 (재학생 무임)' }
+                ],
                 courses: [
-                    { code: 'POL302', title: '현대 정치과정론과 선거 빅데이터 분석', prof: '은권규', credit: 3, time: '월·수 10:30 (사회과학대 6-1동 401호)', grade: 'A+' },
-                    { code: 'PUB204', title: '행정법총론 (고소유·유채나 공동수강)', prof: '하성휘(겸임)', credit: 3, time: '화·목 13:00 (사회과학대 6-2동 205호)', grade: 'A+' }
+                    { code: 'SWP-312', title: '빈곤과 불평등 정책세미나', prof: '은권규', credit: 3, time: '월 2-3 / 수 2 (7-1동 301호)', lmsTask: '바우처 승수효과 분석 제출완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWP-318', title: '청년돌봄(영케어러) 정책설계', prof: '백승호', credit: 3, time: '화 3-4 / 목 3 (7-1동 204호)', lmsTask: '가족돌봄 조례안 과제 완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWC-304', title: '사례관리론(Case Management)', prof: '신정훈', credit: 3, time: '수 5-7 (7-1동 102호)', lmsTask: '사례회의록 제출완료', attRate: '100%', grade: 'B+' },
+                    { code: 'PLC-302', title: '정책평가 및 비용편익분석(B/C)', prof: '강민석', credit: 3, time: '화 6-7 / 목 6 (6-2동 301호)', lmsTask: 'B/C 분석 실습과제 완료', attRate: '100%', grade: 'A+' }
                 ]
             },
-            '199500001': {
-                name: '민부선 (제26대 총장)',
-                role: '교원 · 대학본부 최고결재권자',
-                dept: '대학본부(1동 3층 총장실) · 사회복지학대학 사회복지경영학과 정교수',
-                advisor: '명예총장 고양이 (대차 교수님)',
-                dorm: '효빈광역시 창전구 동곡동 자택 (2호선·5호선 통근)',
-                scholarship: '등록금 5년 연속 동결 및 엠마의 식탁 교비 100% 집행 승인권자',
+
+            '202207104': {
+                id: '202207104',
+                name: '한승우 (韓承祐)',
+                birth: '2003. 09. 18.',
+                role: '휴학 (병역휴학 · 5학기 이수)',
+                college: '사회복지학대학 (당선본캠 7-1동)',
+                dept: '사회복지경영학과',
+                doubleMajor: '상과대학 경영학과 (복수전공)',
+                advisor: '민부선 교수 (사회복지경영학과)',
+                commuteType: '통학 (현재 병역휴학 중)',
+                commuteRoute: '5호선 소조역 ↔ 교내 모노레일 B03 사회복지대역',
+                earnedCredits: 90,
+                reqCredits: 130,
+                gpa: '3.62',
+                percentile: '89.8',
+                rank: '19 / 52명',
+                tuitionRaw: 1945000,
+                scholarshipName: '국가장학금 I유형 (복학 학기 이월 등록)',
+                scholarshipAmt: 1150000,
+                bankAccount: '효빈은행 302-****-0918-22 (예금주: 한승우)',
+                libraryLoans: [
+                    { title: '2026 빅데이터분석기사 실기 한권으로 끝내기 (Python)', due: '2026.11.25', loc: '방도도서관(36동) IT자료실 (휴학생 특별대출)' }
+                ],
+                counselingLogs: [
+                    { date: '2024.06.15', advisor: '민부선 교수', topic: '병역휴학(사회복무요원) 신청 및 복학 후 NPO 경영 트랙 이수 상담', status: '상담완료' }
+                ],
+                railLogs: [
+                    { time: '주말 도서관 방문', station: 'B01 교통대학기지역 (방도도서관 방문)', line: 'B선 모노레일', fare: '0원 (휴학생 무임)' }
+                ],
                 courses: [
-                    { code: 'SWP301', title: '[총장직강] 사회복지경영론 (0.1초 마감 강좌)', prof: '민부선', credit: 3, time: '화·목 10:30 (사회복지대 7-1동 / 베르데홀 동시중계)', grade: '강의중' }
+                    { code: 'SWM-202', title: '사회복지경영론 (휴학 전 이수)', prof: '민부선', credit: 3, time: '2023-1학기 이수완료', lmsTask: '이수완료', attRate: '100%', grade: 'A+' },
+                    { code: 'SWP-204', title: '사회복지조사론 및 통계분석', prof: '은권규', credit: 3, time: '2023-1학기 이수완료', lmsTask: '이수완료', attRate: '100%', grade: 'A0' },
+                    { code: 'BUS-210', title: '재무관리 (복수전공)', prof: '김상훈', credit: 3, time: '2023-1학기 이수완료', lmsTask: '이수완료', attRate: '100%', grade: 'B0' },
+                    { code: 'ACC-101', title: '회계원리 (복수전공)', prof: '조원희', credit: 3, time: '2022-1학기 이수완료', lmsTask: '이수완료', attRate: '100%', grade: 'C+' }
+                ]
+            },
+
+            '202326019': {
+                id: '202326019',
+                name: '오이슬 (吳伊瑟)',
+                birth: '2004. 03. 04.',
+                role: '재학 (4학년 7학기 · 성우전공)',
+                college: '응용예술대학 (당선본캠 26동 예술타운)',
+                dept: '만화애니메이션학과 (성우전공)',
+                doubleMajor: '예술대학 연극학과 (부전공 · 26-1동)',
+                advisor: '최지훈 교수 · 이가람 객원교수',
+                commuteType: '통학 (남구 앵판동 본가 통학)',
+                commuteRoute: '남구 앵판동 자택 ➔ 1호선·2호선 효빈대역 하차 ➔ 모노레일 B07 예술대역 통학',
+                earnedCredits: 118,
+                reqCredits: 130,
+                gpa: '3.28',
+                percentile: '86.4',
+                rank: '18 / 48명',
+                tuitionRaw: 2540000,
+                scholarshipName: '베르데 홀 성우보호 유공 특별장학금',
+                scholarshipAmt: 1800000,
+                bankAccount: '효빈은행 302-****-0304-19 (예금주: 오이슬)',
+                libraryLoans: [
+                    { title: '셰익스피어 4대 비극 정통 희곡집 및 발성교본', due: '2026.11.19', loc: '방도도서관(36동) 예술자료실' }
+                ],
+                counselingLogs: [
+                    { date: '2026.10.25', advisor: '이가람 객원교수', topic: '졸업 더빙 리사이틀 심사 완료 및 방송국 성우 공채 최종 대비 지도', status: '심사통과' }
+                ],
+                railLogs: [
+                    { time: '금일 09:50', station: 'B07 예술대역 (26동 예술대학 등교)', line: 'B선 모노레일', fare: '0원 (재학생 무임)' }
+                ],
+                courses: [
+                    { code: 'ANI-301', title: '성우 화술 및 애니메이션 마이크워크 실습', prof: '이가람', credit: 3, time: '화 2-4 (예술대 26-1동 폴리부스)', lmsTask: '다중 배역 더빙 과제 만점', attRate: '100%', grade: 'A+' },
+                    { code: 'ART-204', title: '무대연기 및 방송 화술 (부전공)', prof: '조승우', credit: 3, time: '목 2-4 (예술대 26-1동 소극장)', lmsTask: '무대 독백 실연 완료', attRate: '100%', grade: 'A+' },
+                    { code: 'ANI-305', title: '캐릭터 원화 및 동화 작화실습', prof: '최지훈', credit: 3, time: '수 5-7 (예술대 26-2동 실기실)', lmsTask: '동화 작화 과제 제출완료', attRate: '90%', grade: 'C+' }
+                ]
+            },
+
+            '202312088': {
+                id: '202312088',
+                name: '나수미 (羅秀美)',
+                birth: '2004. 03. 21.',
+                role: '재학 (4학년 7학기 · 카페 베르데 실습생)',
+                college: '생활과학대학 (당선본캠 12동)',
+                dept: '제과제빵과',
+                doubleMajor: '단일전공 (심화과정)',
+                advisor: '송지은 교수 (제과제빵과)',
+                commuteType: '통학 (도시철도 2호선·5호선 통학)',
+                commuteRoute: '자택 ➔ 2호선·5호선 당선역 하차 ➔ 모노레일 B09 베르데홀역 및 12동 생활과학대학 도보 이동',
+                earnedCredits: 112,
+                reqCredits: 130,
+                gpa: '2.74',
+                percentile: '80.2',
+                rank: '31 / 35명',
+                tuitionRaw: 2290000,
+                scholarshipName: '엠마의 식탁 베이커리 특별근로장학금',
+                scholarshipAmt: 1400000,
+                bankAccount: '효빈은행 302-****-0321-88 (예금주: 나수미)',
+                libraryLoans: [
+                    { title: '식품유기화학 및 영양생화학 핵심요약집 (강하애 튜터링 지정교재)', due: '2026.11.22', loc: '중앙도서관(23동) 자연과학실' }
+                ],
+                counselingLogs: [
+                    { date: '2026.10.22', advisor: '송지은 교수', topic: '창작품평회 실기 만점 승인 및 동계 계절학기 식품유기화학 재수강 의무 지도', status: '조건부승인' }
+                ],
+                railLogs: [
+                    { time: '금일 06:50', station: 'B09 베르데홀역 (엠마의 식탁 새벽 제빵 출근)', line: 'B선 모노레일', fare: '0원 (재학생 무임)' }
+                ],
+                courses: [
+                    { code: 'CUL-301', title: '천연발효 제빵학 및 특수빵 실기', prof: '송지은', credit: 3, time: '월 1-4 (생활과학대 12동 제빵실)', lmsTask: '코페빵·돌바게트 실기 만점', attRate: '100%', grade: 'A+' },
+                    { code: 'CUL-208', title: '식품유기화학 (동계 계절학기 재수강 대상)', prof: '신성호', credit: 3, time: '수 2-4 (생활과학대 12동 302호)', lmsTask: '필기 성적 미달(재이수 필요)', attRate: '90%', grade: 'F' },
+                    { code: 'CUL-211', title: '영양생화학', prof: '오정식', credit: 3, time: '목 5-7 (생활과학대 12동 304호)', lmsTask: '보충 과제 제출완료', attRate: '100%', grade: 'D0' }
+                ]
+            },
+
+            '202135042': {
+                id: '202135042',
+                name: '정현우 (鄭宇)',
+                birth: '2002. 11. 19.',
+                role: '재학 (4학년 7학기 · A선 트램 기관사 실습생)',
+                college: '교통대학 (당선본캠 35-1동)',
+                dept: '철도운전시스템공학과',
+                doubleMajor: '단일전공 (교내철도 HBNU Rail 심화트랙)',
+                advisor: '김정훈 교수 · 정안전 교수',
+                commuteType: '학생생활관 거주 (아와관 52동)',
+                commuteRoute: '제52동 아파트형 기숙사 B동(아와관) 1402호 거주 ➔ 모노레일 B10 북부기숙사역 ↔ B01 교통대학기지역',
+                earnedCredits: 124,
+                reqCredits: 130,
+                gpa: '3.45',
+                percentile: '88.1',
+                rank: '27 / 68명',
+                tuitionRaw: 2480000,
+                scholarshipName: '효빈교통공사 산학협력 장학금',
+                scholarshipAmt: 1500000,
+                bankAccount: '효빈은행 302-****-1119-42 (예금주: 정현우)',
+                libraryLoans: [
+                    { title: '철도안전법령 및 VVVF 인버터 전동차 고장처치 매뉴얼', due: '2026.11.28', loc: '방도도서관(36동) 교통공학실' }
+                ],
+                counselingLogs: [
+                    { date: '2026.10.15', advisor: '정안전 교수', topic: '교내철도 240시간 무사고 운전실습 인증 완료 및 효빈교통공사 공채 추천', status: '인증완료' }
+                ],
+                railLogs: [
+                    { time: '금일 08:10', station: 'A01 수의대검수고 ➔ A09 중앙환승장 (A-101열차 기관사 승무)', line: 'A선 트램', fare: '실습승무' }
+                ],
+                courses: [
+                    { code: 'TRD-401', title: '교내철도(A선 트램) 실전운전실습', prof: '정안전', credit: 3, time: '월·수 오전 (A선 본선 승무실습)', lmsTask: '240시간 무사고 달성', attRate: '100%', grade: 'A+' },
+                    { code: 'TRO-305', title: '중앙관제(CTC) 신호제어 실습', prof: '김정훈', credit: 3, time: '화 5-7 (교통대 35-2동 신호실)', lmsTask: '3현시 신호 연동실습 완료', attRate: '100%', grade: 'A+' },
+                    { code: 'MTH-101', title: '공업수학 1 (재수강 완료)', prof: '박기훈', credit: 3, time: '목 2-4 (공대 공통강의동)', lmsTask: '기존 D+ 삭제 및 A0 대체완료', attRate: '100%', grade: 'A0 (R)' }
                 ]
             }
         };
 
-        let currentPortalUser = null;
+        let currentPortalUser = PORTAL_USERS_DB['202306001'];
         let currentPortalTab = 'overview';
 
         window.addEventListener('DOMContentLoaded', () => {
+            renderLoginPresetButtons();
+            initHeaderAccountSelect();
             lucide.createIcons();
-            // 이미 세션에 로그인 정보가 있으면 바로 대시보드 표시
+
             const savedId = sessionStorage.getItem('hbnu_id');
             if (savedId && sessionStorage.getItem('hbnu_session') === 'active') {
                 activateDashboard(savedId);
             }
         });
 
-        function fillPreset(id, label) {
+        function renderLoginPresetButtons() {
+            const box = document.getElementById('login-preset-buttons');
+            if (!box) return;
+            box.innerHTML = Object.values(PORTAL_USERS_DB).map(u => `
+                <button type="button" onclick="fillPreset('${u.id}')" class="px-2.5 py-2 bg-white hover:bg-blue-50 border border-slate-200 hover:border-[#3344aa] rounded-xl font-bold text-slate-700 text-left truncate transition flex items-center justify-between">
+                    <span class="truncate"><strong class="text-[#1e2a78]">${u.name.split('(')[0].trim()}</strong> · ${u.dept.split('(')[0].trim()}</span>
+                    <span class="font-mono-code text-[10px] text-slate-400 ml-1 shrink-0">${u.id}</span>
+                </button>
+            `).join('');
+        }
+
+        function initHeaderAccountSelect() {
+            const sel = document.getElementById('header-account-select');
+            if (!sel) return;
+            sel.innerHTML = Object.values(PORTAL_USERS_DB).map(u => `
+                <option value="${u.id}" ${u.id === currentPortalUser.id ? 'selected' : ''}>
+                    [${u.id}] ${u.name.split('(')[0].trim()} (${u.dept.split('(')[0].trim()})
+                </option>
+            `).join('');
+        }
+
+        function fillPreset(id) {
             document.getElementById('inp-id').value = id;
             document.getElementById('inp-pw').value = 'hbnu1925!';
         }
@@ -272,16 +534,16 @@
 
             btnLogin.disabled = true;
             spinner.classList.remove('hidden');
-            btnLogin.querySelector('span').innerText = 'SSO 보안 인증 및 학적 DB 동기화 중...';
+            btnLogin.querySelector('span').innerText = 'SSO 보안 인증 및 학적 원부 동기화 중...';
 
             setTimeout(() => {
                 sessionStorage.setItem('hbnu_session', 'active');
                 sessionStorage.setItem('hbnu_id', id);
                 btnLogin.disabled = false;
                 spinner.classList.add('hidden');
-                btnLogin.querySelector('span').innerText = '종합정보시스템 로그인';
+                btnLogin.querySelector('span').innerText = '종합정보시스템 통합 로그인';
                 activateDashboard(id);
-            }, 400);
+            }, 300);
         }
 
         function handleLogout() {
@@ -290,46 +552,50 @@
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('login-view').classList.remove('hidden');
             document.getElementById('header-user-status')?.classList.add('hidden');
+            document.getElementById('header-session-switcher')?.classList.add('hidden');
         }
 
         function activateDashboard(studentId) {
-            const profile = PRESET_PROFILES[studentId] || {
-                name: `효빈대 학우 (${studentId})`,
-                role: '학부 재학생 (정규등록)',
-                dept: '사회복지학대학 사회복지정책학과 · 융합학부 IAB융합전공',
-                advisor: '민부선 교수',
-                dorm: '학생생활관 희다관(53동)',
-                scholarship: '국가거점국립대 성적우수 장학금',
-                courses: PRESET_PROFILES['202501234'].courses
-            };
-            currentPortalUser = { id: studentId, ...profile };
+            const profile = PORTAL_USERS_DB[studentId] || PORTAL_USERS_DB['202306001'];
+            currentPortalUser = profile;
+            sessionStorage.setItem('hbnu_session', 'active');
+            sessionStorage.setItem('hbnu_id', profile.id);
 
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
-            const logoutBtnWrap = document.getElementById('header-user- status');
-            if (logoutBtnWrap) {
-                logoutBtnWrap.classList.remove('hidden');
-                logoutBtnWrap.classList.add('flex');
-            }
 
+            const logoutWrap = document.getElementById('header-user-status');
+            const switcherWrap = document.getElementById('header-session-switcher');
+            if (logoutWrap) { logoutWrap.classList.remove('hidden'); logoutWrap.classList.add('flex'); }
+            if (switcherWrap) { switcherWrap.classList.remove('hidden'); switcherWrap.classList.add('flex'); }
+
+            initHeaderAccountSelect();
+
+            const netTuition = Math.max(0, profile.tuitionRaw - profile.scholarshipAmt);
             document.getElementById('dash-avatar').innerText = profile.name.charAt(0);
             document.getElementById('dash-role-badge').innerText = profile.role;
-            document.getElementById('dash-student-id').innerText = `ID: ${studentId}`;
+            document.getElementById('dash-student-id').innerText = `학번: ${profile.id}`;
+            document.getElementById('dash-commute-badge').innerText = `🚇 ${profile.commuteType}`;
             document.getElementById('dash-user-name').innerText = profile.name;
-            document.getElementById('dash-user-dept').innerText = `소속: ${profile.dept} | 지도교수: ${profile.advisor}`;
+            document.getElementById('dash-user-dept').innerText = `소속: ${profile.college} ${profile.dept} | 제2전공: ${profile.doubleMajor} | 지도교원: ${profile.advisor}`;
+            document.getElementById('dash-credits').innerText = `${profile.earnedCredits} / ${profile.reqCredits}학점`;
+            document.getElementById('dash-gpa').innerText = `${profile.gpa} / 4.50`;
+            document.getElementById('dash-rank').innerText = profile.rank;
+            document.getElementById('dash-tuition').innerText = netTuition === 0 ? '0원 (전액감면)' : `${netTuition.toLocaleString()}원`;
 
-            switchPortalTab('overview');
+            switchPortalTab(currentPortalTab);
         }
 
         function switchPortalTab(tab) {
             currentPortalTab = tab;
-            ['overview', 'railpass', 'welfare', 'cert'].forEach(t => {
+            ['overview', 'record', 'academic', 'tuition', 'railpass', 'welfare', 'cert'].forEach(t => {
                 const btn = document.getElementById('ptab-' + t);
                 if (!btn) return;
+                const extraCol = t === 'cert' ? 'col-span-2 sm:col-span-1 ' : '';
                 if (t === tab) {
-                    btn.className = "px-4 py-2 rounded-xl text-xs md:text-sm font-black bg-[#3344aa] text-white transition shadow";
+                    btn.className = `${extraCol}px-3 py-2.5 rounded-xl text-xs font-black bg-[#3344aa] text-white transition flex items-center justify-center gap-1.5 shadow`;
                 } else {
-                    btn.className = "px-4 py-2 rounded-xl text-xs md:text-sm font-bold text-slate-600 hover:bg-slate-100 transition";
+                    btn.className = `${extraCol}px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-1.5`;
                 }
             });
             renderPortalTabContent();
@@ -341,36 +607,45 @@
             const u = currentPortalUser;
             if (!box || !u) return;
 
+            // [모듈 1] 종합 대시보드
             if (currentPortalTab === 'overview') {
                 box.innerHTML = `
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        <!-- 수강신청 및 성적 내역 (8칸) -->
-                        <div class="lg:col-span-8 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                            <div class="flex items-center justify-between mb-4 pb-3 border-b">
-                                <h3 class="font-black text-lg text-[#1e2a78]">📚 2026학년도 2학기 수강신청 및 실시간 성적표</h3>
-                                <a href="hbnu_sugang.html" class="text-xs font-bold text-[#3344aa] hover:underline">수강신청 시스템 바로가기 ➔</a>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 fade-in">
+                        <!-- 좌측: 수강과목 및 e-루리(LMS) 출석·과제 현황 (8칸) -->
+                        <div class="lg:col-span-8 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b">
+                                <div>
+                                    <h3 class="font-black text-base md:text-lg text-[#1e2a78]">📚 수강교과목 및 스마트학습관리(e-루리 LMS) 현황</h3>
+                                    <p class="text-xs text-slate-500">강의실 위치, 전자출결 출석률, 과제 제출 상태 및 성적 등급</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="hbnu_sugang.html" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700">수강신청 시스템</a>
+                                    <a href="hbnu_grade_check.html" class="px-3 py-1.5 rounded-lg bg-[#3344aa] text-white text-xs font-bold hover:bg-[#1e2a78]">전학기 성적원부 ➔</a>
+                                </div>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left border-collapse text-xs">
                                     <thead>
-                                        <tr class="bg-slate-100 text-slate-600 border-b">
-                                            <th class="p-3 font-bold">학수번호</th>
-                                            <th class="p-3 font-bold">교과목명</th>
-                                            <th class="p-3 font-bold">담당교수</th>
-                                            <th class="p-3 font-bold">학점</th>
-                                            <th class="p-3 font-bold">강의시간 / 강의실(건물번호)</th>
-                                            <th class="p-3 font-bold text-right">등급</th>
+                                        <tr class="bg-slate-100 text-slate-600 border-b font-black">
+                                            <th class="p-3">학수번호</th>
+                                            <th class="p-3">교과목명</th>
+                                            <th class="p-3">교원</th>
+                                            <th class="p-3">강의시간·강의실</th>
+                                            <th class="p-3">LMS 과제/진도</th>
+                                            <th class="p-3 text-center">출석률</th>
+                                            <th class="p-3 text-center">성적</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y">
                                         ${u.courses.map(c => `
                                             <tr class="hover:bg-blue-50/50">
                                                 <td class="p-3 font-mono-code font-bold text-[#3344aa]">${c.code}</td>
-                                                <td class="p-3 font-extrabold text-slate-800">${c.title}</td>
-                                                <td class="p-3 text-slate-600">${c.prof}</td>
-                                                <td class="p-3">${c.credit}학점</td>
+                                                <td class="p-3 font-extrabold text-slate-900">${c.title}</td>
+                                                <td class="p-3 text-slate-600 font-medium">${c.prof}</td>
                                                 <td class="p-3 text-slate-500">${c.time}</td>
-                                                <td class="p-3 text-right font-black text-emerald-600">${c.grade}</td>
+                                                <td class="p-3 text-emerald-700 font-bold">${c.lmsTask}</td>
+                                                <td class="p-3 text-center font-mono-code font-bold">${c.attRate}</td>
+                                                <td class="p-3 text-center font-mono-code font-black ${c.grade === 'F' ? 'text-rose-600' : 'text-[#1e2a78]'}">${c.grade}</td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
@@ -378,106 +653,273 @@
                             </div>
                         </div>
 
-                        <!-- 우측 학적·장학 요약 (4칸) -->
-                        <div class="lg:col-span-4 space-y-6">
-                            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3 text-xs">
-                                <h3 class="font-black text-base text-[#1e2a78] border-b pb-2">🎓 학적 및 장학 수혜 정보</h3>
-                                <div class="flex justify-between py-1"><span class="text-slate-500">학적상태:</span><span class="font-bold text-emerald-600">재학 (정상등록)</span></div>
-                                <div class="flex justify-between py-1"><span class="text-slate-500">거주/통학:</span><span class="font-bold text-slate-800">${u.dorm}</span></div>
-                                <div class="flex justify-between py-1"><span class="text-slate-500">수혜장학:</span><span class="font-bold text-[#3344aa]">${u.scholarship}</span></div>
-                                <div class="flex justify-between py-1"><span class="text-slate-500">등록금고지:</span><span class="font-bold text-slate-800">5년 연속 동결 (납부완료)</span></div>
-                                <div class="pt-3 border-t flex gap-2">
-                                    <a href="hbnu_grade_check.html" class="flex-1 text-center bg-slate-100 hover:bg-slate-200 py-2 rounded-xl font-bold text-slate-700">전체성적조회</a>
-                                    <a href="hbnu_scholarship.html" class="flex-1 text-center bg-blue-50 hover:bg-blue-100 py-2 rounded-xl font-bold text-[#3344aa]">장학금신청</a>
-                                </div>
+                        <!-- 우측: 통학/주거 정보 · 도서관 대출 · 지도교수 상담 (4칸) -->
+                        <div class="lg:col-span-4 space-y-5">
+                            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3 text-xs">
+                                <h3 class="font-black text-sm text-[#1e2a78] border-b pb-2 flex items-center justify-between">
+                                    <span>🚇 통학 경로 및 거주 현황</span>
+                                    <span class="bg-blue-50 text-[#3344aa] px-2 py-0.5 rounded font-bold">${u.commuteType}</span>
+                                </h3>
+                                <p class="text-slate-700 leading-relaxed font-medium bg-slate-50 p-3 rounded-xl border border-slate-200">${u.commuteRoute}</p>
+                                <div class="text-[11px] text-slate-500">• 장학수혜: <strong class="text-slate-800">${u.scholarshipName}</strong></div>
                             </div>
 
-                            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-sm space-y-3 text-xs">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[#a0fff9] font-extrabold">🚊 HBNU Rail 실시간 환승 알림</span>
-                                    <span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-[10px]">정상운행</span>
-                                </div>
-                                <p class="text-slate-300 leading-relaxed">중앙환승장(A09-B06) 수업 교대 시간 <strong>90초 상호 대기 연동 폐색(쿠쿠스미 평화 협정)</strong>이 작동 중입니다.</p>
-                                <a href="hbnu_main.html#rail" class="block text-center bg-[#99dd88] text-[#1e2a78] font-black py-2.5 rounded-xl hover:bg-white transition">실시간 관제 시뮬레이터 열기 ➔</a>
+                            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3 text-xs">
+                                <h3 class="font-black text-sm text-[#1e2a78] border-b pb-2">📖 중앙·방도도서관 대출 현황</h3>
+                                ${u.libraryLoans.map(bk => `
+                                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                        <div class="font-bold text-slate-900">${bk.title}</div>
+                                        <div class="flex justify-between text-[11px] text-slate-500">
+                                            <span>소장처: ${bk.loc}</span>
+                                            <span class="font-mono-code text-emerald-700 font-bold">반납기한: ${bk.due}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3 text-xs">
+                                <h3 class="font-black text-sm text-[#1e2a78] border-b pb-2">👨‍🏫 지도교원 평생사제 상담 이력</h3>
+                                ${u.counselingLogs.map(log => `
+                                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                        <div class="flex justify-between font-bold text-slate-800">
+                                            <span>${log.advisor}</span>
+                                            <span class="text-emerald-700">${log.status} (${log.date})</span>
+                                        </div>
+                                        <p class="text-slate-600">${log.topic}</p>
+                                    </div>
+                                `).join('')}
                             </div>
                         </div>
                     </div>
                 `;
-            } else if (currentPortalTab === 'railpass') {
+            }
+            // [모듈 2] 학적·다전공·휴복학 원부
+            else if (currentPortalTab === 'record') {
                 box.innerHTML = `
-                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                        <div class="md:col-span-5 bg-gradient-to-br from-[#1e2a78] to-slate-900 text-white p-6 rounded-3xl shadow-xl border-2 border-[#a0fff9]">
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 fade-in text-xs">
+                        <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                            <div>
+                                <span class="text-xs font-extrabold text-[#3344aa]">STUDENT REGISTRY & MAJOR MANAGEMENT</span>
+                                <h3 class="text-xl font-black text-slate-900 mt-0.5">학생 학적 기본원부 및 복수·부전공·휴복학 관리</h3>
+                            </div>
+                            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl font-bold">학적변동 온라인 원스톱 전자결재 적용</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                            <div><span class="text-slate-400 block">성명 / 생년월일</span><strong class="text-sm text-slate-900">${u.name} (${u.birth})</strong></div>
+                            <div><span class="text-slate-400 block">학번 / 현재 학적상태</span><strong class="text-sm text-[#3344aa] font-mono-code">${u.id} · ${u.role}</strong></div>
+                            <div><span class="text-slate-400 block">소속 단과대학 및 제1전공</span><strong class="text-sm text-slate-900">${u.college} ${u.dept}</strong></div>
+                            <div><span class="text-slate-400 block">제2전공 (복수·부전공 이수)</span><strong class="text-sm text-emerald-800">${u.doubleMajor}</strong></div>
+                            <div><span class="text-slate-400 block">통학 형태 및 경로</span><strong class="text-slate-800">${u.commuteType} (${u.commuteRoute.split('➔')[0]})</strong></div>
+                            <div><span class="text-slate-400 block">배정 지도교원</span><strong class="text-slate-800">${u.advisor}</strong></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                            <div class="p-5 rounded-2xl border border-slate-200 space-y-2">
+                                <h4 class="font-black text-sm text-slate-900">🔄 휴학 · 복학 온라인 신청</h4>
+                                <p class="text-slate-600 leading-relaxed">일반휴학(1회 2개 학기), 병역휴학(입영통지서 첨부) 및 복학 신청을 대학본부 방문 없이 온라인으로 즉시 처리합니다.</p>
+                                <button onclick="alert('현재 학적 상태(' + u.role + ')가 확인되었습니다. 휴·복학 전자결재 창으로 이동합니다.')" class="w-full bg-[#3344aa] text-white py-2 rounded-xl font-bold mt-2">휴·복학 전자결재 신청</button>
+                            </div>
+                            <div class="p-5 rounded-2xl border border-slate-200 space-y-2">
+                                <h4 class="font-black text-sm text-slate-900">🎓 복수전공 · 부전공 · 마이크로디그리 변경</h4>
+                                <p class="text-slate-600 leading-relaxed">현재 이수 중인 제2전공(<strong>${u.doubleMajor}</strong>) 외에 융합학부(메타버스·IAB·반도체) 마이크로디그리 추가 신청이 가능합니다.</p>
+                                <button onclick="alert('다전공 이수 내역이 정상 등록되어 있습니다.')" class="w-full bg-slate-800 text-white py-2 rounded-xl font-bold mt-2">다전공 이수현황 확인</button>
+                            </div>
+                            <div class="p-5 rounded-2xl border border-slate-200 space-y-2">
+                                <h4 class="font-black text-sm text-slate-900">🏠 주소지 및 통학루트 변경 신고</h4>
+                                <p class="text-slate-600 leading-relaxed">현재 등록 경로: <strong>${u.commuteRoute}</strong></p>
+                                <button onclick="alert('통학 경로 및 비상연락망 정보가 최신 상태로 저장되었습니다.')" class="w-full bg-slate-100 border border-slate-300 text-slate-700 py-2 rounded-xl font-bold mt-2">연락처·통학정보 갱신</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // [모듈 3] 수강·성적·졸업사정 연동
+            else if (currentPortalTab === 'academic') {
+                box.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 fade-in text-xs">
+                        <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-extrabold text-[#3344aa]">ACADEMIC RECORDS & GRADUATION AUDIT</span>
+                                <h3 class="text-xl font-black text-slate-900 mt-0.5">누적 성적 요약 및 졸업사정 원스톱 연동</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <a href="hbnu_grade_check.html#grade" class="bg-[#3344aa] text-white px-4 py-2 rounded-xl font-black">전 학기 성적원부 상세열람 ➔</a>
+                                <a href="hbnu_grade_check.html#thesis" class="bg-emerald-700 text-white px-4 py-2 rounded-xl font-black">졸업논문·대체인증 심사결과 ➔</a>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                                <span class="text-slate-500 font-bold">총 취득학점 / 기준학점</span>
+                                <div class="text-2xl font-black text-[#1e2a78] font-mono-code mt-1">${u.earnedCredits} / ${u.reqCredits}학점</div>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                                <span class="text-slate-500 font-bold">전체 평점평균 (4.5 만점)</span>
+                                <div class="text-2xl font-black text-[#3344aa] font-mono-code mt-1">${u.gpa} / 4.50</div>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                                <span class="text-slate-500 font-bold">백분위 환산점수</span>
+                                <div class="text-2xl font-black text-emerald-700 font-mono-code mt-1">${u.percentile}점</div>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                                <span class="text-slate-500 font-bold">소속 학과 누적석차</span>
+                                <div class="text-2xl font-black text-slate-900 mt-1">${u.rank}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // [모듈 4] 등록금·장학·계좌관리
+            else if (currentPortalTab === 'tuition') {
+                const netPay = Math.max(0, u.tuitionRaw - u.scholarshipAmt);
+                box.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 fade-in text-xs">
+                        <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                            <div>
+                                <span class="text-xs font-extrabold text-[#3344aa]">TUITION, SCHOLARSHIP & BANK ACCOUNT</span>
+                                <h3 class="text-xl font-black text-slate-900 mt-0.5">등록금 납부확인서 (5년 연속 동결) 및 장학금·환불계좌 관리</h3>
+                            </div>
+                            <span class="bg-blue-50 text-[#1e2a78] border border-blue-200 px-3 py-1.5 rounded-xl font-bold">등록상태: 수납완료 (정상등록)</span>
+                        </div>
+
+                        <table class="w-full text-center border-2 border-slate-800 border-collapse">
+                            <thead class="bg-slate-100 font-black text-slate-800 border-b border-slate-800">
+                                <tr>
+                                    <th class="p-3 border-r">책정 수업료 (5년 연속 동결)</th>
+                                    <th class="p-3 border-r">수혜 장학금명</th>
+                                    <th class="p-3 border-r">장학금 감면액</th>
+                                    <th class="p-3">실납부 등록금</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-mono-code font-bold text-sm">
+                                <tr>
+                                    <td class="p-4 border-r">${u.tuitionRaw.toLocaleString()}원</td>
+                                    <td class="p-4 border-r font-sans text-[#3344aa]">${u.scholarshipName}</td>
+                                    <td class="p-4 border-r text-emerald-700">-${u.scholarshipAmt.toLocaleString()}원</td>
+                                    <td class="p-4 font-black text-[#1e2a78]">${netPay.toLocaleString()}원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <div class="font-black text-sm text-slate-900">🏦 장학금 및 근로장학비 수령 계좌 (학생경비 지급계좌)</div>
+                                <div class="text-slate-600 mt-1">등록계좌: <strong class="font-mono-code text-[#3344aa]">${u.bankAccount}</strong> (대학본부 1동 1층 효빈은행 본교지점 연동)</div>
+                            </div>
+                            <a href="hbnu_scholarship.html" class="bg-[#3344aa] text-white px-4 py-2.5 rounded-xl font-black shrink-0 text-center">장학금 신청 페이지 ➔</a>
+                        </div>
+                    </div>
+                `;
+            }
+            // [모듈 5] 모바일 학생증 & HBNU Rail 패스
+            else if (currentPortalTab === 'railpass') {
+                box.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center fade-in">
+                        <div class="lg:col-span-5 bg-gradient-to-br from-[#1e2a78] to-slate-900 text-white p-6 rounded-3xl shadow-xl border-2 border-[#a0fff9]">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-xs font-black text-[#a0fff9]">HBNU MOBILE STUDENT ID & RAIL PASS</span>
-                                <span class="bg-[#74f466] text-slate-900 text-[10px] font-black px-2 py-0.5 rounded">무임승차 인증됨</span>
+                                <span class="text-xs font-black text-[#a0fff9]">HBNU SMART ID & RAIL PASS</span>
+                                <span class="bg-[#74f466] text-slate-900 text-[10px] font-black px-2 py-0.5 rounded">무임승차 활성</span>
                             </div>
-                            <div class="text-xl font-black mb-1">${u.name} (${u.id})</div>
-                            <div class="text-xs text-blue-200 mb-6">${u.dept}</div>
+                            <div class="text-xl font-black mb-1">${u.name}</div>
+                            <div class="text-xs text-[#99dd88] font-mono-code mb-1">학번: ${u.id} | ${u.role.split('(')[0]}</div>
+                            <div class="text-xs text-blue-200 mb-5">${u.college} ${u.dept}</div>
                             <div class="bg-white p-4 rounded-2xl text-slate-900 text-center space-y-2">
-                                <div class="font-mono-code font-black text-sm tracking-widest border-2 border-dashed border-slate-300 py-6 rounded-xl bg-slate-50">
-                                    [QR CODE : HBNU-RAIL-${u.id}-FREE]
+                                <div class="font-mono-code font-black text-xs tracking-wider border-2 border-dashed border-slate-300 py-5 rounded-xl bg-slate-50">
+                                    ||| |||| ||| ||||| || ||||<br>
+                                    <span class="text-[#3344aa]">HBNU-NFC-${u.id}-PASS</span>
                                 </div>
-                                <p class="text-[11px] font-bold text-slate-500">A선 트램(9개역) · B선 모노레일(15개역) · 중앙/방도도서관 게이트 태그용</p>
+                                <p class="text-[11px] font-bold text-slate-500">A선 트램(9개역) · B선 모노레일(15개역) · 도서관 게이트 태그용</p>
                             </div>
                         </div>
-                        <div class="md:col-span-7 space-y-4 text-xs md:text-sm text-slate-700">
-                            <h3 class="text-xl font-black text-[#1e2a78]">교내철도(HBNU Rail) 및 도서관 통합 스마트 패스 안내</h3>
-                            <p class="leading-relaxed">• 본교 재학생·휴학생·대학원생·교직원 및 졸업 동문은 모바일 학생증 태그 시 <strong>교내철도 A선(노면전차) 전 구간 및 B선(과좌식 모노레일) 전 구간이 365일 100% 무료</strong>입니다.</p>
-                            <p class="leading-relaxed">• <strong>중앙도서관(23동) 및 방도도서관(36동) 심야 열람실:</strong> 기말고사 기간 24시간 개방 중이며, B02 중앙도서관역 ↔ B10 북부기숙사역 심야 연장 모노레일 탑승 시 본 패스를 태그해 주십시오.</p>
-                            <p class="leading-relaxed text-red-600 font-bold">• [경고] 중고 거래 사이트 등에서 본교 학생증이나 사범대 체육교육과 과잠 등을 타인에게 대여·양도하는 행위는 학칙 제84조 및 형법상 자격모용죄에 의거 즉시 영구 제적 및 형사 고소 조치됩니다.</p>
+
+                        <div class="lg:col-span-7 space-y-4 text-xs">
+                            <h3 class="text-lg font-black text-[#1e2a78]">🚊 개인별 통학 루트 및 교내철도(HBNU Rail) 최근 태그 이력</h3>
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1">
+                                <div class="font-black text-[#1e2a78]">등록 통학 경로 (${u.commuteType})</div>
+                                <div class="text-slate-700 font-medium">${u.commuteRoute}</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="font-bold text-slate-800">최근 교내철도 게이트 태그 기록</div>
+                                ${u.railLogs.map(r => `
+                                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex justify-between items-center">
+                                        <div>
+                                            <span class="font-bold text-slate-900">${r.station}</span>
+                                            <span class="text-slate-500 ml-2">(${r.line} · ${r.time})</span>
+                                        </div>
+                                        <span class="font-black text-emerald-700">${r.fare}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
                 `;
-            } else if (currentPortalTab === 'welfare') {
+            }
+            // [모듈 6] 식권·도서관·시설대관
+            else if (currentPortalTab === 'welfare') {
                 box.innerHTML = `
-                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 fade-in text-xs">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
                             <div>
-                                <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-2.5 py-0.5 rounded">교비 100% 지원 · 1식 1,000원</span>
-                                <h3 class="text-xl font-black text-slate-900 mt-1">🥪 천원의 아침밥 『엠마의 식탁』 모바일 식권 및 금주 식단표</h3>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-2.5 py-0.5 rounded">교비 100% 지원 · 재학생 1,000원</span>
+                                <h3 class="text-xl font-black text-slate-900 mt-1">🥪 천원의 아침밥 『엠마의 식탁』 식권 발권 및 학내 시설 예약</h3>
                             </div>
-                            <button onclick="alert('엠마의 식탁 1,000원 모바일 식권(아와관·학생복지타운·희다관 겸용)이 발급되었습니다!')" class="bg-[#37B484] hover:bg-emerald-700 text-white font-black px-5 py-2.5 rounded-xl text-xs shadow">
-                                + 금일 천원의 아침밥 식권 즉시 발권 (1,000원)
-                            </button>
+                            <div class="flex gap-2">
+                                <button onclick="alert(u.name + ' 님의 금일 천원의 아침밥(1,000원) 모바일 식권이 발권되었습니다!')" class="bg-[#37B484] hover:bg-emerald-700 text-white font-black px-4 py-2.5 rounded-xl shadow">
+                                    + 천원의 아침밥 식권 발권 (1,000원)
+                                </button>
+                                <a href="hbnu_welfare.html" class="bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl">전체 학식단표 보기 ➔</a>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <div class="p-4 rounded-xl bg-slate-50 border">
-                                <div class="font-black text-sm text-[#1e2a78] mb-1">학생복지타운(4동) 한식뷔페</div>
-                                <p class="text-slate-600">이자캠퍼스 농대 직송 햅쌀밥, 한우 사골 우거지해장국, 계란말이, 축산학과 부속목장 수제 요구르트</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="font-black text-sm text-[#1e2a78]">📚 도서관 열람실 좌석 예약</div>
+                                <p class="text-slate-600">중앙도서관(23동) 제1열람실 및 방도도서관(36동) 24시 열람실 잔여석 실시간 배정</p>
+                                <button onclick="alert('중앙도서관(23동) 3층 열람실 142번 좌석이 배정되었습니다.')" class="w-full bg-white border border-[#3344aa] text-[#3344aa] py-2 rounded-lg font-bold">열람실 좌석 배정받기</button>
                             </div>
-                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
-                                <div class="font-black text-sm text-emerald-900 mb-1">아와관(52동) 스위스 브런치 데이</div>
-                                <p class="text-emerald-800">제과제빵과 실습실 갓 구운 호밀빵, 알프스식 감자 뢰스티(Rösti), 에멘탈 치즈 수프, 엠마의 웰빙 샌드위치 하프팩</p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="font-black text-sm text-[#1e2a78]">🎸 동아리관(5동) CiRCLE 방음실 예약</div>
+                                <p class="text-slate-600">밴드 합주실, 댄스 연습실 및 더빙 방음부스 시간대별 대관 신청</p>
+                                <button onclick="alert('동아리관(5동) 방음연습실 예약 신청이 완료되었습니다.')" class="w-full bg-white border border-[#3344aa] text-[#3344aa] py-2 rounded-lg font-bold">연습실 대관 예약</button>
                             </div>
-                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
-                                <div class="font-black text-sm text-amber-900 mb-1">희다관·후등관(53동) 글로벌 특식</div>
-                                <p class="text-amber-900">소비자학과 홍콩 유학생회 레시피 감수 육즙 소롱포(샤오롱바오) 4피스 & 새우 완탕면 정식</p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="font-black text-sm text-[#1e2a78]">🏋️ 4대 직영 헬스장 정기권 등록</div>
+                                <p class="text-slate-600">중앙피트니스(18동), 해피스마일짐(7-1동), 레일머슬(35동), 퀀텀리프트(28동) 통합 이용</p>
+                                <button onclick="alert('교내 4대 피트니스 센터 당월 이용권이 활성화되었습니다.')" class="w-full bg-white border border-[#3344aa] text-[#3344aa] py-2 rounded-lg font-bold">피트니스 출입 등록</button>
                             </div>
                         </div>
                     </div>
                 `;
-            } else {
+            }
+            // [모듈 7] 전자결재·증명서 원스톱 발급
+            else {
                 box.innerHTML = `
-                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-4">
-                        <h3 class="text-xl font-black text-[#1e2a78]">📄 원스톱 전자결재 및 증명서 즉시 발급 (행정력 낭비 감시단 자문 완료)</h3>
-                        <p class="text-xs text-slate-500">사회복지정책학과 학회 『행정력 낭비 감시단』의 건의로 대학본부(1동)까지 종이 서류를 들고 뛰어가던 구시대적 관행을 전면 폐지하고 100% 온라인 즉시 발급으로 전환되었습니다.</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 text-xs">
-                            <button onclick="window.print()" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] text-left transition bg-slate-50">
-                                <div class="font-black text-sm text-slate-900 mb-1">국·영문 재학증명서</div>
-                                <div class="text-slate-500">수수료 무료 · PDF 즉시 출력</div>
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 fade-in text-xs">
+                        <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                            <div>
+                                <span class="text-xs font-extrabold text-[#3344aa]">ONE-STOP ELECTRONIC APPROVAL & CERTIFICATES</span>
+                                <h3 class="text-xl font-black text-slate-900 mt-0.5">원스톱 전자결재(공결신청) 및 공식 증명서(28종) 즉시 발급</h3>
+                            </div>
+                            <a href="hbnu_cert.html" class="bg-[#3344aa] text-white px-4 py-2.5 rounded-xl font-black">증명서 발급센터(A4 미리보기/출력) 바로가기 ➔</a>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <a href="hbnu_cert.html" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] bg-slate-50 block transition">
+                                <div class="font-black text-sm text-slate-900 mb-1">📄 국·영문 성적증명서</div>
+                                <div class="text-slate-500">전 학기(${u.earnedCredits}학점, GPA ${u.gpa}) 상세 증명서 즉시 열람·출력</div>
+                            </a>
+                            <a href="hbnu_cert.html" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] bg-slate-50 block transition">
+                                <div class="font-black text-sm text-slate-900 mb-1">📄 재학·휴학·졸업증명서</div>
+                                <div class="text-slate-500">현재 학적(${u.role.split('(')[0]}) 및 복수전공 학위 증명</div>
+                            </a>
+                            <button onclick="alert('예비군 훈련 / 현장실습 / 학술대회 참가 공결 신청서가 전자결재로 담당 교원에게 발송되었습니다.')" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] bg-slate-50 text-left transition">
+                                <div class="font-black text-sm text-slate-900 mb-1">✍️ 온라인 공결 승인 신청</div>
+                                <div class="text-slate-500">예비군 훈련(37동 학군단 연동), 실습, 진료 공결 원스톱 처리</div>
                             </button>
-                            <button onclick="window.print()" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] text-left transition bg-slate-50">
-                                <div class="font-black text-sm text-slate-900 mb-1">국·영문 성적증명서</div>
-                                <div class="text-slate-500">수수료 무료 · 위변조 방지 QR 포함</div>
-                            </button>
-                            <button onclick="window.print()" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] text-left transition bg-slate-50">
-                                <div class="font-black text-sm text-slate-900 mb-1">교육비납입증명서 (등록금 동결)</div>
-                                <div class="text-slate-500">연말정산용 (세무학과 자문)</div>
-                            </button>
-                            <button onclick="window.print()" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] text-left transition bg-slate-50">
-                                <div class="font-black text-sm text-slate-900 mb-1">HBNU Rail 실습생 무사고 확인서</div>
-                                <div class="text-slate-500">코레일·효빈교통공사 제출용</div>
-                            </button>
+                            <a href="hbnu_cert.html" class="p-4 rounded-xl border border-slate-200 hover:border-[#3344aa] bg-slate-50 block transition">
+                                <div class="font-black text-sm text-slate-900 mb-1">🚊 교내철도·복지실습 인증서</div>
+                                <div class="text-slate-500">HBNU Rail 무사고 실습 및 종합사회복지관(7-3동) 160시간 인증</div>
+                            </a>
                         </div>
                     </div>
                 `;
@@ -489,14 +931,14 @@
             const title = document.getElementById('helper-modal-title');
             const body = document.getElementById('helper-modal-body');
             if (type === 'id') {
-                title.innerText = '신입생·편입생 학번 조회 안내';
-                body.innerHTML = `<p>• 2026~2027학년도 신입생 학번 체계: <strong>[입학연도 4자리] + [단과대/학과코드 3자리] + [일련번호 2자리]</strong></p><p>• 위 로그인 화면의 <strong>[원클릭 계정 자동입력 프리셋]</strong> 버튼을 누르시면 학번과 비밀번호가 자동으로 입력되어 즉시 체험하실 수 있습니다.</p>`;
+                title.innerText = '효빈대학교 학번 부여 체계 안내';
+                body.innerHTML = `<p>• <strong>학번 구성(9자리):</strong> [입학연도 4자리] + [단과대학/학과 고유코드 3자리] + [입학순번 2자리]</p><p>• 로그인 상단 박스의 <strong>등록 학적 계정(박효빈, 강하애, 김시연, 한승우, 오이슬, 나수미, 정현우)</strong>을 클릭하시면 학번이 자동 입력됩니다.</p>`;
             } else if (type === 'pw') {
-                title.innerText = '비밀번호 초기화 안내';
-                body.innerHTML = `<p>• 데모 및 포털 시뮬레이션 환경에서는 <strong>임의의 비밀번호</strong>를 입력하셔도 즉시 SSO 인증이 통과되도록 설정되어 있습니다.</p>`;
+                title.innerText = '비밀번호 초기화 및 인증 안내';
+                body.innerHTML = `<p>• 포털 접속 시 초기 비밀번호가 자동 입력되어 있으며, 로그인 후 상단 헤더에서도 7명의 학적 계정을 자유롭게 전환하며 열람하실 수 있습니다.</p>`;
             } else {
-                title.innerText = 'HIPA 연동 보안 서버 안내';
-                body.innerHTML = `<p>• 본 포털은 본교 컴퓨터공학과 동문인 천리나 원장(효빈정보산업진흥원 HIPA)이 설계한 다중 방화벽 및 정보보안학과 화이트해커 관제 시스템으로 보호되고 있습니다.</p>`;
+                title.innerText = '전산교육관(45동) 정보보안 정책 안내';
+                body.innerHTML = `<p>• 본 시스템은 효빈대학교 정보화본부(45동)와 효빈정보산업진흥원(HIPA)의 다중 방화벽 및 블록체인 위변조 방지 시스템으로 보호되고 있습니다.</p>`;
             }
             modal.classList.remove('hidden');
             modal.classList.add('flex');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU 5대 캠퍼스 · 전 건물(163개 동) · 전체 식당/카페 종합안내 - 효빈대학교</title>
+    <title>캠퍼스 안내 · 전자지도 · 교육/지원/부속시설 · 생활관 총람 - 효빈대학교 HBNU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -12,16 +12,11 @@
         .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
         /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
-        #header-area img { max-height: 44px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
         #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
 
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #3344aa; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #1e2a78; }
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-slate-50 flex flex-col min-h-screen overflow-x-hidden">
@@ -30,59 +25,59 @@
     <div id="header-area"></div>
 
     <!-- 상단 서브 비주얼 헤더 -->
-    <section class="relative bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#1e3a8a] text-white py-12 md:py-16 border-b-4 border-[#99dd88] overflow-hidden">
+    <section class="relative bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#3344aa] text-white py-12 md:py-14 border-b-4 border-[#99dd88] overflow-hidden">
         <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/효빈대학교 전경.webp');"></div>
         <div class="max-w-7xl mx-auto px-4 relative z-10">
-            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-3">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2.5">
                 <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
                 <span>›</span>
-                <span>캠퍼스안내</span>
+                <span>대학소개 / 캠퍼스안내</span>
                 <span>›</span>
-                <span class="text-[#99dd88] font-bold">5대 캠퍼스 · 전체 163개 건물도감 · 22대 식당/카페/매점 총람</span>
+                <span id="campus-breadcrumb" class="text-[#99dd88] font-bold">인터랙티브 캠퍼스 전자지도 (GIS)</span>
             </div>
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                 <div>
-                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2.5">
-                        5 CAMPUSES · 163 BUILDINGS · 22 DINING & CAFES · 12 DORMITORY CLUSTERS
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU 5 CAMPUSES · 170 BUILDINGS · 18 INDIVIDUAL RESIDENCE HALLS
                     </span>
-                    <h1 class="text-3xl md:text-4xl font-black tracking-tight">효빈대학교 5대 캠퍼스 및 전 시설 마스터 도감</h1>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">효빈대학교 캠퍼스 및 교육·지원·생활관 종합안내</h1>
                     <p class="text-xs md:text-sm text-blue-100 mt-2 max-w-3xl leading-relaxed">
-                        당선(본교 95개 동)·이자(농생명/디자인 21개 동)·천주(응용예술/과학 17개 동)·낭원(첨단반도체 15개 동)·강주(해양/환경 15개 동)까지 <strong>총 163개 전체 건물 일련번호</strong>와 <strong>교내 22개 전 식당·카페·베이커리·매점</strong>, <strong>전 캠퍼스 기숙사</strong>를 단 하나의 누락 없이 총망라했습니다.
+                        효빈광역시 서구·북구에 걸친 당선(본)캠퍼스와 이자·천주·낭원·강주 5대 캠퍼스 네트워크, 전체 건물번호 체계, 교내 식당·편의시설 및 18개 개별 학생생활관(기숙사) 현황을 안내합니다.
                     </p>
                 </div>
                 <div class="flex flex-wrap gap-2 shrink-0">
-                    <button onclick="showTab('dining')" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg transition-all flex items-center gap-1.5">
-                        <i data-lucide="utensils" class="w-4 h-4"></i> 전 캠퍼스 22개 식당·카페·매점 보기
-                    </button>
+                    <a href="https://binia1.github.io/mymap/?name=%ED%9A%A8%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90" target="_blank" rel="noopener noreferrer" class="bg-[#99dd88] hover:bg-white text-[#1e2a78] font-black px-4 py-2.5 rounded-xl text-xs shadow-lg transition-all flex items-center gap-1.5">
+                        <i data-lucide="maximize-2" class="w-4 h-4"></i> 캠퍼스 전자지도 전체화면 열기
+                    </a>
                     <button onclick="navigateTo('교내교통시스템.html')" class="bg-[#a0fff9] text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg hover:bg-white transition-all flex items-center gap-1.5">
-                        <i data-lucide="tram-front" class="w-4 h-4"></i> HBNU Rail 실시간 관제
+                        <i data-lucide="tram-front" class="w-4 h-4"></i> 교내교통시스템 (HBNU Rail)
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6대 핵심 탭 네비게이션 바 -->
-    <div class="bg-white border-b border-gray-200 sticky top-[68px] z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-            <div class="flex space-x-1.5 overflow-x-auto pb-1 sm:pb-0">
-                <button onclick="showTab('map')" id="btn-map" class="tab-btn px-3.5 py-2 bg-[#3344aa] text-white rounded-xl text-xs md:text-sm font-extrabold transition flex items-center gap-1.5 shrink-0 shadow-sm">
-                    <i data-lucide="map" class="w-4 h-4"></i> 1. 전자지도 (5대 캠퍼스 GIS)
+    <!-- 6대 핵심 탭 네비게이션 박스 (고정 그리드형) -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                <button onclick="showTab('map')" id="btn-map" class="tab-btn px-3 py-2.5 bg-[#3344aa] text-white rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i> <span>캠퍼스 전자지도</span>
                 </button>
-                <button onclick="showTab('buildings')" id="btn-buildings" class="tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0">
-                    <i data-lucide="building-2" class="w-4 h-4"></i> 2. 5대 캠퍼스 전 건물 도감 (163개 동)
+                <button onclick="showTab('buildings')" id="btn-buildings" class="tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="building-2" class="w-4 h-4 shrink-0"></i> <span>전 건물 도감 (170동)</span>
                 </button>
-                <button onclick="showTab('dining')" id="btn-dining" class="tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0">
-                    <i data-lucide="utensils-crossed" class="w-4 h-4 text-amber-600"></i> 3. 전체 식당·카페·매점 (22개소 완비)
+                <button onclick="showTab('dining')" id="btn-dining" class="tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="utensils-crossed" class="w-4 h-4 shrink-0"></i> <span>지원·후생시설 (식당/카페)</span>
                 </button>
-                <button onclick="showTab('campuses')" id="btn-campuses" class="tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0">
-                    <i data-lucide="globe-2" class="w-4 h-4"></i> 4. 5대 캠퍼스 역사·특징
+                <button onclick="showTab('campuses')" id="btn-campuses" class="tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="globe-2" class="w-4 h-4 shrink-0"></i> <span>5대 캠퍼스 현황</span>
                 </button>
-                <button onclick="showTab('facility')" id="btn-facility" class="tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i> 5. 주요 특수시설 (베르데 홀 등)
+                <button onclick="showTab('facility')" id="btn-facility" class="tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="landmark" class="w-4 h-4 shrink-0"></i> <span>주요 부속시설·투어</span>
                 </button>
-                <button onclick="showTab('dorm')" id="btn-dorm" class="tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0">
-                    <i data-lucide="bed-double" class="w-4 h-4"></i> 6. 전 캠퍼스 기숙사 (12개 관)
+                <button onclick="showTab('dorm')" id="btn-dorm" class="tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i data-lucide="bed-double" class="w-4 h-4 shrink-0"></i> <span>학생생활관 (18개관 개별)</span>
                 </button>
             </div>
         </div>
@@ -91,109 +86,95 @@
     <!-- 메인 컨텐츠 영역 -->
     <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-        <!-- ================= [탭 1] 인터랙티브 전자지도 (GIS) ================= -->
+        <!-- ================= [탭 1] 공식 인터랙티브 캠퍼스 전자지도 (GIS) ================= -->
         <div id="tab-map" class="tab-content fade-in space-y-8">
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-5 md:p-7">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-5 md:p-7 space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-gray-200">
                     <div>
-                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">DANGSEON MAIN CAMPUS & MULTI-CAMPUS GIS</span>
-                        <h2 class="text-xl md:text-2xl font-black text-gray-900 mt-0.5">당선(본)캠퍼스 전자지도 및 4대 이원화 캠퍼스 바로가기</h2>
-                        <p class="text-xs text-gray-500 mt-1">지도 위의 마커를 클릭하면 상세 건물 정보와 이미지가 우측에 표시되며, 하단 버튼으로 이자·천주·낭원·강주캠퍼스 건물표를 즉시 열람할 수 있습니다.</p>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">OFFICIAL INTERACTIVE CAMPUS GIS MAP</span>
+                        <h2 class="text-xl md:text-2xl font-black text-gray-900 mt-0.5">효빈대학교 공식 인터랙티브 캠퍼스 맵</h2>
+                        <p class="text-xs text-gray-500 mt-1">
+                            마우스 휠 및 드래그를 통해 캠퍼스 전역의 건물 배치, 교내 도시철도(A선 트램·B선 모노레일) 및 연계 지하철역(2호선·5호선·7호선) 위치를 실시간으로 확인하실 수 있습니다.
+                        </p>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 text-[11px] font-bold">
-                        <button onclick="jumpToCampusBuildings('당선')" class="px-2.5 py-1.5 rounded-lg bg-[#3344aa] text-white hover:opacity-90">당선캠(95동)</button>
-                        <button onclick="jumpToCampusBuildings('이자')" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white hover:opacity-90">이자캠(21동)</button>
-                        <button onclick="jumpToCampusBuildings('천주')" class="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white hover:opacity-90">천주캠(17동)</button>
-                        <button onclick="jumpToCampusBuildings('낭원')" class="px-2.5 py-1.5 rounded-lg bg-amber-500 text-slate-950 hover:opacity-90">낭원캠(15동)</button>
-                        <button onclick="jumpToCampusBuildings('강주')" class="px-2.5 py-1.5 rounded-lg bg-cyan-600 text-white hover:opacity-90">강주캠(15동)</button>
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button onclick="reloadCampusIframe()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 지도 원위치 초기화
+                        </button>
+                        <a href="https://binia1.github.io/mymap/?name=%ED%9A%A8%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90" target="_blank" rel="noopener noreferrer" class="bg-[#3344aa] hover:bg-[#1e2a78] text-white font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5 text-[#99dd88]"></i> 🔍 새 창에서 크게 보기
+                        </a>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- 좌측: 인터랙티브 벡터 맵 (8칸) -->
-                    <div class="lg:col-span-8 relative h-[520px] bg-[#0f172a] rounded-2xl border-2 border-slate-700 overflow-hidden shadow-inner select-none">
-                        <div class="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-br from-slate-900/90 to-blue-950/40 border-r border-dashed border-blue-400/30"></div>
-                        <div class="absolute top-3 left-4 text-xs font-black text-blue-300/80 flex items-center gap-1.5">
-                            <span class="px-2 py-0.5 rounded bg-blue-900/70 border border-blue-500/40">효빈광역시 서구 구역 (당선1동)</span>
-                            <span class="text-[11px] text-gray-400 font-normal">본부·공대·메디컬·베르데홀·기숙사</span>
-                        </div>
-                        <div class="absolute top-3 right-4 text-xs font-black text-emerald-300/80 flex items-center gap-1.5">
-                            <span class="px-2 py-0.5 rounded bg-emerald-900/70 border border-emerald-500/40">효빈광역시 북구 구역 (소조동)</span>
-                            <span class="text-[11px] text-gray-400 font-normal">사회복지대·사회대·인문·어문·사범·방도도서관</span>
-                        </div>
+                <!-- 공식 지도 Iframe 임베드 영역 -->
+                <div class="relative w-full h-[640px] rounded-2xl overflow-hidden border-2 border-[#3344aa]/30 shadow-inner bg-slate-100">
+                    <iframe id="official-campus-map-iframe" src="https://binia1.github.io/mymap/?name=%ED%9A%A8%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90" class="w-full h-full border-0" allowfullscreen loading="lazy" title="효빈대학교 공식 인터랙티브 캠퍼스 맵"></iframe>
+                </div>
 
-                        <!-- SVG 도시철도 & 교내철도(A선·B선) 노선망 -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <line x1="25" y1="0" x2="90" y2="30" stroke="#EE0022" stroke-width="0.7" stroke-dasharray="1.5,1.5" opacity="0.55" />
-                            <line x1="40" y1="0" x2="52" y2="100" stroke="#00CCAA" stroke-width="0.7" stroke-dasharray="1.5,1.5" opacity="0.55" />
-                            <line x1="0" y1="88" x2="60" y2="95" stroke="#FF8899" stroke-width="0.9" opacity="0.65" />
-                            <polygon points="75,48 75,26 68,15 58,18 52,32 52,58 82,58 88,42 78,20 35,14 25,28 32,46 42,60 52,58"
-                                fill="none" stroke="#74f466" stroke-width="1.1" opacity="0.85" />
-                            <polyline points="12,82 22,82 32,78 42,74 52,68 62,64 72,60 82,58"
-                                fill="none" stroke="#a0fff9" stroke-width="1.6" opacity="0.95" />
-                        </svg>
-
-                        <div id="gis-markers-container" class="absolute inset-0"></div>
-
-                        <div class="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md border border-slate-700 rounded-xl px-4 py-2 flex flex-wrap items-center justify-between text-[11px] text-gray-300">
-                            <div class="flex flex-wrap items-center gap-3">
-                                <span class="flex items-center gap-1"><span class="w-3 h-1.5 bg-[#a0fff9] inline-block"></span> A선 트램(쿠쿠선)</span>
-                                <span class="flex items-center gap-1"><span class="w-3 h-1.5 bg-[#74f466] inline-block"></span> B선 모노레일(스미레선)</span>
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#00CCAA] inline-block"></span> 2호선</span>
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#EE0022] inline-block"></span> 5호선</span>
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#FF8899] inline-block"></span> 7호선(구 효빈전차 본선)</span>
-                            </div>
-                            <span class="text-[#99dd88] font-bold">도보 종단 시 45분 소요 (교내철도 무료)</span>
-                        </div>
+                <!-- 하단 캠퍼스 구역 및 환승역 요약 브리핑 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2 text-xs">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                        <span class="font-black text-[#1e2a78] block">📍 서구 당선1동 구역 (남부·서부)</span>
+                        <p class="text-slate-600 leading-relaxed">대학본부(1동), 충승당(3동), 공과대학(14~17동), 의과대학 및 효빈대학교병원(47~63동), 베르데 홀(29동), 학생생활관(51~56동) 위치</p>
                     </div>
-
-                    <!-- 우측: 상세 브리핑 패널 -->
-                    <div class="lg:col-span-4 bg-slate-50 rounded-2xl border border-gray-200 p-5 flex flex-col justify-between" id="gis-detail-panel"></div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                        <span class="font-black text-emerald-800 block">📍 북구 소조동 구역 (북부·동부)</span>
+                        <p class="text-slate-600 leading-relaxed">사회과학대학(6동), 사회복지학대학(7동), 인문대학(9동), 언어문학대학(10동), 사범대학(11동), 중앙도서관(23동), 방도도서관(36동) 위치</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                        <span class="font-black text-teal-800 block">🚊 교내철도 HBNU Rail (24개 역)</span>
+                        <p class="text-slate-600 leading-relaxed">남부 평지 구간을 횡단하는 A선(노면전차, 9개 역)과 외곽·북부 구역을 순환하는 B선(모노레일, 15개 역)이 중앙환승장에서 입체 연결</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                        <span class="font-black text-purple-900 block">🚇 도시철도 3개 노선 직결</span>
+                        <p class="text-slate-600 leading-relaxed">2호선 효빈대역·당선역, 5호선 소조역·당선역, 7호선 효빈대입구역·효빈성북문역이 캠퍼스 내부 및 외곽 출입구와 직접 연결</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= [탭 2] 5대 캠퍼스 전 건물 일람표 (총 163개 동 전수수록) ================= -->
+        <!-- ================= [탭 2] 5대 캠퍼스 교육·연구·생활관 전 건물 도감 (170개 동 개별 수록) ================= -->
         <div id="tab-buildings" class="tab-content hidden fade-in space-y-6">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-gray-200">
                     <div>
-                        <span class="text-xs font-extrabold text-[#3344aa]">MASTER BUILDING DIRECTORY OF ALL 5 CAMPUSES (TOTAL 163 BUILDINGS)</span>
-                        <h2 class="text-2xl font-black text-gray-900 mt-0.5">5대 캠퍼스 전체 건물 일련번호 및 편의시설·교통 총람</h2>
+                        <span class="text-xs font-extrabold text-[#3344aa]">EDUCATIONAL, RESEARCH, ADMINISTRATIVE & RESIDENCE BUILDINGS (170 BUILDINGS)</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-0.5">5대 캠퍼스 전체 건물 일련번호 및 소속 기관·교통 안내</h2>
                         <p class="text-xs text-gray-500 mt-1">
-                            <strong>당선본캠퍼스(0~64번, 95개 동)</strong> + <strong>이자캠퍼스(I-00~I-20, 21개 동)</strong> + <strong>천주캠퍼스(C-00~C-16, 17개 동)</strong> + <strong>낭원캠퍼스(N-00~N-14, 15개 동)</strong> + <strong>강주캠퍼스(G-00~G-14, 15개 동)</strong> = <strong>총 163개 건물 완비</strong>
+                            당선(본)캠퍼스(0~64번, 기숙사 개별 동 포함 102개 동) · 이자캠퍼스(I-00~I-20, 21개 동) · 천주캠퍼스(C-00~C-16, 17개 동) · 낭원캠퍼스(N-00~N-14, 15개 동) · 강주캠퍼스(G-00~G-14, 15개 동) 전체 시설 일람표입니다.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <input type="text" id="bldg-search-input" oninput="renderFullBuildingTable()" placeholder="건물번호(예: 7-1, I-10, C-08, N-06, G-07), 건물명, 식당 검색..." class="border-2 border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium min-w-[270px] outline-none focus:border-[#3344aa]">
+                        <input type="text" id="bldg-search-input" oninput="renderFullBuildingTable()" placeholder="건물번호(예: 53-1, 54-1, 29, I-10), 건물명, 학과 검색..." class="border-2 border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium min-w-[270px] outline-none focus:border-[#3344aa]">
                     </div>
                 </div>
 
                 <!-- 캠퍼스별 필터 버튼 바 -->
-                <div class="flex flex-wrap gap-2 my-5" id="campus-bldg-tabs">
+                <div class="flex flex-wrap gap-2 my-5">
                     <button onclick="setBuildingCampusFilter('ALL')" data-cam="ALL" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-black bg-[#1e2a78] text-white shadow-sm">
-                        전체 5대 캠퍼스 통합 (163개 동)
+                        전체 5대 캠퍼스 통합 (170개 동)
                     </button>
                     <button onclick="setBuildingCampusFilter('당선')" data-cam="당선" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">
-                        🏛️ 당선(본)캠퍼스 (0~64번 · 95개 동)
+                        당선(본)캠퍼스 (0~64번 · 102개 동)
                     </button>
-                    <button onclick="setBuildingCampusFilter('이자')" data-cam="이자" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100">
-                        🍐 이자캠퍼스 (I-00~I-20 · 21개 동)
+                    <button onclick="setBuildingCampusFilter('이자')" data-cam="이자" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        이자캠퍼스 (I-00~I-20 · 21개 동)
                     </button>
-                    <button onclick="setBuildingCampusFilter('천주')" data-cam="천주" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-purple-50 text-purple-800 border border-purple-200 hover:bg-purple-100">
-                        🎨 천주캠퍼스 (C-00~C-16 · 17개 동)
+                    <button onclick="setBuildingCampusFilter('천주')" data-cam="천주" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        천주캠퍼스 (C-00~C-16 · 17개 동)
                     </button>
-                    <button onclick="setBuildingCampusFilter('낭원')" data-cam="낭원" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100">
-                        🔬 낭원캠퍼스 (N-00~N-14 · 15개 동)
+                    <button onclick="setBuildingCampusFilter('낭원')" data-cam="낭원" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        낭원캠퍼스 (N-00~N-14 · 15개 동)
                     </button>
-                    <button onclick="setBuildingCampusFilter('강주')" data-cam="강주" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-cyan-50 text-cyan-900 border border-cyan-200 hover:bg-cyan-100">
-                        ⚓ 강주캠퍼스 (G-00~G-14 · 15개 동)
+                    <button onclick="setBuildingCampusFilter('강주')" data-cam="강주" class="cam-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        강주캠퍼스 (G-00~G-14 · 15개 동)
                     </button>
                 </div>
 
                 <div class="mb-3 text-xs text-gray-500 flex justify-between items-center">
-                    <span>현재 조회된 건물 수: <strong id="bldg-filtered-count" class="text-[#3344aa]">163</strong>개 동</span>
-                    <span class="text-[11px]">💡 식당·카페·편의점이 입점한 건물은 상세란에 <strong class="text-amber-700">하이라이트</strong> 표시됩니다.</span>
+                    <span>조회된 건물 수: <strong id="bldg-filtered-count" class="text-[#3344aa]">170</strong>개 동</span>
+                    <span class="text-[11px]">※ 학생생활관(51~56번) 역시 묶음 없이 모든 개별 관(희다·후등·성가·청수·지마·양인·장곡천관 등)으로 분리 표기되어 있습니다.</span>
                 </div>
 
                 <div class="overflow-x-auto border border-gray-200 rounded-2xl">
@@ -201,12 +182,12 @@
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300">
                                 <th class="py-3.5 px-3 w-24 text-center">캠퍼스</th>
-                                <th class="py-3.5 px-3 w-20 text-center">일련번호</th>
-                                <th class="py-3.5 px-4 w-56">건물명 (동 명칭)</th>
-                                <th class="py-3.5 px-4">소속 기관 · 입점 식당/카페/편의시설 · 학내 특징</th>
-                                <th class="py-3.5 px-2 w-16 text-center">규모</th>
-                                <th class="py-3.5 px-4 w-64">연계 교통 (도시철도·광역전철·HBNU Rail)</th>
-                                <th class="py-3.5 px-3 w-24 text-center">행정구역</th>
+                                <th class="py-3.5 px-3 w-20 text-center">건물번호</th>
+                                <th class="py-3.5 px-4 w-56">건물명 (시설명)</th>
+                                <th class="py-3.5 px-4">입주 단과대학 · 행정부서 · 주요 편의시설 현황</th>
+                                <th class="py-3.5 px-2 w-16 text-center">층수</th>
+                                <th class="py-3.5 px-4 w-64">인접 도시철도 및 교내철도(HBNU Rail) 역</th>
+                                <th class="py-3.5 px-3 w-24 text-center">소재 구역</th>
                             </tr>
                         </thead>
                         <tbody id="full-building-tbody" class="divide-y divide-gray-200"></tbody>
@@ -215,42 +196,42 @@
             </div>
         </div>
 
-        <!-- ================= [탭 3] 전체 식당 · 카페 · 베이커리 · 매점 총람 (22개소 완비) ================= -->
+        <!-- ================= [탭 3] 지원·후생복지시설 (전 캠퍼스 22개 식당·카페·매점) ================= -->
         <div id="tab-dining" class="tab-content hidden fade-in space-y-8">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-gray-200">
                     <div>
-                        <span class="text-xs font-extrabold text-amber-600 uppercase tracking-widest">COMPLETE CAMPUS DINING, CAFES, BAKERIES & CONVENIENCE STORES (22 LOCATIONS)</span>
-                        <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 전 캠퍼스 식당 · 카페 · 베이커리 · 매점 완전 총람 (22개소)</h2>
+                        <span class="text-xs font-extrabold text-amber-600 uppercase tracking-widest">CAMPUS DINING, CAFETERIAS, BAKERIES & CONVENIENCE STORES</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-1">지원·후생복지시설 안내 (교내 식당 · 카페 · 베이커리 · 편의점 22개소)</h2>
                         <p class="text-xs md:text-sm text-gray-600 mt-1">
-                            제26대 민부선 총장님이 교비 100%로 지원하는 천원의 아침밥 <strong>『엠마의 식탁』</strong> 운영 식당부터, 학생복지회관 푸드코트·미아버거·한식뷔페·비스트로 정루·아고라 식당·기숙사 식당 4곳·단과대 카페 11곳·이원화 캠퍼스 특식당까지 <strong>단 한 곳도 빠짐없이 수록</strong>했습니다.
+                            효빈대학교 소비자생활협동조합(생협) 및 후생복지팀에서 직영·관리하는 전 캠퍼스 식당, 카페, 제과점 및 편의점 운영 현황입니다.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-1.5 shrink-0">
                         <button onclick="filterDining('ALL')" class="dining-btn px-3 py-1.5 rounded-lg text-xs font-black bg-[#3344aa] text-white">전체 (22개소)</button>
                         <button onclick="filterDining('학생·교직원식당')" class="dining-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">학생·교직원식당 (10)</button>
-                        <button onclick="filterDining('기숙사식당')" class="dining-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">기숙사식당 (5)</button>
+                        <button onclick="filterDining('기숙사식당')" class="dining-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">생활관식당 (5)</button>
                         <button onclick="filterDining('카페·베이커리·매점')" class="dining-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">카페·베이커리·매점 (7)</button>
                     </div>
                 </div>
 
-                <!-- 천원의 아침밥 '엠마의 식탁' 및 '엠마의 트램 팥빵' 핵심 안내 배너 -->
+                <!-- 조식 지원사업 및 생협 특화베이커리 공식 안내 배너 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                    <div class="p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 flex items-start gap-4">
-                        <div class="p-3 rounded-xl bg-emerald-600 text-white font-black text-lg shrink-0">₩1,000</div>
+                    <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-4">
+                        <div class="p-3 rounded-xl bg-emerald-700 text-white font-black text-base shrink-0">₩1,000</div>
                         <div class="text-xs space-y-1">
-                            <h4 class="font-black text-sm text-emerald-950">교비 100% 지원 천원의 아침밥 『엠마의 식탁』 (07:30~09:30)</h4>
+                            <h4 class="font-black text-sm text-emerald-950">교비 100% 지원 천원의 아침밥 『엠마의 식탁』 상시 운영 (07:30~09:30)</h4>
                             <p class="text-emerald-900 leading-relaxed">
-                                "학생들이 굶는 것은 치유와 포용(Verde)의 정신에 어긋난다"는 민부선 총장님의 특명으로 운영. <strong>학생복지타운(4동), 아와관 식당(52동), 희다관 제1식당(53동), 이자 학생회관(I-02), 천주 복지관(C-02)</strong>에서 갓 구운 호밀빵·스위스식 감자 뢰스티·한우 사골국·수제 요구르트를 단돈 1,000원에 제공합니다.
+                                재학생 및 대학원생의 건강한 식습관 형성과 식비 부담 완화를 위해 교비 보조금을 투입하여 운영합니다. <strong>학생복지타운(4동), 아와관 식당(52동), 희다관 제1식당(53-1동), 이자 학생회관(I-02), 천주 복지관(C-02)</strong>에서 한식 백반 및 유럽식 브런치 메뉴를 1,000원에 제공합니다.
                             </p>
                         </div>
                     </div>
-                    <div class="p-5 rounded-2xl bg-amber-50 border-2 border-amber-200 flex items-start gap-4">
-                        <div class="p-3 rounded-xl bg-amber-500 text-slate-950 font-black text-lg shrink-0">🍞 PB</div>
+                    <div class="p-5 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-4">
+                        <div class="p-3 rounded-xl bg-[#3344aa] text-white font-black text-base shrink-0">사회공헌</div>
                         <div class="text-xs space-y-1">
-                            <h4 class="font-black text-sm text-amber-950">결식아동 후원 학내 PB 『엠마의 트램 탑승 통단팥빵 & 녹차크림빵』 (1,500원)</h4>
-                            <p class="text-amber-900 leading-relaxed">
-                                식품영양학과·제과제빵과 공동 개발. 상단에 <strong>A선 트램 모양 화이트초콜릿 명판</strong>이 박혀 있으며 <strong>HBNU Rail 홀로그램 띠부띠부씰(45종, SSR 백년호 황금 씰 포함)</strong>이 동봉되어 있습니다. (※ 고의 훼손 시 교내철도 전 노선 포위망 '코드 레드' 가동)
+                            <h4 class="font-black text-sm text-[#1e2a78]">지역사회 상생 자체 브랜드(PB) 『엠마의 트램 단팥빵 & 녹차크림빵』</h4>
+                            <p class="text-slate-700 leading-relaxed">
+                                생활과학대학 식품영양학과·제과제빵과와 지역 제빵 명장이 공동 개발한 학내 특화 베이커리 상품입니다. 생협 매점 및 카페 베르데에서 판매되며, 판매 수익금 전액은 부설 종합사회복지관(7-3동)을 통해 관내 결식아동 멘토링 간식 지원 기금으로 기부됩니다.
                             </p>
                         </div>
                     </div>
@@ -261,33 +242,54 @@
             </div>
         </div>
 
-        <!-- ================= [탭 4] 5대 캠퍼스 역사·특징 ================= -->
+        <!-- ================= [탭 4] 5대 캠퍼스 현황 ================= -->
         <div id="tab-campuses" class="tab-content hidden fade-in space-y-8">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                 <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">HYOBIN & DEOKBINBUK-DO MULTI-CAMPUS NETWORK</span>
-                <h2 class="text-2xl font-black text-gray-900 mt-1 mb-2">효빈대학교 5대 캠퍼스 상세 현황 및 역사적 애환</h2>
-                <p class="text-xs md:text-sm text-gray-600 mb-6">효빈광역시 내 2개 캠퍼스(당선·이자)와 덕빈북도 거점 도시 3개 이원화 캠퍼스(천주·낭원·강주)는 과거 두청운수의 폭리를 이겨내고 광역철도망으로 완벽히 연결되었습니다.</p>
+                <h2 class="text-2xl font-black text-gray-900 mt-1 mb-2">효빈대학교 5대 캠퍼스 특성화 현황</h2>
+                <p class="text-xs md:text-sm text-gray-600 mb-6">효빈광역시 소재 2개 캠퍼스(당선·이자)와 덕빈북도 거점 지역 3개 이원화 캠퍼스(천주·낭원·강주)는 지역 산업과 연계된 학문 특성화 체계를 갖추고 있습니다.</p>
 
                 <div class="grid grid-cols-1 gap-6" id="five-campuses-list"></div>
             </div>
         </div>
 
-        <!-- ================= [탭 5] 주요 특수시설 (베르데 홀 등) ================= -->
+        <!-- ================= [탭 5] 주요 부속시설 및 캠퍼스 투어 안내 ================= -->
         <div id="tab-facility" class="tab-content hidden fade-in space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="landmark-cards-container"></div>
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">AFFILIATED FACILITIES & OFFICIAL CAMPUS TOUR</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-1">주요 부속·문화시설 안내 및 공식 캠퍼스 투어 코스</h2>
+                        <p class="text-xs text-gray-500 mt-1">학생 홍보대사 및 교내철도(HBNU Rail)와 함께하는 효빈대학교 핵심 랜드마크 투어 안내입니다.</p>
+                    </div>
+                    <span class="bg-blue-50 text-[#1e2a78] border border-blue-200 px-3.5 py-2 rounded-xl text-xs font-bold shrink-0">
+                        🚍 공식 캠퍼스 투어 코스: 정문(0동) ➔ 충승당(3동) ➔ 중앙도서관(23동) ➔ 베르데 홀(29동) ➔ 애니-철도 박물관(58동)
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="landmark-cards-container"></div>
+            </div>
         </div>
 
-        <!-- ================= [탭 6] 전 캠퍼스 학생생활관 (기숙사 12개 관 완비) ================= -->
+        <!-- ================= [탭 6] 전 캠퍼스 학생생활관 (18개 개별 관 완전 분리!) ================= -->
         <div id="tab-dorm" class="tab-content hidden fade-in space-y-8">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-gray-200">
                     <div>
-                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">ALL 5 CAMPUSES RESIDENCE HALLS & GUEST HOUSE</span>
-                        <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 전 캠퍼스 학생생활관(기숙사) 12대 클러스터 총람</h2>
-                        <p class="text-xs text-gray-600 mt-1">당선본캠퍼스(니나·아와·희다·후등·성가·청수·지마·양인·장곡천관·소금하우스)부터 이자캠퍼스(이화·신리관), 천주캠퍼스(궁하·아이관), 낭원캠퍼스(전포·웨이퍼관), 강주캠퍼스(오션홀)까지 전수 수록했습니다.</p>
+                        <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-widest">INDIVIDUAL DIRECTORY OF ALL 18 RESIDENCE HALLS</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-1">효빈대학교 학생생활관(기숙사) 전 동 개별 상세안내 (총 18개 관)</h2>
+                        <p class="text-xs text-gray-600 mt-1">
+                            당선(본)캠퍼스 11개 관(니나관·아와관·희다관·후등관·성가관·청수관·지마관·양인관·장곡천관·관리동·소금하우스)과 4대 이원화 캠퍼스 7개 관(이화관·신리관·궁하관·아이관·전포관·웨이퍼관·오션홀)을 묶음 없이 개별 안내합니다.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 shrink-0">
+                        <button onclick="filterDormZone('ALL')" class="dorm-filter-btn px-3 py-1.5 rounded-xl text-xs font-black bg-[#3344aa] text-white">전체 (18개 관)</button>
+                        <button onclick="filterDormZone('당선(본)캠퍼스')" class="dorm-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">당선본캠 (11개 관)</button>
+                        <button onclick="filterDormZone('이원화캠퍼스')" class="dorm-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">이자·천주·낭원·강주 (7개 관)</button>
                     </div>
                 </div>
 
+                <!-- 18개 기숙사 개별 카드 그리드 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="dorm-cards-container"></div>
             </div>
         </div>
@@ -299,566 +301,600 @@
 
     <script src="common.js"></script>
     <script>
-        // ================= 1. 인터랙티브 GIS 맵 마커 데이터 (12대 핵심 클러스터) =================
-        const GIS_CLUSTERS = [
-            {
-                id: "c_gate", no: "0번", title: "효빈대학교 정문 & 백년호 골든크로스존", x: 14, y: 83, color: "#FF8899", zone: "서구",
-                img: "이미지/효빈대학교 정문.webp",
-                rail: "● 7호선 효빈대입구역 / 🚃 A선 백년호 · 🚟 B선 상공 교차",
-                desc: "1968년 지선 폐선 때도 살아남아 2010년 공영화된 도시철도 7호선(#FF8899)과 교내트램 A선이 만나는 정문 아치. 매주 토요일 12시 구형 클래식 트램 '백년호'와 B선 모노레일이 동시 교차하는 전국 철도 출사 성지 1위입니다."
-            },
-            {
-                id: "c_hq", no: "1~5번", title: "대학본부(1) · 학생복지회관(2) · 충승당(3) · 복지타운(4) · 동아리관(5)", x: 52, y: 62, color: "#3344aa", zone: "서구",
-                img: "이미지/충승당.webp",
-                rail: "● 2호선 효빈대역 / 🚃 A06·A07 · 🚟 B13 대학본부·충승당역",
-                desc: "1925년 개교 건물 '충승당(3동)', 총장실이 있는 대학본부(1동), 푸드코트·미아버거·언론4사가 있는 학생복지회관(2동), 한식뷔페('엠마의 식탁')가 있는 학생복지타운(4동), 89개 동아리의 본거지 동아리관(5동)이 밀집해 있습니다."
-            },
-            {
-                id: "c_welfare", no: "6~7번", title: "사회복지학대학(7-1~3) · 사회과학대학(6-1~4)", x: 68, y: 16, color: "#2563eb", zone: "북구",
-                img: "이미지/사회복지학대학 7-1호관.webp",
-                rail: "● 5호선 소조역 / 🚟 B03 사회복지대역 · B04 미술사회대역",
-                desc: "박효빈 시장의 모교이자 민부선 총장이 재직 중인 S등급 사회복지학대학(7-1동, 카페·편의점 입점)과 마서령 사회복지사가 근무하는 부설 종합사회복지관(7-3동), 그리고 사회과학대학(6동)입니다."
-            },
-            {
-                id: "c_hum", no: "9~13번", title: "인문(9)·어문(10)·사범타운(11-1~6)·생활대(12)·정루관(13)", x: 82, y: 24, color: "#e11d48", zone: "북구",
-                img: "이미지/비스트로 정루.webp",
-                rail: "● 5호선 소조역 / 🚟 B02 중앙도서관역 · B03 사회복지대역",
-                desc: "필리핀어학과(10-1동), 인문대(9-2동 카페·편의점), 36개 학과 사범대 타운(11-1~6동), 제과제빵·조리과학 실습실이 있는 생활과학대(12동), 스테이크가 나오는 고급 학식당 '비스트로 정루(13동)'가 위치합니다."
-            },
-            {
-                id: "c_eng", no: "14~17번", title: "기계(14-1~5) · 전기(15) · 토목(16) · 화학공업대학(17)", x: 38, y: 74, color: "#0ea5e9", zone: "서구/북구",
-                img: "이미지/효빈대학로.webp",
-                rail: "● 7호선 효빈대입구역·당선원마을역 / 🚃 A04~A06역",
-                desc: "15층 랜드마크 기계대 5호관(14-5동)과 카페·편의점이 입점한 기계대 4호관(14-4동)·화공대 1호관(17-1동) 등 공대생 1만 명의 주 무대입니다."
-            },
-            {
-                id: "c_lib", no: "21~23번", title: "대운동장(21) · 박물관(22) · 중앙도서관(23)", x: 75, y: 32, color: "#10b981", zone: "북구/서구",
-                img: "이미지/박효빈 대학생 효빈대 중앙도서관내.webp",
-                rail: "● 5호선 소조역 · 2호선 효빈대역 / 🚟 B02 · B12역",
-                desc: "대운동장(21동 카페·편의점), 박물관(22동 카페), 중앙도서관(23동 북카페·편의점·24시 열람실)이 자리 잡고 있습니다."
-            },
-            {
-                id: "c_hub", no: "A09/B06", title: "효빈대 중앙환승장 (CU·카페·분식) & 무용대(24)", x: 82, y: 58, color: "#a0fff9", zone: "서구",
-                img: "이미지/효빈대 중앙환승장 입체교차.webp",
-                rail: "🚃 A09 효빈대중앙환승장(1층) ↔ 🚟 B06/B15(3층 고가)",
-                desc: "1층 트램과 3층 모노레일이 에스컬레이터로 직결되며, 1층 복합환승센터에 보라색 간판 CU 편의점, 환승 카페, 즉석 떡볶이·어묵 분식점이 성업 중입니다."
-            },
-            {
-                id: "c_verde", no: "29·58번", title: "베르데 홀(29동 카페 베르데) & 애니-철도 박물관(58동 해피카페·CU)", x: 35, y: 15, color: "#37B484", zone: "서구",
-                img: "이미지/베르데홀 전경.webp",
-                rail: "● 2·5호선 당선역 / 🚟 B09 베르데홀역 직결",
-                desc: "4,950석 대공연장 베르데 홀 1층 '카페 베르데(엠마의 샌드위치)'와 애니-철도 박물관(58동) 1층 '해피 카페(콜라보 카페)' 및 '박물관 한정판 CU 편의점'이 위치합니다."
-            },
-            {
-                id: "c_rail", no: "35~36번", title: "교통대학(35-1~3) · S-35-4 정비센터 · 방도도서관(36)", x: 86, y: 44, color: "#74f466", zone: "북구/서구",
-                img: "이미지/S-35-4 모노레일 정비센터.webp",
-                rail: "🚟 B01 교통대학기지역 · B07 예술대역",
-                desc: "교통대학과 S-35-4 공중 정비센터(9.8kg 대차 교수님 상주 및 정비실습생 간이식당), 원서 서점이 입점한 방도도서관(36동)입니다."
-            },
-            {
-                id: "c_law", no: "8·31·32번", title: "상과대(8-1~3 매점·카페) · 법전원(31) · 교수회관 아고라 식당(32)", x: 58, y: 24, color: "#6366f1", zone: "서구/북구",
-                img: "이미지/아고라 식당.webp",
-                rail: "🚟 B05 법전원역 · 🚃 A08 / 🚟 B14 상과대.학생회관역",
-                desc: "상과대 2호관(8-2동 카페·편의점), 상과대 학생회관 매점(8-3동, 트램 팥빵 코드레드 사건 발원지), 그리고 학생도 이용 가능한 교수회관 일품요리 식당 '아고라(32동)'가 있습니다."
-            },
-            {
-                id: "c_med", no: "47~50·59~63번", title: "메디컬 타운(47~50) & 효빈대학교병원(59~63동 푸드코트·카페)", x: 20, y: 80, color: "#14b8a6", zone: "서구/북구",
-                img: "이미지/효빈대병원 전경.webp",
-                rail: "● 7호선 효빈대입구역·효빈성북문역 / 🚃 A01~A04역",
-                desc: "간호대(48동 편의점)와 효빈대병원 본관(59동 지하 대형 푸드코트, 로비 베이커리 카페, 24시 편의점), 치과·동물·어린이·암센터가 집결한 메디컬 타운입니다."
-            },
-            {
-                id: "c_dorm", no: "51~56번", title: "학생생활관 단지 (아와관 식당·희다관 제1/2식당·소금하우스)", x: 26, y: 30, color: "#a855f7", zone: "서구",
-                img: "이미지/아와관 기숙사 식당.webp",
-                rail: "● 2호선 효빈대역 · 2/5호선 당선역 / 🚟 B10 북부기숙사역",
-                desc: "니나관(51동 카페·편의점·세탁소), 교내 맛 1위 아와관 기숙사 식당(52동), 희다관·후등관 기숙사 식당 2개소 및 카페(53동), 가족기숙사 편의점(54동), 소금하우스 다도실(56동)이 위치합니다."
-            }
-        ];
-
-        // ================= 2. 5대 캠퍼스 전체 건물 마스터 데이터베이스 (총 163개 동 전수 수록) =================
+        // ================= 1. 5대 캠퍼스 전체 건물 마스터 데이터베이스 (기숙사까지 전부 개별 분리하여 총 170개 행) =================
         const ALL_BUILDINGS_DATA = [
-            // [1] 당선(본)캠퍼스 (0번 ~ 64번, 총 95개 동 - 사용자 제공 표 100% 무생략 반영)
-            { cam: "당선", no: "0", name: "효빈대학교 정문", detail: "메인 사각 아치 게이트, HBNU 방패 엠블럼, 토요일 12시 백년호×모노레일 골든크로스 포토존", floors: "-", rail: "7호선 효빈대입구역, 교내트램 A선", zone: "서구" },
-            { cam: "당선", no: "1", name: "대학본부", detail: "총장실(3층), 총무과, 시설과, 장학과, 법무감사실, 🍴[1층 본부 라운지 카페]", floors: "7층", rail: "2호선 효빈대역, 교내트램 A선 대학본부·충승당역, 교내 모노레일 B선 본부. 충승당역", zone: "서구" },
-            { cam: "당선", no: "2", name: "학생복지회관", detail: "🍴[학생식당(대형 푸드코트)], 🍔[미아버거(수제버거)], 🏪[편의점], 🥨[베이커리·카페], 세탁소, 구내서점, 문구점, 안경점, 미용실, 헌혈의집, 4층 학내언론 4사(HBUS 방송국·효빈대신문)", floors: "5층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
-            { cam: "당선", no: "3", name: "충승당 (忠勝堂)", detail: "1925년 개교 당시 건립 붉은 벽돌 근대 건축물, 대학 역사관, 귀빈 접견실, 졸업사진 포토존", floors: "3층", rail: "2호선 효빈대역, 교내트램 A선 대학본부·충승당역, 교내 모노레일 B선 본부. 충승당역", zone: "서구" },
-            { cam: "당선", no: "4", name: "학생복지타운", detail: "🍴[학생식당(한식뷔페 · 천원의 아침밥 '엠마의 식탁' 제1운영처)], ☕[테라스 카페], 🏪[편의점], 교내 우체국", floors: "4층", rail: "2호선 효빈대역", zone: "서구" },
-            { cam: "당선", no: "5", name: "동아리관", detail: "총동아리연합회 89개 중앙동아리방, H-Rock 방음 합주실, V-Pro 풀트래킹 모션캡처 스튜디오", floors: "6층", rail: "2호선 효빈대역", zone: "서구" },
-            { cam: "당선", no: "6-1", name: "사회과학대학 1호관", detail: "정치외교학과, 사회학과, 미디어커뮤니케이션학과, 1층 대자보 아고라 광장", floors: "6층", rail: "5호선 소조역, 교내 모노레일 B선 미술사회대역", zone: "북구" },
-            { cam: "당선", no: "6-2", name: "사회과학대학 2호관", detail: "행정학과, 정책학과, 공공학과, 경찰행정학과(유도·체포술 실습장)", floors: "6층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "6-3", name: "사회과학대학 3호관", detail: "심리학과, 지리학과, 문헌정보학과, 국제학부(100% 영강), 군사학과", floors: "7층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "6-4", name: "행정대학원", detail: "고위공직자 및 지방자치 야간 석사과정, 정책 세미나실", floors: "5층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "7-1", name: "사회복지학대학", detail: "특성화 S등급 단과대(정책·경영·실천·상담), 박효빈 시장 모교, 학생회실(시즈쿠&카스미 등신대 성물), ☕[복지대 카페], 🏪[편의점]", floors: "7층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "7-2", name: "사회복지대학원", detail: "사회복지 석·박사 통합과정 및 임상 슈퍼비전 센터, 효빈톡 상담실", floors: "5층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "7-3", name: "효빈대학교 종합사회복지관", detail: "부설 지역사회 복지관 및 현장실습 센터, 블루버드 멘토단 본부 (마서령 사회복지사 근무처)", floors: "4층", rail: "5호선 소조역, 교내 모노레일 B선 미술사회대역", zone: "북구" },
-            { cam: "당선", no: "8-1", name: "상과대학 1호관", detail: "경영학과, 회계학과, 세무학과 강의실 및 CPA 모의고사실", floors: "7층", rail: "교내 모노레일 B선 법전원역", zone: "북구" },
-            { cam: "당선", no: "8-2", name: "상과대학 2호관", detail: "경제학과, 금융보험학과, 무역학과, 부동산학과, 광고홍보학과, ☕[상과대 카페], 🏪[편의점]", floors: "7층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
-            { cam: "당선", no: "8-3", name: "경영대학원 (상과대 학생회관)", detail: "MBA 과정, 🍞[상과대 학생회관 매점·간이식당 ('엠마의 트램 탑승 팥빵' 1호 판매처 및 코드레드 발원지)]", floors: "6층", rail: "교내트램 A선 상과대. 학생회관역, 교내 모노레일 B선 상과대 학생회관역", zone: "서구" },
-            { cam: "당선", no: "9-1", name: "인문대학 1호관", detail: "철학과, 사학과, 고고학과, 종교학과 강의실 및 사색의 정원", floors: "5층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "9-2", name: "인문대학 2호관", detail: "문화콘텐츠학과, 문화재보존학과, 미술사학과, 문화인류학과, 문예창작과, 음악학과, ☕[인문대 카페], 🏪[편의점]", floors: "6층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "10-1", name: "언어문학대학 동양언어관", detail: "필리핀어학과, 🍹[마부하이 라운지(필리핀 다과·유학생 카페)], 국어국문학과, 중어중문학과, 한문학과", floors: "6층", rail: "5호선 소조역", zone: "북구" },
-            { cam: "당선", no: "10-2", name: "언어문학대학 서양언어관", detail: "영어영문학과, 독어독문학과, 불어불문학과, 서어서문학과, 노어노문학과, 언어학과", floors: "6층", rail: "5호선 소조역", zone: "북구" },
-            { cam: "당선", no: "11-1", name: "사범대학 본관", detail: "교육학과, 교육공학과, 초등·유아·특수교육과 및 임용고시 열람실", floors: "7층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "11-2", name: "사범과학관", detail: "수학교육과, 물리교육과, 화학교육과, 생물교육과, 지구과학교육과, 환경교육과", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "11-3", name: "사범인문관", detail: "국어교육과, 영어교육과, 한문·독어·불어·일어·중국어·한국어교육학과", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "11-4", name: "사범사회관", detail: "역사교육과, 지리교육과, 일반사회교육과, 윤리교육과, 문헌정보교육과, 종교교육과", floors: "5층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "11-5", name: "사범예체관", detail: "음악교육과(피아노실), 미술교육과, 체육교육과(유도·체조장)", floors: "5층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "11-6", name: "사범기술관", detail: "기술교육과(목공·용접실), 컴퓨터·기계·전기전자·가정·경영금융·농업·수해양산업교육과", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "12", name: "생활과학대학", detail: "조리과학과, 🥐[제과제빵과 실습 베이커리(엠마의 식탁 호밀빵 공급처)], 식품영양학과, 소비자학과, 의류의상학과, 주거환경·아동가족학과", floors: "7층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "13", name: "정루관 (비스트로 정루)", detail: "🥩[학생식당(고급 양식당 '비스트로 정루' & 패스트푸드 · 등심스테이크·파스타·수제돈가스 판매, 소개팅 명소)]", floors: "3층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
-            { cam: "당선", no: "14-1", name: "기계공업대학 1호관", detail: "기계공학과 4대 역학 강의동 및 열유체 실험실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
-            { cam: "당선", no: "14-2", name: "기계공업대학 2호관", detail: "로봇공학과, 기전공학과 메카트로닉스 제어실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "14-3", name: "기계공업대학 3호관", detail: "드론학과, 금형공학과 CAD/CAM 정밀가공실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "14-4", name: "기계공업대학 4호관", detail: "설비공학과, 원자력공학과 연구동, ☕[기계대 카페], 🏪[편의점]", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
-            { cam: "당선", no: "14-5", name: "기계공업대학 5호관", detail: "공과대학 15층 초고층 랜드마크 타워 (서지수 작가 웹툰 마왕성 배경 모델)", floors: "15층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
-            { cam: "당선", no: "15-1", name: "전기공업대학 1호관", detail: "전기전자공학과, 제어계측공학과 회로·납땜 실습동", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "15-2", name: "전기공업대학 2호관", detail: "반도체공학과, 광공학과 레이저·디스플레이 실험실", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "15-3", name: "전기공업대학 3호관", detail: "컴퓨터공학과, 인공지능학과, 정보보안학과 GPU 클러스터실", floors: "8층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "15-4", name: "전기공업대학 4호관", detail: "산업공학과, 정보통신공학과 6G 안테나 실험동", floors: "7층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
+            // [1] 당선(본)캠퍼스 (0번 ~ 64번, 기숙사 세부 동 완전 분리)
+            { cam: "당선", no: "0", name: "효빈대학교 정문", detail: "캠퍼스 메인 출입 게이트, 교내철도 A선(트램) 궤도 및 B선(모노레일) 교차 구간", floors: "-", rail: "7호선 효빈대입구역, 교내트램 A선", zone: "서구" },
+            { cam: "당선", no: "1", name: "대학본부", detail: "총장실(3층), 법무감사실, 교무처, 학생처, 기획처, 사무국, 효빈은행(본교지점), 1층 라운지 카페", floors: "7층", rail: "2호선 효빈대역, 교내트램 A선·모노레일 B선 대학본부·충승당역", zone: "서구" },
+            { cam: "당선", no: "2", name: "학생복지회관", detail: "학생식당(1층 5대 코너 푸드코트), 구내서점, 문구점, 안경점, 미용실, 세탁소, CU 편의점, 카페, 생협 본부, 4층 학내언론 4사(HBUS 방송국·신문사)", floors: "5층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
+            { cam: "당선", no: "3", name: "충승당 (忠勝堂)", detail: "1925년 개교 당시 건립된 근대 등록문화유산 건축물, 대학 역사관 및 외빈 접견실", floors: "3층", rail: "2호선 효빈대역, 교내트램 A선·모노레일 B선 대학본부·충승당역", zone: "서구" },
+            { cam: "당선", no: "4", name: "학생복지타운", detail: "학생식당(자율 한식뷔페 · 천원의 아침밥 '엠마의 식탁' 운영), 교내 우체국, 새마을금고, CU 편의점, 카페, 방음 코인노래방, 헌혈의 집", floors: "4층", rail: "2호선 효빈대역", zone: "서구" },
+            { cam: "당선", no: "5", name: "동아리관", detail: "총학생회실, 총동아리연합회(89개 중앙동아리실), 방음 합주연습실(CiRCLE), 미디어 제작 스튜디오", floors: "6층", rail: "2호선 효빈대역", zone: "서구" },
+            { cam: "당선", no: "6-1", name: "사회과학대학 1호관", detail: "정치외교학과, 사회학과, 미디어커뮤니케이션학과 강의실 및 학생 자치 게시판", floors: "6층", rail: "5호선 소조역, 교내 모노레일 B선 미술사회대역", zone: "북구" },
+            { cam: "당선", no: "6-2", name: "사회과학대학 2호관", detail: "행정학과, 정책학과, 공공학과, 경찰행정학과 강의실 및 실습장", floors: "6층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "6-3", name: "사회과학대학 3호관", detail: "심리학과, 지리학과, 문헌정보학과, 국제학부, 군사학과 전용 강의동", floors: "7층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "6-4", name: "행정대학원", detail: "공공정책 및 지방자치 야간 석사과정 강의동, 정책 세미나실", floors: "5층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "7-1", name: "사회복지학대학", detail: "사회복지정책학과, 사회복지경영학과, 사회복지실천학과, 사회복지상담학과, 장애학생지원센터, 체력단련실, CU 편의점, 카페", floors: "7층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "7-2", name: "사회복지대학원", detail: "사회복지 석·박사 통합과정 연구실 및 임상 상담 슈퍼비전 센터", floors: "5층", rail: "5호선 소조역, 교내 모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "7-3", name: "효빈대학교 종합사회복지관", detail: "부설 지역사회 복지관 및 학부 현장실습 센터, 지역아동 멘토링 본부, 1층 외부 입점 식당(두끼 떡볶이)", floors: "4층", rail: "5호선 소조역, 교내 모노레일 B선 미술사회대역", zone: "북구" },
+            { cam: "당선", no: "8-1", name: "상과대학 1호관", detail: "경영학과, 회계학과, 세무학과 강의실 및 공인회계사(CPA) 준비반 열람실", floors: "7층", rail: "교내 모노레일 B선 법전원역", zone: "북구" },
+            { cam: "당선", no: "8-2", name: "상과대학 2호관", detail: "경제학과, 금융보험학과, 무역학과, 부동산학과, 광고홍보학과, GS25 편의점, 카페", floors: "7층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
+            { cam: "당선", no: "8-3", name: "경영대학원 (상과대 학생회관)", detail: "MBA 과정 강의실, 최고경영자 과정 홀, 1층 상과대 생협 매점 및 휴게실", floors: "6층", rail: "교내트램 A선·모노레일 B선 상과대·학생회관역", zone: "서구" },
+            { cam: "당선", no: "9-1", name: "인문대학 1호관", detail: "철학과, 사학과, 고고학과, 종교학과 강의실 및 인문학 중정 정원", floors: "5층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "9-2", name: "인문대학 2호관", detail: "문화콘텐츠학과, 문화재보존학과, 미술사학과, 문화인류학과, 문예창작과, 음악학과, GS25 편의점, 카페", floors: "6층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "10-1", name: "언어문학대학 동양언어관", detail: "필리핀어학과, 마부하이 라운지(아세안 다문화 교류센터), 국어국문학과, 중어중문학과, 한문학과", floors: "6층", rail: "5호선 소조역", zone: "북구" },
+            { cam: "당선", no: "10-2", name: "언어문학대학 서양언어관", detail: "영어영문학과, 독어독문학과, 불어불문학과, 서어서문학과, 노어노문학과, 언어학과 어학실습실", floors: "6층", rail: "5호선 소조역", zone: "북구" },
+            { cam: "당선", no: "11-1", name: "사범대학 본관", detail: "교육학과, 교육공학과, 초등교육과, 유아교육과, 특수교육과 및 임용고시 전용 열람실", floors: "7층", rail: "5호선 소조역, 모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "11-2", name: "사범과학관", detail: "수학교육과, 물리교육과, 화학교육과, 생물교육과, 지구과학교육과, 환경교육과 실험실습동", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "11-3", name: "사범인문관", detail: "국어교육과, 영어교육과, 한문·독어·불어·일어·중국어·한국어교육학과 강의동", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "11-4", name: "사범사회관", detail: "역사교육과, 지리교육과, 일반사회교육과, 윤리교육과, 문헌정보교육과, 종교교육과 강의동", floors: "5층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "11-5", name: "사범예체관", detail: "음악교육과(개인 연습실), 미술교육과(실기실), 체육교육과 실내 체육실습장", floors: "5층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "11-6", name: "사범기술관", detail: "기술교육과, 컴퓨터교육과, 기계·전기전자·가정·경영금융·농업·수해양산업교육과 실습동", floors: "6층", rail: "모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "12", name: "생활과학대학", detail: "조리과학과, 제과제빵과(1층 직영 실습 베이커리 및 카페), 식품영양학과, 소비자학과, 의류의상학과, 주거환경학과, 아동가족학과", floors: "7층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "13", name: "정루관", detail: "북구 권역 학생·교직원 식당 (1층 수제버거 패스트푸드 코너, 2층 양식당 '비스트로 정루')", floors: "3층", rail: "모노레일 B선 사회복지대역", zone: "북구" },
+            { cam: "당선", no: "14-1", name: "기계공업대학 1호관", detail: "기계공학과 기초역학 강의동 및 열유체공학 실험실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
+            { cam: "당선", no: "14-2", name: "기계공업대학 2호관", detail: "로봇공학과, 기전공학과 메카트로닉스 및 제어실험실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "14-3", name: "기계공업대학 3호관", detail: "드론학과, 금형공학과 CAD/CAM 정밀가공 실습동", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "14-4", name: "기계공업대학 4호관", detail: "설비공학과, 원자력공학과 연구동, CU 편의점, 카페", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
+            { cam: "당선", no: "14-5", name: "기계공업대학 5호관", detail: "공과대학 15층 고층 연구타워 (대형 강의실 및 산학 공동연구실)", floors: "15층", rail: "교내트램 A선 화공 전기대역", zone: "북구" },
+            { cam: "당선", no: "15-1", name: "전기공업대학 1호관", detail: "전기전자공학과, 제어계측공학과 회로설계 및 전력전자 실습동", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "15-2", name: "전기공업대학 2호관", detail: "반도체공학과, 광공학과 소자 공정 및 레이저 광학 실험실", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "15-3", name: "전기공업대학 3호관", detail: "컴퓨터공학과, 인공지능학과, 정보보안학과 고성능 서버 실습동", floors: "8층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "15-4", name: "전기공업대학 4호관", detail: "산업공학과, 정보통신공학과 차세대 네트워크 연구동", floors: "7층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
             { cam: "당선", no: "16-1", name: "토목공업대학 1호관", detail: "토목공학과 구조·수리·토질역학 대형 실험동", floors: "6층", rail: "7호선 당선원마을역", zone: "서구" },
-            { cam: "당선", no: "16-2", name: "토목공업대학 2호관", detail: "건축학과(5년제 설계 스튜디오), 건축공학과", floors: "7층", rail: "7호선 효빈대입구역", zone: "서구" },
-            { cam: "당선", no: "16-3", name: "토목공업대학 3호관", detail: "도시공학과(도시계획학), 안전공학과", floors: "6층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
-            { cam: "당선", no: "17-1", name: "화학공업대학 1호관", detail: "화학공학과, 고분자공학과 공정설계실, ☕[화공대 카페], 🏪[편의점]", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "17-2", name: "화학공업대학 2호관", detail: "나노공학과, 재료공학과 전자현미경실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "17-3", name: "화학공업대학 3호관", detail: "에너지공학과(2차전지 방폭실험실), 섬유공학과, 식품공학과", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "18", name: "체육관(실내)", detail: "실내 농구·배구 코트(HOBAS 동아리 대관), 입학식장, 체육진흥원", floors: "3층", rail: "7호선 효빈대입구역", zone: "서구" },
-            { cam: "당선", no: "19", name: "축구장", detail: "인조잔디 정식 규격 구장 (효빈대 엘리트 축구부 홈구장)", floors: "-", rail: "7호선 효빈대입구역", zone: "서구" },
-            { cam: "당선", no: "20", name: "소운동장", detail: "풋살장, 테니스 코트(스매시), 야외 농구장", floors: "-", rail: "7호선 효빈대입구역", zone: "서구" },
-            { cam: "당선", no: "21", name: "대운동장", detail: "종합 육상트랙('효빈 러너스' 야간 5km 러닝), 야구부 구장(모노레일 보호 3중 그물망), ☕[스탠드 카페], 🏪[편의점]", floors: "2층", rail: "2호선 효빈대역, 교내 모노레일 B선 대운동장역", zone: "서구" },
-            { cam: "당선", no: "22", name: "박물관", detail: "고고학 유물 전시실, 개교 100주년 사료관('침입자의 최후' 및 투표 특급 헤드마크), ☕[박물관 뮤지엄 카페]", floors: "4층", rail: "2호선 효빈대역", zone: "서구" },
-            { cam: "당선", no: "23", name: "중앙도서관", detail: "제1도서관('지식의 등대'), 24시 열람실, 멀티미디어실, ☕[도서관 북카페], 🏪[편의점]", floors: "8층", rail: "5호선 소조역, 교내 모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "24", name: "무용대학", detail: "무용학과(발레·한국·현대무용 전면 유리 연습실), 경호학과, 스포츠의학과, 체육학과, 🏪[중앙환승장 1층 CU·카페·떡볶이집 인접]", floors: "5층", rail: "교내트램 A선 효빈대 중앙환승장역, 교내 모노레일 B선 효빈대 중앙환승장역", zone: "서구" },
-            { cam: "당선", no: "25", name: "음악대학", detail: "실용음악과, 성악과, 작곡과(MIDI실), 기악과, 국악과, 음향과, 음악학과(보컬 어벤져스), 방음 연습실", floors: "6층", rail: "교내 모노레일 B선 중앙도서관역", zone: "북구" },
-            { cam: "당선", no: "26-1", name: "예술대학 1호관", detail: "연극학과(성우 발성 실습), 공연제작과, 극작과 소극장", floors: "5층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
-            { cam: "당선", no: "26-2", name: "예술대학 2호관", detail: "영화영상학과 4K 편집실 및 사운드 믹싱 스튜디오", floors: "5층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
-            { cam: "당선", no: "27-1", name: "미술대학 1호관", detail: "동양화과, 서양화과(24시간 야작 실기실)", floors: "5층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
-            { cam: "당선", no: "27-2", name: "미술대학 2호관", detail: "조소과(야외 대형 조형 작업장), 판화과", floors: "4층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
-            { cam: "당선", no: "27-3", name: "미술대학 3호관", detail: "보석감정과(전교생 3명 도제실습), 종교미술학과", floors: "4층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
-            { cam: "당선", no: "28-1", name: "자연과학대학 1호관", detail: "물리학과, 수학과, 통계학과 강의실", floors: "6층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
-            { cam: "당선", no: "28-2", name: "자연과학대학 2호관", detail: "화학과, 지질학과 분석실, ☕[자연대 카페], 🏪[편의점]", floors: "6층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
-            { cam: "당선", no: "28-3", name: "자연과학대학 3호관", detail: "천문학과(옥상 천체관측 돔), 대기과학과 기상레이더실", floors: "7층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
-            { cam: "당선", no: "29", name: "베르데 홀 (Verde Hall)", detail: "4,950석 대공연장(HAF Zone 4 본부), 🥪[1층 카페 베르데('엠마의 샌드위치' & '엠마의 빵' 본점)], 🏪[편의점], 성지 등신대 로비", floors: "지상5·지하2", rail: "2호선, 5호선 당선역, 교내 모노레일 B선 베르데홀역", zone: "서구" },
-            { cam: "당선", no: "30", name: "효빈대학교 보건진료소", detail: "교내 학생·교직원 무료 진료소 및 약국, 응급처치실", floors: "3층", rail: "교내 모노레일 B선 보건진료소역", zone: "서구" },
-            { cam: "당선", no: "31", name: "법학전문대학원", detail: "18층 로스쿨 랜드마크('정의의 탑'), 모의법정, 법학전문도서관", floors: "18층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
-            { cam: "당선", no: "32", name: "교수회관", detail: "🍽️[학생·교수 식당 '아고라 식당'(일반식 및 고급 일품요리·전골·초밥 정식)]", floors: "4층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
-            { cam: "당선", no: "33", name: "효빈대 어린이집", detail: "교직원·대학원생 자녀 직장보육시설", floors: "2층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
-            { cam: "당선", no: "34", name: "공대 부속공장", detail: "선반·밀링·주조·용접 종합 기계공작 실습공장", floors: "2층", rail: "7호선 효빈대입구역", zone: "서구" },
-            { cam: "당선", no: "35-1", name: "교통대학 1호관", detail: "철도운전시스템공학과(풀스케일 운전 시뮬레이터실), 철도산업학부", floors: "6층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
-            { cam: "당선", no: "35-2", name: "교통대학 2호관", detail: "철도운영시스템공학과(실물 3현시 신호기 & HO스케일 미러링 디오라마 강의실), 중앙관제실(HBNU CTC)", floors: "6층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
-            { cam: "당선", no: "35-3", name: "교통대학 3호관", detail: "철도교통공학과, 철도관리학과, 교통공학과, 자동차·항공운항·항공우주공학과", floors: "7층", rail: "교내 모노레일 B선 예술대역", zone: "북구" },
-            { cam: "당선", no: "35-4", name: "교통대학 모노레일 정비센터", detail: "교내 모노레일 B선 공중 차량기지(S-35-4), 🐱[9.8kg 명예기지장 '대차 교수님' 열선 하우스 & 2.2m 식빵 고양이 벤치], 🍱[차량기지 정비실습생 구내식당]", floors: "3층", rail: "교내 모노레일 B선 교통대기지역", zone: "북구" },
-            { cam: "당선", no: "36", name: "방도도서관", detail: "이공계·예체능계 전문 도서관(별칭 '방도리'), 전공 원서 서점, 지하 터널 디지털 일러스트 갤러리", floors: "6층", rail: "교내 모노레일 B선 교통대기지역", zone: "북구" },
-            { cam: "당선", no: "37", name: "학군단 (ROTC)", detail: "학생군사교육단 본부 및 연병장", floors: "3층", rail: "모노레일 B선 대운동장역", zone: "서구" },
-            { cam: "당선", no: "38", name: "사회과학연구관", detail: "사회복지·지방자치·공공정책 국책연구소 단지", floors: "6층", rail: "모노레일 B선 법전원역", zone: "서구" },
-            { cam: "당선", no: "39", name: "자연과학연구관", detail: "기초과학 연구소 및 정밀분석실", floors: "6층", rail: "모노레일 B선 자연대역", zone: "서구" },
-            { cam: "당선", no: "40", name: "보건연구소", detail: "인수공통감염병(One Health) 및 역학조사 연구센터", floors: "5층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
-            { cam: "당선", no: "41", name: "공학연구관", detail: "산학협력단(LINC 3.0) 기업부설연구소 입주동", floors: "8층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
-            { cam: "당선", no: "42", name: "교육혁신센터", detail: "교수학습개발원(CTL), 스마트 강의실, 1층 대형 문구점·화방·제도용품점", floors: "5층", rail: "2호선 효빈대역", zone: "서구" },
-            { cam: "당선", no: "43", name: "창상관", detail: "창업보육센터, 100억 원 규모 '효빈 콘텐츠 스타트업 펀드(Shiny Fund)' 입주 공간", floors: "6층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "44", name: "빛날관", detail: "취업지원센터, AI 모의면접실, 공공기관 채용설명회장", floors: "5층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "45", name: "전산교육관", detail: "정보화본부, 학내 초고속 서버실(HIPA 방화벽), 컴퓨터실", floors: "5층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "46", name: "성운관", detail: "국가고시(행정·입법·CPA·임용) 전용 종일 열람관", floors: "4층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "47-1", name: "보건대학 1호관", detail: "응급구조, 물리치료, 작업치료, 방사선, 임상병리, 치위생, 치기공학과", floors: "7층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
-            { cam: "당선", no: "47-2", name: "보건대학 2호관", detail: "보건행정, 건강관리, 안경광학, 의공학, 재활, 언어치료학과", floors: "6층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
-            { cam: "당선", no: "48", name: "간호대학", detail: "간호학과 시뮬레이션 임상센터, 나이팅게일 홀, 🏪[편의점]", floors: "6층", rail: "교내트램 A선 간호대 - 한의관역", zone: "서구" },
-            { cam: "당선", no: "49", name: "의과대학", detail: "통합의과대학 1본부(의학과), 해부학실습실, 의학도서관", floors: "8층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
+            { cam: "당선", no: "16-2", name: "토목공업대학 2호관", detail: "건축학과(5년제 설계 스튜디오), 건축공학과 시공·구조 실험실", floors: "7층", rail: "7호선 효빈대입구역", zone: "서구" },
+            { cam: "당선", no: "16-3", name: "토목공업대학 3호관", detail: "도시공학과(도시계획학), 안전공학과 강의 및 GIS 실습동", floors: "6층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
+            { cam: "당선", no: "17-1", name: "화학공업대학 1호관", detail: "화학공학과, 고분자공학과 공정설계실, 이마트24 편의점, 카페", floors: "7층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "17-2", name: "화학공업대학 2호관", detail: "나노공학과, 재료공학과 신소재 합성 및 분석 실험실", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "17-3", name: "화학공업대학 3호관", detail: "에너지공학과(이차전지 실험실), 섬유공학과, 식품공학과", floors: "6층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "18", name: "체육관(실내)", detail: "다목적 실내체육관, 효빈 중앙 피트니스센터, 실내수영장(아쿠아틱 센터), 체육진흥원", floors: "3층", rail: "7호선 효빈대입구역", zone: "서구" },
+            { cam: "당선", no: "19", name: "축구장", detail: "인조잔디 정식 규격 축구 구장 및 관람 스탠드", floors: "-", rail: "7호선 효빈대입구역", zone: "서구" },
+            { cam: "당선", no: "20", name: "소운동장", detail: "야간 조명 시설이 완비된 다목적 풋살장, 테니스 코트, 야외 농구장", floors: "-", rail: "7호선 효빈대입구역", zone: "서구" },
+            { cam: "당선", no: "21", name: "대운동장", detail: "400m 공인 육상트랙, 야구장, 야외 노천극장, 이마트24 편의점, 카페", floors: "2층", rail: "2호선 효빈대역, 교내 모노레일 B선 대운동장역", zone: "서구" },
+            { cam: "당선", no: "22", name: "박물관", detail: "고고학 출토 유물 상설전시실, 대학사료실, 1층 시청각 대강당(목요시네마 상영관), 카페", floors: "4층", rail: "2호선 효빈대역", zone: "서구" },
+            { cam: "당선", no: "23", name: "중앙도서관", detail: "본교 제1도서관, 일반열람실(24시간 개방), 멀티미디어실, 북카페, 휴게 수면라운지, CU 편의점", floors: "8층", rail: "5호선 소조역, 교내 모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "24", name: "무용대학", detail: "무용학과(한국무용·발레·현대무용 실기실), 경호학과, 스포츠의학과, 체육학과 강의동", floors: "5층", rail: "교내트램 A선·모노레일 B선 효빈대 중앙환승장역", zone: "서구" },
+            { cam: "당선", no: "25", name: "음악대학", detail: "실용음악과, 성악과, 작곡과, 기악과, 국악과, 음향과, 음악학과 리사이틀홀 및 방음 연습실", floors: "6층", rail: "교내 모노레일 B선 중앙도서관역", zone: "북구" },
+            { cam: "당선", no: "26-1", name: "예술대학 1호관", detail: "만화애니메이션학과(성우전공 더빙 실습실 포함), 연극학과, 공연제작과, 극작과 실습동", floors: "5층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
+            { cam: "당선", no: "26-2", name: "예술대학 2호관", detail: "영화영상학과 디지털 편집실 및 스튜디오", floors: "5층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
+            { cam: "당선", no: "27-1", name: "미술대학 1호관", detail: "동양화과, 서양화과 실기 스튜디오", floors: "5층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
+            { cam: "당선", no: "27-2", name: "미술대학 2호관", detail: "조소과(실내외 입체조형 작업장), 판화과 실습동", floors: "4층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
+            { cam: "당선", no: "27-3", name: "미술대학 3호관", detail: "보석감정과, 종교미술학과 실습동", floors: "4층", rail: "교내 모노레일 B선 미술사회대역", zone: "북구" },
+            { cam: "당선", no: "28-1", name: "자연과학대학 1호관", detail: "물리학과, 수학과, 통계학과 강의실 및 전산실습실", floors: "6층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
+            { cam: "당선", no: "28-2", name: "자연과학대학 2호관", detail: "화학과, 지질학과 실험실, 체력단련실, 이마트24 편의점, 카페", floors: "6층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
+            { cam: "당선", no: "28-3", name: "자연과학대학 3호관", detail: "천문학과(옥상 천체관측소), 대기과학과 기상관측실", floors: "7층", rail: "교내 모노레일 B선 자연대역", zone: "서구" },
+            { cam: "당선", no: "29", name: "베르데 홀 (Verde Hall)", detail: "4,950석 규모 다목적 대공연장 및 컨벤션 센터, 1층 카페 베르데·베이커리, 이마트24 편의점", floors: "지상5·지하2", rail: "2호선·5호선 당선역, 교내 모노레일 B선 베르데홀역", zone: "서구" },
+            { cam: "당선", no: "30", name: "효빈대학교 보건진료소", detail: "재학생·교직원 1차 무료 진료소(내과·외과·치과), 약국 및 학생생활상담센터", floors: "3층", rail: "교내 모노레일 B선 보건진료소역", zone: "서구" },
+            { cam: "당선", no: "31", name: "법학전문대학원", detail: "법학전문대학원(로스쿨) 전용관, 대법정·모의법정, 법학전문도서관", floors: "18층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
+            { cam: "당선", no: "32", name: "교수회관", detail: "교수회의실 및 교직원·학생 다이닝 라운지 '아고라 식당'(한정식·일품요리·델리)", floors: "4층", rail: "교내 모노레일 B선 법전원역", zone: "서구" },
+            { cam: "당선", no: "33", name: "효빈대 어린이집", detail: "교직원 및 대학원생·학부생 자녀 보육시설", floors: "2층", rail: "교내트램 A선 토목대 복지관역", zone: "서구" },
+            { cam: "당선", no: "34", name: "공대 부속공장", detail: "기계공작 실습공장 및 교내 통학·시내버스 통합 차고지", floors: "2층", rail: "7호선 효빈대입구역", zone: "서구" },
+            { cam: "당선", no: "35-1", name: "교통대학 1호관", detail: "철도운전시스템공학과(트램·모노레일 운전 시뮬레이터실), 철도산업학부", floors: "6층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
+            { cam: "당선", no: "35-2", name: "교통대학 2호관", detail: "철도운영시스템공학과(신호제어 실습실), 교내철도 교통관제센터(TCC)", floors: "6층", rail: "교내 모노레일 B선 예술대역", zone: "서구" },
+            { cam: "당선", no: "35-3", name: "교통대학 3호관", detail: "철도교통공학과, 철도관리학과, 교통공학과, 자동차·항공운항·항공우주공학과, 체력단련실", floors: "7층", rail: "교내 모노레일 B선 예술대역", zone: "북구" },
+            { cam: "당선", no: "35-4", name: "교통대학 모노레일 정비센터", detail: "교내 모노레일 B선 차량기지(S-35-4), 대차 정비실습장 및 실습생 구내식당", floors: "3층", rail: "교내 모노레일 B선 교통대기지역", zone: "북구" },
+            { cam: "당선", no: "36", name: "방도도서관", detail: "이공계·예체능계 전문 학술도서관(제2도서관), 구내서점, 지하 전시갤러리", floors: "6층", rail: "교내 모노레일 B선 교통대기지역", zone: "북구" },
+            { cam: "당선", no: "37", name: "학군단 (ROTC)", detail: "학생군사교육단 본부, 직장예비군 연대본부 및 연병장", floors: "3층", rail: "모노레일 B선 대운동장역", zone: "서구" },
+            { cam: "당선", no: "38", name: "사회과학연구관", detail: "사회과학연구원 및 공공정책·복지 산하 연구소 입주동", floors: "6층", rail: "모노레일 B선 법전원역", zone: "서구" },
+            { cam: "당선", no: "39", name: "자연과학연구관", detail: "기초과학연구소, 공동실험실습관(초고분해능 전자현미경실) 및 부속 유리온실", floors: "6층", rail: "모노레일 B선 자연대역", zone: "서구" },
+            { cam: "당선", no: "40", name: "보건연구소", detail: "One Health 인수공통감염병 연구원 및 의생명 분석센터", floors: "5층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
+            { cam: "당선", no: "41", name: "공학연구관", detail: "연구처, 산학협력단 본부, 기술비즈니스센터(TLO) 및 기업부설연구소", floors: "8층", rail: "교내트램 A선 화공 전기대역", zone: "서구" },
+            { cam: "당선", no: "42", name: "교육혁신센터", detail: "교수학습개발원(CTL), 원격교육지원센터, 1층 대형 문구점 및 인쇄소", floors: "5층", rail: "2호선 효빈대역", zone: "서구" },
+            { cam: "당선", no: "43", name: "창상관", detail: "창업지원단, 창업보육센터(효빈 콘텐츠 스타트업 펀드 입주공간)", floors: "6층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "44", name: "빛날관", detail: "진로취업지원처, 현장실습지원센터, 글로벌어학센터, 면접 정장 무료대여소", floors: "5층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "45", name: "전산교육관", detail: "정보화본부, 통합전산서버실, 교내 e스포츠 아레나, IT 기기 수리센터", floors: "5층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "46", name: "성운관", detail: "국가고시(5급 공채·외교관·CPA·임용) 준비반 전용 열람관", floors: "4층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "47-1", name: "보건대학 1호관", detail: "응급구조학과, 물리치료학과, 작업치료학과, 방사선학과, 임상병리학과, 치위생·치기공학과", floors: "7층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
+            { cam: "당선", no: "47-2", name: "보건대학 2호관", detail: "보건행정학과, 건강관리학과, 안경광학과, 의공학과, 재활학과, 언어치료학과", floors: "6층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
+            { cam: "당선", no: "48", name: "간호대학", detail: "간호학과 임상시뮬레이션센터, 나이팅게일 홀, 이마트24 편의점", floors: "6층", rail: "교내트램 A선 간호대 - 한의관역", zone: "서구" },
+            { cam: "당선", no: "49", name: "의과대학", detail: "통합의과대학 1본부(의학과), 해부학실습실, 의학도서관, 지하 의대 전용 식당 및 휴게실", floors: "8층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
             { cam: "당선", no: "49-1", name: "한의학관", detail: "통합의과대학 3본부(한의학과), 본초학 표본실 및 한방임상실습실", floors: "6층", rail: "교내트램 A선 간호대 - 한의관역", zone: "서구" },
-            { cam: "당선", no: "49-2", name: "치의학관", detail: "통합의과대학 2본부(치의학과), 구강보철 시뮬레이션실", floors: "6층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
-            { cam: "당선", no: "49-3", name: "수의학관", detail: "통합의과대학 4본부(수의학과 본과) 및 A선 트램 수의대 간이검수고", floors: "6층", rail: "교내트램 A선 수의대·동물병원역", zone: "서구" },
+            { cam: "당선", no: "49-2", name: "치의학관", detail: "통합의과대학 2본부(치의학과), 구강악안면 보철 시뮬레이션실", floors: "6층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
+            { cam: "당선", no: "49-3", name: "수의학관", detail: "통합의과대학 4본부(수의학과 본과), 부속 실습목장 및 A선 트램 수의대 검수고", floors: "6층", rail: "교내트램 A선 수의대·동물병원역", zone: "서구" },
             { cam: "당선", no: "50", name: "약학대학", detail: "약학과, 한약학과 제제공학 실험실 및 부속 약초원", floors: "6층", rail: "교내트램 A선 약대 보건대역", zone: "서구" },
-            { cam: "당선", no: "51", name: "효빈대학교 아파트형기숙사A (니나관)", detail: "20층 아파트형 생활관(이세리 니나 밈), ☕[1층 카페], 🏪[편의점], 코인세탁소", floors: "20층", rail: "2호선 효빈대역, 모노레일 B선 북부기숙사역", zone: "서구" },
-            { cam: "당선", no: "52", name: "효빈대학교 아파트형기숙사B (아와관)", detail: "23층 아파트형 생활관(아와 스바루 밈), 🍛[아와관 기숙사 식당(교내 기숙사 밥맛 1위 · '엠마의 식탁' 제2운영처)]", floors: "23층", rail: "2호선 효빈대역, 모노레일 B선 북부기숙사역", zone: "서구" },
-            { cam: "당선", no: "53", name: "기숙사 1단지 (희다·후등·성가관)", detail: "희다관 1~5동(여·키타관), 후등관(남·봇치관), 성가관(고시·세이카관), 🍛[기숙사 식당 2개소(희다 제1식당 '엠마의 식탁'·후등 제2식당)], ☕[카페]", floors: "5~8층", rail: "모노레일 B선 북부기숙사역·보건진료소역", zone: "서구" },
-            { cam: "당선", no: "54", name: "기숙사 2단지 (가족동반기숙사)", detail: "대학원생·가족동반 기숙사(청수관, 지마관, 양인관 1~2동, 장곡천관 1~3동), 🏪[편의점]", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
-            { cam: "당선", no: "55", name: "기숙사관리동", detail: "학생생활관 종합행정실, 무인택배센터, 통합보안실", floors: "3층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "56", name: "소금하우스", detail: "학술연구용 호텔형 게스트하우스(별칭 '시오리코 하우스'), 🍵[1층 정갈한 조식 라운지 & 다도실]", floors: "5층", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "57", name: "효빈대학교 사범대학 부설고등학교", detail: "자율형 공립 명문 사대부고 (교생실습교)", floors: "5층", rail: "교내 모노레일 B선 교통대기지역", zone: "서구" },
-            { cam: "당선", no: "58", name: "효빈대학교 애니메이션-철도 박물관", detail: "국내 유일 철도·애니 박물관, 🍰[1층 박물관 '해피 카페'(콜라보 카페)], 🏪[한정판 굿즈 특화 CU 편의점], 루프탑 하늘정원", floors: "지상3·지하1", rail: "2호선, 5호선 당선역", zone: "서구" },
-            { cam: "당선", no: "59", name: "효빈대학교 병원 본관", detail: "권역응급의료센터, 외래진료관, 🍲[지하1층 대형 푸드코트·구내식당], ☕[로비 카페], 🏪[24시 편의점]", floors: "14층", rail: "7호선 효빈대입구역, 교내트램 A선 효빈대병원역", zone: "서구" },
-            { cam: "당선", no: "60", name: "효빈대학교 치과병원", detail: "권역장애인구강진료센터 및 전문 치과병원", floors: "7층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
-            { cam: "당선", no: "61", name: "효빈대학교 동물병원", detail: "수의대 부속 동물병원 및 야생동물 구조센터 (서수진 원장, 9.8kg 대차 교수님 주치 병원)", floors: "4층", rail: "교내트램 A선 수의대·동물병원역", zone: "북구" },
+            // ★ 학생생활관(51~56번) 묶음 없이 100% 개별 분리 표기 ★
+            { cam: "당선", no: "51", name: "니나관 (제1아파트형 기숙사 A동)", detail: "20층 규모 아파트형 학생생활관, 1층 CU 편의점, 생협 카페, 무인세탁실", floors: "20층", rail: "2호선 효빈대역, 모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "52", name: "아와관 (제2아파트형 기숙사 B동)", detail: "23층 규모 아파트형 학생생활관, 1층 아와관 직영 기숙사 식당('엠마의 식탁' 운영)", floors: "23층", rail: "2호선 효빈대역, 모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "53-1~5", name: "희다관 1~5동 (제1단지 여학생 기숙사)", detail: "여학생 전용 생활관 1~5동, 층별 셰어하우스 커뮤니티 라운지, 1층 희다관 제1기숙사 식당 및 카페", floors: "6층", rail: "모노레일 B선 북부기숙사역·보건진료소역", zone: "서구" },
+            { cam: "당선", no: "53-6", name: "후등관 (제1단지 남학생 기숙사)", detail: "남학생 전용 생활관, 24시 정독실, 개인 악기·음악 방음 연습부스, 킥보드·자전거 수리소 '기어스'", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "53-7", name: "성가관 (제1단지 국가고시반 기숙사)", detail: "5급 공채(행정·입법), 공인회계사(CPA), 임용고시 준비생 전용 생활관, 성가관 제2기숙사 식당", floors: "5층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "54-1", name: "청수관 (제2단지 외국인교원·연구원 생활관)", detail: "외국인 초빙교원 및 박사후연구원(Post-Doc) 전용 아파트형 숙소", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "54-2", name: "지마관 (제2단지 기혼자·가족동반 기숙사)", detail: "기혼 대학원생 및 학부생 부부·자녀 동반 거주 전용 생활관 (33동 효빈대 어린이집 연계)", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "54-3~4", name: "양인관 1~2동 (제2단지 전문대학원 기숙사)", detail: "법학전문대학원(로스쿨)·의학·치의학전문대학원 재학생 전용 생활관", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "54-5~7", name: "장곡천관 1~3동 (제2단지 일반대학원 기숙사)", detail: "일반대학원 석·박사 전일제 연구생 전용 생활관, 1동 1층 세븐일레븐 편의점 입점", floors: "6층", rail: "모노레일 B선 북부기숙사역", zone: "서구" },
+            { cam: "당선", no: "55", name: "학생생활관 관리동", detail: "생활관 통합행정실, 무인택배센터, 24시간 생활관 통합보안관제실", floors: "3층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "56", name: "소금하우스 (국제학술교류관·게스트하우스)", detail: "방문 석학 및 학술행사용 호텔형 게스트하우스(양실·전통 다도실 및 조식 라운지 완비)", floors: "5층", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "57", name: "효빈대학교 사범대학 부설고등학교", detail: "사범대학 부설 고등학교 (교육실습 협력학교)", floors: "5층", rail: "교내 모노레일 B선 교통대기지역", zone: "서구" },
+            { cam: "당선", no: "58", name: "효빈대학교 애니메이션-철도 박물관", detail: "철도모형 디오라마 전시실, 문화콘텐츠 기획전시실, 지하 보존차량 데포, 1층 카페 및 CU 편의점", floors: "지상3·지하1", rail: "2호선·5호선 당선역", zone: "서구" },
+            { cam: "당선", no: "59", name: "효빈대학교 병원 본관", detail: "상급종합병원 권역응급의료센터, 외래진료관, 지하 1층 푸드코트, 웰빙 베이커리, 세븐일레븐 편의점", floors: "14층", rail: "7호선 효빈대입구역, 교내트램 A선 효빈대병원역", zone: "서구" },
+            { cam: "당선", no: "60", name: "효빈대학교 치과병원", detail: "권역장애인구강진료센터 및 치과대학 부속병원", floors: "7층", rail: "교내트램 A선 효빈대병원역", zone: "서구" },
+            { cam: "당선", no: "61", name: "효빈대학교 동물병원", detail: "수의과대학 부속 동물병원 및 야생동물 구조·치료센터", floors: "4층", rail: "교내트램 A선 수의대·동물병원역", zone: "북구" },
             { cam: "당선", no: "62", name: "효빈대어린이병원", detail: "소아·청소년 전문 병원 및 어린이 병원학교", floors: "8층", rail: "7호선 효빈성북문역", zone: "서구" },
-            { cam: "당선", no: "63", name: "효빈대병원 암센터", detail: "중입자·방사선 암 치료 센터 및 임상약학 연구동", floors: "10층", rail: "7호선 효빈성북문역", zone: "서구" },
-            { cam: "당선", no: "64", name: "학술문화회관", detail: "글라스 팰리스 외관 국제회의장, 대형 컨퍼런스 홀 및 만찬장", floors: "5층", rail: "2호선 효빈대역", zone: "서구" },
+            { cam: "당선", no: "63", name: "효빈대병원 암센터", detail: "방사선 정밀 암 치료 센터 및 임상약학 연구동", floors: "10층", rail: "7호선 효빈성북문역", zone: "서구" },
+            { cam: "당선", no: "64", name: "학술문화회관", detail: "국제학술회의장, 대형 컨퍼런스 홀 및 리셉션장", floors: "5층", rail: "2호선 효빈대역", zone: "서구" },
 
             // [2] 이자캠퍼스 (효빈광역시 안천구 원세로 22 / 신동 · I-00 ~ I-20, 총 21개 동)
-            { cam: "이자", no: "I-00", name: "이자캠퍼스 정문 (배꽃 아치)", detail: "안천구 원세로 22 메인 게이트, 봄철 왕벚꽃과 하얀 배꽃(梨花) 터널 시작점", floors: "-", rail: "빈효선 광역전철(#6677CC) 리의역 도보 5분", zone: "안천구 신동" },
-            { cam: "이자", no: "I-01", name: "이자 통합행정관 및 학술정보관", detail: "이자캠퍼스 부총장실, 통합행정실, 농생명·디자인 특화 분관 도서관, ☕[북카페]", floors: "5층", rail: "빈효선 리의역 (교내 무료 전기셔틀 기점)", zone: "안천구 신동" },
-            { cam: "이자", no: "I-02", name: "이자 학생회관 (팜투테이블 미식관)", detail: "🍚[이자 학생회관 식당(농대 실습농장 햅쌀·채소·축산학과 한우 직송으로 안천구 내 맛집 1위 · '엠마의 식탁' 운영)], 🏪[편의점], 서점, 안경점", floors: "4층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-03", name: "농업대학 1호관 (식물자원·원예관)", detail: "식물자원학과(박청권 최연소 국회의원 배출), 원예학과 조경실습실", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-04", name: "농업대학 2호관 (식물의학·산림과학관)", detail: "식물의학과(수목 진단 클리닉), 산림과학과(탄소중립·산림생태 연구실)", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-05", name: "농업대학 3호관 (수산생명의학·자원관)", detail: "수산생명의학과(수산질병관리사 면허 과정, 어류병원 실습수조), 수산자원학과", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-06", name: "효빈대학교 부속 식물병원", detail: "병든 농작물 및 효빈시 가로수·보호수 정밀 진단·처방 센터", floors: "3층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-07", name: "생명대학 1호관 (생명공학·생명과학관)", detail: "생명공학과(유전자 가위·줄기세포), 생명과학과, 야간 실험실 불야성 구역, 🏪[편의점]", floors: "7층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-08", name: "생명대학 2호관 (동물과학·축산학관)", detail: "동물과학과, 축산학과(마기철 치킨무림 대표 배출 학과)", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-09", name: "애완동물학과 실습관 및 행동교정센터", detail: "애완동물과 전용관, 어질리티 훈련장, 교내 길고양이 돌봄 동아리 '냥냥펀치' 본부", floors: "3층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-10", name: "축산학과 부속 유가공공장 & 밀크홀", detail: "🧀[유가공 직매장 & 밀크 카페(축제 때마다 완판되는 축산학과 수제 구워먹는 치즈·그릭요구르트·목장 아이스크림 상설 판매)]", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-11", name: "디자인대학 1호관 (시각·산업디자인관)", detail: "시각디자인학과(탁민석·강수영 원장 배출), 산업디자인학과(차세대 트램 외관 설계실), 애플 맥 프로 실습실", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-12", name: "디자인대학 2호관 (실내·패션디자인관)", detail: "실내디자인학과(3D 렌더링 팜), 패션디자인학과 패턴·봉제 아틀리에, ☕[힙스터 로스터리 카페]", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-13", name: "이자 디자인센터 & 런웨이홀", detail: "전면 통유리 현대미술관급 갤러리 및 졸업 패션쇼 전용 런웨이 홀 (정문 앞 힙스터 성지)", floors: "4층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-14", name: "수의과대학 예과관 (이자 수의학관)", detail: "통합의과대학 4본부 수의예과 1~2학년 전용 강의동 및 기초생물 실험실", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-15", name: "첨단 스마트팜 유리온실 단지", detail: "AI 수경재배 및 식물공장 단지 (밤마다 보라색 식물생장 LED 조명이 켜져 신비로운 야경 연출)", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-16", name: "부속 실습목장 및 트랙터 농기계고", detail: "젖소·한우 방목장 및 니시키노 마키 스티커가 붙은 실습용 대형 트랙터 차고지", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-17", name: "부속 학술림 및 배나무 과수원(이화원)", detail: "이자(梨子) 지명의 유래가 된 배나무 과수원 및 산림과학과 실습림(종종 실습생 조난 구역)", floors: "-", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-18", name: "이자 학생생활관 A동 (이화관)", detail: "이자캠퍼스 여학생 기숙사 (배꽃 정원 뷰), 🏪[무인편의점], 세탁실", floors: "8층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-19", name: "이자 학생생활관 B동 (신리관)", detail: "이자캠퍼스 남학생 기숙사, 🍛[이자 기숙사 식당], 체력단련실", floors: "8층", rail: "빈효선 리의역", zone: "안천구 신동" },
-            { cam: "이자", no: "I-20", name: "서문 보급로 (코스트코 홀세일 이자점 직결 육교)", detail: "캠퍼스 바로 옆 코스트코 이자점(안천구 신동 202)과 연결되는 자취생·기숙사생 대량 보급용 보행육교", floors: "-", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-00", name: "이자캠퍼스 정문", detail: "안천구 원세로 22 메인 출입구 및 가로수길", floors: "-", rail: "빈효선 광역전철 리의역 도보 5분", zone: "안천구 신동" },
+            { cam: "이자", no: "I-01", name: "이자 통합행정관 및 분관도서관", detail: "이자캠퍼스 행정지원실, 농생명·디자인 분관 학술정보관, GS25 편의점, 북카페", floors: "5층", rail: "빈효선 리의역 (교내 셔틀 기점)", zone: "안천구 신동" },
+            { cam: "이자", no: "I-02", name: "이자 학생회관", detail: "학생식당(실습농장 직송 농축산물 활용 식단 · 조식 '엠마의 식탁' 운영), CU 편의점, 구내서점, 안경점", floors: "4층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-03", name: "농업대학 1호관", detail: "식물자원학과, 원예학과 강의실 및 종자 연구실", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-04", name: "농업대학 2호관", detail: "식물의학과, 산림과학과 연구실 및 표본실", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-05", name: "농업대학 3호관", detail: "수산생명의학과(수산질병관리사 과정), 수산자원학과 수조 실험동", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-06", name: "효빈대학교 부속 식물병원", detail: "농작물 및 수목 병해충 정밀 진단·처방 연구센터", floors: "3층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-07", name: "생명대학 1호관", detail: "생명공학과, 생명과학과 분자생물학 실험동, 이마트24 편의점", floors: "7층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-08", name: "생명대학 2호관", detail: "동물과학과, 축산학과 사양·번식학 연구동", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-09", name: "애완동물학과 실습관", detail: "애완동물과 전용 강의실 및 동물 행동교정·매개치료 실습센터", floors: "3층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-10", name: "부속 유가공공장 및 판매장", detail: "축산학과 유가공 실습 플랜트 및 1층 수제 유제품(치즈·요구르트) 직매장", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-11", name: "디자인대학 1호관", detail: "시각디자인학과, 산업디자인학과 모빌리티·제품 디자인 스튜디오", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-12", name: "디자인대학 2호관", detail: "실내디자인학과, 패션디자인학과 실습실 및 카페", floors: "6층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-13", name: "이자 디자인센터 및 전시홀", detail: "디자인대학 상설 갤러리 및 졸업작품 패션쇼 컨벤션 홀", floors: "4층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-14", name: "수의과대학 예과관", detail: "통합의과대학 4본부 수의예과 전용 강의동 및 기초과학 실험실", floors: "5층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-15", name: "첨단 스마트팜 유리온실 단지", detail: "AI 환경제어 수경재배 및 식물공장 실증 연구단지", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-16", name: "부속 동물사육장 및 농기계고", detail: "대동물 사육 실습장 및 농업기계 교육시설", floors: "2층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-17", name: "부속 학술림 및 과수원(이화원)", detail: "원예학과·산림과학과 야외 실습 과수원 및 학술림", floors: "-", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-18", name: "이화관 (이자 학생생활관 A동)", detail: "이자캠퍼스 여학생 전용 생활관, 무인편의점, 세탁실", floors: "8층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-19", name: "신리관 (이자 학생생활관 B동)", detail: "이자캠퍼스 남학생 전용 생활관, 1층 기숙사 식당 및 CU 편의점, 체력단련실", floors: "8층", rail: "빈효선 리의역", zone: "안천구 신동" },
+            { cam: "이자", no: "I-20", name: "서문 보행육교", detail: "인접 대형 유통시설(신동 상권) 및 리의역 방향 보행 연결통로", floors: "-", rail: "빈효선 리의역", zone: "안천구 신동" },
 
             // [3] 천주캠퍼스 (덕빈북도 천주시 궁하구 세동로 13 · C-00 ~ C-16, 총 17개 동)
-            { cam: "천주", no: "C-00", name: "천주캠퍼스 정문 (궁하 아치)", detail: "빈효선 광역전철 궁하역에서 도보 5분 직결되는 예술·공학 융합 게이트", floors: "-", rail: "빈효선 광역전철(#6677CC) 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-01", name: "천주 통합행정관 및 아트도서관", detail: "천주캠퍼스 행정실, 만화·애니메이션·게임 원화 특화 도서관", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-02", name: "천주 학생복지관 (야작인의 등대)", detail: "🍜[천주 학생식당 & 24시 야작 심야식당(한강 라면 즉석조리기 10대·덮밥·돈가스 · '엠마의 식탁' 운영)], ☕[카페 아이(Ai)], 🏪[편의점], 화방", floors: "4층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-03", name: "응용예술대학 1호관 (만화애니메이션관)", detail: "만화애니메이션학과 본진, 24시간 불이 꺼지지 않는 와콤 신티크 액정태블릿 웹툰창작실습실, '작화 붕괴 감시단' 학회실", floors: "7층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-04", name: "응용예술대학 2호관 (성우·게임학관)", detail: "만화애니메이션학과 성우전공(프로급 폴리·더빙 방음부스, 오이슬 재학), 게임학과(언리얼/유니티 고사양 실습실)", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-05", name: "응용예술대학 3호관 (조형·뷰티·런웨이관)", detail: "귀금속공예과(세공실), 모델과(워킹 런웨이홀), 미용학과(특수분장실), 사진학과(4K 호리존 스튜디오)", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-06", name: "응용과학대학 1호관 (소방·안전공학관)", detail: "소방학과(강철민 소방특수구조대장 배출), 고강도 체력단련실(쇠질 성지)", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-07", name: "응용과학대학 2호관 (예술공학·출판인쇄관)", detail: "예술공학과(HAF 홀로그램 무대 제어), 출판인쇄과(대형 오프셋·디지털 윤전기 실습실)", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-08", name: "특수장비과·기관학과 대형 정비격납고", detail: "퇴역 전차(탱크)·장갑차·특수궤도차량 및 대형 선박용 디젤 내연기관 분해·정비 실습 격납고 (밀덕 성지)", floors: "층고 15m", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-09", name: "소방방재 종합훈련타워", detail: "실제 화재 연기 시뮬레이션, 완강기 하강 및 고층 인명구조 훈련장", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-10", name: "예술융합창작 미디어아트 돔", detail: "융합학부 예술융합창작전공 360도 프로젝션 맵핑 및 사운드아트 전용 돔", floors: "3층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-11", name: "천주 창업보육센터 & 굿즈 팩토리", detail: "웹툰 스튜디오, 인디게임사, 3D 프린팅 피규어·아크릴 굿즈 제작 스타트업 입주동", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-12", name: "천주 대운동장 및 야외 코스프레 가든", detail: "인조잔디 구장 및 코스프레 야외 촬영용 유럽풍 정원", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-13", name: "천주 학생생활관 A동 (궁하관)", detail: "천주캠퍼스 남학생 기숙사, 24시 야작생 전용 수면실 완비", floors: "9층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-14", name: "천주 학생생활관 B동 (아이관 / Ai Hall)", detail: "천주캠퍼스 여학생 기숙사(인근 행정동 '아이동' 및 미야시타 아이 밈), 🍛[천주 기숙사 식당], 🏪[편의점]", floors: "9층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-15", name: "서문 문화게이트 (아이의 거리 직결문)", detail: "천주시 번화가이자 서브컬처 성지인 '아이의 거리(아이동 굿즈샵·펍 거리)'로 바로 이어지는 후문", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
-            { cam: "천주", no: "C-16", name: "빈효선 개통 및 대중교통 해방 기념 조형물", detail: "2017년 빈효선 개통으로 두청운수의 6,300원 폭리와 75인승 가축수송(엔진룸 좌석)에서 해방된 것을 기념하는 조형물", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-00", name: "천주캠퍼스 정문", detail: "천주시 궁하구 세동로 13 메인 게이트", floors: "-", rail: "빈효선 광역전철 궁하역 도보 5분", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-01", name: "천주 통합행정관 및 분관도서관", detail: "천주캠퍼스 행정지원실, 예술·공학 특화 학술정보관", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-02", name: "천주 학생복지관", detail: "학생식당(조식 '엠마의 식탁' 및 야간 연장 식당 운영), 카페, CU 편의점, 전문 화방", floors: "4층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-03", name: "응용예술대학 1호관", detail: "디지털 웹툰·애니메이션 창작 실습실(액정 태블릿 스튜디오)", floors: "7층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-04", name: "응용예술대학 2호관", detail: "게임학과 프로그래밍·그래픽 실습실 및 음향 녹음 스튜디오", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-05", name: "응용예술대학 3호관", detail: "귀금속공예과, 모델과, 미용학과, 사진학과 스튜디오 및 실습동", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-06", name: "응용과학대학 1호관", detail: "소방학과 유체·방재 실험실 및 실내 체력단련장", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-07", name: "응용과학대학 2호관", detail: "예술공학과, 출판인쇄과 디지털 인쇄 실습동", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-08", name: "특수장비·기관공학 대형 실습격납고", detail: "특수장비과, 기관학과 중장비·궤도차량 및 대형 내연기관 분해·정비 실습동", floors: "층고 15m", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-09", name: "소방방재 종합훈련타워", detail: "화재 진압 및 고층 인명구조 실전 훈련시설", floors: "6층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-10", name: "예술융합 미디어아트 돔", detail: "융합학부 예술융합창작전공 프로젝션 맵핑 및 다원예술 공연장", floors: "3층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-11", name: "천주 산학창업보육센터", detail: "문화콘텐츠·디자인·엔지니어링 스타트업 입주 공간", floors: "5층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-12", name: "천주 대운동장", detail: "인조잔디 구장 및 야외 문화광장", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-13", name: "궁하관 (천주 학생생활관 A동)", detail: "천주캠퍼스 남학생 전용 생활관, 자치열람실 및 야간 실습생 수면실", floors: "9층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-14", name: "아이관 (천주 학생생활관 B동)", detail: "천주캠퍼스 여학생 전용 생활관, 1층 기숙사 식당 및 GS25 편의점", floors: "9층", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-15", name: "천주캠퍼스 서문", detail: "궁하구 대학가 상권 방향 보행 출입문", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
+            { cam: "천주", no: "C-16", name: "광역전철 개통 기념 광장", detail: "2017년 빈효선 광역전철 개통 및 통학 여건 개선 기념 조형물 광장", floors: "-", rail: "빈효선 궁하역", zone: "천주시 궁하구" },
 
             // [4] 낭원캠퍼스 (덕빈북도 낭원군 전포읍 도경로 213 · N-00 ~ N-14, 총 15개 동)
-            { cam: "낭원", no: "N-00", name: "낭원캠퍼스 정문 (하이테크 게이트)", detail: "황금빛 논두렁 한가운데 우뚝 솟은 최첨단 유리·스틸 정문 아치", floors: "-", rail: "덕빈선 전포역 / 전포터미널 셔틀 5분", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-01", name: "낭원 본관 및 학술정보관", detail: "낭원캠퍼스 행정실, 1층 '낭원군 시(市) 승격 기원 전입신고 현장접수처', 전자저널 도서관", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-02", name: "낭원 학생복지관 (논두렁 뷰 식당)", detail: "🍲[낭원 학생식당(통유리 논밭 뷰를 보며 먹는 전포물류단지 야간 상하차 알바생 회복용 특제 뼈해장국·제육덮밥)], ☕[카페 웨이퍼], 🏪[편의점]", floors: "4층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-03", name: "융합학부 1호관 (반도체·소부장관)", detail: "반도체융합전공, 반도체 소재·부품·장비(소부장) 전공 강의실 및 EDA 회로설계실", floors: "7층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-04", name: "융합학부 2호관 (메타버스·XR 스튜디오)", detail: "메타버스/엔터테인먼트 전공, HAF 가상 전시장 서버실, 전신 VR 트레드밀 실습실", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-05", name: "융합학부 3호관 (에너지신산업·IAB관)", detail: "에너지신산업융합전공(스마트그리드·탄소중립 2050), IAB 융합전공 세미나동", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-06", name: "첨단 반도체공정실습동 (HBNU Nano-Fab)", detail: "대학 수준을 초월한 실제 양산 라인급 Class 10 클린룸(포토·식각·증착·패키징 8대 공정 완비, 산학장학생 근무지)", floors: "3층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-07", name: "지역개발학부관 (본부 직속)", detail: "지역개발학부, 농어촌 스마트시티 및 낭원군 도시계획 프로젝트 연구소", floors: "5층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-08", name: "스마트그리드 및 수소연료전지 실증센터", detail: "캠퍼스 자체 태양광·ESS 마이크로그리드 전력 제어동", floors: "2층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-09", name: "낭원 산학협력관 (테크노밸리)", detail: "반도체 소부장 협력기업 연구소 및 산학장학 채용 센터", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-10", name: "낭원 학생생활관 A동 (전포관)", detail: "낭원캠퍼스 남학생 기숙사 (인근 전포물류단지 야간 상하차 후 아침에 기절하는 사생 다수)", floors: "10층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-11", name: "낭원 학생생활관 B동 (웨이퍼관)", detail: "낭원캠퍼스 여학생 기숙사, 🍛[낭원 기숙사 식당], 🏪[24시 편의점], 피트니스룸", floors: "10층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-12", name: "낭원 시(市) 승격 기원제 광장", detail: "매년 축제 때마다 제상에 돼지머리 대신 12인치 실리콘 반도체 웨이퍼를 올리고 '인구 15만 달성(시 승격)' 고사를 지내는 명물 광장", floors: "-", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-13", name: "낭원 다목적 체육관 및 인조잔디구장", detail: "실내 배드민턴·농구장 및 풋살 구장", floors: "2층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
-            { cam: "낭원", no: "N-14", name: "전포역-캠퍼스 직통 자율주행 셔틀 터미널", detail: "과거 두청운수 '인간 테트리스(계단·무릎 좌석)'의 아픔을 씻어낸 무료 전기·자율주행 셔틀 승강장", floors: "1층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-00", name: "낭원캠퍼스 정문", detail: "낭원군 전포읍 도경로 213 메인 출입 게이트", floors: "-", rail: "덕빈선 전포역 셔틀 5분", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-01", name: "낭원 본관 및 학술정보관", detail: "낭원캠퍼스 통합행정실, 주민행정 안내창구, 전자정보 도서관", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-02", name: "낭원 학생복지관", detail: "학생·교직원 식당, 카페, 이마트24 편의점, 보건실", floors: "4층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-03", name: "융합학부 1호관 (반도체관)", detail: "반도체융합전공, 반도체 소재·부품·장비 전공 강의실 및 회로설계 실습실", floors: "7층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-04", name: "융합학부 2호관 (메타버스관)", detail: "메타버스/엔터테인먼트 전공 XR 스튜디오 및 모션캡처 실습실", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-05", name: "융합학부 3호관 (에너지·IAB관)", detail: "에너지신산업융합전공, IAB 융합전공 강의동", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-06", name: "반도체공정실습동 (HBNU Nano-Fab)", detail: "Class 10급 반도체 클린룸(노광·식각·증착·패키징 일괄 공정 교육 및 산학연구 시설)", floors: "3층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-07", name: "지역개발학부관", detail: "본부 직속 지역개발학부 및 균형발전 연구소", floors: "5층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-08", name: "스마트그리드 실증센터", detail: "태양광·ESS 마이크로그리드 및 수소에너지 실증 실험동", floors: "2층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-09", name: "낭원 산학협력관", detail: "반도체 소부장 협약기업 공동연구실 및 현장실습 지원센터", floors: "6층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-10", name: "전포관 (낭원 학생생활관 A동)", detail: "낭원캠퍼스 남학생 전용 생활관, 클린룸 실습생 휴게실", floors: "10층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-11", name: "웨이퍼관 (낭원 학생생활관 B동)", detail: "낭원캠퍼스 여학생 전용 생활관, 1층 기숙사 식당 및 CU 편의점, 체력단련실", floors: "10층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-12", name: "낭원 중앙광장", detail: "캠퍼스 야외 행사 및 지역 상생 축제 광장", floors: "-", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-13", name: "낭원 다목적 체육관", detail: "실내 체육관 및 인조잔디 풋살장", floors: "2층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
+            { cam: "낭원", no: "N-14", name: "교내 통학셔틀 터미널", detail: "전포역·전포터미널 연계 무상 전기셔틀버스 승강장", floors: "1층", rail: "덕빈선 전포역", zone: "낭원군 전포읍" },
 
             // [5] 강주캠퍼스 (덕빈북도 강주시 서류로 11 / 좌구동 · G-00 ~ G-14, 총 15개 동)
-            { cam: "강주", no: "G-00", name: "강주캠퍼스 정문 (마린 아치)", detail: "빈주권 광역철도 강주항역과 직결되는 닻(Anchor) 형상의 해양 특성화 정문", floors: "-", rail: "빈주권광역철도(#005BAC) 강주항역 직결", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-01", name: "강주 통합행정관 및 해양학술정보관", detail: "강주캠퍼스 행정실, 해도(海圖)·해양과학 전문 도서관 (해무 유입 방지 3중 기밀창 시공)", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-02", name: "강주 학생복지관 (마린뷰 식당)", detail: "🦑[강주 학생식당(서해 오션뷰를 보며 먹는 강주항 직송 해물짬뽕·물텀벙이 아귀순살덮밥·수제 생선가스)], ☕[카페 마린], 🏪[편의점]", floors: "4층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-03", name: "해양대학 1호관 (항해학관)", detail: "항해학과(해기사 면허 양성, 흰색 제복 착용 의무 구역), 전파항해실습실", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-04", name: "해양대학 2호관 (조선해양공학관)", detail: "조선해양공학과, 해양공학과 대형 예인수조 및 조파(파도 생성) 실험동", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-05", name: "해양대학 3호관 (해양학·해운학관)", detail: "해양학과(물리·생물해양학), 교통대학 해운학과 합동 강의동", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-06", name: "첨단 해양시뮬레이션센터", detail: "360도 풀미션 선박 조종 시뮬레이터 및 태풍·악천후 항해 체험관", floors: "4층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-07", name: "효빈대학교 전용 실습선 부두 (효빈호·강주호)", detail: "8,000톤급 원양 실습선 '효빈호' 및 3,000톤급 연근해 조사선 '강주호' 전용 접안 부두 (외부 낚시꾼 출입통제 구역)", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-08", name: "환경산업대학 1호관 (환경공학관)", detail: "환경공학과(수질·대기·해양오염 방제 연구, 철저한 분리수거 구역)", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-09", name: "환경산업대학 2호관 (조경학관)", detail: "조경학과, 해안 방풍림 및 생태공원 설계 스튜디오", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-10", name: "해양대학원 및 서해해양생태연구소", detail: "해양석·박사 과정 및 갯벌·해상풍력 연구단", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-11", name: "해양안전 및 수상인명구조 훈련장", detail: "수심 5m 다이빙 풀 및 구명정 강하·생환 실습장", floors: "3층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-12", name: "강주 학생생활관 (오션홀 / Ocean Hall)", detail: "전 객실 100% 서해 오션뷰 기숙사 (새벽 갈매기 창문 노크 알람 명소, 해무 저감 이중창 시공 완료), 🍛[오션홀 기숙사 식당], 🏪[편의점]", floors: "12층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-13", name: "해양제 광장 (맨손 광어 잡기 특설수조)", detail: "매년 가을 축제(해양제) 때마다 대형 수조에 활광어를 풀고 맨손 잡기 대회를 여는 야외 광장 (가시거리 10m 해무 다발 구역)", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
-            { cam: "강주", no: "G-14", name: "두청운수 해적단 폭리 규탄 역사 표지석", detail: "2008년 강주대교 개통 전 국도 우회를 허위 신고해 요금을 2.7배 갈취했던 두청운수 사태를 기록한 역사 교육용 표지석", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" }
+            { cam: "강주", no: "G-00", name: "강주캠퍼스 정문", detail: "강주시 서류로 11 메인 출입 게이트", floors: "-", rail: "빈주권광역철도 강주항역 직결", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-01", name: "강주 통합행정관 및 해양도서관", detail: "강주캠퍼스 행정지원실, 해양·수산·환경 전문 학술정보관", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-02", name: "강주 학생복지관", detail: "학생·교직원 식당(2층 오션뷰 식당), 카페, 세븐일레븐 편의점", floors: "4층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-03", name: "해양대학 1호관 (항해학관)", detail: "항해학과 해기사 양성 강의실 및 전파항해 실습실", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-04", name: "해양대학 2호관 (조선해양공학관)", detail: "조선해양공학과, 해양공학과 대형 예인수조 및 조파 실험동", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-05", name: "해양대학 3호관 (해양·해운학관)", detail: "해양학과, 해운학과 강의실 및 해양물리 분석실", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-06", name: "해양시뮬레이션센터", detail: "360도 전방위 선박 조종 시뮬레이터 및 악천후 항해 훈련관", floors: "4층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-07", name: "전용 실습선 부두", detail: "원양 실습선 '효빈호(8,000톤급)' 및 연근해 실습선 '강주호(3,000톤급)' 전용 계류 부두", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-08", name: "환경산업대학 1호관", detail: "환경공학과 수질·대기·폐기물 처리 공정 실험동", floors: "6층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-09", name: "환경산업대학 2호관", detail: "조경학과 생태복원 및 도시조경 설계 스튜디오", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-10", name: "해양대학원 및 서해해양연구소", detail: "해양대학원 강의실 및 연안생태·해상풍력 연구센터", floors: "5층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-11", name: "해양안전 및 수상구조 훈련장", detail: "수심 5m 수조 및 해상 구명정 생환 실습장", floors: "3층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-12", name: "오션홀 (강주 학생생활관)", detail: "강주캠퍼스 남녀 통합 생활관(전 객실 서해 조망 및 방풍 이중창 시공), 1층 식당 및 CU 편의점", floors: "12층", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-13", name: "강주 해안광장", detail: "캠퍼스 해안 산책로 및 해양제 문화행사 광장", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" },
+            { cam: "강주", no: "G-14", name: "강주대교·광역철도 개통 기념비", detail: "강주캠퍼스 광역 교통망 확충 기념 표지석", floors: "-", rail: "빈주권광역철도 강주항역", zone: "강주시 좌구동" }
         ];
 
-        // ================= 3. 전 캠퍼스 식당 · 카페 · 베이커리 · 매점 22개소 마스터 데이터 =================
+        // ================= 2. 전 캠퍼스 식당 · 카페 · 베이커리 · 매점 22개소 데이터 =================
         const ALL_DINING_DATA = [
-            // [A] 학생·교직원 식당 (10개소)
             {
-                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "2동 학생복지회관 1~2층", name: "학생복지회관 대형 푸드코트",
-                hours: "10:30 ~ 19:30", price: "3,800원 ~ 6,500원",
-                menu: "왕돈가스, 돌솥비빔밥, 뚝배기불고기, 마라탕, 소남주 특제 육즙 소롱포(특식)",
-                desc: "점심시간 공대생 1만 명과 인문·사회대생이 동시에 몰려 '식권 전쟁'이 벌어지는 효빈대 최대 규모의 가성비 학식당입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "2동 학생복지회관 1층", name: "학생복지회관 메인 푸드코트 (5대 코너)",
+                hours: "10:30 ~ 19:30", price: "3,000원 ~ 6,000원",
+                menu: "정통한식(제육덮밥·찌개류), 중식·아시안(짬뽕·치킨아도보), 양식(왕돈가스·카레), 분식, 제면소(우동·냉면)",
+                desc: "총학생회-생협 협약을 통해 전 메뉴 500원 인하가 적용된 교내 최대 규모의 학생식당입니다."
             },
             {
-                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "2동 학생복지회관 1층 별관", name: "미아버거 (Mia Burger)",
-                hours: "10:00 ~ 20:30", price: "4,900원 ~ 7,800원",
-                menu: "더블치즈 스매시버거, 베이컨 아보카도 버거, 트러플 감자튀김, 제로콜라 무제한 리필",
-                desc: "수의학과 월반 천재 태미아(미아 테일러 모티브) 학우가 단골로 출몰하며 뉴욕 본토 맛을 인정한 교내 수제버거 전문점입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(북구)", loc: "13동 정루관 1층", name: "정루관 수제버거 & 패스트푸드 코너",
+                hours: "10:00 ~ 20:30", price: "5,500원 ~ 8,300원",
+                menu: "시그니처 치즈버거, 뉴욕 클래식 버거, 내슈빌 핫 치킨버거, 버팔로 윙&봉, 치즈 프라이, 밀크쉐이크",
+                desc: "북구 캠퍼스 재학생들을 위해 직화 비프 패티로 조리하는 아메리칸 스타일 수제버거 전문 매장입니다."
             },
             {
                 cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "4동 학생복지타운 1~2층", name: "학생복지타운 한식뷔페 (엠마의 식탁 1호점)",
-                hours: "조식 07:30~09:30 / 중·석식 11:00~19:00", price: "조식 1,000원 / 중·석식 5,500원",
-                menu: "교비 100% 지원 천원의 아침밥(스위스식 뢰스티·사골국), 12찬 자율 한식뷔페(제육볶음 무한리필)",
-                desc: "자취생들의 생명줄이자 '집밥보다 맛있는 학식'으로 꼽히는 자율 배식형 한식뷔페입니다."
+                hours: "조식 07:30~09:30 / 중·석식 11:00~19:00", price: "조식 1,000원 / 중·석식 6,000원",
+                menu: "교비 지원 천원의 아침밥, 요일별 특선 메인요리(불고기·닭갈비·한방수육·치킨·탕수육) 및 상설 잔치국수·샐러드바",
+                desc: "영양 균형을 맞춘 자율 배식형 한식뷔페로 재학생들의 만족도가 가장 높은 후생복지 식당입니다."
             },
             {
-                cat: "학생·교직원식당", cam: "당선본캠(북구)", loc: "13동 정루관 1~2층", name: "비스트로 정루 (Bistro Jeongru)",
-                hours: "11:00 ~ 20:30", price: "7,500원 ~ 13,500원",
-                menu: "수비드 부채살 스테이크, 알리오올리오, 로제 파스타, 수제 화덕피자",
-                desc: "북구 캠퍼스(인문·사회·복지·사범대)의 낭만적인 유럽풍 양식당으로, 학우들의 소개팅과 선후배 밥약 장소 1순위입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(북구)", loc: "13동 정루관 2층", name: "비스트로 정루 (Bistro Jeongru)",
+                hours: "11:00 ~ 20:30", price: "6,000원 ~ 14,500원",
+                menu: "부챗살 수비드 스테이크, 블랙 앵거스 안심 스테이크, 크림 까르보나라, 쉬림프 로제 파스타, 트러플 리조또",
+                desc: "합리적인 가격에 고품질 양식을 제공하는 레스토랑으로 학내 모임 및 간담회 장소로 널리 활용됩니다."
             },
             {
-                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "32동 교수회관 2층", name: "교수회관 아고라 식당 (Agora Dining)",
-                hours: "11:30 ~ 14:30 / 17:30 ~ 19:30", price: "8,000원 ~ 15,000원",
-                menu: "능이버섯 불고기전골, 특선 활어초밥 정식, 고등어구이 한상, 오늘의 일품요리",
-                desc: "교직원 식당이지만 학생도 제약 없이 이용할 수 있는 고품격 식당입니다. 단, 옆 테이블에 전공 교수님이 앉아 계실 확률이 90%입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "32동 교수회관 2층", name: "교수회관 다이닝 라운지 『아고라(Agora)』",
+                hours: "11:30 ~ 14:30 / 17:30 ~ 19:30", price: "7,500원 ~ 15,000원",
+                menu: "한정식(진갈비탕·보리굴비·전복뚝배기), 글로벌 다이닝(연어사케동·장어덮밥·함박스테이크), 연구실 포장 델리",
+                desc: "교원, 직원 및 재학생 모두가 이용할 수 있는 품격 있는 다이닝 공간으로 세미나 도시락 포장 서비스를 병행합니다."
             },
             {
-                cat: "학생·교직원식당", cam: "당선본캠(북구)", loc: "35-4동 S-35-4 모노레일 정비센터 1층", name: "차량기지 정비실습생 식당 (철마식당)",
-                hours: "11:30 ~ 13:30 / 17:30 ~ 19:00", price: "4,500원",
-                menu: "기사식당풍 돼지불백, 김치찌개, 돈가스 정식 (고양이 기지장 '대차 교수님' 전용 자동급식소 인접)",
-                desc: "기름때 묻혀가며 대차를 정비하는 교통대학 실습생들과 방도도서관 학우들을 위한 푸짐한 백반 식당입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "49동 의과대학 B1층", name: "메디컬타운 의대·보건대 전용 식당",
+                hours: "08:00 ~ 20:00", price: "4,000원 ~ 6,500원",
+                menu: "얼큰 뼈해장국, 양고기 스튜, 치킨마요 덮밥, 마늘 제육볶음, 생선구이 정식",
+                desc: "의과대학·약학대학·간호대학·보건대학 재학생 및 연구원들의 신속한 식사를 지원하는 전용 식당입니다."
             },
             {
-                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "59동 효빈대학교병원 본관 지하 1층", name: "효빈대병원 메디컬 푸드코트 & 직원식당",
-                hours: "07:00 ~ 21:00", price: "5,500원 ~ 9,000원",
-                menu: "전복죽, 갈비탕, 메디컬 저염 건강식단, 돈가스, 쌀국수",
-                desc: "통합의과대학·약학·간호·보건대 본과 실습생들과 병원 의료진, 내원객들이 이용하는 대규모 다이닝 존입니다."
+                cat: "학생·교직원식당", cam: "당선본캠(서구)", loc: "59동 효빈대학교병원 본관 B1층", name: "효빈대병원 웰빙 푸드코트",
+                hours: "07:00 ~ 21:00", price: "7,500원 ~ 14,000원",
+                menu: "영양죽 코너(특전복죽·소고기야채죽), 한식(대구지리탕·산채비빔밥·들깨수제비), 양식(왕돈가스·해물볶음우동)",
+                desc: "병원 내원객과 의료진, 임상실습생을 위한 웰빙 다이닝 시설이며 자율주행 퇴식 로봇 시스템이 도입되어 있습니다."
             },
             {
                 cat: "학생·교직원식당", cam: "이자캠퍼스", loc: "I-02 이자 학생회관 1층", name: "이자 팜투테이블(Farm-to-Table) 학생식당",
-                hours: "07:30 ~ 19:30 (천원의 아침밥 운영)", price: "조식 1,000원 / 중·석식 4,800원",
-                menu: "농대 실습농장 갓 도정한 햅쌀밥, 축산학과 한우국밥, 쌈채소 무제한 샐러드바",
-                desc: "농업대학과 생명대학이 직접 생산한 초신선 식재료를 공급받아 안천구 주민들까지 원정 와서 먹고 가는 전설의 맛집 학식입니다."
+                hours: "07:30 ~ 19:30 (천원의 아침밥 운영)", price: "조식 1,000원 / 중·석식 5,000원",
+                menu: "농대 실습농장 햅쌀밥, 축산학과 한우국밥·육회비빔밥, 친환경 쌈채소 샐러드바",
+                desc: "이자캠퍼스 부속 농장과 목장에서 생산된 신선한 식재료를 직접 공급받아 조리하는 직영 식당입니다."
             },
             {
-                cat: "학생·교직원식당", cam: "천주·낭원캠퍼스", loc: "C-02 천주 복지관 / N-02 낭원 복지관", name: "천주 24시 야작식당 & 낭원 논두렁뷰 식당",
-                hours: "07:30 ~ 익일 02:00 (야작 특화)", price: "조식 1,000원 / 단품 4,500원",
-                menu: "천주: 한강 즉석라면·치즈돈가스 / 낭원: 전포물류단지 야간 상하차 회복용 특제 뼈해장국",
-                desc: "밤샘 웹툰 과제를 하는 천주캠 학우들과 클린룸·물류단지 실습에 지친 낭원캠 학우들의 체력을 보충해 주는 특화 식당입니다."
+                cat: "학생·교직원식당", cam: "천주·낭원캠퍼스", loc: "C-02 천주 복지관 / N-02 낭원 복지관", name: "천주·낭원캠퍼스 학생복지관 식당",
+                hours: "07:30 ~ 21:00 (천주 야간 연장 운영)", price: "조식 1,000원 / 단품 4,500원",
+                menu: "한식 백반, 돈가스, 뼈해장국, 야간 실습생용 즉석조리 라면 및 덮밥",
+                desc: "실기 및 공정 실습 비중이 높은 천주·낭원캠퍼스 학생들을 위해 야간 시간대까지 연장 운영합니다."
             },
             {
-                cat: "학생·교직원식당", cam: "강주캠퍼스", loc: "G-02 강주 학생복지관 2층", name: "강주 마린뷰(Marine View) 오션 식당",
-                hours: "08:00 ~ 19:30", price: "4,800원 ~ 7,000원",
-                menu: "강주항 직송 해물짬뽕, 강주 명물 물텀벙이(아귀순살) 덮밥, 활광어 회덮밥(해양제 특식)",
-                desc: "서해 바다와 실습선 효빈호를 바라보며 해산물 특식을 즐길 수 있는 강주캠퍼스 최고의 명소입니다."
+                cat: "학생·교직원식당", cam: "강주캠퍼스", loc: "G-02 강주 학생복지관 2층", name: "강주 마린뷰(Marine View) 학생식당",
+                hours: "08:00 ~ 19:30", price: "4,800원 ~ 6,500원",
+                menu: "해물짬뽕, 아귀순살 덮밥, 수제 생선가스, 해산물 특식",
+                desc: "서해 연안을 조망하며 지역 수산물을 활용한 특화 식단을 즐길 수 있는 강주캠퍼스 대표 식당입니다."
             },
-
-            // [B] 기숙사 식당 (5개소)
             {
-                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "52동 아파트형기숙사B (아와관) 1층", name: "아와관 기숙사 식당 (엠마의 식탁 메인점)",
+                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "52동 아와관 1층", name: "아와관 생활관 식당 (엠마의 식탁 제2호점)",
                 hours: "07:30 ~ 20:00", price: "조식 1,000원 / 정기식 4,500원",
-                menu: "스위스식 감자 뢰스티 & 에멘탈 치즈수프(화·목 조식), 수제 돈마호크 카츠, 탄탄멘",
-                desc: "효빈대 전체 기숙사 중 밥이 가장 맛있기로 소문난 곳. 아와관(스바루관) 사생들이 건너편 니나관 사생들에게 밥을 사주는 훈훈한 성지입니다."
+                menu: "요일별 특선(수제돈가스·닭볶음탕·대패삼겹숙주볶음·김치볶음밥·안동찜닭) 및 스위스식 브런치 조식",
+                desc: "아파트형 생활관 거주생뿐만 아니라 전 기숙사생이 교차 이용할 수 있는 대규모 직영 식당입니다."
             },
             {
-                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "53동 기숙사 1단지 희다관 1층", name: "희다관 제1기숙사 식당 (키타 다이닝)",
-                hours: "07:30 ~ 19:30", price: "조식 1,000원 / 중·석식 4,300원",
-                menu: "오므라이스, 리코타치즈 샐러드 볼, 로제 떡볶이, 천원의 아침밥",
-                desc: "채광이 밝고 파스텔톤 인테리어로 꾸며진 기숙사 1단지 제1식당입니다. 식품영양학과 학우들이 칼로리 밸런스를 직접 감수합니다."
+                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "53-1동 희다관 1층", name: "희다관 제1생활관 식당",
+                hours: "07:30 ~ 19:30", price: "조식 1,000원 / 중·석식 4,500원",
+                menu: "아보카도 명란 비빔밥, 쉬림프 로제 파스타, 우삼겹 마라샹궈, 연어 포케 보울, 눈꽃치즈 함박스테이크",
+                desc: "식품영양학과 영양사가 식단을 설계하여 트렌디하고 균형 잡힌 메뉴를 제공하는 1단지 식당입니다."
             },
             {
-                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "53동 기숙사 1단지 후등관·성가관 사이", name: "후등·성가관 제2기숙사 식당",
-                hours: "07:30 ~ 20:30", price: "4,300원",
-                menu: "고시생 두뇌회전용 소고기미역국·장어덮밥, 1인 독식 칸막이석 완비(봇치석)",
-                desc: "혼밥을 선호하는 후등관(봇치관) 사생들과 시간 아끼려는 성가관(세이카관) 고시생들을 위해 전 좌석 절반이 1인 집중 부스로 되어 있습니다."
+                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "53-7동 성가관·후등관", name: "성가관·후등관 제2생활관 식당",
+                hours: "07:30 ~ 20:30", price: "4,500원 ~ 6,000원",
+                menu: "전복내장죽, 민물장어 덮밥, 한우 사골 설렁탕, 낙삼새 볶음, 수삼 반계탕 (1인 집중 식사석 구비)",
+                desc: "국가고시 준비반(성가관) 및 남학생 생활관(후등관) 사생들의 체력 유지를 위한 보양식 위주 식단을 운영합니다."
             },
             {
-                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "56동 소금하우스 1층", name: "소금하우스 정갈 조식 라운지 & 다도실",
-                hours: "07:00 ~ 10:00 / 다도실 13:00~18:00", price: "투숙객 무료 / 학내구성원 6,000원",
-                menu: "저염 소금구이 연어 정식, 말차(녹차) 및 화과자 다도 세트",
-                desc: "'시오리코 하우스'라는 별칭답게 정갈하고 깔끔한 반상 차림과 전통 다도를 체험할 수 있는 학술 게스트하우스 다이닝입니다."
+                cat: "기숙사식당", cam: "당선본캠(서구)", loc: "56동 소금하우스 1층", name: "소금하우스 조식 라운지 & 다도실",
+                hours: "조식 07:00~10:00 / 다도실 13:00~18:00", price: "투숙객 무료 / 구성원 6,000원",
+                menu: "정갈한 한식·양식 조식 반상, 전통 말차(녹차) 및 화과자 다도 세트",
+                desc: "국제학술교류관 투숙 연구자 및 교내 구성원을 위한 정갈한 다이닝 라운지입니다."
             },
             {
-                cat: "기숙사식당", cam: "이자·천주·낭원·강주", loc: "신리관(I-19)·아이관(C-14)·웨이퍼관(N-11)·오션홀(G-12)", name: "4대 이원화 캠퍼스 생활관 통합 직영식당",
+                cat: "기숙사식당", cam: "이자·천주·낭원·강주", loc: "신리관(I-19)·아이관(C-14)·웨이퍼관(N-11)·오션홀(G-12)", name: "4대 이원화 캠퍼스 생활관 직영식당",
                 hours: "07:30 ~ 19:30", price: "조식 1,000원 / 정기식 4,200원",
-                menu: "각 지역 특산물(이자 유제품, 천주 야식, 낭원 쌀, 강주 해산물) 기반 3식 제공",
-                desc: "본교 생활협동조합 직영으로 본캠퍼스와 동일한 퀄리티의 식단과 '엠마의 식탁' 조식을 제공합니다."
-            },
-
-            // [C] 카페 · 베이커리 · 매점 클러스터 (7개소)
-            {
-                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "29동 베르데 홀 1층 메인 로비", name: "카페 베르데 (Cafe Verde · 시그니처 성지)",
-                hours: "08:30 ~ 21:00", price: "아메리카노 1,800원 / 샌드위치 3,800원",
-                menu: "🥪 엠마의 샌드위치(양상추·햄·스위스 치즈 듬뿍), 알프스 그린티 라떼, 엠마의 트램 탑승 단팥빵",
-                desc: "점심시간마다 제26대 민부선 총장님이 출몰하여 학생들과 샌드위치를 먹으며 애니메이션 담소를 나누는 효빈대 최고의 명물 카페입니다."
+                menu: "본교 생협 표준 레시피 기반 1일 3식 제공",
+                desc: "이원화 캠퍼스 기숙사 입사생들에게 본교와 동일한 품질의 조·중·석식을 제공합니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "8-3동 상과대 학생회관 1층 (A08/B14역)", name: "상과대 학생회관 생협 매점 (트램 팥빵 성지)",
-                hours: "08:00 ~ 21:00", price: "엠마의 트램 팥빵·녹차크림빵 1,500원",
-                menu: "교내철도 홀로그램 띠부띠부씰(45종) 동봉 '엠마의 트램 탑승 단팥빵', 컵라면, 제로콜라",
-                desc: "2024년 11월 외부 씰 도둑이 빵의 화이트초콜릿 트램 명판을 찔러 훼손했다가 교내철도 코드레드 발령으로 검거된 전설의 현장. 총장 직인 경고문이 붙어 있습니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "29동 베르데 홀 1층 로비", name: "카페 베르데 (Cafe Verde) & 베이커리",
+                hours: "08:30 ~ 21:00", price: "음료 1,800원~ / 샌드위치 3,800원",
+                menu: "시그니처 '엠마의 샌드위치', 그린티 라떼, '엠마의 트램 단팥빵·녹차크림빵'",
+                desc: "베르데 홀 1층에 위치한 대표 문화 카페로 사회복지학대학(7-1동) 내 분점을 함께 운영하고 있습니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "58동 애니메이션-철도 박물관 1층", name: "박물관 해피 카페 (콜라보 카페) & 한정판 CU",
-                hours: "09:30 ~ 20:00", price: "캐릭터 라떼 3,500원 / 한정판 도시락 4,900원",
-                menu: "효빈도시철도(고나미·하루빈·미소하·임세하) & HBNU Rail 콜라보 음료, 특제 굿즈 병행 판매",
-                desc: "박물관 1층에 나란히 위치한 콜라보 카페와 전국 유일의 서브컬처·철도 한정판 특화 CU 편의점입니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠(북구)", loc: "12동 생활과학대학 1층", name: "생활과학대학 제과제빵 실습 베이커리",
+                hours: "10:00 ~ 18:00", price: "버터 소금빵 1,500원~",
+                menu: "천연발효 버터 소금빵, 3종 필링 코페빵, 호밀 바게트, 스페셜티 커피",
+                desc: "제과제빵과 실습실에서 매일 아침 직접 반죽하고 구워내는 고품질 수제 베이커리입니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "A09/B06 효빈대 중앙환승장 1층", name: "중앙환승장 복합매점 (CU · 환승카페 · 쿠쿠스미 분식)",
-                hours: "07:00 ~ 23:00", price: "떡볶이 3,000원 / 테이크아웃 커피 1,500원",
-                menu: "연강 환승객용 10초 컷 김밥·컵떡볶이·어묵, 민트초코(쿠쿠) & 멜론소다(스미레) 에이드",
-                desc: "1층 트램과 3층 모노레일 환승 에스컬레이터 바로 옆에 위치해 하루 유동인구 2만 명이 거쳐 가는 핵심 상권입니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "58동 애니메이션-철도 박물관 1층", name: "박물관 해피 카페 & 특화 CU 편의점",
+                hours: "09:30 ~ 20:00", price: "테마 음료 3,500원~",
+                menu: "한라봉 귤차, 에메랄드 소다, 밀크티, 박물관 기념 굿즈 및 한정판 교통카드",
+                desc: "박물관 기획전시와 연계된 테마 카페 및 기념 교통카드 발권 특화 편의점입니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "당선본캠(북구)", loc: "12동 생활과학대학 1층 & 10-1동 동양언어관", name: "제과제빵과 실습 베이커리 & 마부하이 라운지",
-                hours: "10:00 ~ 18:00", price: "갓 구운 빵 1,200원~ / 할로할로 3,000원",
-                menu: "나수미 학우의 실습 바게트·크루아상(※ 캡사이신 빵 주의), 필리핀 전통 디저트 할로할로 & 망고셰이크",
-                desc: "제과제빵과 학우들이 매일 아침 직접 구운 빵을 원가에 판매하는 베이커리와, 박효빈 시장이 간식을 사 들고 자주 찾는 동양언어관 마부하이 라운지입니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "8-3동 상과대 학생회관 1층", name: "상과대 학생회관 생협 매점",
+                hours: "08:00 ~ 21:00", price: "학내 PB 단팥빵 1,500원",
+                menu: "엠마의 트램 탑승 단팥빵·녹차크림빵, 간편식, 음료 및 문구류",
+                desc: "상과대학 및 법학전문대학원 학생들의 이용이 많은 거점 생협 매장입니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "당선본캠 전역", loc: "1·7-1·8-2·9-2·14-4·17-1·21·22·23·28-2·48·51·54동", name: "단과대 생협 카페(11개소) & 편의점(14개소) 네트워크",
-                hours: "08:30 ~ 22:00 (도서관·기숙사 24시)", price: "생협 아메리카노 1,500원",
-                menu: "전 단과대 건물 1층 로비 입점 생협 카페('caffe人' 동아리 원두 납품) 및 CU·GS25·세븐일레븐 편의점",
-                desc: "캠퍼스가 너무 넓어 단과대 밖으로 나갈 수 없는 학우들을 위해 주요 단과대 건물(총 14개 동) 내부에 카페와 편의점이 촘촘히 입점해 있습니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠(서구)", loc: "효빈대 중앙환승장 지상 1층·지하몰", name: "중앙환승장 24시 카페 & 언더그라운드 몰",
+                hours: "00:00 ~ 24:00 (연중무휴)", price: "아메리카노 1,500원~",
+                menu: "테이크아웃 음료, 간편 스낵, GS25 편의점, 지하 문화쇼핑몰",
+                desc: "교내철도 A선과 B선이 교차하는 중앙환승장에 위치하여 연강 이동 학생들의 편의를 지원합니다."
             },
             {
-                cat: "카페·베이커리·매점", cam: "이자캠퍼스", loc: "I-10 축산학과 유가공공장 1층", name: "이자 목장 유가공 직매장 (밀크홀)",
-                hours: "10:00 ~ 18:00", price: "수제 요구르트 2,000원 / 구워먹는 치즈 5,000원",
-                menu: "축산학과 무항생제 우유 소프트아이스크림, 수제 스트링치즈, 그릭요구르트",
-                desc: "한 번 맛보면 시중 유제품은 밍밍해서 못 먹는다는 마성의 유가공 직매장입니다."
+                cat: "카페·베이커리·매점", cam: "당선본캠 전역", loc: "1·2·4·7·8·9·14·17·21·22·23·28·48·51·54·59동", name: "단과대 로비 카페 및 4대 편의점 네트워크",
+                hours: "08:30 ~ 22:00 (주요 거점 24시)", price: "생협 음료 1,500원~",
+                menu: "CU(7개소), GS25(3개소), 이마트24(5개소), 세븐일레븐(2개소) 및 단과대 생협 카페",
+                desc: "넓은 캠퍼스 면적을 고려하여 각 단과대학 건물 내부에 편의점과 카페가 고르게 입점해 있습니다."
+            },
+            {
+                cat: "카페·베이커리·매점", cam: "이자캠퍼스", loc: "I-10 부속 유가공공장 1층", name: "이자 유가공 직매장 『밀크홀』",
+                hours: "10:00 ~ 18:00", price: "수제 요구르트 2,000원 / 치즈 5,000원",
+                menu: "무항생제 원유 소프트아이스크림, 수제 구워먹는 치즈, 그릭요구르트",
+                desc: "생명대학 축산학과에서 직접 제조한 신선한 유제품을 학내 구성원과 지역 주민에게 판매합니다."
             }
         ];
 
-        // ================= 4. 5대 캠퍼스 역사·특징 요약 데이터 =================
+        // ================= 3. 5대 캠퍼스 특성화 현황 데이터 =================
         const FIVE_CAMPUSES_DATA = [
             {
-                name: "당선(본)캠퍼스", badge: "제1캠퍼스 (본교 · 서구/북구 · 95개 동)", color: "border-[#3344aa]",
+                name: "당선(본)캠퍼스", badge: "제1캠퍼스 (본교 · 서구/북구 · 102개 동)", color: "border-[#3344aa]",
                 addr: "효빈광역시 서구 대학로 1 (당선1동 및 북구 소조동 일원)",
-                transit: "도시철도 ● 2호선(효빈대역·당선역), ● 5호선(소조역·당선역), ● 7호선 트램(효빈대입구역·당선원마을역·효빈성북문역), ● 창전선(2027.09 개통예정) / 교내철도 🚃 A선(9역)·🚟 B선(15역)",
-                colleges: "대학본부, 인문대학, 언어문학대학, 사회복지학대학, 사회과학대학, 상과대학, 자연과학대학, 생활과학대학, 기계·전기·토목·화학공업대학, 교통대학, 통합의과대학(본과)·약학·간호·보건대학, 음악·미술·예술·무용·사범대학",
+                transit: "도시철도 2호선(효빈대역·당선역), 5호선(소조역·당선역), 7호선(효빈대입구역·효빈성북문역) / 교내철도 A선(트램 9역)·B선(모노레일 15역)",
+                colleges: "대학본부, 인문대학, 언어문학대학, 사회복지학대학, 사회과학대학, 상과대학, 자연과학대학, 생활과학대학, 공과대학(기계·전기·토목·화공), 교통대학, 통합의과대학·약학·간호·보건대학, 예술·무용·음악·미술·사범대학",
                 img: "이미지/효빈대학교 전경.webp",
-                features: "서울대 관악캠퍼스급 면적임에도 산을 깎지 않고 대평원 위에 건립된 '언덕이 없는 서울대학교'. 도보 종단 시 45분이 걸려 교내철도 HBNU Rail이 필수적이며, 베르데 홀(29동)·충승당(3동)·효빈대병원(59~63동)이 위치합니다."
+                features: "경사가 없는 광활한 평지 지형 위에 조성된 종합 연구·교육 캠퍼스입니다. 캠퍼스 내부를 관통하는 교내철도(HBNU Rail)를 통해 교통대학 학부생들의 실전 운전·관제 실습과 구성원들의 무임 이동을 동시에 지원하며, 상급종합병원인 효빈대학교병원 메디컬 타운과 4,950석 규모의 베르데 홀이 위치해 있습니다."
             },
             {
                 name: "이자캠퍼스", badge: "제2캠퍼스 (효빈시 안천구 · 21개 동)", color: "border-emerald-600",
                 addr: "효빈광역시 안천구 원세로 22 (신동 / 행정동: 이자1동)",
-                transit: "● 빈효선 광역전철(#6677CC) 리의역 (후문 도보 5~10분, 무료 전기 셔틀 5분 간격 운행)",
-                colleges: "농업대학(식물의학·산림·수산생명의학·식물자원·원예), 생명대학(애완동물·동물과학·축산·생명공학), 디자인대학(시각·산업·실내·패션), 수의과대학(예과)",
+                transit: "빈효선 광역전철 리의역 (도보 5~10분, 교내 무료 전기셔틀 상시 운행)",
+                colleges: "농업대학, 생명대학, 디자인대학, 수의과대학(예과)",
                 img: "이미지/효빈대 이자캠퍼스 전경.webp",
-                features: "'미대생의 힙함과 농대생의 구수함이 공존하는 이세계'. 정문 디자인센터(I-13)에서는 패션쇼 런웨이가 열리고 뒤편 스마트팜(I-15)·실습목장(I-16)에서는 트랙터가 밭을 갑니다. 농대 직송 식재료로 만드는 이자 학생회관(I-02) 학식과 축산학과 유가공공장(I-10) 수제 치즈·요구르트가 명물이며, 바로 옆 코스트코 이자점 직결 육교(I-20)가 있습니다."
+                features: "스마트 농생명 바이오 산업과 현대 디자인 예술이 융합된 캠퍼스입니다. 정문 구역에는 최첨단 디자인센터와 전시 컨벤션 홀이 자리 잡고 있으며, 후문 구역에는 AI 환경제어 유리온실(스마트팜), 부속 실습목장, 유가공 플랜트 및 학술림이 조성되어 있습니다."
             },
             {
-                name: "천주캠퍼스", badge: "덕빈북도 천주시 (이원화 · 17개 동)", color: "border-purple-600",
+                name: "천주캠퍼스", badge: "덕빈북도 천주시 (산학·예술 이원화 · 17개 동)", color: "border-purple-600",
                 addr: "덕빈북도 천주시 궁하구 세동로 13 (궁하1동)",
-                transit: "● 빈효선 광역전철(#6677CC) 궁하역 (정문 도보 5분 직결)",
-                colleges: "응용예술대학(만화애니메이션학과·성우전공·게임·귀금속공예·모델·미용·사진), 응용과학대학(소방·특수장비·기관·예술공학·출판인쇄), 융합학부(예술융합창작)",
+                transit: "빈효선 광역전철 궁하역 (정문 도보 5분 직결)",
+                colleges: "응용예술대학, 응용과학대학, 융합학부(예술융합창작전공)",
                 img: "이미지/효빈대 천주캠퍼스 전경.webp",
-                features: "'오타쿠와 공대 너드가 평화롭게 공존하는 캠퍼스'. 24시간 신티크 액정 태블릿 불이 꺼지지 않는 웹툰실습실(C-03) 옆 대형 격납고(C-08)에서 특수장비과·기관학과 학우들이 탱크·장갑차·선박 엔진을 정비합니다. 서문(C-15)을 나서면 '아이의 거리(아이동)' 번화가가 펼쳐지며, 2017년 빈효선 개통으로 두청운수 6,300원 폭리와 75인승 가축수송의 한을 풀었습니다."
+                features: "실용 문화예술 콘텐츠와 특수 공학 기술의 산학협력을 선도하는 캠퍼스입니다. 디지털 웹툰·게임 스튜디오와 360도 미디어아트 돔은 물론, 특수장비과·기관학과의 대형 차량·선박 엔진 정비격납고와 소방방재 종합훈련타워 등 산업 현장과 동일한 실습 인프라를 갖추고 있습니다."
             },
             {
-                name: "낭원캠퍼스", badge: "덕빈북도 낭원군 (첨단 산학 · 15개 동)", color: "border-amber-500",
+                name: "낭원캠퍼스", badge: "덕빈북도 낭원군 (첨단융합 이원화 · 15개 동)", color: "border-amber-500",
                 addr: "덕빈북도 낭원군 전포읍 도경로 213 (전포리)",
-                transit: "일반철도 덕빈선 전포역 / 전포시외버스터미널 연계 무료 자율주행 셔틀(N-14)",
-                colleges: "융합학부(반도체융합전공, 반도체 소부장 전공, 메타버스/엔터테인먼트 전공, 에너지신산업융합전공), 본부 직속 지역개발학부",
+                transit: "일반철도 덕빈선 전포역 / 전포터미널 연계 무상 자율주행 셔틀",
+                colleges: "융합학부(반도체융합전공, 반도체 소재·부품·장비 전공, 메타버스/엔터테인먼트 전공, 에너지신산업융합전공), 지역개발학부",
                 img: "이미지/효빈대 낭원캠퍼스 전경.webp",
-                features: "'논밭 뷰를 보며 반도체를 설계하는 하이테크 농촌'. 실제 양산 라인급 Class 10 클린룸(N-06 Nano-Fab)을 가동합니다. 인근 전포물류단지가 남학우들의 상하차 알바 성지로 통하며, 매년 축제 때 기원제 광장(N-12)에서 돼지머리 대신 반도체 웨이퍼를 올려놓고 '낭원군 시(市) 승격 기원제'를 지냅니다."
+                features: "국가 전략 첨단산업 인재 양성을 위해 조성된 하이테크 캠퍼스입니다. 학부생이 직접 웨이퍼 8대 공정을 실습할 수 있는 Class 10급 반도체 클린룸(HBNU Nano-Fab)과 XR 메타버스 스튜디오, 마이크로그리드 실증센터가 가동 중입니다."
             },
             {
-                name: "강주캠퍼스", badge: "덕빈북도 강주시 (해양·환경 · 15개 동)", color: "border-cyan-600",
+                name: "강주캠퍼스", badge: "덕빈북도 강주시 (해양·환경 이원화 · 15개 동)", color: "border-cyan-600",
                 addr: "덕빈북도 강주시 서류로 11 (좌구동)",
-                transit: "● 빈주권 광역철도(#005BAC) 강주항역 (정문 G-00 직결)",
+                transit: "빈주권 광역철도 강주항역 (정문 바로 앞 직결)",
                 colleges: "해양대학(항해학과·해양공학과·조선해양공학과·해양학과), 환경산업대학(조경학과·환경공학과), 해양대학원",
                 img: "이미지/효빈대 강주캠퍼스 전경.webp",
-                features: "'바닷바람과 해무가 감싸는 낭만의 사일런트 힐'. 대형 실습선 '효빈호·강주호' 전용 부두(G-07)와 360도 태풍 해양시뮬레이션센터(G-06)를 보유하고 있습니다. 축제 때 해양제 광장(G-13)에서 열리는 맨손 광어 잡기 대회와 오션홀 기숙사(G-12)의 새벽 갈매기 노크 알람이 유명합니다."
+                features: "서해 연안과 강주항을 마주한 해양·환경 과학 특성화 캠퍼스입니다. 8,000톤급 원양 실습선 '효빈호'와 3,000톤급 '강주호'가 정박하는 전용 부두, 360도 선박 조타 시뮬레이션센터, 대형 조파 수조 및 수상안전 훈련장을 보유하고 있습니다."
             }
         ];
 
-        // ================= 5. 주요 특수시설 상세 데이터 =================
+        // ================= 4. 주요 부속시설 및 랜드마크 데이터 =================
         const LANDMARK_FACILITIES = [
             {
-                no: "29동 (당선본캠)", name: "베르데 홀 (Verde Hall)", sub: "지상 5층·지하 2층 · 대공연장 4,950석 · 2/5호선 당선역 & B09 베르데홀역 직결",
+                no: "제29동 (당선본캠)", name: "베르데 홀 (Verde Hall)", sub: "지상 5층·지하 2층 · 대공연장 4,950석 · 2/5호선 당선역 및 모노레일 B09역 직결",
                 img: "이미지/베르데홀 전경.webp",
-                desc: "2019년 제26대 민부선 총장 주도로 건립된 초대형 복합문화 공연장. 에메랄드 그린 유리 외벽과 스위스 알프스 산장 모티브의 원목 로비를 갖추고 있으며, HAF(효빈 애니메이션 페스티벌) Zone 4 메인 스테이지로 활용됩니다.",
-                tmi: "매년 2월 5일(엠마 베르데 생일)과 HAF 기간에는 건물 외벽 조명이 연두색(Light Green)으로 점등됩니다. 1층 카페 베르데의 '엠마의 샌드위치'와 로비의 이탈리아산 대리석 기둥('어리석은 자, 이곳에서 뼈를 묻다' 명판)이 성지순례 필수 코스입니다."
+                desc: "캠퍼스 북부 녹지 축과 조화를 이루는 친환경 에메랄드 그린 유리 외관과 원목 로비를 갖춘 초대형 복합문화 공연장입니다. 입학식·학위수여식 등 대학 공식 행사는 물론 효빈 애니메이션 페스티벌(HAF) 공식 학술·문화 본부 및 국제 컨벤션 공간으로 활용됩니다.",
+                guide: "주요 시설: 4,950석 대공연장, 소극장, 국제세미나실, 1층 카페 베르데 및 베이커리, 이마트24 편의점"
             },
             {
-                no: "36동 (당선본캠)", name: "방도도서관 (Bangdo Library)", sub: "이공계·예체능계 특화 제2도서관 · 모노레일 B01 교통대학기지역",
-                img: "이미지/방도도서관 내부 열람실.webp",
-                desc: "북구 소조동 구역의 공학·자연과학·교통·예체능 학우들을 위해 운영되는 전문 학술도서관입니다. 전공 원서 서점과 24시간 열람실, 디지털 일러스트 동아리(디일)가 꾸민 지하 터널 갤러리가 위치합니다.",
-                tmi: "이름이 하필 '방도'라서 전교생이 '방도리(BanG Dream!)'라고 부르며, 시험 기간만 되면 열람실 주변 와이파이 목록에 'Popipa_Pipopa' 같은 SSID가 잡힙니다."
+                no: "제23동 · 제36동 (당선본캠)", name: "중앙도서관 (23동) & 방도도서관 (36동)", sub: "장서 412만 권 보유 · 24시간 열람실 · 모노레일 B01·B02역 심야 연장 운행 연계",
+                img: "이미지/방도도서관.webp",
+                desc: "본교 제1도서관인 중앙도서관(23동)과 이공·예체능 특성화 제2도서관인 방도도서관(36동)은 국내 대학 최상위권인 412만 권의 장서와 디지털 학술DB를 보유하고 있습니다.",
+                guide: "주요 시설: 지혜의 숲 북카페, 오토노키 멀티미디어 극장, 수면 휴게 라운지, 구내 원서 서점, 지하 전시 갤러리"
             },
             {
-                no: "58동 (당선본캠)", name: "효빈대학교 애니메이션-철도 박물관", sub: "지상 3층·지하 1층·루프탑 하늘정원 · 2/5호선 당선역 & B09역",
-                img: "이미지/애니-철도 박물관 1층 로비.webp",
-                desc: "국내 유일의 철도공학×서브컬처 융합 테마 박물관입니다. 1층 로비와 해피 카페·한정판 CU 편의점, 2층 초대형 HO/N스케일 철도 디오라마 전시실, 3층 특별기획전시실, 지하 실제 전동차 보존 데포(Depot)로 구성되어 있습니다.",
-                tmi: "옥상 루프탑 하늘정원에서는 B선 모노레일이 눈앞으로 지나가는 뷰를 감상할 수 있습니다."
+                no: "제58동 (당선본캠)", name: "효빈대학교 애니메이션-철도 박물관", sub: "지상 3층·지하 1층·루프탑 전망대 · 2/5호선 당선역 인접",
+                img: "이미지/철도애니박물관_1층.webp",
+                desc: "본교의 양대 특성화 강점인 철도교통공학과 문화콘텐츠를 결합한 국내 유일의 대학 테마 박물관입니다. 시민과 학생에게 상시 무료로 개방됩니다.",
+                guide: "층별 구성: B1 실물 철도차량 보존 데포 및 운전 시뮬레이터 / 1F 게이트웨이 플라자·유니브 샵·카페·CU / 2F 철도 디오라마 상설전 / 3F 기획전시실 / 4F 루프탑 전망대"
             },
             {
-                no: "I-13 · C-08 · N-06 · G-07", name: "4대 이원화 캠퍼스 초특급 실습 랜드마크", sub: "이자 런웨이홀 · 천주 전차격납고 · 낭원 반도체 Fab · 강주 실습선 부두",
-                img: "이미지/효빈대 천주캠퍼스 전경 2.webp",
-                desc: "이원화 캠퍼스마다 타 대학을 압도하는 특수 실습동을 보유하고 있습니다. 이자캠퍼스 디자인 런웨이홀(I-13), 천주캠퍼스 특수장비과 전차·선박엔진 정비격납고(C-08), 낭원캠퍼스 Class 10 반도체 클린룸(N-06), 강주캠퍼스 8,000톤급 실습선 효빈호 전용 부두(G-07)가 대표적입니다.",
-                tmi: "천주캠퍼스에서는 미소녀 원화를 그리는 만화애니과 학우 옆으로 탱크 궤도를 굴리는 특수장비과 학우가 지나가는 기묘하고 평화로운 풍경이 일상입니다."
+                no: "제59~63동 (당선본캠)", name: "효빈대학교병원 메디컬 타운", sub: "의·치·한·수·약·간·보건 메디컬 그랜드슬램 임상 교육·진료 클러스터",
+                img: "이미지/효빈대병원_전경.webp",
+                desc: "1999년 국내 최초로 의학·치의학·한의학·수의학을 통합한 본교 메디컬 단과대학들과 직결된 상급종합병원 단지입니다. 본원 외에 천주병원·중구분원·강주병원 등 광역 의료망을 운영합니다.",
+                guide: "구성 병원: 본관 권역응급의료센터(59동), 치과병원(60동), 부속 동물병원 및 야생동물구조센터(61동), 어린이병원(62동), 암센터(63동)"
             }
         ];
 
-        // ================= 6. 전 캠퍼스 학생생활관(기숙사 12대 클러스터) 상세 데이터 =================
+        // ================= 5. ★ 18개 개별 학생생활관(기숙사) 완전 분리 데이터베이스 (묶음 서술 0건!) ★ =================
         const DORM_DATA = [
+            // [A] 당선(본)캠퍼스 — 11개 개별 관 완전 분리
             {
-                no: "당선 51동 (아파트 A)", name: "니나관 (Nina Hall)", tag: "20층 초고층 · 카페/편의점/세탁소", badgeBg: "bg-purple-600",
+                zone: "당선(본)캠퍼스", no: "제51동 (아파트형 A)", name: "니나관 (Nina Hall)", tag: "지상 20층 · 2인실/3인실 아파트 구조", badgeBg: "bg-purple-700",
                 img: "이미지/니나관.webp",
-                meaning: "공식 뜻: '아름다운 미래로 나아가는 집'",
-                meme: "별칭: 이세리 니나관 (걸즈 밴드 크라이)",
-                desc: "2호선 효빈대역 인근 20층 아파트형 기숙사. 1층에 카페, 편의점, 코인세탁소가 완비되어 있으며 로비에서 락(Rock) 스피릿으로 학업 스트레스를 분출하는 학우가 목격된다는 전설이 있습니다."
+                sub: "교통: 2호선 효빈대역 · 모노레일 B10 북부기숙사역 | 수용인원: 1,400명",
+                desc: "거실과 개별 욕실·발코니를 갖춘 20층 규모의 현대식 아파트형 학생생활관입니다. 1층 로비에 CU 편의점, 생협 카페, 무인세탁실 및 학생 커뮤니티 라운지가 완비되어 있습니다."
             },
             {
-                no: "당선 52동 (아파트 B)", name: "아와관 (Awa Hall)", tag: "23층 최장신 · 기숙사 밥맛 1위", badgeBg: "bg-emerald-600",
-                img: "이미지/아와관 기숙사 식당.webp",
-                meaning: "공식 뜻: '맑고 우아한 쉼터'",
-                meme: "별칭: 아와 스바루관 (걸즈 밴드 크라이)",
-                desc: "니나관 맞은편 23층 아파트형 기숙사. 교내 최고의 기숙사 식당('엠마의 식탁' 메인 운영처)을 보유하고 있으며, 니나관 사생들을 살뜰히 챙겨주는 전통이 있습니다."
+                zone: "당선(본)캠퍼스", no: "제52동 (아파트형 B)", name: "아와관 (Awa Hall)", tag: "지상 23층 · 직영 기숙사 식당 운영", badgeBg: "bg-emerald-700",
+                img: "이미지/아와관_식당.webp",
+                sub: "교통: 2호선 효빈대역 · 모노레일 B10 북부기숙사역 | 수용인원: 1,650명",
+                desc: "니나관 맞은편에 건립된 23층 초고층 아파트형 생활관입니다. 1층에는 교비 지원 천원의 아침밥('엠마의 식탁')과 균형 잡힌 3식을 제공하는 대규모 직영 기숙사 식당 및 피트니스룸이 운영됩니다."
             },
             {
-                no: "당선 53동 (1단지 1~5동)", name: "희다관 (Heeda Hall)", tag: "여학생 전용 5개 동 · 제1식당", badgeBg: "bg-rose-500",
-                img: "이미지/희다관 외경.webp",
-                meaning: "공식 뜻: '희망이 다가오는 집'",
-                meme: "별칭: 키타관 (봇치 더 록! 키타 이쿠요)",
-                desc: "붉은 벽돌 외관이 화사한 여학생 기숙사 단지. 민부선 총장님이 리모델링한 셰어하우스 커뮤니티 라운지와 희다관 제1식당, 카페가 입점해 있습니다."
+                zone: "당선(본)캠퍼스", no: "제53-1~5동 (제1단지)", name: "희다관 1~5동 (Heeda Hall)", tag: "여학생 전용 5개 동 · 셰어하우스 라운지", badgeBg: "bg-rose-600",
+                img: "이미지/희다관.webp",
+                sub: "교통: 모노레일 B10 북부기숙사역·B11 보건진료소역 | 수용인원: 1,800명",
+                desc: "따뜻한 붉은 벽돌 외관과 정원을 갖춘 여학생 전용 생활관 클러스터(1~5동)입니다. 최근 리모델링을 통해 각 층마다 공유 주방과 셰어하우스형 라운지를 구축하였으며, 단지 내 희다관 제1식당과 카페가 위치합니다."
             },
             {
-                no: "당선 53동 (1단지 남관)", name: "후등관 (Hudeung Hall)", tag: "남학생 전용 · 1인 집중 식당", badgeBg: "bg-blue-600",
-                img: "이미지/후등관 외경.webp",
-                meaning: "공식 뜻: '후학들이 학문의 등불을 밝힌다'",
-                meme: "별칭: 봇치관 (봇치 더 록! 고토 히토리)",
-                desc: "조용한 숲속에 위치한 남학생 기숙사. 한자 독음(後藤)과 구석진 위치 덕에 봇치관으로 불리며, 옷장 안에서 헤드폰 끼고 기타 연습하는 은둔 고수들이 서식합니다."
+                zone: "당선(본)캠퍼스", no: "제53-6동 (제1단지)", name: "후등관 (Hudeung Hall)", tag: "남학생 전용 · 정숙 면학동", badgeBg: "bg-blue-700",
+                img: "이미지/후등관.webp",
+                sub: "교통: 모노레일 B10 북부기숙사역 | 수용인원: 950명",
+                desc: "학생생활관 1단지 내 조용한 숲길 구역에 위치한 남학생 전용 생활관입니다. 24시간 개방되는 정독실과 개인 음악·악기 연습을 위한 방음 부스, 전동 킥보드·자전거 수리소 '기어스(Gears)'가 인접해 있습니다."
             },
             {
-                no: "당선 53동 (고시) & 54동", name: "성가관 (고시반) & 기숙사 2단지", tag: "고시반 & 가족동반(청수·지마·양인·장곡천관)", badgeBg: "bg-amber-500",
-                img: "이미지/희다관 기숙사 식당.webp",
-                meaning: "성가관(고시) + 54동 가족·대학원생 생활관",
-                meme: "별칭: 세이카관 (이지치 세이카) & 밴드명 기숙사군",
-                desc: "사감 선생님의 통제가 STARRY 점장님처럼 엄격하지만 따뜻한 고시반 성가관과, 기혼자·대학원생을 위한 청수관, 지마관, 양인관 1~2동, 장곡천관 1~3동(54동)입니다."
+                zone: "당선(본)캠퍼스", no: "제53-7동 (제1단지)", name: "성가관 (Seongga Hall)", tag: "국가고시 준비반 전용 생활관", badgeBg: "bg-amber-600",
+                img: "이미지/희다관_식당.webp",
+                sub: "교통: 모노레일 B10 북부기숙사역 | 수용인원: 320명 (1인 1실)",
+                desc: "5급 공채(행정·입법고시), 외교관후보자, 공인회계사(CPA), 중등교사 임용고시 준비생을 위한 전용 생활관입니다. 엄격한 출입·정숙 관리와 함께 수험생 체력 보강을 위한 성가관 제2식당(보양식 특화)이 직결되어 있습니다."
             },
             {
-                no: "당선 56동", name: "소금하우스 (Sogeum House)", tag: "학술연구 게스트하우스 · 양실/다도실", badgeBg: "bg-teal-700",
-                img: "이미지/소금하우스 전경.webp",
-                meaning: "공식 뜻: '세상의 빛과 소금이 되는 귀빈관'",
-                meme: "별칭: 시오리코 하우스 (미후네 시오리코)",
-                desc: "2·5호선 당선역 인근의 호텔급 학술 게스트하우스. 정갈한 양실 객실과 일본식 다도실(화실)을 갖추고 있어 해외 석학 및 HAF 내한 성우들의 숙소로 애용됩니다."
+                zone: "당선(본)캠퍼스", no: "제54-1동 (제2단지)", name: "청수관 (Cheongsu Hall)", tag: "외국인 교원 · 초빙연구원 숙소", badgeBg: "bg-indigo-700",
+                img: "이미지/소금하우스_(2).webp",
+                sub: "교통: 모노레일 B10 북부기숙사역 | 객실형태: 원룸·투룸 아파트형",
+                desc: "제2단지 내에 위치한 외국인 전임교원, 해외 객원교수 및 박사후연구원(Post-Doc) 전용 주거동입니다. 취사 시설과 빌트인 가전이 완비되어 장기 체류 연구자의 안정적인 정착을 지원합니다."
             },
             {
-                no: "이자 I-18~19 · 천주 C-13~14", name: "이자 이화·신리관 & 천주 궁하·아이관", tag: "배꽃 뷰 기숙사 & 24시 야작 특화 기숙사", badgeBg: "bg-indigo-600",
-                img: "이미지/효빈대 이자캠퍼스 전경.webp",
-                meaning: "이자캠퍼스 및 천주캠퍼스 직영 생활관",
-                meme: "천주 B동 별칭: 미야시타 아이관 (Ai Hall)",
-                desc: "봄이면 배꽃 향기가 가득한 이자캠퍼스 이화관·신리관과, 밤샘 과제를 마치고 새벽 4시에 기어들어 오는 만화애니과·특수장비과 학우들을 위해 통금이 없는 천주캠퍼스 궁하관·아이관입니다."
+                zone: "당선(본)캠퍼스", no: "제54-2동 (제2단지)", name: "지마관 (Jima Hall)", tag: "기혼자 · 가족동반 전용 기숙사", badgeBg: "bg-teal-700",
+                img: "이미지/소금하우스_(4).webp",
+                sub: "교통: 모노레일 B10 북부기숙사역 | 부대시설: 어린이 놀이터·가족라운지",
+                desc: "기혼 대학원생 및 학부생 부부가 자녀와 함께 거주할 수 있도록 쓰리룸(3-Room) 구조로 설계된 가족동반 생활관입니다. 교내 직장보육시설인 제33동 효빈대 어린이집 우선 입소 혜택이 부여됩니다."
             },
             {
-                no: "낭원 N-10~11 · 강주 G-12", name: "낭원 전포·웨이퍼관 & 강주 오션홀", tag: "반도체 학도 기숙사 & 100% 서해 오션뷰", badgeBg: "bg-cyan-700",
-                img: "이미지/효빈대 강주캠퍼스 전경.webp",
-                meaning: "낭원캠퍼스 및 강주캠퍼스 직영 생활관",
-                meme: "강주 오션홀 별칭: 갈매기 깡패 알람관",
-                desc: "낭원캠퍼스 전포관·웨이퍼관은 클린룸 실습생들의 안식처이며, 강주캠퍼스 '오션홀(G-12)'은 전 객실 서해 오션뷰를 자랑하나 새벽마다 갈매기들이 창문을 깨부술 듯 노크하는 알람으로 유명합니다."
+                zone: "당선(본)캠퍼스", no: "제54-3~4동 (제2단지)", name: "양인관 1~2동 (Yangin Hall)", tag: "법학·의학·치의학 전문대학원 전용관", badgeBg: "bg-slate-800",
+                img: "이미지/니나관.webp",
+                sub: "교통: 모노레일 B05 법전원역·B10 북부기숙사역 | 수용인원: 600명",
+                desc: "법학전문대학원(로스쿨) 및 의학·치의학전문대학원 재학생을 위한 전용 생활관(1~2동)입니다. 고도의 학습 집중을 위해 전 객실 1인 1실 방음 설계 및 동별 판례·의학 스터디룸이 구비되어 있습니다."
+            },
+            {
+                zone: "당선(본)캠퍼스", no: "제54-5~7동 (제2단지)", name: "장곡천관 1~3동 (Janggokcheon Hall)", tag: "일반대학원 석·박사 연구생 전용관", badgeBg: "bg-cyan-800",
+                img: "이미지/후등관.webp",
+                sub: "교통: 모노레일 B10 북부기숙사역 | 1동 1층 세븐일레븐 입점",
+                desc: "야간 실험과 논문 집필이 잦은 일반대학원 석·박사 전일제 연구생 전용 생활관(1~3동)입니다. 통금 제한 없이 24시간 자유 출입이 가능하며, 1동 1층에 세븐일레븐 편의점과 심야 카페테리아가 운영됩니다."
+            },
+            {
+                zone: "당선(본)캠퍼스", no: "제55동 (생활관 본부)", name: "학생생활관 관리동", tag: "통합행정실 · 무인택배 · 보안관제", badgeBg: "bg-gray-700",
+                img: "이미지/효빈대학교_본부.webp",
+                sub: "교통: 2호선·5호선 당선역 · 모노레일 B10 북부기숙사역",
+                desc: "전체 학생생활관의 입·퇴사 행정, 시설 보수, 대형 무인택배 보관함 및 24시간 CCTV 보안관제를 총괄하는 컨트롤 타워 건물입니다."
+            },
+            {
+                zone: "당선(본)캠퍼스", no: "제56동 (학술교류관)", name: "소금하우스 (Sogeum House)", tag: "호텔형 학술 게스트하우스 · 양실/다도실", badgeBg: "bg-[#1e2a78]",
+                img: "이미지/소금하우스.webp",
+                sub: "교통: 2호선·5호선 당선역 도보 3분 | 객실: 스위트·디럭스·화실(다도실)",
+                desc: "국내외 학술대회 초청 연사 및 외빈을 위한 정갈하고 품격 있는 호텔형 게스트하우스입니다. 최고급 침구를 갖춘 양실 객실과 전통 다도실(화실), 1층 조식 라운지를 갖추고 있습니다."
+            },
+
+            // [B] 4대 이원화 캠퍼스 — 7개 개별 관 완전 분리
+            {
+                zone: "이원화캠퍼스", no: "이자 I-18동 (A동)", name: "이화관 (Ihwa Hall · 이자캠퍼스)", tag: "이자캠퍼스 여학생 전용 생활관", badgeBg: "bg-emerald-600",
+                img: "이미지/효빈대_이자캠퍼스_전경.webp",
+                sub: "위치: 이자캠퍼스 배나무 과수원(이화원) 인접 | 지상 8층 (2인 1실)",
+                desc: "농업대학·생명대학·디자인대학·수의예과 여학생을 위한 생활관입니다. 봄철 배꽃과 벚꽃이 만개하는 이화원 정원을 조망할 수 있으며, 1층에 무인편의점과 디자인 과제 작업실이 구비되어 있습니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "이자 I-19동 (B동)", name: "신리관 (Sinri Hall · 이자캠퍼스)", tag: "이자캠퍼스 남학생 전용 · 직영식당", badgeBg: "bg-teal-600",
+                img: "이미지/효빈대학교_이자캠퍼스.webp",
+                sub: "위치: 빈효선 리의역 도보 5분 · 코스트코 연결육교 인접 | 지상 8층",
+                desc: "이자캠퍼스 남학생 전용 생활관입니다. 1층에 이자 기숙사 직영식당('엠마의 식탁' 조식 운영), CU 편의점, 체력단련실이 입점해 있으며 서문 보행육교(I-20)를 통해 인접 상권과 직결됩니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "천주 C-13동 (A동)", name: "궁하관 (Gungha Hall · 천주캠퍼스)", tag: "천주캠퍼스 남학생 전용 · 24시 개방", badgeBg: "bg-purple-600",
+                img: "이미지/효빈대_천주캠퍼스_전경.webp",
+                sub: "위치: 빈효선 궁하역 도보 5분 | 지상 9층 (응용과학·응용예술대)",
+                desc: "천주캠퍼스 남학생 전용 생활관입니다. 심야 시간대까지 웹툰·게임 실습실 및 특수장비 격납고에서 과제를 수행하는 학우들의 특성을 반영하여 통금 없이 24시간 개방되며 암막 수면실이 마련되어 있습니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "천주 C-14동 (B동)", name: "아이관 (Ai Hall · 천주캠퍼스)", tag: "천주캠퍼스 여학생 전용 · 직영식당", badgeBg: "bg-pink-600",
+                img: "이미지/효빈대학교_천주캠퍼스.webp",
+                sub: "위치: 천주캠퍼스 서문(궁하구 대학가) 인접 | 지상 9층",
+                desc: "천주캠퍼스 여학생 전용 생활관입니다. 1층에 천주 기숙사 직영식당과 GS25 편의점이 입점해 있으며, 각 층에 액정 태블릿 작업용 크리에이티브 라운지와 파우더룸이 완비되어 있습니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "낭원 N-10동 (A동)", name: "전포관 (Jeonpo Hall · 낭원캠퍼스)", tag: "낭원캠퍼스 남학생 전용 생활관", badgeBg: "bg-amber-600",
+                img: "이미지/효빈대학교_낭원캠퍼스.webp",
+                sub: "위치: 덕빈선 전포역 셔틀 5분 · Nano-Fab 인접 | 지상 10층",
+                desc: "낭원캠퍼스 융합학부 및 지역개발학부 남학생 전용 생활관입니다. 반도체 클린룸(Fab) 교대 실습생들을 위한 안마의자 휴게라운지와 무인 세탁·건조 시설이 구비되어 있습니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "낭원 N-11동 (B동)", name: "웨이퍼관 (Wafer Hall · 낭원캠퍼스)", tag: "낭원캠퍼스 여학생 전용 · 직영식당", badgeBg: "bg-orange-600",
+                img: "이미지/효빈대_낭원캠퍼스_전경.webp",
+                sub: "위치: 낭원 중앙광장(N-12) 인접 | 지상 10층 (1층 식당·CU)",
+                desc: "낭원캠퍼스 여학생 전용 생활관입니다. 1층에 낭원 기숙사 직영식당과 24시간 CU 편의점, 실내 피트니스룸이 운영되며 최첨단 생체인식 보안 게이트가 적용되어 있습니다."
+            },
+            {
+                zone: "이원화캠퍼스", no: "강주 G-12동 (통합관)", name: "오션홀 (Ocean Hall · 강주캠퍼스)", tag: "전 객실 서해 오션뷰 · 해양생활관", badgeBg: "bg-cyan-700",
+                img: "이미지/효빈대학교_강주캠퍼스.webp",
+                sub: "위치: 빈주권광역철도 강주항역 및 실습선 부두 인접 | 지상 12층",
+                desc: "강주캠퍼스 해양대학·환경산업대학 재학생을 위한 12층 규모의 남녀 층별 분리형 생활관입니다. 전 객실에서 서해 바다와 강주항을 조망할 수 있으며, 해풍·해무 차단 및 소음 저감을 위한 3중 기밀 이중창과 1층 직영식당·CU 편의점이 완비되어 있습니다."
             }
         ];
+
+        const TAB_TITLES = {
+            map: "인터랙티브 캠퍼스 전자지도 (GIS)",
+            buildings: "5대 캠퍼스 전 건물 도감 (170개 동 개별 수록)",
+            dining: "지원·후생복지시설 (식당·카페·편의점 22개소)",
+            campuses: "5대 캠퍼스 특성화 현황",
+            facility: "주요 부속·문화시설 및 캠퍼스 투어",
+            dorm: "학생생활관 (18개 관 개별 안내)"
+        };
 
         let currentBuildingCampus = 'ALL';
         let currentDiningCat = 'ALL';
+        let currentDormZone = 'ALL';
 
-        // ================= 초기화 및 탭 전환 로직 =================
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuToTab = {
+                "캠퍼스안내": "campuses",
+                "캠퍼스 지도": "map",
+                "캠퍼스지도": "map",
+                "캠퍼스 투어": "facility",
+                "교육시설": "buildings",
+                "지원시설": "dining",
+                "부속시설": "facility"
+            };
+            if (menuToTab[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                showTab(menuToTab[txt]);
+            }
+        }, true);
+
         document.addEventListener('DOMContentLoaded', () => {
-            renderGisMapMarkers();
-            selectGisCluster('c_hq');
             renderFullBuildingTable();
             renderDiningCards();
             renderFiveCampuses();
             renderLandmarkFacilities();
             renderDormitories();
+
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[initHash]) {
+                showTab(initHash);
+            } else {
+                showTab('map');
+            }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
 
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[h]) showTab(h);
+        });
+
+        function reloadCampusIframe() {
+            const iframe = document.getElementById('official-campus-map-iframe');
+            if (iframe) {
+                iframe.src = "https://binia1.github.io/mymap/?name=%ED%9A%A8%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90";
+            }
+        }
+
         function showTab(tabName) {
+            const validTab = TAB_TITLES[tabName] ? tabName : 'map';
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${validTab}`).classList.remove('hidden');
 
             ['map', 'buildings', 'dining', 'campuses', 'facility', 'dorm'].forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
                 if (!btn) return;
-                if (t === tabName) {
-                    btn.className = "tab-btn px-3.5 py-2 bg-[#3344aa] text-white rounded-xl text-xs md:text-sm font-extrabold transition flex items-center gap-1.5 shrink-0 shadow-sm";
+                if (t === validTab) {
+                    btn.className = "tab-btn px-3 py-2.5 bg-[#3344aa] text-white rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm";
                 } else {
-                    btn.className = "tab-btn px-3.5 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-xs md:text-sm font-bold transition flex items-center gap-1.5 shrink-0";
+                    btn.className = "tab-btn px-3 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5";
                 }
             });
+
+            const bread = document.getElementById('campus-breadcrumb');
+            if (bread) bread.innerText = TAB_TITLES[validTab];
+
+            if (window.location.hash !== '#' + validTab) {
+                history.replaceState(null, null, '#' + validTab);
+            }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -884,47 +920,9 @@
             renderDiningCards();
         }
 
-        function renderGisMapMarkers() {
-            const box = document.getElementById('gis-markers-container');
-            if (!box) return;
-            box.innerHTML = GIS_CLUSTERS.map(c => `
-                <button onclick="selectGisCluster('${c.id}')" id="marker-${c.id}" style="left:${c.x}%; top:${c.y}%;"
-                    class="gis-marker absolute -translate-x-1/2 -translate-y-1/2 z-20 group flex flex-col items-center focus:outline-none">
-                    <span class="px-2.5 py-1 rounded-full text-[11px] font-black text-white shadow-lg border-2 border-white transition-transform group-hover:scale-110 flex items-center gap-1" style="background-color:${c.color};">
-                        <span>${c.no}</span>
-                    </span>
-                    <span class="mt-1 px-2 py-0.5 rounded bg-slate-950/90 text-white text-[10px] font-bold whitespace-nowrap border border-slate-600 shadow">
-                        ${c.title.split('·')[0]}
-                    </span>
-                </button>
-            `).join('');
-        }
-
-        function selectGisCluster(clusterId) {
-            const item = GIS_CLUSTERS.find(c => c.id === clusterId) || GIS_CLUSTERS[0];
-            const panel = document.getElementById('gis-detail-panel');
-            if (!panel) return;
-
-            panel.innerHTML = `
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="px-2.5 py-0.5 rounded text-xs font-black text-white" style="background-color:${item.color};">건물군 ${item.no}</span>
-                        <span class="text-xs font-bold text-slate-500">행정구역: 효빈시 ${item.zone}</span>
-                    </div>
-                    <h3 class="text-lg font-black text-gray-900 leading-snug mb-3">${item.title}</h3>
-                    <div class="h-44 rounded-xl bg-slate-800 overflow-hidden mb-4 border border-gray-200 relative">
-                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.style.display='none'">
-                    </div>
-                    <div class="p-3 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-[#1e2a78] mb-3">
-                        🚇 연계 철도: ${item.rail}
-                    </div>
-                    <p class="text-xs text-gray-700 leading-relaxed">${item.desc}</p>
-                </div>
-                <div class="pt-4 mt-4 border-t border-gray-200 flex justify-between items-center">
-                    <button onclick="showTab('buildings')" class="text-xs font-extrabold text-[#3344aa] hover:underline">전체 163개 건물 번호표 ➔</button>
-                    <button onclick="showTab('dining')" class="bg-amber-400 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-black hover:bg-amber-300">식당·카페 22개소</button>
-                </div>
-            `;
+        function filterDormZone(zone) {
+            currentDormZone = zone;
+            renderDormitories();
         }
 
         function renderFullBuildingTable() {
@@ -979,7 +977,7 @@
                         <div class="bg-white p-3 rounded-xl border border-gray-200 text-xs space-y-1 mb-3">
                             <div><strong class="text-gray-700">⏰ 운영시간:</strong> <span class="text-gray-600">${d.hours}</span></div>
                             <div><strong class="text-gray-700">💰 가격대:</strong> <span class="text-amber-700 font-bold">${d.price}</span></div>
-                            <div><strong class="text-gray-700">🍽️ 대표메뉴:</strong> <span class="text-gray-800 font-medium">${d.menu}</span></div>
+                            <div><strong class="text-gray-700">🍽️ 주요메뉴:</strong> <span class="text-gray-800 font-medium">${d.menu}</span></div>
                         </div>
                         <p class="text-xs text-gray-600 leading-relaxed">${d.desc}</p>
                     </div>
@@ -1000,12 +998,12 @@
                         <div class="flex items-center justify-between">
                             <h3 class="text-xl font-black text-gray-900">${c.name}</h3>
                             <button onclick="jumpToCampusBuildings('${c.name.slice(0,2)}')" class="bg-[#3344aa] text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#1e2a78]">
-                                ${c.name.slice(0,2)}캠퍼스 전체 건물표 보기 ➔
+                                ${c.name.slice(0,2)}캠퍼스 건물일람표 ➔
                             </button>
                         </div>
                         <div><strong class="text-gray-800">📍 소재지:</strong> <span class="text-gray-600">${c.addr}</span></div>
-                        <div><strong class="text-[#3344aa]">🚇 연계 철도 및 교통:</strong> <span class="text-[#1e2a78] font-bold">${c.transit}</span></div>
-                        <div><strong class="text-gray-800">🎓 소속 단과대학:</strong> <span class="text-gray-600">${c.colleges}</span></div>
+                        <div><strong class="text-[#3344aa]">🚇 연계 교통망:</strong> <span class="text-[#1e2a78] font-bold">${c.transit}</span></div>
+                        <div><strong class="text-gray-800">🎓 편제 단과대학:</strong> <span class="text-gray-600">${c.colleges}</span></div>
                         <p class="text-xs text-gray-700 bg-white p-3.5 rounded-xl border border-gray-200 leading-relaxed mt-2">${c.features}</p>
                     </div>
                 </div>
@@ -1029,9 +1027,9 @@
                         </div>
                     </div>
                     <div class="px-6 pb-6">
-                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-xs text-emerald-950 leading-relaxed">
-                            <strong class="block text-emerald-800 mb-1">🏫 캠퍼스 문화 & 비하인드 스토리:</strong>
-                            ${f.tmi}
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-xs text-slate-700 leading-relaxed font-medium">
+                            <strong class="block text-[#1e2a78] mb-1">🏛️ 주요 입주 및 관람 안내:</strong>
+                            ${f.guide}
                         </div>
                     </div>
                 </div>
@@ -1041,8 +1039,10 @@
         function renderDormitories() {
             const box = document.getElementById('dorm-cards-container');
             if (!box) return;
-            box.innerHTML = DORM_DATA.map(d => `
-                <div class="bg-slate-50 rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            const filtered = DORM_DATA.filter(d => currentDormZone === 'ALL' || d.zone === currentDormZone);
+
+            box.innerHTML = filtered.map(d => `
+                <div class="bg-slate-50 rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md hover:border-[#3344aa] transition-all flex flex-col justify-between">
                     <div>
                         <div class="h-44 bg-slate-800 relative overflow-hidden">
                             <img src="${d.img}" alt="${d.name}" class="w-full h-full object-cover" onerror="this.style.display='none'">
@@ -1051,10 +1051,7 @@
                         </div>
                         <div class="p-5">
                             <h3 class="text-lg font-black text-gray-900">${d.name}</h3>
-                            <p class="text-xs text-gray-500 font-medium mt-0.5 mb-2">${d.meaning}</p>
-                            <div class="inline-block bg-white border border-gray-200 text-[#3344aa] text-xs font-extrabold px-2.5 py-1 rounded-lg mb-3">
-                                🎸 ${d.meme}
-                            </div>
+                            <p class="text-xs text-[#3344aa] font-bold mt-1 mb-2.5">${d.sub}</p>
                             <p class="text-xs text-gray-700 leading-relaxed">${d.desc}</p>
                         </div>
                     </div>

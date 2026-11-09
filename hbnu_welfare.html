@@ -3,132 +3,873 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>학생복지 - 효빈대학교</title>
+    <title>학생복지 · 전체학식단표 · 천원의아침 · 보건진료소 · 인권센터 · 생협 통합포털 - 효빈대학교</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* common.js 헤더/푸터 로고 크기 폭주 절대 방지 */
+        #header-area img { max-height: 40px !important; width: auto !important; object-fit: contain !important; margin-right: 12px !important; }
+        #footer-area img { max-height: 36px !important; width: auto !important; object-fit: contain !important; }
+
+        .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 편의점 브랜드 배지 */
+        .store-badge { display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 11px; font-weight: 900; }
+        .badge-cu { background-color: #652c8f; color: #a5cf4c; }
+        .badge-gs25 { background-color: #007cff; color: #ffffff; }
+        .badge-emart24 { background-color: #ffb81c; color: #222222; }
+        .badge-7eleven { background-color: #008061; color: #f58220; }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     
+    <!-- 상단 공통 헤더 (common.js 렌더링) -->
     <div id="header-area"></div>
 
-    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">학생복지 안내</h1>
-            <p class="text-gray-600">건강하고 즐거운 캠퍼스 라이프를 위한 다양한 복지 시설을 소개합니다.</p>
+    <!-- 상단 서브 배너 -->
+    <section class="bg-gradient-to-r from-[#0f172a] via-[#1e2a78] to-[#047857] text-white py-12 border-b-4 border-[#99dd88] relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('이미지/효빈대_학생회관_푸드코트.webp');"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex items-center space-x-2 text-xs text-blue-200 mb-2">
+                <button onclick="navigateTo('hbnu_main.html')" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> HOME</button>
+                <span>›</span>
+                <span>대학생활 (복지/시설)</span>
+                <span>›</span>
+                <span id="welfare-breadcrumb" class="text-[#99dd88] font-bold">전 캠퍼스 식단안내 및 다이닝 총람</span>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-[#99dd88] text-[#1e2a78] text-xs font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        HBNU STUDENT WELFARE, DINING, HEALTH, HUMAN RIGHTS & CO-OP
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight">효빈대학교 후생복지 · 전체 학식 · 의료 · 인권 · 생협 통합포털</h1>
+                    <p class="text-xs md:text-sm text-emerald-100 mt-1.5 max-w-3xl leading-relaxed">
+                        "학생들이 굶거나 고립되는 것은 베르데(Verde) 정신에 어긋난다" — 전 메뉴 500원 인하가 적용된 학생복지회관 5대 푸드코트부터 6,000원 한식뷔페, 교비 100% 천원의 아침밥 『엠마의 식탁』, 정루관·아고라·메디컬·기숙사 식당, 보건진료소, 인권센터, 생협 17개 편의점까지 완벽하게 안내합니다.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 shrink-0">
+                    <button onclick="switchWelfareTab('breakfast')" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow transition-all flex items-center gap-1.5">
+                        🍞 천원의 아침밥 '엠마의 식탁' & 트램 팥빵
+                    </button>
+                    <button onclick="navigateTo('hbnu_campus.html')" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                        🗺️ 5대 캠퍼스 163개 건물도감
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5대 후생복지 메뉴 SPA 탭 네비게이션 박스 (메가메뉴 5개 항목과 1:1 완벽 매칭!) -->
+    <div class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <button onclick="switchWelfareTab('meal')" id="tab-btn-meal" class="welfare-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm">
+                    <i data-lucide="utensils" class="w-4 h-4 shrink-0"></i> <span>1. 식단안내 (전체 학식당)</span>
+                </button>
+                <button onclick="switchWelfareTab('breakfast')" id="tab-btn-breakfast" class="welfare-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="coffee" class="w-4 h-4 shrink-0"></i> <span>2. 천원의아침 (엠마의식탁)</span>
+                </button>
+                <button onclick="switchWelfareTab('clinic')" id="tab-btn-clinic" class="welfare-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="stethoscope" class="w-4 h-4 shrink-0"></i> <span>3. 보건진료소·심리·헬스</span>
+                </button>
+                <button onclick="switchWelfareTab('rights')" id="tab-btn-rights" class="welfare-tab-btn px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="shield-alert" class="w-4 h-4 shrink-0"></i> <span>4. 인권센터·장애학생지원</span>
+                </button>
+                <button onclick="switchWelfareTab('coop')" id="tab-btn-coop" class="welfare-tab-btn col-span-2 sm:col-span-1 px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="store" class="w-4 h-4 shrink-0"></i> <span>5. 생활협동조합·편의시설</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 SPA 컨텐츠 영역 -->
+    <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+
+        <!-- ================= [SPA 탭 1] 식단안내 : 전 캠퍼스 식당 메뉴판 및 주간 식단표 (#meal) ================= -->
+        <div id="view-meal" class="welfare-view fade-in space-y-10">
+
+            <!-- 식당 구역 빠른 점프 서브탭 -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">HBNU MASTER DINING GUIDE (ALL MENUS & WEEKLY TIMETABLE)</span>
+                    <h2 class="text-xl font-black text-slate-900 mt-0.5">효빈대학교 전 캠퍼스 다이닝 메뉴판 및 주간 식단표</h2>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-xs">
+                    <button onclick="scrollToDiningZone('zone-hakbok')" class="px-3 py-1.5 rounded-lg bg-[#3344aa] text-white font-bold">① 학생복지회관(5대코너)</button>
+                    <button onclick="scrollToDiningZone('zone-buffet')" class="px-3 py-1.5 rounded-lg bg-emerald-700 text-white font-bold">② 복지타운 한식뷔페</button>
+                    <button onclick="scrollToDiningZone('zone-jeongru')" class="px-3 py-1.5 rounded-lg bg-indigo-700 text-white font-bold">③ 정루관(버거·비스트로)</button>
+                    <button onclick="scrollToDiningZone('zone-agora')" class="px-3 py-1.5 rounded-lg bg-amber-600 text-white font-bold">④ 교수회관 아고라</button>
+                    <button onclick="scrollToDiningZone('zone-medical')" class="px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold">⑤ 의대·병원 식당</button>
+                    <button onclick="scrollToDiningZone('zone-dorm')" class="px-3 py-1.5 rounded-lg bg-purple-700 text-white font-bold">⑥ 기숙사·타캠퍼스</button>
+                </div>
+            </div>
+
+            <!-- 1-1. 학생복지회관(2동) 1층 푸드코트 (2026 애니메이션 특화 개편안 5개 코너 33종 전 메뉴) -->
+            <div id="zone-hakbok" class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 scroll-mt-20">
+                <div class="border-b-2 border-slate-800 pb-4 flex flex-col lg:flex-row lg:items-end justify-between gap-3">
+                    <div>
+                        <span class="bg-[#3344aa] text-white text-xs font-black px-3 py-1 rounded-full">제2번 건물 · 교내트램 A선 토목대 복지관역(A06)</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-2">학생복지회관 1층 대형 푸드코트 (2026 특화 개편 5대 코너 전 메뉴)</h3>
+                        <p class="text-xs text-slate-500 mt-1">"총학생회의 전 메뉴 500원 인하 업적과 서브컬처 동아리 연합이 탄생시킨 가성비의 제왕" · 운영시간: 10:30 ~ 19:30</p>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5" id="hakbok-corner-btns">
+                        <button onclick="filterHakbokCorner('ALL')" data-corner="ALL" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-black bg-[#1e2a78] text-white">전체 5대 코너(33종)</button>
+                        <button onclick="filterHakbokCorner('A')" data-corner="A" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">🍚 코너A: 하나요 가마솥</button>
+                        <button onclick="filterHakbokCorner('B')" data-corner="B" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">🍜 코너B: 쿠쿠의 웍</button>
+                        <button onclick="filterHakbokCorner('C')" data-corner="C" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">🍴 코너C: 마리 레스토랑</button>
+                        <button onclick="filterHakbokCorner('D')" data-corner="D" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">🌶️ 코너D: 세츠나 분식</button>
+                        <button onclick="filterHakbokCorner('E')" data-corner="E" class="hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">🍲 코너E: 토모에 제면소</button>
+                    </div>
+                </div>
+
+                <!-- 5대 코너 렌더링 루트 -->
+                <div id="hakbok-corners-root" class="space-y-6"></div>
+            </div>
+
+            <!-- 1-2. 학생복지타운(4동) 한식뷔페 주간 식단표 (2026.03.23 ~ 03.27) -->
+            <div id="zone-buffet" class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-5 scroll-mt-20">
+                <div class="border-b-2 border-emerald-700 pb-4 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                    <div>
+                        <span class="bg-emerald-700 text-white text-xs font-black px-3 py-1 rounded-full">제4번 건물 · 도시철도 2호선 효빈대역 앞</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-2">학생복지타운 자율 한식뷔페 주간 식단표</h3>
+                        <p class="text-xs text-slate-600 mt-1">
+                            • <strong>이용 가격:</strong> 중·석식 <strong>6,000원</strong> (현금/카드/효빈페이 동일 · 조식 '엠마의 식탁'은 <strong>1,000원</strong>) | <strong>시간:</strong> 중식 11:30~14:00 / 석식 17:00~19:00<br>
+                            • <strong>상시 기본 코너:</strong> 신선 그린샐러드 바, 배추김치, <strong>셀프 온육수 잔치국수 무한리필 코너</strong> 상시 가동
+                        </p>
+                    </div>
+                    <span class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-black px-3.5 py-2 rounded-xl shrink-0">
+                        🔥 수요일 '한방 야들 수육' 특식 날은 11:30 오픈런 필수!
+                    </span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300 text-center">
+                                <th class="py-3 px-3 w-24">요일</th>
+                                <th class="py-3 px-4 w-44">밥 / 국</th>
+                                <th class="py-3 px-4 w-44">메인 요리 (무한리필)</th>
+                                <th class="py-3 px-4">서브 반찬 (4찬 구성)</th>
+                                <th class="py-3 px-3 w-28">디저트/음료</th>
+                                <th class="py-3 px-4 w-64">영양사 코멘트 및 이용 팁</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black text-slate-900">월요일<br><span class="text-[10px] text-slate-400">03/23</span></td>
+                                <td class="py-3 px-4 font-medium">흑미/백미밥<br>맑은 콩나물국</td>
+                                <td class="py-3 px-4 text-center font-black text-[#1e2a78] text-sm">간장 돼지불고기</td>
+                                <td class="py-3 px-4">매콤 두부조림, 수제 계란말이, 무생채, 상추쌈</td>
+                                <td class="py-3 px-3 text-center">시원한 매실차</td>
+                                <td class="py-3 px-4 text-slate-600">월요병 치유 고기 파티 (계란말이 조기 소진 시 즉시 추가 조리)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black text-slate-900">화요일<br><span class="text-[10px] text-slate-400">03/24</span></td>
+                                <td class="py-3 px-4 font-medium">기장/백미밥<br>차돌 된장찌개</td>
+                                <td class="py-3 px-4 text-center font-black text-[#1e2a78] text-sm">춘천식 철판 닭갈비</td>
+                                <td class="py-3 px-4">오징어 해물파전, 미역줄기볶음, 깍두기, 양배추 찜</td>
+                                <td class="py-3 px-3 text-center">얼음 동동 식혜</td>
+                                <td class="py-3 px-4 text-slate-600">배식 트레이에서 닭고기만 골라 담지 않도록 배려 바랍니다.</td>
+                            </tr>
+                            <tr class="bg-amber-50/70">
+                                <td class="py-3 px-3 text-center font-black text-rose-600">수요일<br><span class="text-[10px] font-bold">특식데이</span></td>
+                                <td class="py-3 px-4 font-bold">잡곡/백미밥<br>사골 떡만두국</td>
+                                <td class="py-3 px-4 text-center font-black text-rose-600 text-sm">★한방 야들 수육★</td>
+                                <td class="py-3 px-4 font-medium">쟁반 막국수, 무말랭이무침, 보쌈 겉절이, 알배추쌈</td>
+                                <td class="py-3 px-3 text-center font-bold">요구르트</td>
+                                <td class="py-3 px-4 text-rose-900 font-bold">보쌈 전문점급 수육 제공. 대기줄 혼잡 예상 (11:20 조기 오픈)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black text-slate-900">목요일<br><span class="text-[10px] text-slate-400">03/26</span></td>
+                                <td class="py-3 px-4 font-medium">보리/백미밥<br>참치 김치찌개</td>
+                                <td class="py-3 px-4 text-center font-black text-[#1e2a78] text-sm">순살 마늘간장 치킨</td>
+                                <td class="py-3 px-4">국물 떡볶이, 김말이튀김, 단무지, 스위트 콘샐러드</td>
+                                <td class="py-3 px-3 text-center">오렌지 주스</td>
+                                <td class="py-3 px-4 text-slate-600">치킨+분식 컬래버레이션 식단 (김말이 떡볶이 국물 찍먹 추천)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black text-slate-900">금요일<br><span class="text-[10px] text-slate-400">03/27</span></td>
+                                <td class="py-3 px-4 font-medium">옛날 계란볶음밥<br>얼큰 짬뽕국</td>
+                                <td class="py-3 px-4 text-center font-black text-[#1e2a78] text-sm">수제 등심 탕수육</td>
+                                <td class="py-3 px-4">사천식 마파두부, 짜사이무침, 양장피 냉채, 연유 꽃빵</td>
+                                <td class="py-3 px-3 text-center">복숭아 아이스티</td>
+                                <td class="py-3 px-4 text-slate-600">대용량 워머 보온 특성상 소스가 부어져 있는 '부먹' 세팅 제공</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 1-3. 정루관(13동) 미아 테일러의 보우이 버거 조인트 & 비스트로 정루 -->
+            <div id="zone-jeongru" class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 scroll-mt-20">
+                <div class="border-b-2 border-indigo-700 pb-4">
+                    <span class="bg-indigo-700 text-white text-xs font-black px-3 py-1 rounded-full">제13번 건물 · 북구 캠퍼스(사회복지대·사범대·인문대 인근)</span>
+                    <h3 class="text-2xl font-black text-slate-900 mt-2">정루관 (Jeongru Hall) — 수제버거 조인트 & 이탈리안 비스트로</h3>
+                    <p class="text-xs text-slate-500 mt-1">1층은 뉴욕 브루클린식 수제버거 펍, 2층은 교내 최고의 칼질 소개팅 명소 '비스트로 정루'로 운영됩니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- 1층 미아버거 -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                            <div>
+                                <span class="text-[11px] font-black text-amber-700">1층 · NY BROOKLYN SMASH BURGER</span>
+                                <h4 class="text-lg font-black text-slate-900">🍔 코너 A: 미아 테일러의 보우이(Boy) 버거 조인트</h4>
+                            </div>
+                            <img src="이미지/미아버거.webp" alt="미아버거" class="w-16 h-12 rounded-lg object-cover border" onerror="this.style.display='none'">
+                        </div>
+                        <table class="w-full text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-200/70 text-slate-700 font-black">
+                                    <th class="p-2 text-left">메뉴명</th>
+                                    <th class="p-2 w-16 text-center">단품</th>
+                                    <th class="p-2 w-16 text-center">세트</th>
+                                    <th class="p-2 text-left">특징</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr><td class="p-2 font-bold">미아의 시그니처 치즈버거</td><td class="p-2 text-center font-mono-code">6,000</td><td class="p-2 text-center font-mono-code font-black text-[#3344aa]">7,800</td><td class="p-2 text-slate-600">정루관 1위 ("야채 빼주세요" 커스텀 최다)</td></tr>
+                                <tr><td class="p-2 font-bold">정통 뉴욕 클래식 버거</td><td class="p-2 text-center font-mono-code">5,500</td><td class="p-2 text-center font-mono-code font-black text-[#3344aa]">7,300</td><td class="p-2 text-slate-600">직화 비프 패티 불향이 북구 전체에 진동</td></tr>
+                                <tr><td class="p-2 font-bold">크리스피 내슈빌 핫 치킨버거</td><td class="p-2 text-center font-mono-code">6,000</td><td class="p-2 text-center font-mono-code font-black text-[#3344aa]">7,800</td><td class="p-2 text-slate-600">두꺼운 통닭다리살 (소개팅 중 섭취 금지!)</td></tr>
+                                <tr><td class="p-2 font-bold">베이컨 해시브라운 버거</td><td class="p-2 text-center font-mono-code">6,500</td><td class="p-2 text-center font-mono-code font-black text-[#3344aa]">8,300</td><td class="p-2 text-slate-600">해시브라운+베이컨 칼로리 폭탄 조화</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-1">
+                            <strong class="text-amber-950 block">🍟 [NEW] K-패치 사이드 & 쉐이크 라인업</strong>
+                            <div>• <strong>K-양념 버팔로 윙&봉(4조각 / 3,800원):</strong> 태미아 학우가 <em>"Shit... 이건 반칙이잖아"</em>라고 극찬한 양념치킨 소스 윙봉</div>
+                            <div>• <strong>크리스피 안심 텐더(3조각 / 3,500원)</strong> · <strong>21cm 롱 고구마 치즈스틱(2,500원)</strong></div>
+                            <div>• <strong>뉴욕 치즈 프라이(3,500원 · 세트변경 +1,500원)</strong> · <strong>브루클린 밀크쉐이크(3,000원 · 감튀 찍먹 필수)</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- 2층 비스트로 정루 -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                            <div>
+                                <span class="text-[11px] font-black text-indigo-700">2층 · ITALIAN STEAK & PASTA HOUSE</span>
+                                <h4 class="text-lg font-black text-slate-900">🥩 코너 B: 비스트로 정루 (Bistro Jeongru)</h4>
+                            </div>
+                            <img src="이미지/비스트로_정루.webp" alt="비스트로 정루" class="w-16 h-12 rounded-lg object-cover border" onerror="this.style.display='none'">
+                        </div>
+                        <table class="w-full text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-200/70 text-slate-700 font-black">
+                                    <th class="p-2.5 text-left">메뉴명</th>
+                                    <th class="p-2.5 w-20 text-center">가격</th>
+                                    <th class="p-2.5 text-left">상세 설명 및 특징</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr><td class="p-2.5 font-bold">부챗살 수비드 스테이크</td><td class="p-2.5 text-center font-mono-code font-black text-indigo-700">12,500원</td><td class="p-2.5 text-slate-600">비스트로 정루의 상징 (총학 협상으로 1,000원 인하의 기적!)</td></tr>
+                                <tr><td class="p-2.5 font-bold">블랙 앵거스 안심 스테이크</td><td class="p-2.5 text-center font-mono-code font-black text-indigo-700">14,500원</td><td class="p-2.5 text-slate-600">교내 학생식당 최고가 (장학금 들어온 날 선배가 쏘는 메뉴)</td></tr>
+                                <tr><td class="p-2.5 font-bold">베이컨 크림 까르보나라</td><td class="p-2.5 text-center font-mono-code font-bold">7,800원</td><td class="p-2.5 text-slate-600">정통식과 한국식을 황금 비율로 타협한 꾸덕한 크림</td></tr>
+                                <tr><td class="p-2.5 font-bold">쉬림프 로제 파스타</td><td class="p-2.5 text-center font-mono-code font-bold">8,200원</td><td class="p-2.5 text-slate-600">오동통한 타이거 새우 5마리가 통째로 들어간 인기 메뉴</td></tr>
+                                <tr><td class="p-2.5 font-bold">트러플 머쉬룸 리조또</td><td class="p-2.5 text-center font-mono-code font-bold">7,800원</td><td class="p-2.5 text-slate-600">고급스러운 트러플 오일 풍미 (썸 타는 사이 깔끔하게 먹기 최고)</td></tr>
+                                <tr><td class="p-2.5 font-bold">리코타 치즈 과일 샐러드</td><td class="p-2.5 text-center font-mono-code font-bold">6,000원</td><td class="p-2.5 text-slate-600">이자목장 수제 리코타 치즈와 발사믹 글레이즈의 조화</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1-4. 교수회관(32동) 다이닝 라운지 '아고라(Agora)' & 1-5. 메디컬 타운 식당 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- 아고라 다이닝 -->
+                <div id="zone-agora" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4 scroll-mt-20">
+                    <div class="border-b pb-3">
+                        <span class="bg-amber-600 text-white text-[11px] font-black px-2.5 py-0.5 rounded">제32번 건물 · 모노레일 B05 법전원역</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-1.5">교수회관 다이닝 라운지 『아고라(Agora)』</h3>
+                        <p class="text-xs text-slate-500">학생도 자유롭게 이용 가능하나, 옆자리에서 석·박사 논문 디펜스가 벌어지는 고품격 레스토랑</p>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                            <h4 class="font-black text-sm text-rose-900 mb-1.5">🍱 코너 A: 다이아의 '뿌뿌뿌!' 엄격한 한정식</h4>
+                            <ul class="space-y-1 text-slate-700">
+                                <li>• <strong>학생회장의 명품 진갈비탕 [12,000원]:</strong> 교수님이 제자에게 하사하시는 1순위 메뉴</li>
+                                <li>• <strong>쿠로사와 가문의 보리굴비 정식 [15,000원]:</strong> 녹차 물에 밥 말아 먹는 외빈 접대용</li>
+                                <li>• <strong>전복 해물 뚝배기 [11,000원]</strong> · <strong>한우 육회 비빔밥 [10,000원]</strong> · <strong>사골 만두 전골(1인) [9,500원]</strong></li>
+                            </ul>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                            <h4 class="font-black text-sm text-indigo-900 mb-1.5">🥩 코너 B: 쇼우 란쥬의 무적급(無敵級) 글로벌 다이닝</h4>
+                            <ul class="space-y-1 text-slate-700">
+                                <li>• <strong>생연어 사케동 [10,500원]</strong> (와사비 조절 실패 시 교수님 앞에서 오열 주의)</li>
+                                <li>• <strong>황금 민물장어 덮밥 [14,000원]</strong> · <strong>무적급 육즙 함박스테이크 [9,500원]</strong> · <strong>아보카도 명란 비빔밥 [8,500원]</strong></li>
+                            </ul>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                            <h4 class="font-black text-sm text-purple-900 mb-1.5">☕ 코너 C: 유키나의 정점(頂点)을 향한 랩실 구호소 (포장/델리)</h4>
+                            <ul class="space-y-1 text-slate-700">
+                                <li>• <strong>블루 로즈 클럽 샌드위치 & 더치커피 [7,500원]:</strong> 피펫팅하며 한 손으로 먹기 최적화</li>
+                                <li>• <strong>프리미엄 란쥬 벤토 [15,000원]</strong> · <strong>계절 과일컵 & 그릭 요거트 [4,500원]</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 메디컬 타운 식당 (의대 49동 & 병원 59동) -->
+                <div id="zone-medical" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4 scroll-mt-20">
+                    <div class="border-b pb-3">
+                        <span class="bg-teal-700 text-white text-[11px] font-black px-2.5 py-0.5 rounded">제49번·59번 건물 · 교내트램 A02 효빈대병원역</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-1.5">메디컬 타운 전용 식당 (의과대학 & 효빈대병원)</h3>
+                        <p class="text-xs text-slate-500">24시간 돌아가는 메디컬 그랜드슬램 단지의 체력 보충 기지</p>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-1.5">
+                            <h4 class="font-black text-sm text-purple-950">💊 의대·보건대 전용 『코노에 카나타의 오야스미 다이닝』 (49동 B1)</h4>
+                            <p class="text-purple-800 text-[11px]">※ 포만감으로 인한 식곤증 마법이 걸려 있어 해부학 실습 전 주의 요망 (식당 옆 15분 수면 캡슐 존 운영)</p>
+                            <div class="grid grid-cols-2 gap-1.5 pt-1 text-slate-800 font-medium">
+                                <div>• 얼큰 뼈해장국: <strong>5,500원</strong></div>
+                                <div>• 카나타 양고기 스튜: <strong>6,500원</strong></div>
+                                <div>• 1분 컷 마요 덮밥: <strong>4,000원</strong></div>
+                                <div>• 마늘 듬뿍 제육볶음: <strong>5,000원</strong></div>
+                                <div>• 고등어구이 정식: <strong>5,500원</strong></div>
+                                <div>• 무알코올 몬스터 하이볼: <strong>2,500원</strong></div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-rose-50/70 border border-rose-200 space-y-1.5">
+                            <h4 class="font-black text-sm text-rose-950">🏥 효빈대병원 본관 『간바루비(GanbaRuby) 웰빙 푸드코트』 (59동 B1)</h4>
+                            <p class="text-rose-800 text-[11px]">※ 감염 예방을 위해 의료진 가운/수술복 착용 출입 금지 · 자율주행 퇴식 로봇 <strong>'리나 보드 1호'</strong>가 식판을 수거합니다.</p>
+                            <ul class="space-y-1 text-slate-800 pt-1">
+                                <li>• <strong>루비의 천사표 죽:</strong> 완도 특전복죽 [14,000원] / 단호박죽 [8,500원] / 소고기 야채죽 [9,000원]</li>
+                                <li>• <strong>생명 연장 한식당:</strong> 맑은 대구 지리탕 [11,000원] / 산채 비빔밥 [9,000원] / 영양 들깨 수제비 [8,500원]</li>
+                                <li>• <strong>보호자 힐링 양식당:</strong> 옛날 왕돈까스 [10,000원] / 해물 볶음 우동 [9,000원] / 꼬치 어묵 우동 세트 [7,500원]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1-6. 기숙사 3대 식당(아와관·희다관·성가관) 주간 식단표 & 4대 이원화 캠퍼스 명물 학식 -->
+            <div id="zone-dorm" class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6 scroll-mt-20">
+                <div class="border-b-2 border-purple-700 pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                    <div>
+                        <span class="bg-purple-700 text-white text-xs font-black px-3 py-1 rounded-full">제52번·53번 건물 · 모노레일 B10 북부기숙사역</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-2">학생생활관(기숙사) 3대 식당 주간 식단표 (교차 이용 가능)</h3>
+                    </div>
+                    <span class="text-xs text-purple-800 font-bold">💡 사생증 태그 시 본인 거주 동과 무관하게 3곳 모두 이용 가능!</span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-black border-b-2 border-slate-300 text-center">
+                                <th class="py-3 px-3 w-20">요일</th>
+                                <th class="py-3 px-4">🍱 아와관 식당 (52동 · 아와 스바루 테마)<br><span class="text-[10px] font-normal text-slate-500">양 많고 호불호 없는 기숙사 밥맛 1위</span></th>
+                                <th class="py-3 px-4">✨ 희다관 식당 (53동 · 키타 이쿠요 테마)<br><span class="text-[10px] font-normal text-slate-500">인스타 감성 1단지 여학생 특화</span></th>
+                                <th class="py-3 px-4">📚 성가관 식당 (53동 · 이지치 세이카 테마)<br><span class="text-[10px] font-normal text-slate-500">고시반 두뇌회전 & 스태미나 보양 특식</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black">월(Mon)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">수제 두툼 돈까스 & 미니 우동</td>
+                                <td class="py-3 px-4 font-bold text-rose-700">아보카도 명란 비빔밥</td>
+                                <td class="py-3 px-4 font-bold text-amber-900">완도 전복 내장죽 & 한우 장조림</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black">화(Tue)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">매콤달콤 닭볶음탕 (국물 비빔 국룰)</td>
+                                <td class="py-3 px-4 font-bold text-rose-700">쉬림프 로제 파스타 & 마늘빵</td>
+                                <td class="py-3 px-4 font-black text-amber-900 bg-amber-50">★민물장어 덮밥 (타 기숙사생 밀입국 주의)★</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black">수(Wed)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">대패삼겹살 숙주 볶음 (배식 이모님 감시)</td>
+                                <td class="py-3 px-4 font-bold text-rose-700">우삼겹 마라샹궈 & 꿔바로우</td>
+                                <td class="py-3 px-4 font-bold text-amber-900">진한 한우 사골 설렁탕 & 소면사리</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black">목(Thu)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">베이컨 김치볶음밥 & 반숙 계란프라이</td>
+                                <td class="py-3 px-4 font-bold text-rose-700">생연어 포케 보울 (현미밥/야채 선택)</td>
+                                <td class="py-3 px-4 font-bold text-amber-900">불향 낙지 삼겹살 볶음 (낙삼새)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-3 text-center font-black">금(Fri)</td>
+                                <td class="py-3 px-4 font-bold text-slate-800">순살 안동찜닭 (당면 듬뿍)</td>
+                                <td class="py-3 px-4 font-bold text-rose-700">눈꽃 치즈 데미글라스 함박스테이크</td>
+                                <td class="py-3 px-4 font-bold text-amber-900">영양 듬뿍 수삼 반계탕</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="space-y-12">
-            <!-- 1. 식당 안내 -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-[#3344aa] pl-3">
-                    교내 식당 (Food Court)
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- 학복 -->
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="flex items-center mb-4">
-                            <span class="bg-orange-100 text-orange-600 p-2 rounded-full mr-3"><i data-lucide="utensils" class="w-5 h-5"></i></span>
-                            <h3 class="font-bold text-lg">학생복지회관 (2호관)</h3>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-4">다양한 메뉴의 푸드코트와 교직원 식당이 있습니다. 가장 붐비는 곳입니다.</p>
-                        <ul class="text-xs text-gray-500 space-y-1">
-                            <li>🕒 운영시간: 08:00 ~ 19:00</li>
-                            <li>⭐ 추천: 왕돈가스, 뚝배기불고기</li>
-                        </ul>
+        <!-- ================= [SPA 탭 2] 천원의 아침밥 『엠마의 식탁』 & 『엠마의 빵』 특별관 (#breakfast) ================= -->
+        <div id="view-breakfast" class="welfare-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-10 border-2 border-emerald-500 shadow-sm space-y-8">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+                    <div>
+                        <span class="bg-emerald-600 text-white text-xs font-black px-3 py-1 rounded-full">제26대 민부선 총장 제1호 복지 공약 · 교비 100% 전액 지원</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900 mt-2">천원의 아침밥 『엠마의 식탁 (Emma's Table)』</h2>
+                        <p class="text-xs md:text-sm text-slate-600 mt-1">"학생들이 아침을 굶는 것은 치유와 포용(Verde)의 정신에 어긋난다" — 정부 사업보다 앞서 도입된 효빈대만의 조식 복지</p>
                     </div>
-                    <!-- 학복타운 -->
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="flex items-center mb-4">
-                            <span class="bg-green-100 text-green-600 p-2 rounded-full mr-3"><i data-lucide="soup" class="w-5 h-5"></i></span>
-                            <h3 class="font-bold text-lg">학생복지타운 (4호관)</h3>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-4">저렴하고 푸짐한 <b>한식 뷔페</b>가 운영됩니다. 자취생들의 성지입니다.</p>
-                        <ul class="text-xs text-gray-500 space-y-1">
-                            <li>🕒 운영시간: 11:00 ~ 14:00 (점심)</li>
-                            <li>⭐ 특징: 계란말이/제육 무한리필</li>
-                        </ul>
-                    </div>
-                    <!-- 정루관 -->
-                    <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-                        <div class="flex items-center mb-4">
-                            <span class="bg-blue-100 text-blue-600 p-2 rounded-full mr-3"><i data-lucide="coffee" class="w-5 h-5"></i></span>
-                            <h3 class="font-bold text-lg">정루관 (북구)</h3>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-4">북구 캠퍼스 학생들을 위한 양식 및 패스트푸드 코너입니다.</p>
-                        <ul class="text-xs text-gray-500 space-y-1">
-                            <li>🕒 운영시간: 09:00 ~ 18:00</li>
-                            <li>⭐ 메뉴: 엠마 샌드위치, 수제버거</li>
-                        </ul>
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-center shrink-0">
+                        <span class="text-[11px] font-bold text-emerald-800 block">재학생·대학원생 결제금액</span>
+                        <strong class="text-3xl font-black text-emerald-700 font-mono-code">1,000원</strong>
+                        <span class="text-[10px] text-slate-500 block mt-0.5">(원가 6,500원 중 5,500원 교비 부담)</span>
                     </div>
                 </div>
-            </section>
 
-            <!-- 2. 건강 및 상담 -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-red-500 pl-3">
-                    건강 및 심리 지원
-                </h2>
-                <div class="bg-white rounded-xl border shadow-sm overflow-hidden flex flex-col md:flex-row">
-                    <div class="md:w-1/2 p-8 border-r border-gray-100">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                            <i data-lucide="stethoscope" class="w-6 h-6 mr-2 text-red-500"></i> 보건진료소 (30호관)
-                        </h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            내과, 외과, 치과 1차 진료 및 투약이 가능합니다. 학생증 지참 시 진료비가 무료입니다.
-                        </p>
-                        <div class="bg-red-50 p-4 rounded text-sm text-red-800">
-                            <b>💡 TMI:</b> 시험 기간에는 두통약과 피로회복제를 찾는 학생들로 문전성시를 이룹니다. 트램 실습 중 다친 교통대 학생들도 자주 옵니다.
-                        </div>
+                <!-- 운영 식당 및 요일별 브런치/한식 메뉴 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="font-black text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded">운영 시간 및 5대 지정 식당</span>
+                        <h4 class="font-black text-sm text-slate-900">매일 아침 07:30 ~ 09:30 (시험기간 주말 포함)</h4>
+                        <ul class="space-y-1 text-slate-600 leading-relaxed">
+                            <li>① <strong>학생복지타운(4동)</strong> 1층 한식뷔페 (일 500식)</li>
+                            <li>② <strong>아와관 기숙사(52동)</strong> 1층 식당 (일 600식)</li>
+                            <li>③ <strong>희다관 기숙사(53동)</strong> 제1식당 (일 400식)</li>
+                            <li>④ <strong>이자 학생회관(I-02)</strong> / ⑤ <strong>천주 복지관(C-02)</strong></li>
+                        </ul>
                     </div>
-                    <div class="md:w-1/2 p-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                            <i data-lucide="smile" class="w-6 h-6 mr-2 text-yellow-500"></i> 학생생활상담센터
-                        </h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            전문 상담심리사가 상주하며 학업, 진로, 대인관계 고민을 나눕니다. (철저한 비밀 보장)
+                    <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
+                        <span class="font-black text-amber-900 bg-amber-200 px-2.5 py-0.5 rounded">화·목요일 : 스위스 알프스 브런치 데이</span>
+                        <h4 class="font-black text-sm text-slate-900">민부선 총장님이 영양사를 닦달해(?) 만든 특식</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            생활과학대학 제과제빵과가 구운 <strong>따끈한 천연발효 호밀빵 & 스위스식 감자 뢰스티(Rösti), 에멘탈 치즈 수프, 스크램블 에그, 베이컨, 이자목장 우유</strong>가 세트로 제공됩니다.
                         </p>
-                        <div class="bg-yellow-50 p-4 rounded text-sm text-yellow-800">
-                            <b>💡 TMI:</b> 윤재훈 사건 당시, 분노 조절에 실패한(?) 학생들이 단체 상담을 신청해 예약이 폭주했던 전설이 있습니다.
-                        </div>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2">
+                        <span class="font-black text-[#1e2a78] bg-blue-200 px-2.5 py-0.5 rounded">월·수·금요일 : 든든 가마솥 한식 데이</span>
+                        <h4 class="font-black text-sm text-slate-900">이자캠퍼스 실습농장 햅쌀 & 한우 사골국</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            갓 지은 이자농장 햅쌀밥과 한우 사골 우거지국/소고기미역국, 계란말이, 김자반, 그리고 축산학과 유가공공장 직송 <strong>수제 그릭요구르트</strong>가 기본 제공됩니다.
+                        </p>
                     </div>
                 </div>
-            </section>
 
-            <!-- 3. 편의 시설 -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-green-600 pl-3">
-                    교내 편의 시설
-                </h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
-                        <i data-lucide="printer" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
-                        <h4 class="font-bold text-gray-700">출력 센터</h4>
-                        <p class="text-xs text-gray-500">도서관, 학생회관</p>
+                <!-- 베르데 홀 '엠마의 샌드위치' & 학생회관 매점 '엠마의 트램 탑승 단팥빵' -->
+                <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 space-y-2.5">
+                        <span class="bg-amber-400 text-slate-950 text-xs font-black px-3 py-0.5 rounded-full">학내 PB 베이커리 · 결식아동 멘토링 100% 기부 상품</span>
+                        <h3 class="text-xl font-black">『엠마의 샌드위치(3,800원)』 & 『엠마의 트램 탑승 통단팥빵·녹차크림빵(1,500원)』</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            베르데 홀(29동) 1층 카페 베르데와 사회복지학대학(7-1동) 분점, 상과대 학생회관 매점(8-3동)에서 판매되는 효빈대의 영혼 같은 빵입니다. 특히 트램 팥빵 상단에는 귀여운 <strong>A선 트램 모양 화이트초콜릿 명판</strong>이 박혀 있으며, 포장지 안에 <strong>HBNU Rail 역대 차량 및 마스코트 홀로그램 띠부띠부씰(총 45종, SSR 백년호 황금 트램 씰 포함)</strong>이 들어 있습니다.<br>
+                            <span class="text-rose-400 font-bold">⚠️ 경고: 2024년 11월 매점에서 초콜릿 명판을 찔러 부수고 씰만 훔쳐 도주한 외부 범인이 교내철도 전 노선 포위망('코드 레드')과 총장님 직접 출격으로 검거되어 100배 징벌적 손해배상을 물었습니다. 빵 훼손 행위는 절대 엄금합니다.</span>
+                        </p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
-                        <i data-lucide="dumbbell" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
-                        <h4 class="font-bold text-gray-700">피트니스 센터</h4>
-                        <p class="text-xs text-gray-500">체육관 1층</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
-                        <i data-lucide="store" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
-                        <h4 class="font-bold text-gray-700">편의점/은행</h4>
-                        <p class="text-xs text-gray-500">각 단과대 로비</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg border hover:bg-gray-50">
-                        <i data-lucide="glasses" class="w-8 h-8 mx-auto mb-2 text-gray-400"></i>
-                        <h4 class="font-bold text-gray-700">안경점/미용실</h4>
-                        <p class="text-xs text-gray-500">학생복지회관</p>
+                    <div class="lg:col-span-4 rounded-xl overflow-hidden border border-white/20">
+                        <img src="이미지/엠마의_빵.webp" alt="엠마의 빵" class="w-full h-44 object-cover" onerror="this.style.display='none'">
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
+
+        <!-- ================= [SPA 탭 3] 보건진료소(30동) · 학생상담센터(효빈톡) · 4대 헬스장 (#clinic) ================= -->
+        <div id="view-clinic" class="welfare-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-rose-600 uppercase tracking-wider">HEALTH CARE, COUNSELING & 4 FITNESS CENTERS</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">보건진료소(30동) · 심리상담센터(효빈톡) · 4대 직영 피트니스 클러스터</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+                    <!-- 보건진료소 -->
+                    <div class="p-6 rounded-2xl bg-rose-50/50 border border-rose-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-rose-600 text-white font-black px-2.5 py-0.5 rounded">제30번 건물 · 모노레일 B11 보건진료소역</span>
+                            <span class="font-bold text-rose-800">재학생·휴학생 진료비 0원</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">🏥 효빈대학교 보건진료소 (내과·외과·치과 1차 진료)</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            전문의 및 전담 간호사가 상주하며 감기·소화제·진통제 무료 처방, 외상 소독, 구강 스케일링, 인바디(InBody) 체성분 측정 및 예방접종을 지원합니다. 중증 질환 발견 시 교내트램 A선으로 5분 거리인 <strong>효빈대학교병원 본관(59동)</strong>으로 즉시 패스트트랙 진료 의뢰가 연결됩니다.
+                        </p>
+                        <div class="p-3 bg-white rounded-xl border border-rose-100 text-slate-600">
+                            <strong>💡 학내 비하인드:</strong> 시험 기간에는 밤샘 야작으로 쓰러진 공대·미대생들의 수액 처치와 초보 실습생 급정거에 놀란 학우들의 파스 처방으로 문전성시를 이룹니다.
+                        </div>
+                    </div>
+
+                    <!-- 심리상담센터 & 효빈톡 -->
+                    <div class="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded">30동 2층 & 사회복지학대학 7-2동</span>
+                            <span class="font-bold text-amber-900">100% 익명·비밀 보장</span>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900">💛 학생생활상담센터 & 또래상담 『효빈톡(Hyobin-Talk)』</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            사회복지학대학 <strong>사회복지상담학과</strong>와 본교 의과대학 출신 <strong>오수아 정신건강의학과 전문의</strong>가 공동 자문하는 멘탈 케어 센터입니다. 학업·진로·대인관계 고민부터 2D 서브컬처 예술치유 요법까지 무료로 지원합니다.
+                        </p>
+                        <div class="p-3 bg-white rounded-xl border border-amber-100 text-slate-600">
+                            <strong>💡 상담원 역(逆)케어 제도:</strong> 남들 멘탈 챙겨주느라 본인 멘탈이 먼저 갈려나가는 사회복지상담학과 상담원 학우들을 위해 매주 금요일 지도교수진의 다과회 및 슈퍼비전이 의무 시행됩니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 교내 4대 직영 헬스장(피트니스) & 수영장 -->
+                <div>
+                    <h3 class="text-lg font-black text-slate-900 mb-3">🏋️ 교내 4대 직영 피트니스(헬스장) & 아쿠아틱 수영장 안내 (월 10,000원)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-1">
+                            <span class="text-[10px] font-black bg-[#3344aa] text-white px-2 py-0.5 rounded">18동 실내체육관</span>
+                            <h4 class="font-black text-sm text-slate-900 mt-1">효빈 중앙 피트니스 & 수영장</h4>
+                            <p class="text-slate-600">교내 최대 규모 웨이트존(파워랙 12대) 및 50m 8레인 공인 실내수영장 '아쿠아틱 센터'.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-1">
+                            <span class="text-[10px] font-black bg-emerald-700 text-white px-2 py-0.5 rounded">7-1동 사회복지학대학 B1</span>
+                            <h4 class="font-black text-sm text-slate-900 mt-1">해피 스마일 짐 (머슬 웰페어)</h4>
+                            <p class="text-slate-600">가슴둘레 97cm 헬창인 <strong>박효빈 시장이 모교 후배들 체력 기르라고 사비 기증한 헬스장</strong>. 아령과 케이블 머신 완비.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-1">
+                            <span class="text-[10px] font-black bg-teal-700 text-white px-2 py-0.5 rounded">35동 교통대학 1층</span>
+                            <h4 class="font-black text-sm text-slate-900 mt-1">레일 머슬(Rail Muscle) 센터</h4>
+                            <p class="text-slate-600">철도운전·정비 실습생들의 코어 및 악력 단련 특화 피트니스 센터.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-1">
+                            <span class="text-[10px] font-black bg-purple-700 text-white px-2 py-0.5 rounded">28동 자연과학대학 B1</span>
+                            <h4 class="font-black text-sm text-slate-900 mt-1">퀀텀 리프트(Quantum Lift)</h4>
+                            <p class="text-slate-600">밤샘 실험으로 굽은 이과생들의 거북목과 척추를 펴주는 3대 중량 운동 성지.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 4] 인권센터 · 장애학생지원센터 · 직장어린이집 (#rights) ================= -->
+        <div id="view-rights" class="welfare-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#1e2a78] uppercase tracking-wider">HUMAN RIGHTS CENTER, DISABILITY SUPPORT & CHILDCARE</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">효빈대학교 인권·성평등센터 및 학내 권익 수호 시스템</h2>
+                    <p class="text-xs text-slate-500 mt-1">📍 위치: 대학본부(1동) 2층 인권센터 & 3층 법무감사실 직통 연동 · 핫라인: 079-550-0112</p>
+                </div>
+
+                <!-- 민부선 총장 무관용 방패 원칙 선언 박스 -->
+                <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-8 space-y-4 border-l-8 border-rose-500">
+                    <span class="bg-rose-600 text-white text-xs font-black px-3 py-1 rounded-full">제26대 민부선 총장 직속 『학내 폭력·성비위·대학사칭 무관용 Lock-On 원칙』</span>
+                    <h3 class="text-xl font-black">"학교가 당신의 가장 크고 단단한 방패가 되어 주겠습니다. 가해자에게 선처와 합의는 없습니다."</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300 leading-relaxed pt-2">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <strong class="text-[#99dd88] block mb-1">⚖️ [사례 1] 교내 권력형 비위 및 성범죄 협박 단죄 (2023~2024)</strong>
+                            국가근로 시급 삭감으로 고통받던 학우(고노애)를 협박한 가해 학생 3인방(조창렬·이송윤·전개욱)을 학생상벌위원회에서 <strong>단 1초의 망설임 없이 영구 출교(학적 말살)</strong>하고 <strong>대법원 징역 19년 확정 및 30억 원 민사 가압류</strong>로 응징하였으며, 2차 가해를 자행한 안농운 전 교수를 즉각 파면(특경법 횡령 적발 징역 30년 확정)했습니다.
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <strong class="text-[#a0fff9] block mb-1">⚖️ [사례 2] 본교 과잠·학생증 도용 외부 성범죄자 단죄 (2025~2026)</strong>
+                            중고 사이트에서 본교 사범대 체육교육과 과잠을 사 입고 학력·생일을 위조해 사회복지학대학 학우(마서령)를 위협하고 에브리타임에 허위 루머를 유포한 타 부실대 제적생(추한석)을 <strong>대법원 징역 15년·전자발찌 15년</strong>으로 영구 격리하고, 피해 학우를 본교 부설 종합사회복지관(7-3동) 정식 사회복지사로 특별 채용해 완벽히 보호했습니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 장애학생지원센터 & 효빈대 어린이집 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-[#3344aa] text-white font-black px-2.5 py-0.5 rounded">사회복지학대학(7-1동) 1층</span>
+                        <h4 class="text-base font-black text-slate-900">♿ 장애학생지원센터 & 배리어프리(Barrier-Free) 캠퍼스</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            언덕이 없는 평지 캠퍼스 지형과 100% 초저상 트램(A선)·엘리베이터 완비 모노레일(B선)을 연계하여 휠체어 이용 학우의 이동권을 보장합니다. 중앙 봉사동아리 <strong>『손말사랑』</strong> 및 사범대학 특수교육과와 협력하여 대필·수어 통역·점자 교재를 전액 무료 지원합니다.
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <span class="bg-emerald-700 text-white font-black px-2.5 py-0.5 rounded">제33번 건물 · 트램 A06 토목대 복지관역</span>
+                        <h4 class="text-base font-black text-slate-900">👶 효빈대학교 어린이집 (교직원·대학원생·학부생 부부 보육지원)</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            생활과학대학 아동가족학과 및 사범대학 유아교육과 교수진이 교육 프로그램을 감수하는 친환경 직장·학내 어린이집입니다. 기숙사 2단지(54동 가족동반기숙사)에 거주하는 기혼 대학원생 및 학부생 자녀를 최우선 입소 지원합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= [SPA 탭 5] 생활협동조합(생협) · 4대 편의점(17개소) · 특수 문화편의시설 (#coop) ================= -->
+        <div id="view-coop" class="welfare-view hidden fade-in space-y-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-extrabold text-[#3344aa] uppercase tracking-wider">UNIVERSITY CO-OP, 17 CONVENIENCE STORES & SPECIAL AMENITIES</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-0.5">소비자생활협동조합(생협) · 4대 편의점 세력권 · 이색 문화복지 시설 총람</h2>
+                    <p class="text-xs text-slate-500 mt-1">📍 생협 본부: 학생복지회관(2동) 2층 · 수익금 전액 학식 인하 및 장학금으로 환원</p>
+                </div>
+
+                <!-- 교내 4대 편의점 브랜드별 입점 건물 완비 -->
+                <div>
+                    <h3 class="text-base font-black text-slate-900 mb-3">🏪 교내 4대 편의점 브랜드별 입점 건물 안내 (당선본캠 17개소 + 타 캠퍼스 8개소)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-2xl border-2 border-purple-200 bg-purple-50/30 space-y-2">
+                            <span class="store-badge badge-cu">CU (총 11개소)</span>
+                            <p class="text-slate-700 leading-relaxed font-medium">
+                                • <strong>당선본캠(7):</strong> 학생복지회관(2동), 학생복지타운(4동), 사회복지학대학(7-1동), 기계공업대 4호관(14-4동), 중앙도서관(23동), 니나관 기숙사(51동), <strong>애니-철도 박물관(58동 · 한정판 교통카드 특화점)</strong><br>
+                                • <strong>타캠퍼스(4):</strong> 이자(I-02·I-19), 천주(C-02), 낭원(N-11), 강주(G-12)
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-2xl border-2 border-blue-200 bg-blue-50/30 space-y-2">
+                            <span class="store-badge badge-gs25">GS25 (총 5개소)</span>
+                            <p class="text-slate-700 leading-relaxed font-medium">
+                                • <strong>당선본캠(3):</strong> 상과대학 2호관(8-2동), 인문대학 2호관(9-2동), <strong>효빈대 중앙환승장 지하몰(A09/B06역)</strong><br>
+                                • <strong>타캠퍼스(2):</strong> 이자 통합행정관(I-01), 천주 아이관 기숙사(C-14)
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-2xl border-2 border-amber-200 bg-amber-50/30 space-y-2">
+                            <span class="store-badge badge-emart24">이마트24 (총 7개소)</span>
+                            <p class="text-slate-700 leading-relaxed font-medium">
+                                • <strong>당선본캠(5):</strong> 화학공업대 1호관(17-1동), 대운동장(21동), 자연과학대 2호관(28-2동), <strong>베르데 홀(29동)</strong>, 간호대학(48동)<br>
+                                • <strong>타캠퍼스(2):</strong> 이자 생명관(I-07), 낭원 복지관(N-02)
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/30 space-y-2">
+                            <span class="store-badge badge-7eleven">세븐일레븐 (총 3개소)</span>
+                            <p class="text-slate-700 leading-relaxed font-medium">
+                                • <strong>당선본캠(2):</strong> 기숙사 2단지 가족·대학원 생활관(54동 · 심야 야식 거점), 효빈대학교병원 본관(59동)<br>
+                                • <strong>타캠퍼스(1):</strong> 강주 학생복지관(G-02)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 효빈대만의 8대 이색 문화·편의·상업 시설 -->
+                <div>
+                    <h3 class="text-base font-black text-slate-900 mb-3">✨ 오직 효빈대학교에서만 만날 수 있는 8대 스페셜 복지·상업 인프라</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-[#1e2a78]">🍲 두끼 떡볶이 효빈대점 (7-3동)</div>
+                            <p class="text-slate-600">부설 종합사회복지관 1층 입점. 사회복지대 학우들과 엘린센터 멘토링 아이들의 소울푸드 성지.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-rose-700">🩸 서브컬처 콜라보 헌혈의 집 (4동)</div>
+                            <p class="text-slate-600">학생복지타운 입점. 헌혈 시 한정판 애니메이션·철도 마스코트 클리어파일과 굿즈를 증정해 전국 대학 헌혈률 1위 기록.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-purple-800">🎤 싱크룸 방음 코인노래방 (4동)</div>
+                            <p class="text-slate-600">야마하 초저지연 온라인 합주(Syncroom) 장비와 TJ/금영 일본어 원곡 반주기가 완비된 코인노래방.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-indigo-800">🎮 교내 e스포츠 아레나 & 리페어 존 (45동)</div>
+                            <p class="text-slate-600">전산교육관 내 100석 규모 e스포츠 경기장 및 노트북·아이패드·스마트폰 당일 수리센터.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-teal-800">🎬 목요시네마 『뮤즈($\mu$'s) 홀』 (22동)</div>
+                            <p class="text-slate-600">박물관 대강당에서 매주 목요일 18:30 무료 상영. 응원상영 회차 시 형광봉(블레이드) 지참 필수.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-amber-900">👔 무료 면접 정장 대여소 (빛날관 44동)</div>
+                            <p class="text-slate-600">취업 면접을 앞둔 재학생에게 의류의상학과가 피팅한 고급 정장·구두·넥타이를 3박 4일 무상 대여.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-emerald-800">🛴 킥보드·자전거 수리소 『기어스』 (53동)</div>
+                            <p class="text-slate-600">기숙사 1단지 입점. 광활한 평지 캠퍼스 필수품인 자전거와 전동 킥보드 타이어·배터리를 실비 수리.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-black text-sm text-slate-900">📚 방도도서관 구내서점 & 대형문구점 (36·42동)</div>
+                            <p class="text-slate-600">전공 원서와 라이트노벨 코너가 공존하는 방도리 서점(36동) 및 건축 모형 재료 완비 대형 문구점(42동).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 공통 푸터 영역 (common.js 렌더링) -->
     <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+
     <script src="common.js"></script>
+    <script>
+        // ================= 학생복지회관 1층 푸드코트 5대 코너 33종 마스터 데이터베이스 =================
+        const HAKBOK_CORNERS_DB = [
+            {
+                code: "A",
+                badge: "코너 A · 정통 한식",
+                title: "🍚 하나요의 하얀 쌀밥 가마솥",
+                subtitle: "누구보다 흰쌀밥을 사랑하는 아이돌(코이즈미 하나요)의 정신을 이어받은 든든한 한식 코너 · 이자농장 햅쌀 고봉밥 제공",
+                headerBg: "bg-amber-600",
+                menus: [
+                    { name: "효빈 제육덮밥", price: "4,000원", best: true, desc: "학복 부동의 매출 1위. 단돈 4천 원에 고봉밥과 불향 제육을 산처럼 쌓아준다. (식권 발매기 버튼이 닳아 있을 정도)" },
+                    { name: "해물 순두부찌개", price: "4,000원", best: false, desc: "얼큰한 국물에 부들부들한 순두부와 바지락, 계란이 들어간 쌀쌀한 날 1순위 메뉴." },
+                    { name: "돼지고기 김치찌개", price: "4,500원", best: true, desc: "뚝배기에 펄펄 끓여 나오며 중앙환승장·대학로에서 전날 술 달린 학생들의 해장용 1순위." },
+                    { name: "우삼겹 된장찌개", price: "4,700원", best: false, desc: "우삼겹이 아낌없이 들어가 국물의 구수함과 진함이 차원이 다른 메뉴." },
+                    { name: "전주식 돌솥비빔밥", price: "5,000원", best: false, desc: "지글지글 누룽지 소리와 풍성한 나물 라인업으로 자취생들의 영양 보충을 책임진다." },
+                    { name: "철판 치즈 닭갈비 덮밥", price: "5,000원", best: true, desc: "뜨거운 철판 위 매콤한 닭갈비와 모짜렐라 치즈가 쫙 늘어나는 인기 메뉴." },
+                    { name: "뚝배기 불고기 (뚝불)", price: "5,000원", best: false, desc: "달달한 육수에 당면 건져 먹는 맛이 일품. 밥 추가 시 이모님이 산처럼 퍼주신다." },
+                    { name: "사골 우거지 국밥", price: "4,300원", best: false, desc: "아침 1교시를 들으러 온 학생들의 얼어붙은 몸을 녹여주는 구세주." }
+                ]
+            },
+            {
+                code: "B",
+                badge: "코너 B · 중식 & 아시안",
+                title: "🍜 쿠쿠의 웍 (Keke's Wok)",
+                subtitle: "탕 쿠쿠의 고향 상하이·사천의 불맛을 재현한 중식 코너 · 교내트램 A선(쿠쿠선)을 타고 와서 먹으면 감동이 두 배!",
+                headerBg: "bg-teal-600",
+                menus: [
+                    { name: "옛날 짜장면", price: "3,500원", best: false, desc: "학생식당 최저가 라인. 주머니 사정이 가벼운 월말에 인기가 급상승한다." },
+                    { name: "불맛 해물 짬뽕", price: "4,500원", best: true, desc: "오징어와 홍합이 알차게 들어있어 기계공업대학 학생들이 철야 작업 후 땀 흘리며 먹는 단골 메뉴." },
+                    { name: "탕수육 정식 (1인 세트)", price: "5,500원", best: true, desc: "미니 등심 탕수육 + 계란볶음밥 + 짬뽕국물 세트. 배식 속도상 '부먹'으로 제공된다." },
+                    { name: "새우 볶음밥", price: "5,000원", best: false, desc: "센 불에 볶아 고슬고슬한 밥알이 특징이며 짜장 소스가 함께 곁들여진다." },
+                    { name: "필리핀식 치킨 아도보", price: "5,500원", best: true, desc: "짭조름하고 새콤한 닭고기 조림 덮밥. 필리핀어학과 교수진과 박효빈 시장, 나수미 학우가 극찬한 글로벌 특식!" },
+                    { name: "차돌 마라탕면", price: "6,000원", best: false, desc: "얼얼한 마라 맛이 강렬해 시험 스트레스 받은 날 땀 빼기 최고다." }
+                ]
+            },
+            {
+                code: "C",
+                badge: "코너 C · 돈까스 & 양식",
+                title: "🍴 마리의 샤이니(Shiny) 레스토랑",
+                subtitle: "민부선 총장님의 오시 오하라 마리 테마 양식 코너 · 먹는 순간 '샤이니~!'를 외치게 되는 압도적 크기와 가성비",
+                headerBg: "bg-purple-700",
+                menus: [
+                    { name: "효빈 왕돈까스", price: "5,000원", best: true, desc: "식판을 덮는 크기로 압도한다. 다 먹으면 오후 수업 때 식곤증으로 기절할 확률이 높다." },
+                    { name: "고구마 치즈 돈까스 (고치돈)", price: "5,500원", best: true, desc: "썰면 달콤한 고구마 무스와 모짜렐라 치즈가 폭포수처럼 흘러내리는 여학생 인기 1위 메뉴." },
+                    { name: "치즈 듬뿍 오븐 스파게티", price: "5,500원", best: false, desc: "피자집 미트소스 오븐 스파게티 맛 그대로. 그릇 화상 주의." },
+                    { name: "치킨 가라아게 카레", price: "5,300원", best: false, desc: "진한 일본식 카레 위에 바삭한 가라아게 4조각 토핑. 카레 및 밥 1회 리필 무료!" },
+                    { name: "수제 등심 돈까스", price: "5,500원", best: false, desc: "왕돈까스보다 고기 두께가 두툼한 일식 돈카츠 스타일로 찍먹 소스가 별도 제공된다." },
+                    { name: "오므라이스 & 그릴 소시지", price: "5,000원", best: false, desc: "몽글몽글한 계란 지단 위에 큼지막한 칼집 그릴 소시지가 올라간다." }
+                ]
+            },
+            {
+                code: "D",
+                badge: "코너 D · 스낵 & 분식",
+                title: "🌶️ 세츠나의 스칼렛 파이어 분식",
+                subtitle: "유키 세츠나의 열정처럼 불타오르는 매운맛 분식 코너 (※ 세츠나 본인이 요리하지는 않으니 안심하고 드셔도 됩니다)",
+                headerBg: "bg-rose-600",
+                menus: [
+                    { name: "신라면 & 공기밥", price: "3,000원", best: false, desc: "화력 좋은 업소용 화구에서 계란 하나를 예쁘게 풀어 끓여준다." },
+                    { name: "치즈 국물 떡볶이", price: "3,500원", best: true, desc: "맵단짠 국물 떡볶이. 사회복지대 학우들이 멘토링 아동들 데려와 사주기 딱 좋다." },
+                    { name: "매콤 새콤 쫄면", price: "3,500원", best: true, desc: "코너 C 왕돈까스와 함께 시켜 '쫄돈'으로 조합해 먹는 고인물들이 많다." },
+                    { name: "찰순대 한 접시", price: "2,500원", best: false, desc: "소금·초장·쌈장·막장이 모두 비치되어 전국 팔도 찍먹 논쟁이 벌어지는 메뉴." },
+                    { name: "모듬 튀김 (3종)", price: "2,000원", best: false, desc: "김말이, 오징어, 고구마튀김 구성. 떡볶이 국물 찍먹용 필수 조연." },
+                    { name: "참치마요 주먹밥", price: "2,000원", best: false, desc: "성인 주먹 두 개를 합쳐놓은 듯한 든든한 사이즈." },
+                    { name: "야채 김밥", price: "2,500원", best: false, desc: "포장이 빨라 모노레일 B선 연강 환승할 때 들고 뛰기 좋다." }
+                ]
+            },
+            {
+                code: "E",
+                badge: "코너 E · 우동 & 냉면",
+                title: "🍲 토모에의 소이야! 제면소",
+                subtitle: "우다가와 토모에의 호쾌한 타격감(소이야!)처럼 쫄깃한 면발과 전 코너 중 가장 빠른 회전율을 자랑하는 면 요리 전문점",
+                headerBg: "bg-[#3344aa]",
+                menus: [
+                    { name: "효빈 가락우동", price: "3,000원", best: false, desc: "휴게소 우동 감성 그대로. 트램 환승 시간 10분 남았을 때 후루룩 마시고 가기 좋다." },
+                    { name: "새우튀김 어묵우동", price: "4,000원", best: true, desc: "커다란 왕새우 튀김 1개와 수제 꼬치 어묵이 통째로 들어간 호화판 우동." },
+                    { name: "얼큰 김치 냄비우동", price: "4,500원", best: false, desc: "양은 냄비에 김치와 얼큰한 다대기를 풀어 끓여내는 중독성 강한 맛." },
+                    { name: "돌솥 알밥 정식 (미니우동 포함)", price: "5,000원", best: true, desc: "톡톡 터지는 날치알 돌솥 알밥에 미니 우동까지 세트로 나오는 혜자 메뉴." },
+                    { name: "살얼음 동동 물냉면", price: "4,500원", best: false, desc: "겨울에도 냉면을 내놓으라는 얼죽아 학우들의 민원으로 사계절 상시 판매." },
+                    { name: "매콤새콤 비빔냉면", price: "4,500원", best: false, desc: "고깃집 후식 냉면 이상의 퀄리티. 왕만두 2개 추가(+1,500원) 필수." }
+                ]
+            }
+        ];
+
+        const TAB_TITLES = {
+            meal: "전 캠퍼스 식단안내 및 다이닝 총람",
+            breakfast: "천원의 아침밥 『엠마의 식탁』 & 『엠마의 빵』",
+            clinic: "보건진료소(30동) · 심리상담(효빈톡) · 4대 피트니스",
+            rights: "인권·성평등센터 · 장애학생지원 · 어린이집",
+            coop: "소비자생활협동조합(생협) · 17개 편의점 · 이색 편의시설"
+        };
+
+        let activeCornerFilter = 'ALL';
+
+        // ★ 상단 common.js 메가메뉴에서 '식단안내', '천원의아침(식단)', '보건진료소', '인권센터', '생활협동조합' 클릭 시
+        // 새로고침 없이 즉시 해당 SPA 탭으로 전환시키는 글로벌 클릭 인터셉터 ★
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+            const txt = (btn.innerText || '').trim();
+            const menuToTab = {
+                "식단안내": "meal",
+                "천원의아침(식단)": "breakfast",
+                "보건진료소": "clinic",
+                "인권센터": "rights",
+                "생활협동조합": "coop"
+            };
+            if (menuToTab[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                switchWelfareTab(menuToTab[txt]);
+            }
+        }, true);
+
+        function switchWelfareTab(tabKey) {
+            const validKey = TAB_TITLES[tabKey] ? tabKey : 'meal';
+            document.querySelectorAll('.welfare-view').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById('view-' + validKey);
+            if (targetView) targetView.classList.remove('hidden');
+
+            Object.keys(TAB_TITLES).forEach(k => {
+                const btn = document.getElementById('tab-btn-' + k);
+                if (!btn) return;
+                const extraCol = k === 'coop' ? 'col-span-2 sm:col-span-1 ' : '';
+                if (k === validKey) {
+                    btn.className = `welfare-tab-btn ${extraCol}px-3 py-3 rounded-xl text-xs md:text-sm font-extrabold bg-[#3344aa] text-white flex items-center justify-center gap-1.5 transition-all shadow-sm`;
+                } else {
+                    btn.className = `welfare-tab-btn ${extraCol}px-3 py-3 rounded-xl text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5 transition-all`;
+                }
+            });
+
+            const bread = document.getElementById('welfare-breadcrumb');
+            if (bread) bread.innerText = TAB_TITLES[validKey];
+
+            if (window.location.hash !== '#' + validKey) {
+                history.replaceState(null, null, '#' + validKey);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function filterHakbokCorner(cornerCode) {
+            activeCornerFilter = cornerCode;
+            document.querySelectorAll('.hb-corner-btn').forEach(btn => {
+                if (btn.getAttribute('data-corner') === cornerCode) {
+                    btn.className = "hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-black bg-[#1e2a78] text-white shadow-sm";
+                } else {
+                    btn.className = "hb-corner-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            });
+            renderHakbokCorners();
+        }
+
+        function renderHakbokCorners() {
+            const root = document.getElementById('hakbok-corners-root');
+            if (!root) return;
+            const filtered = HAKBOK_CORNERS_DB.filter(c => activeCornerFilter === 'ALL' || c.code === activeCornerFilter);
+
+            root.innerHTML = filtered.map(c => `
+                <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="${c.headerBg} text-white px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="text-[10px] font-black bg-black/25 px-2 py-0.5 rounded uppercase">${c.badge}</span>
+                            <h4 class="text-base md:text-lg font-black mt-0.5">${c.title}</h4>
+                        </div>
+                        <p class="text-xs text-white/90 font-medium">${c.subtitle}</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 bg-slate-50/60">
+                        ${c.menus.map(m => `
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex items-start justify-between gap-3 hover:border-[#3344aa] transition-colors">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-black text-sm text-slate-900">${m.name}</span>
+                                        ${m.best ? '<span class="bg-rose-100 text-rose-600 text-[10px] font-black px-1.5 py-0.5 rounded">인기</span>' : ''}
+                                    </div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">${m.desc}</p>
+                                </div>
+                                <span class="font-mono-code font-black text-sm text-[#3344aa] bg-blue-50 px-2.5 py-1 rounded-lg shrink-0">${m.price}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function scrollToDiningZone(zoneId) {
+            const el = document.getElementById(zoneId);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[h]) switchWelfareTab(h);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHakbokCorners();
+            const initHash = window.location.hash.replace('#', '').trim();
+            if (TAB_TITLES[initHash]) {
+                switchWelfareTab(initHash);
+            } else {
+                switchWelfareTab('meal');
+            }
+        });
+    </script>
 </body>
 </html>

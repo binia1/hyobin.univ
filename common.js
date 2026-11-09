@@ -51,21 +51,23 @@ const OLD_URLS = {
     "StudentSupport": "hbnu_global.html",
     "Student Support": "hbnu_global.html",
 
-    // 3. 연구 / 산학
-    "연구뉴스": "hbnu_research.html",
-    "연구뉴스/성과": "hbnu_research.html",
-    "연구성과": "hbnu_research.html",
-    "연구처": "hbnu_research.html",
-    "연구소 현황": "hbnu_research.html",
-    "연구소현황": "hbnu_research.html",
-    "산학협력단": "hbnu_research.html",
-    "현장실습지원센터": "hbnu_research.html",
-    "기술비즈니스센터": "hbnu_research.html",
-    "창업교육센터": "hbnu_research.html",
-    "사업단 현황": "hbnu_research.html",
+    // 3. 연구 / 산학 (★ 11개 전 항목 각각 고유한 SPA 탭 해시로 1:1 완벽 매핑!)
+    "연구뉴스": "hbnu_research.html#news",
+    "연구뉴스/성과": "hbnu_research.html#news",
+    "연구성과": "hbnu_research.html#news",
+    "연구처": "hbnu_research.html#office",
+    "연구소 현황": "hbnu_research.html#institutes",
+    "연구소현황": "hbnu_research.html#institutes",
+    "산학협력단": "hbnu_research.html#iacf",
+    "현장실습지원센터": "hbnu_research.html#internship",
+    "기술비즈니스센터": "hbnu_research.html#tlo",
+    "창업교육센터": "hbnu_research.html#startup",
+    "사업단 현황": "hbnu_research.html#projects",
+    "사업단현황": "hbnu_research.html#projects",
     "학술DB": "hbnu_library.html",
-    "공동실험실습관": "hbnu_research.html",
-    "연구자 정보": "hbnu_research.html",
+    "공동실험실습관": "hbnu_research.html#labs",
+    "연구자 정보": "hbnu_research.html#researchers",
+    "연구자정보": "hbnu_research.html#researchers",
 
     // 4. 학사안내
     "교양과목": "Hbnu_general_edu.html",
@@ -76,14 +78,15 @@ const OLD_URLS = {
     "복수/연계전공": "Hbnu_general_edu.html",
     "교직과정": "Hbnu_general_edu.html",
     "수강신청": "hbnu_sugang.html",
-    "시험성적": "hbnu_grade_check.html",
-    "시험/성적": "hbnu_grade_check.html",
-    "강의평가": "hbnu_grade_check.html",
-    "졸업학점관리": "hbnu_grade_check.html",
-    "졸업/논문심사": "hbnu_grade_check.html",
-    "조기졸업": "hbnu_grade_check.html",
-    "논문심사": "hbnu_grade_check.html",
-    "학사일정안내": "hbnu_calendar.html#calendar",
+// common.js 내 4. 학사안내 중 성적/졸업/논문 파트 (각 탭으로 즉시 직행!)
+    "시험성적": "hbnu_grade_check.html#grade",
+    "시험/성적": "hbnu_grade_check.html#grade",
+    "강의평가": "hbnu_grade_check.html#eval",
+    "졸업학점관리": "hbnu_grade_check.html#grad",
+    "졸업/논문심사": "hbnu_grade_check.html#thesis",
+    "조기졸업": "hbnu_grade_check.html#early",
+    "논문심사": "hbnu_grade_check.html#thesis",
+        "학사일정안내": "hbnu_calendar.html#calendar",
     "타대학교류": "hbnu_calendar.html#exchange",
     "휴학 복학": "hbnu_calendar.html#status",
     "휴학복학": "hbnu_calendar.html#status",
@@ -103,6 +106,9 @@ const OLD_URLS = {
     // 5. 대학생활 및 복지
     "식단안내": "hbnu_welfare.html",
     "천원의아침(식단)": "hbnu_welfare.html",
+        "보건진료소": "hbnu_welfare.html",
+    "인권센터": "hbnu_welfare.html",
+    "생활협동조합": "hbnu_welfare.html",
     "기숙형대학": "hbnu_dorm.html",
     "생활관": "hbnu_dorm.html",
     "생활관(기숙사)": "hbnu_dorm.html",
@@ -114,9 +120,6 @@ const OLD_URLS = {
     "중앙도서관": "hbnu_library.html",
     "중앙·방도도서관": "hbnu_library.html",
     "방도도서관": "hbnu_library.html",
-    "보건진료소": "hbnu_welfare.html",
-    "인권센터": "hbnu_welfare.html",
-    "생활협동조합": "hbnu_welfare.html",
     "캠퍼스타운": "hbnu_campus.html",
     "교내교통시스템": "교내교통시스템.html",
     "교내철도(HBNU Rail)": "교내교통시스템.html",
@@ -287,14 +290,20 @@ const globalState = { language: localStorage.getItem('hbnu_lang') || 'KOR', scro
 
 function navigateTo(url) {
     if (!url) return;
+    // 모바일 메뉴가 열려있다면 자동으로 닫아줌
+    if (globalState.isMenuOpen) {
+        globalState.isMenuOpen = false;
+        renderHeader();
+    }
     const target = (url.includes('.html') && !url.startsWith('hbnu_') && !url.includes('?') && !url.includes('#'))
         ? getMenuUrl(url.replace(/\.html$/i, ''))
         : url;
     try {
         window.location.href = target;
         // 동일 페이지 내 해시(#) 전환 시 즉시 SPA 뷰 갱신 트리거
-        if (target.includes('#') && typeof window.handleAboutHashChange === 'function') {
-            setTimeout(() => window.handleAboutHashChange(), 10);
+        if (target.includes('#')) {
+            if (typeof window.handleAboutHashChange === 'function') setTimeout(() => window.handleAboutHashChange(), 10);
+            if (typeof window.handleResearchHashChange === 'function') setTimeout(() => window.handleResearchHashChange(), 10);
         }
     } catch (e) { console.warn('Navigation:', e); }
 }
