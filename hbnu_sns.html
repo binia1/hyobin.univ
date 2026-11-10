@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>효빈대학교 공식 SNS 미디어 허브 (HBNU Social Media Hub)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f1f5f9; color: #1e293b; word-break: keep-all; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+        /* SNS 탭 버튼 트랜지션 */
+        .sns-tab { transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0.65; border-bottom: 3px solid transparent; }
+        .sns-tab:hover { opacity: 1; transform: translateY(-2px); }
+        .sns-tab.active { opacity: 1; font-weight: 900; }
+        .sns-tab.active-insta { border-color: #E1306C; color: #E1306C; background-color: #fdf2f8; }
+        .sns-tab.active-youtube { border-color: #FF0000; color: #FF0000; background-color: #fef2f2; }
+        .sns-tab.active-x { border-color: #0f172a; color: #0f172a; background-color: #f1f5f9; }
+        .sns-tab.active-naver { border-color: #03C75A; color: #03C75A; background-color: #f0fdf4; }
+        .sns-tab.active-fb { border-color: #1877F2; color: #1877F2; background-color: #eff6ff; }
+
+        /* SPA 뷰 전환 */
+        .sns-view { display: none; animation: fadeInView 0.3s ease-out forwards; }
+        .sns-view.active { display: block; }
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 인스타그램 스토리 링 & 그리드 */
+        .insta-story-ring { padding: 3px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-radius: 9999px; }
+        .insta-grid-item { position: relative; aspect-ratio: 1 / 1; overflow: hidden; cursor: pointer; }
+        .insta-grid-item .overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.65); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; color: white; font-weight: 800; gap: 18px; }
+        .insta-grid-item:hover .overlay { opacity: 1; }
+
+        /* 네이버 블로그 컬러 */
+        .naver-green { color: #03C75A; }
+        .naver-bg { background-color: #03C75A; }
+
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e2a78; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- ===================================================================== -->
+    <!-- 최상단 학교 공식 홈페이지 복귀 글로벌 바 (어느 SNS에 있든 즉시 복귀 가능) -->
+    <!-- ===================================================================== -->
+    <header class="bg-[#1e2a78] text-white sticky top-0 z-50 shadow-md border-b border-indigo-900">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-full bg-white p-1 flex items-center justify-center shadow-sm">
+                        <img src="이미지/효빈대_로고.webp" alt="효빈대학교 로고" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-black text-base tracking-tight group-hover:text-[#99dd88] transition-colors">효빈대학교</span>
+                            <span class="text-[10px] font-black bg-[#4caf50] text-white px-2 py-0.5 rounded-full">OFFICIAL SNS HUB</span>
+                        </div>
+                        <p class="text-[11px] text-indigo-200">Hyobin National University Social Media Center</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 학교 공식 홈페이지 복귀 버튼 그룹 -->
+            <div class="flex items-center gap-2 text-xs">
+                <a href="index.html" class="bg-[#4caf50] hover:bg-emerald-600 text-white font-black px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all">
+                    <i data-lucide="home" class="w-4 h-4"></i> 효빈대학교 공식 홈페이지로 돌아가기
+                </a>
+                <a href="hbnu_main.html" class="bg-white/10 hover:bg-white/20 text-white font-bold px-3 py-2 rounded-xl border border-white/20 hidden sm:flex items-center gap-1 transition-all">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i> HBNU 포털(hbnu.ac.kr)
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 서브 히어로 배너 -->
+    <section class="bg-gradient-to-r from-[#11194d] via-[#1e2a78] to-[#153e4b] text-white py-8 px-4 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-1.5 bg-white/10 px-3 py-0.5 rounded-full text-xs font-bold text-emerald-300 mb-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> 홍보소통실 학생홍보대사 『효빈톡톡(HBNU Talk)』 직영
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-black tracking-tight">HBNU 공식 소셜 미디어 라운지</h1>
+                <p class="text-xs sm:text-sm text-indigo-100 mt-1">
+                    당선본캠·이자·천주·낭원·강주 5대 캠퍼스의 실시간 학사공지, 교내철도(A선 트램·B선 모노레일) 운행 속보, HAF 축제와 학우들의 일상을 만나보세요.
+                </p>
+            </div>
+            <!-- 노선 컬러 퀵 배지 -->
+            <div class="flex flex-wrap gap-1.5 text-[11px] font-black shrink-0">
+                <span class="px-2.5 py-1 rounded-lg text-white shadow-sm" style="background-color: #00CCAA;">2호선 효빈대역(하루빈)</span>
+                <span class="px-2.5 py-1 rounded-lg text-white shadow-sm" style="background-color: #EE0022;">5호선 소조·당선역(미소하)</span>
+                <span class="px-2.5 py-1 rounded-lg text-white shadow-sm" style="background-color: #FF8899;">7호선 효빈대입구역(임세정·임세하)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메인 워크스페이스 -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- 5대 SNS 탭 네비게이션 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1.5 mb-6 grid grid-cols-5 gap-1.5 sticky top-16 z-40">
+            <button onclick="switchSns('insta')" id="tab-insta" class="sns-tab active active-insta rounded-xl py-2.5 px-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <i data-lucide="instagram" class="w-5 h-5 text-[#E1306C]"></i>
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-black">Instagram</div>
+                    <div class="text-[10px] text-slate-400 hidden md:block">@hbnu_official · 45.2만</div>
+                </div>
+            </button>
+            <button onclick="switchSns('youtube')" id="tab-youtube" class="sns-tab rounded-xl py-2.5 px-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <i data-lucide="youtube" class="w-5 h-5 text-[#FF0000]"></i>
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-black">YouTube</div>
+                    <div class="text-[10px] text-slate-400 hidden md:block">효빈대학교 HBNU · 28.4만</div>
+                </div>
+            </button>
+            <button onclick="switchSns('x')" id="tab-x" class="sns-tab rounded-xl py-2.5 px-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <span class="font-black text-base leading-none text-slate-900">𝕏</span>
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-black">X (Twitter)</div>
+                    <div class="text-[10px] text-slate-400 hidden md:block">@HBNU_Official · 실시간속보</div>
+                </div>
+            </button>
+            <button onclick="switchSns('naver')" id="tab-naver" class="sns-tab rounded-xl py-2.5 px-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <span class="w-5 h-5 rounded bg-[#03C75A] text-white font-black text-xs flex items-center justify-center">N</span>
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-black">Naver Blog</div>
+                    <div class="text-[10px] text-slate-400 hidden md:block">효빈대 공식블로그 · 1.4만</div>
+                </div>
+            </button>
+            <button onclick="switchSns('fb')" id="tab-fb" class="sns-tab rounded-xl py-2.5 px-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <i data-lucide="facebook" class="w-5 h-5 text-[#1877F2]"></i>
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-black">Facebook</div>
+                    <div class="text-[10px] text-slate-400 hidden md:block">효빈대학교 · 12만</div>
+                </div>
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- [1] INSTAGRAM 뷰 (피드 9종 클릭 상세모달 + 스토리 하이라이트 6종 작동) -->
+        <!-- ================================================================= -->
+        <div id="view-insta" class="sns-view active bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden max-w-4xl mx-auto">
+            <!-- 인스타 프로필 헤더 -->
+            <div class="p-6 sm:p-8 border-b flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
+                <div onclick="openStoryModal(0)" class="insta-story-ring w-28 h-28 sm:w-36 sm:h-36 flex-shrink-0 cursor-pointer hover:scale-105 transition-transform" title="클릭하여 오늘의 스토리 보기">
+                    <div class="w-full h-full rounded-full border-4 border-white bg-white overflow-hidden flex items-center justify-center p-2">
+                        <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="효빈대 로고">
+                    </div>
+                </div>
+                <div class="flex-1 w-full text-center sm:text-left">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+                        <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">hbnu_official</h2>
+                            <i data-lucide="badge-check" class="w-5 h-5 text-blue-500 fill-blue-500 text-white"></i>
+                        </div>
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="toggleFollowBtn(this)" class="bg-[#0095f6] hover:bg-blue-600 text-white font-bold text-xs px-5 py-1.5 rounded-lg transition">팔로우</button>
+                            <a href="index.html" class="bg-slate-100 hover:bg-slate-200 font-bold text-xs px-4 py-1.5 rounded-lg text-slate-800 transition flex items-center gap-1">
+                                <i data-lucide="building-2" class="w-3.5 h-3.5"></i> 대학 홈페이지
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex justify-center sm:justify-start gap-6 mb-4 text-sm">
+                        <span>게시물 <strong class="font-black">1,284</strong></span>
+                        <span>팔로워 <strong class="font-black" id="insta-follower-cnt">45.2만</strong></span>
+                        <span>팔로우 <strong class="font-black">29</strong></span>
+                    </div>
+                    <div class="text-xs sm:text-sm text-slate-800 space-y-1 leading-relaxed">
+                        <div class="font-black text-slate-900">효빈대학교 (Hyobin National University) · 국가거점국립대학교</div>
+                        <div>🏛️ 교시: 불굴(不屈) · 혁신(革新) · 개천(改天) | 제26대 총장 민부선</div>
+                        <div>🚊 국내 유일 교내 도시철도 HBNU Rail (A선 트램 · B선 모노레일) 운행 대학</div>
+                        <div>📍 당선(본) · 이자 · 천주 · 낭원 · 강주캠퍼스 | 교수(校獸): 고양이 🐱</div>
+                        <!-- 학교 홈페이지 복귀 공식 링크 -->
+                        <div class="pt-1 flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                            <a href="index.html" class="text-[#00376b] font-black hover:underline flex items-center gap-1">
+                                <i data-lucide="link-2" class="w-4 h-4"></i> www.hbnu.ac.kr (효빈대학교 공식 홈페이지 바로가기)
+                            </a>
+                            <span class="text-slate-300">|</span>
+                            <a href="hbnu_main.html" class="text-blue-700 font-bold hover:underline">종합정보시스템(수강신청)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 스토리 하이라이트 6종 (클릭 시 실제 스토리 뷰어 팝업) -->
+            <div class="flex gap-5 px-6 py-4 overflow-x-auto border-b bg-slate-50/50" id="insta-highlights-bar"></div>
+
+            <!-- 안내 배너 -->
+            <div class="px-4 py-2 bg-pink-50/70 border-b border-pink-100 text-center text-xs text-pink-900 font-bold">
+                💡 아래 게시물 카드를 클릭하면 <strong>상세 사진·본문과 재학생/교수진의 실시간 댓글창</strong>이 열립니다!
+            </div>
+
+            <!-- 인스타그램 3x3 피드 격자 -->
+            <div class="grid grid-cols-3 gap-1 sm:gap-2 p-1 sm:p-2" id="insta-grid-container"></div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- [2] YOUTUBE 뷰 (동영상 / Shorts 필터 + 비디오 플레이어 모달) -->
+        <!-- ================================================================= -->
+        <div id="view-youtube" class="sns-view bg-[#0f0f0f] border border-slate-800 rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto text-white">
+            <!-- 채널 아트 배너 -->
+            <div class="h-44 sm:h-56 bg-gradient-to-r from-[#1e2a78] via-[#134e4a] to-[#3b0764] relative bg-cover bg-center flex items-end p-6" style="background-image: linear-gradient(to top, rgba(15,15,15,0.9), rgba(30,42,120,0.4)), url('이미지/효빈대_캠퍼스배경.webp');">
+                <div class="flex flex-wrap items-center justify-between w-full gap-2">
+                    <span class="text-xs font-black bg-red-600 text-white px-2.5 py-1 rounded">OFFICIAL YOUTUBE CHANNEL</span>
+                    <!-- 유튜브 배너 우측 하단 공식 홈페이지 복귀 링크 -->
+                    <div class="flex items-center gap-2 bg-black/75 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-bold border border-white/20">
+                        <a href="index.html" class="text-[#3ea6ff] hover:underline flex items-center gap-1">
+                            <i data-lucide="globe" class="w-3.5 h-3.5"></i> 효빈대학교 공식 홈페이지 (www.hbnu.ac.kr)
+                        </a>
+                        <span class="text-slate-500">|</span>
+                        <a href="hbnu_main.html" class="text-emerald-400 hover:underline">입학·학사포털</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 채널 프로필 -->
+            <div class="px-6 py-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 border-b border-neutral-800">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white flex items-center justify-center p-2 shrink-0">
+                    <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU 로고">
+                </div>
+                <div class="flex-1 text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start gap-2">
+                        <h2 class="text-2xl sm:text-3xl font-black">효빈대학교 HBNU</h2>
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-neutral-400"></i>
+                    </div>
+                    <div class="text-neutral-400 text-xs sm:text-sm mt-1 mb-2">
+                        @HBNU_Official • 구독자 28.4만명 • 동영상 842개
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-300 mb-3 max-w-2xl">
+                        어려움에 굴하지 않는 불굴의 효빈대! 개교 100주년 공식 홍보영상, 교내철도(A선 트램·B선 모노레일) 4K 주행 POV, 베르데 홀 HAF 라이브 및 전공 브이로그가 업로드됩니다.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                        <button onclick="toggleYoutubeSub(this)" class="bg-white text-black font-black text-xs px-5 py-2 rounded-full hover:bg-neutral-200 transition">구독중 🔔</button>
+                        <a href="index.html" class="bg-neutral-800 hover:bg-neutral-700 text-[#3ea6ff] font-bold text-xs px-4 py-2 rounded-full border border-neutral-700 transition">
+                            🔗 www.hbnu.ac.kr 이동
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 유튜브 서브 탭 -->
+            <div class="flex px-6 gap-6 text-xs sm:text-sm font-bold border-b border-neutral-800">
+                <button onclick="filterYoutube('ALL')" id="yt-tab-ALL" class="py-3 border-b-2 border-white text-white">전체 동영상 (6)</button>
+                <button onclick="filterYoutube('LONG')" id="yt-tab-LONG" class="py-3 text-neutral-400 hover:text-white">일반 영상 (4K POV · VLOG)</button>
+                <button onclick="filterYoutube('SHORTS')" id="yt-tab-SHORTS" class="py-3 text-neutral-400 hover:text-white">⚡ Shorts (쇼츠)</button>
+            </div>
+
+            <!-- 유튜브 비디오 그리드 -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="youtube-grid-container"></div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- [3] X (TWITTER) 뷰 (실시간 트윗 작성 + 리트윗/마음 토글 + 학사/교통 속보) -->
+        <!-- ================================================================= -->
+        <div id="view-x" class="sns-view bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden max-w-2xl mx-auto">
+            <!-- 상단 고정 바 -->
+            <div class="bg-white/90 backdrop-blur-md sticky top-0 z-10 border-b px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="p-1.5 rounded-full hover:bg-slate-100 transition" title="학교 홈페이지로 돌아가기">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </a>
+                    <div>
+                        <h2 class="font-black text-base sm:text-lg leading-tight flex items-center gap-1">
+                            <span>효빈대학교 (HBNU)</span>
+                            <i data-lucide="badge-check" class="w-4 h-4 text-[#1DA1F2] fill-[#1DA1F2] text-white"></i>
+                        </h2>
+                        <div class="text-[11px] text-slate-500">2,418 게시물 · 실시간 학사/교내철도 관제 타래</div>
+                    </div>
+                </div>
+                <a href="index.html" class="text-xs font-black text-[#1DA1F2] hover:underline bg-sky-50 px-3 py-1 rounded-full">
+                    🏫 hbnu.ac.kr 복귀
+                </a>
+            </div>
+
+            <!-- 헤더 배너 & 프로필 -->
+            <div class="h-36 bg-gradient-to-r from-[#1e2a78] via-[#0077DD] to-[#00CCAA] relative"></div>
+            <div class="px-5 pb-4 border-b">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-24 h-24 rounded-full border-4 border-white bg-white flex items-center justify-center p-2 -mt-12 relative shadow-md">
+                        <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU 로고">
+                    </div>
+                    <div class="mt-3 flex gap-2">
+                        <button onclick="toggleFollowBtn(this)" class="bg-slate-900 text-white font-black text-xs px-4 py-2 rounded-full hover:bg-slate-700 transition">팔로잉</button>
+                    </div>
+                </div>
+                <h2 class="font-black text-xl leading-tight">효빈대학교 (HBNU)</h2>
+                <div class="text-slate-500 text-xs mb-3">@HBNU_Official</div>
+                <p class="text-xs sm:text-sm text-slate-800 mb-3 leading-relaxed">
+                    국가거점국립대학교 효빈대학교 공식 X 계정입니다.<br>
+                    🚨 교내철도(A선 트램 · B선 모노레일) 및 시내 도시철도(2호선 <span class="font-bold" style="color:#00CCAA;">#하루빈</span> · 5호선 <span class="font-bold" style="color:#EE0022;">#미소하</span> · 7호선 <span class="font-bold" style="color:#FF8899;">#임세정 #임세하</span>) 환승 상황, 긴급 학사공지를 가장 빠르게 안내합니다.
+                </p>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
+                    <span class="flex items-center"><i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1"></i> 효빈광역시 서구 대학로 1 (당선본캠)</span>
+                    <span class="flex items-center"><i data-lucide="link" class="w-3.5 h-3.5 mr-1"></i> <a href="index.html" class="text-[#1DA1F2] font-black hover:underline">hbnu.ac.kr (공식 홈페이지)</a></span>
+                    <span class="flex items-center"><i data-lucide="calendar" class="w-3.5 h-3.5 mr-1"></i> 2011년 3월 가입</span>
+                </div>
+                <div class="flex gap-4 text-xs">
+                    <span><strong class="font-black text-slate-900">29</strong> <span class="text-slate-500">팔로우 중</span></span>
+                    <span><strong class="font-black text-slate-900">84.2K</strong> <span class="text-slate-500">팔로워</span></span>
+                </div>
+            </div>
+
+            <!-- 학우 멘션/답글 직접 작성 박스 -->
+            <div class="p-4 bg-slate-50 border-b flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#1e2a78] text-white font-black text-xs flex items-center justify-center shrink-0">학우</div>
+                <div class="flex-1">
+                    <input type="text" id="new-tweet-input" onkeydown="if(event.key==='Enter') postNewTweet()" placeholder="@HBNU_Official 에 실시간 제보나 응원 멘션 남기기 (예: 중앙환승장 B선 모노레일 도착 완료!)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs outline-none focus:border-[#1DA1F2]">
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-[11px] text-slate-400">해시태그 #효빈대 #HBNU_Rail 자동 적용</span>
+                        <button onclick="postNewTweet()" class="bg-[#1DA1F2] hover:bg-sky-600 text-white font-black text-xs px-4 py-1.5 rounded-full transition">게시하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 트윗 피드 리스트 -->
+            <div id="x-feed-container" class="divide-y divide-slate-100"></div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- [4] NAVER BLOG 뷰 (카테고리 필터링 + 포스트 클릭 시 전문 리더기 작동) -->
+        <!-- ================================================================= -->
+        <div id="view-naver" class="sns-view bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden max-w-5xl mx-auto">
+            <div class="naver-bg h-2 w-full"></div>
+            <!-- 블로그 상단 타이틀 배너 -->
+            <div class="p-6 sm:p-8 border-b bg-gradient-to-r from-emerald-50 via-white to-green-50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded bg-[#03C75A] text-white text-[10px] font-black">공식블로그</span>
+                        <span class="text-xs font-bold text-slate-500">blog.naver.com/hbnu_story</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">효빈대학교 공식 블로그 : 불굴의 캠퍼스 스토리</h2>
+                    <p class="text-xs text-slate-600 mt-1">자격증 합격 수기(빅분기·ADsP·SQLD), 공단/시청 취업 멘토링, 단과대 탐방기 아카이브</p>
+                </div>
+                <div class="flex flex-col items-end gap-2 shrink-0">
+                    <a href="index.html" class="bg-[#03C75A] hover:bg-emerald-600 text-white font-black text-xs px-4 py-2 rounded-xl shadow-sm flex items-center gap-1.5 transition">
+                        <i data-lucide="home" class="w-4 h-4"></i> 효빈대학교 홈페이지(hbnu.ac.kr) 바로가기
+                    </a>
+                    <span class="text-[11px] font-bold text-slate-500">이웃 <strong class="naver-green">14,204명</strong> · 누적 방문 <strong class="text-slate-800">2,104,892</strong></span>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row">
+                <!-- 좌측 카테고리 사이드바 -->
+                <div class="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-100 p-5 bg-slate-50/40 shrink-0">
+                    <div class="flex items-center gap-3 mb-5 pb-4 border-b border-slate-200">
+                        <div class="w-12 h-12 rounded-full bg-white border p-1.5 shrink-0">
+                            <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU">
+                        </div>
+                        <div>
+                            <div class="font-black text-sm text-slate-900">효빈대 홍보기자단</div>
+                            <div class="text-[11px] text-slate-500">제26대 총장 민부선</div>
+                        </div>
+                    </div>
+
+                    <div class="font-black text-xs text-slate-500 uppercase mb-2">블로그 카테고리</div>
+                    <ul class="text-xs space-y-1.5 font-bold" id="naver-category-list">
+                        <li><button onclick="filterNaverBlog('ALL')" data-cat="ALL" class="naver-cat-btn w-full text-left px-3 py-2 rounded-lg bg-[#03C75A] text-white">📋 전체 글 보기 (6)</button></li>
+                        <li><button onclick="filterNaverBlog('취업/자격증')" data-cat="취업/자격증" class="naver-cat-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700">💡 데이터 자격증·공단 취업 (2)</button></li>
+                        <li><button onclick="filterNaverBlog('학과탐방')" data-cat="학과탐방" class="naver-cat-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700">🏫 S등급 학과 & 미식 탐방 (2)</button></li>
+                        <li><button onclick="filterNaverBlog('교내철도/문화')" data-cat="교내철도/문화" class="naver-cat-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700">🚊 HBNU Rail & 서브컬처 (2)</button></li>
+                    </ul>
+
+                    <div class="mt-6 p-3.5 rounded-xl bg-white border border-slate-200 text-xs space-y-2">
+                        <div class="font-black text-slate-800">🔗 대학 공식 바로가기</div>
+                        <a href="index.html" class="block text-[#03C75A] font-bold hover:underline">• 효빈대학교 메인 홈페이지</a>
+                        <a href="효빈대학교_학부.html" class="block text-slate-600 hover:underline">• 207개 전체 학부/학과 안내</a>
+                        <a href="효빈대학교병원.html" class="block text-slate-600 hover:underline">• 효빈대학교병원 (메디컬타운)</a>
+                    </div>
+                </div>
+
+                <!-- 우측 블로그 포스트 목록 & 본문 리더기 -->
+                <div class="flex-1 p-6">
+                    <div id="naver-post-reader" class="hidden mb-8 p-6 rounded-2xl bg-emerald-50/40 border-2 border-[#03C75A]/40 space-y-4"></div>
+                    <div class="flex items-center justify-between mb-4 pb-2 border-b">
+                        <h3 class="font-black text-base text-slate-800" id="naver-list-title">전체 포스트 목록 (클릭 시 본문 열람)</h3>
+                        <span class="text-xs text-slate-400">최신순 정렬</span>
+                    </div>
+                    <div id="naver-post-list" class="space-y-5"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- [5] FACEBOOK 뷰 (실시간 댓글 작성 + 좋아요 토글 + 공식 링크 연동) -->
+        <!-- ================================================================= -->
+        <div id="view-fb" class="sns-view bg-slate-100 border border-slate-300 rounded-2xl shadow-sm overflow-hidden max-w-4xl mx-auto">
+            <!-- 커버 및 프로필 -->
+            <div class="bg-white pb-4 shadow-sm mb-4">
+                <div class="h-48 sm:h-60 bg-gradient-to-r from-[#1e2a78] to-[#1877F2] w-full bg-cover bg-center relative" style="background-image: url('이미지/효빈대_캠퍼스배경.webp');">
+                    <div class="absolute inset-0 bg-[#1e2a78]/60 flex items-center justify-center">
+                        <span class="text-white/90 font-black text-xl sm:text-2xl tracking-widest">"어려움에 굴하지 않는 불굴의 효빈대"</span>
+                    </div>
+                </div>
+                <div class="px-6 flex flex-col md:flex-row items-center md:items-end justify-between relative -mt-10">
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white bg-white p-2.5 shadow-md shrink-0">
+                            <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU">
+                        </div>
+                        <div class="text-center md:text-left md:mb-2">
+                            <h2 class="text-2xl font-black text-slate-900 flex items-center justify-center md:justify-start gap-1.5">
+                                <span>효빈대학교 (Hyobin National University)</span>
+                                <i data-lucide="badge-check" class="w-5 h-5 text-[#1877F2] fill-[#1877F2] text-white"></i>
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-500 font-bold mt-0.5">좋아요 11.8만개 • 팔로워 12.4만명 • 국립대학교</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex gap-2 md:mb-2">
+                        <a href="index.html" class="bg-[#1877F2] hover:bg-blue-700 text-white font-black text-xs px-4 py-2.5 rounded-lg transition flex items-center gap-1.5 shadow-sm">
+                            <i data-lucide="external-link" class="w-4 h-4"></i> 웹사이트 방문 (hbnu.ac.kr)
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 좌측 페이지 정보 + 우측 뉴스피드 -->
+            <div class="px-4 pb-6 flex flex-col md:flex-row gap-4">
+                <div class="w-full md:w-1/3 bg-white p-5 rounded-xl shadow-sm h-fit space-y-3 text-xs">
+                    <h3 class="font-black text-base text-slate-900">페이지 정보</h3>
+                    <p class="text-slate-600 leading-relaxed pb-3 border-b">
+                        1925년 개교한 대한민국 대표 국가거점국립대학교 효빈대학교(총장 민부선)의 공식 페이스북 페이지입니다.
+                    </p>
+                    <ul class="space-y-2.5 text-slate-700">
+                        <li class="flex items-center gap-2.5"><i data-lucide="building" class="w-4 h-4 text-slate-400 shrink-0"></i> <span><strong>국립대학교</strong> · 17개 단과대학 · 207개 학과</span></li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i> <span>효빈광역시 서구 대학로 1 (당선본캠퍼스)</span></li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="phone" class="w-4 h-4 text-slate-400 shrink-0"></i> <span>079-649-2312 (학사종합안내)</span></li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="globe" class="w-4 h-4 text-[#1877F2] shrink-0"></i> <a href="index.html" class="text-[#1877F2] font-black hover:underline">www.hbnu.ac.kr (클릭 시 홈페이지 이동)</a></li>
+                    </ul>
+                </div>
+
+                <!-- 페이스북 포스트 리스트 -->
+                <div class="w-full md:w-2/3 space-y-4" id="fb-feed-container"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- 범용 인터랙티브 모달 (인스타 피드 상세 / 스토리 뷰어 / 유튜브 영상 재생) -->
+    <!-- ===================================================================== -->
+    <div id="sns-modal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-[100] hidden items-center justify-center p-4" onclick="closeSnsModal()">
+        <div id="sns-modal-content" class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden border border-slate-200" onclick="event.stopPropagation()"></div>
+    </div>
+
+    <!-- 독립형 하단 푸터 (학교 홈페이지 복귀 링크 포함) -->
+    <footer class="bg-[#0f172a] text-slate-400 py-8 px-4 text-xs mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-white p-1 flex items-center justify-center">
+                    <img src="이미지/효빈대_로고.webp" alt="HBNU" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <div class="font-black text-white">효빈대학교 홍보소통실 · HBNU 공식 소셜 미디어 허브</div>
+                    <div class="text-[11px] text-slate-400">(당선본캠) 효빈광역시 서구 대학로 1 | 대표전화: 079-649-2312 | 총장: 제26대 민부선</div>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-3 font-bold">
+                <a href="index.html" class="text-emerald-400 hover:underline">🏫 효빈대학교 메인 홈페이지</a>
+                <span>|</span>
+                <a href="효빈대학교_학부.html" class="text-slate-300 hover:underline">학부/학과 총람</a>
+                <span>|</span>
+                <a href="효빈대학교병원.html" class="text-slate-300 hover:underline">효빈대학교병원</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 1. 인스타그램 스토리 하이라이트 6종 & 피드 9종 데이터 (설정 고증 100% 반영)
+        // =========================================================================
+        const INSTA_STORIES = [
+            { icon: "🚆", title: "HBNU Rail", badge: "A선 트램 · B선 모노레일", desc: "국내 유일 교내 도시철도 실습 노선! 남쪽 평지를 달리는 A선(트램, 수의대·동물병원~중앙환승장 9개 역)과 북쪽 기숙사·단과대를 잇는 B선(모노레일, 교통대기지~중앙환승장 15개 역)이 90초 상호 대기 연동으로 학우들의 통학을 책임집니다." },
+            { icon: "🏆", title: "사복대 S등급", badge: "사회복지학대학", desc: "효빈대 문과의 심장이자 성골! 사회복지정책학과·사회복지경영학과(민부선 총장님)·사회복지실천학과(박윤영 학장님)·사회복지상담학과 전 전공이 2026 대학평가 최우수 S등급을 달성했습니다. 과방의 시즈쿠&카스미 등신대 기 받아가세요!" },
+            { icon: "💚", title: "베르데 홀", badge: "29동 대강당 & 엠마의 식탁", desc: "매년 HAF(효빈 애니메이션 페스티벌)의 메인 무대이자 엠마 베르데 생일마다 연두색 경관 조명이 켜지는 29번 베르데 홀! 1층 베이커리 카페에서 제과제빵과 나수미 학우가 구운 '엠마의 샌드위치'를 만나보세요." },
+            { icon: "🎸", title: "방도도서관", badge: "36동 이공·예체능 도서관", desc: "일명 '방도리(Bang-Dori)' 도서관! 시험기간 전용 와이파이 SSID [Popipa_Pipopa] 접속 비밀번호는 학생증 바코드 뒷자리입니다. 야작과 밤샘 실험에 지친 학우들을 위해 24시간 열람실이 가동됩니다." },
+            { icon: "🏠", title: "기숙사 밈", badge: "키타·봇치·세이카·니나·스바루", desc: "붉은 벽돌 여학생관 희다관(키타관), 구석진 남학생관 후등관(봇치관), 엄격한 고시반 성가관(세이카관), 20층 아파트형 A동 니나관과 23층 B동 아와관(스바루관)까지! 오늘 저녁 아와관 식당 특식은 수제 치즈 돈가스입니다." },
+            { icon: "🐱", title: "냥냥펀치", badge: "교수(校獸) 고양이 돌봄", desc: "효빈대학교의 상징 동물(교수)은 고양이입니다! 생명대학 애완동물과와 수의학과(서수진 원장님·태미아 학우)가 함께 교내 길고양이 급식소와 정기 예방접종을 관리합니다." }
+        ];
+
+        const INSTA_POSTS = [
+            {
+                id: 1,
+                tag: "사회복지학대학 S등급",
+                title: "사회복지학대학 전국 유일 단과대 S등급 쾌거 & 민부선 총장님 특별 간식차!",
+                bgClass: "from-[#1e2a78] to-[#2563eb]",
+                icon: "award",
+                likes: 6420,
+                date: "2시간 전",
+                content: "🎉 [경축] 효빈대 문과의 심장, 사회복지학대학(7-1동)이 2026 대학평가에서 압도적 S등급을 달성했습니다!\n\n제26대 민부선 총장님(사회복지경영학과)과 박윤영 학장님(사회복지실천학과)께서 시험기간 학우들을 위해 베르데 홀 1층 베이커리와 협업한 '엠마의 스위스 브런치 & 제로콜라' 간식차 500인분을 쏘셨습니다! 🥪🥤\n\n※ 3학년 2학기 [사회복지현장실습 1] 수강 예정 학우분들은 선수과목(인간행동과 사회환경 → 사회복지실천론 → 사회복지실천기술론) 이수 여부를 포털에서 꼭 확인하세요!",
+                comments: [
+                    { user: "misoha_line5 (미소하·사복정책)", text: "총장님 학장님 감사합니다!! 3.8kg 빨간 정책 바인더 들고 일등으로 줄 섰습니다 ㅎㅎ" },
+                    { user: "ha_ae_kang (강하애·사복정책)", text: "나수미 오븐 코드 압수하기 전에 샌드위치 두 개 챙겼습니다 ㅋㅋㅋ 사복대 화이팅!" },
+                    { user: "min_president26 (민부선 총장)", text: "우리 사회복지학대학 학우 여러분, 본오노(Buono)한 간식 먹고 힘내세요~^^" }
+                ]
+            },
+            {
+                id: 2,
+                tag: " 도시철도 & HBNU Rail",
+                title: "2호선 하루빈 · 5호선 미소하 · 7호선 임세정·임세하 캠퍼스 환승 완전 정복!",
+                bgClass: "from-[#00CCAA] via-[#0077DD] to-[#FF8899]",
+                icon: "train-front",
+                likes: 5890,
+                date: "6시간 전",
+                content: "🚊 [효빈대 통학러 필수 저장] 우리 학교를 관통하는 도시철도 & 교내철도 HBNU Rail 환승 가이드!\n\n• 2호선 효빈대학교역 (#00CCAA 하루빈): 대학본부(1동)·충승당(3동)·인문대 직결!\n• 5호선 소조역·당선역 (#EE0022 미소하): 사회복지학대학(7-1동)·사범대(11동)·베르데 홀(29동) 1분 컷!\n• 7호선 트램 효빈대입구역 (#FF8899 임세정·임세하): 정문(0번)·공대타운·효빈대병원 환승!\n• 교내철도 A선(트램) & B선(모노레일): 중앙환승장(A09-B06)에서 수업 교대 시간마다 90초 상호 대기 연동 폐색이 작동합니다. 철도운전학과 실습 기관사 학우들에게 따뜻한 손인사를 건네주세요 👋",
+                comments: [
+                    { user: "harubin_line2 (하루빈·철도운영)", text: "2호선 효빈대역에서 A07 대학본부·충승당역으로 바로 갈아타면 지각 절대 안 합니다!!" },
+                    { user: "seha_mech7 (임세하·기계공학)", text: "7호선 트램이랑 교내 A선 트램 VVVF 인버터 구동음 비교해서 들어보세요. 밥 두 공기 뚝딱입니다." }
+                ]
+            },
+            {
+                id: 3,
+                tag: "심리학과 은권규 교수",
+                title: "심리학과 은권규 교수님 '범죄심리학 및 프로파일링' 공개특강 현장",
+                bgClass: "from-[#312e81] to-[#4f46e5]",
+                icon: "brain",
+                likes: 4912,
+                date: "1일 전",
+                content: "🔍 [명강의 클로즈업] 사회과학대학 심리학과(6-1동) 은권규 교수님의 '범죄심리학 및 프로파일링(과학수사 자문)' 학술 세미나가 성황리에 열렸습니다!\n\n한국심리학회 학회장이자 경찰청 과학수사 자문위원이신 은권규 교수님께서 실제 프로파일링 기법과 군중심리학을 날카롭게 분석해 주셨는데요, 사회대 부학생회장 고노애 학우와 은현성 학우의 열띤 질의응답으로 열기가 뜨거웠습니다. (교수님 연구실 문 앞의 노조미 스피리추얼 부적은 덤! 💜)",
+                comments: [
+                    { user: "konoae_psy (고노애·심리학과)", text: "은권규 교수님 수업은 매 학기 0.1초 컷입니다 ㅠㅠ 심리학개론·이상심리학 선수과목 꼭 미리 들어두세요!" },
+                    { user: "siyun_pol (김시연·정치외교)", text: "사회대 6-1동의 자랑! 범죄자와 빌런들은 은 교수님 논문에서 영원히 빠져나갈 수 없죠 ㅎㅎ" }
+                ]
+            },
+            {
+                id: 4,
+                tag: "베르데 홀 & HAF",
+                title: "제12회 HAF (효빈 애니메이션 페스티벌) 베르데 홀 & 성우전공 오이슬 무대!",
+                bgClass: "from-[#7e22ce] to-[#ec4899]",
+                icon: "sparkles",
+                likes: 8230,
+                date: "2일 전",
+                content: "🎬 [HAF 하이라이트] 캠퍼스 북구·서구 경계의 랜드마크 베르데 홀(29동)을 가득 채운 함성!\n\n만화애니메이션학과(성우전공) 오이슬 학우의 라이브 더빙 퍼포먼스와, 융합학부 메타버스/엔터테인먼트 전공 학우들이 구축한 XR 가상 전시장, 그리고 실용음악과·음악학과 보컬 어벤져스(시화음·가노은·마루빈)의 합동 공연까지! 효빈대가 왜 서브컬처와 문화산업의 성지인지 증명한 밤이었습니다 ✨",
+                comments: [
+                    { user: "oiseul_voice (오이슬·만화애니 성우전공)", text: "와주신 학우 여러분 정말 감사합니다!! (무대 내려오자마자 긴장 풀려서 제로콜라 원샷했습니다 ㅋㅋ)" },
+                    { user: "marubin_vocal (마루빈·음악학과)", text: "가노은!! 다음 합주 땐 햄버그 스테이크 말고 목 관리용 도라지청 가져와라!!" }
+                ]
+            },
+            {
+                id: 5,
+                tag: "조리과학과 × 제과제빵과",
+                title: "김유영 학우의 40kg 통한우 발골 쇼 & 나수미 학우의 '엠마의 샌드위치' 완판!",
+                bgClass: "from-[#b45309] to-[#15803d]",
+                icon: "utensils",
+                likes: 5340,
+                date: "3일 전",
+                content: "🥩🥖 [생활과학대학(12동) 미식 대축전]\n조리과학과 과탑 김유영 학우(중수 한우 다이닝 수제자)의 경이로운 40kg 통한우 일도양단 발골 시연과, 제과제빵과 나수미 학우의 천연발효 사워도우 '엠마의 샌드위치' & 소비자학과 소남주 학우의 궁극의 '소롱포' 특식이 정루관(13동)과 베르데 홀 카페에서 15분 만에 전량 완판되었습니다! (※ 캡사이신 와사비 빵은 안전을 위해 봉인되었습니다)",
+                comments: [
+                    { user: "yuyoung_chef (김유영·조리과학과)", text: "나수민 선배님의 중식도 마늘 100알 편썰기 전통을 이어받아 정성껏 준비했습니다!" },
+                    { user: "sumi_bread (나수미·제과제빵과)", text: "하애가 이번 주 필기시험 만점 못 받으면 오븐 코드 또 압수한대요 살려주세요 ㅠㅠ" }
+                ]
+            },
+            {
+                id: 6,
+                tag: "메디컬 그랜드슬램",
+                title: "통합의과대학(의·치·한·수) & 약학·간호·보건대 원헬스(One Health) 합동 심포지엄",
+                bgClass: "from-[#0f766e] to-[#0284c7]",
+                icon: "stethoscope",
+                likes: 4780,
+                date: "4일 전",
+                content: "🏥 [메디컬 타운 소식] 사람과 동물의 건강은 하나다(One Health)!\n의학과 정형외과 천예은 교수님, 신경외과 서진희 교수님, 정신건강의학과 오수아 교수님, 수의학과 서수진 동물병원장님(그리고 천재학우 태미아!), 간호학과 김강선 교수님이 함께한 통합 메디컬 심포지엄이 의과대학(49동)과 효빈대학교병원 본관(59동)에서 개최되었습니다. 교내트램 A선 A01(수의대)~A04(약대·보건대) 구간이 흰 가운 물결로 가득 찼네요!",
+                comments: [
+                    { user: "mia_vet (태미아·수의학과)", text: "One Health 세션 데이터 분석 완벽했어! 이자캠퍼스 목장 실습만 빼면 최고라고!" },
+                    { user: "cheonyoung_rad (김천영·방사선학과)", text: "아픈 환자분들을 돕는 진짜 어른이자 전문 의료인이 되기 위해 오늘도 실습실에서 최선을 다하겠습니다!" }
+                ]
+            },
+            {
+                id: 7,
+                tag: "상과대 & 도시공학과",
+                title: "부동산학과 최형석 교수 · 경제학과 태상훈 교수 · 도시공학과 정평석 교수 합동 특강",
+                bgClass: "from-[#1e3a8a] to-[#0369a1]",
+                icon: "TrendingUp",
+                likes: 4120,
+                date: "5일 전",
+                content: "📈 ['연결의 경제학' 합동 콜로키움]\n광역철도망(빈효선·5호선·창전선) 역세권 개발이 효빈·덕빈권 경제 성장률을 어떻게 끌어올렸는가!\n부동산학과 최형석 교수님(UPenn 박사), 경제학과 태상훈 교수님(시카고대 박사), 도시공학과 정평석 교수님, 그리고 교통대학 권기준(MIT 박사)·오다구 특임교수님이 상과대(8-1동)에서 명쾌한 계량 데이터로 '도시 연결의 가치'를 증명하셨습니다.",
+                comments: [
+                    { user: "nana_econ (심나나·경제학과)", text: "태상훈 교수님의 시카고학파 통화·계량 모델은 언제 봐도 평범(보통)하게 아름답네요~" },
+                    { user: "sahee_bus (이사희·경영학과)", text: "회계 데이터와 역세권 B/C 분석은 거짓말을 하지 않죠. 완벽한 콜로키움이었습니다." }
+                ]
+            },
+            {
+                id: 8,
+                tag: "언어문학대학 글로벌데이",
+                title: "필리핀어학과 문명고 교수 · 일어일문학과 신양숙 교수 · 불어불문학과 판혁전 교수",
+                bgClass: "from-[#be123c] to-[#db2777]",
+                icon: "globe-2",
+                likes: 3950,
+                date: "6일 전",
+                content: "🌏 [동양언어관(10-1동) & 서양언어관(10-2동) 글로벌 페스타]\n필리핀어학과(문명고 교수님) 학우들이 준비한 마닐라·세부 전통 문화 부스에 박효빈 시장님이 깜짝 방문해 필리핀 현지 간식을 한 아름 쾌척하셨습니다! 일어일문학과(신양숙 교수님)의 서브컬처 원서 번역 발표회와 불어불문학과(판혁전 교수님)의 프랑코포니 주간도 성황리에 진행 중입니다.",
+                comments: [
+                    { user: "emma_int (엠마 체레스떼·국제학부)", text: "동양언어관이랑 서양언어관 축제 분위기 너무 따스하고 최고예요~ 치유되는 기분이에요 💚" }
+                ]
+            },
+            {
+                id: 9,
+                tag: "제98대 총학생회",
+                title: "총학생회장 고다솔(천문/생명공학) & 부총학생회장 천애음(정치외교) 기말 간식사업 안내",
+                bgClass: "from-[#0f172a] to-[#3344aa]",
+                icon: "star",
+                likes: 7150,
+                date: "1주 전",
+                content: "🌟 [제98대 총학생회 '별빛연결' 공지]\n학우 여러분! 고다솔 총학생회장(천문학과·생명공학과 복수전공)과 천애음 부총학생회장(정치외교학과)입니다.\n시험기간 밤샘 공부를 하는 학우분들을 위해 중앙도서관(23동)과 방도도서관(36동) 앞에서 심야 모노레일 B선 막차 연장 운행 및 축산학과 수제 요거트·제로콜라 나눔을 진행합니다!",
+                comments: [
+                    { user: "dasol_astro (고다솔·총학생회장)", text: "여러분 밤하늘 별도 예쁘고 화단 옆에 귀여운 공벌레도 있어요! 다들 시험 대박 나세요!!" },
+                    { user: "aeeum_pol (천애음·부총학생회장)", text: "간식 수량 넉넉하게 2,000인분 준비했으니 학생증 챙겨서 편하게 오세요~ 🎸" }
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // 2. 유튜브 영상 6종 데이터 (고증 완벽 수정: 2호선 하루빈, 7호선 임세정·임세하, A선/B선)
+        // =========================================================================
+        const YOUTUBE_VIDEOS = [
+            {
+                id: "yt1",
+                type: "LONG",
+                duration: "18:42",
+                views: "8.4만회",
+                date: "2일 전",
+                badge: "4K VLOG",
+                bgClass: "from-blue-900 to-indigo-950",
+                title: "VLOG | 사회복지학대학 S등급의 위엄! 3학년 2학기 사회복지현장실습 세미나 & 민부선 총장님 강의 브이로그",
+                desc: "전국 유일 단과대 규모 효빈대 사회복지학대학(7-1동, 5호선 소조역·모노레일 B03역)! 1학년 인간행동과 사회환경부터 2학년 사회복지실천론·실천기술론(박윤영 학장님)을 거쳐 3학년 2학기 사회복지현장실습까지 이어지는 리얼 커리큘럼을 공개합니다.",
+                comments: [
+                    "박효빈 시장님 모교답게 사회복지학대학 커리큘럼이랑 실습 시설(7-3동 종합사회복지관) 클라스가 다르네요!",
+                    "학생회실에 진짜로 시즈쿠랑 카스미 등신대 있는 거 보고 입학 결심했습니다 ㅋㅋㅋ"
+                ]
+            },
+            {
+                id: "yt2",
+                type: "LONG",
+                duration: "42:15",
+                views: "19.2만회",
+                date: "5일 전",
+                badge: "4K 60fps CAB VIEW",
+                bgClass: "from-teal-900 to-sky-950",
+                title: "[4K 운전실 POV] 교내철도 HBNU Rail A선(트램) & B선(모노레일) 전 구간 주행 및 2호선 하루빈·7호선 임세정 열차 환승",
+                desc: "철도운전학과 실습생이 직접 운전하는 교내트램 A선(A01 수의대·동물병원 ~ A09 중앙환승장)과 모노레일 B선(B01 교통대기지 ~ B09 베르데홀 ~ B15 중앙환승장) 4K 전면 주행 영상! 중앙환승장 90초 상호대기 연동 폐색 시스템과 이가람 성우(연극학과 동문)의 안내방송까지 생생하게 담았습니다.",
+                comments: [
+                    "14:20 중앙환승장에서 A선 트램이랑 B선 모노레일이 정확히 90초 상호 대기하는 거 철도운영학과 권기준 교수님 설계라던데 소름 돋네요.",
+                    "중간에 3호차 제동 살짝 늦으니까 관제실에서 방송 나오는 거 ㅋㅋㅋㅋ 역시 철도 동호인들의 발할라!"
+                ]
+            },
+            {
+                id: "yt3",
+                type: "LONG",
+                duration: "1:15:30",
+                views: "41.5만회",
+                date: "2주 전",
+                badge: "FULL LIVE",
+                bgClass: "from-purple-900 to-pink-950",
+                title: "[풀버전] 베르데 홀(29동) 제12회 HAF 개막식 & 실용음악과 '애프터글로우'·'포핀☆스타'·'모르포니카' 동문 합동 라이브",
+                desc: "5호선 당선역·모노레일 B09역 베르데 홀 대공연장을 뒤흔든 전설의 무대! 음향과 학우들의 콘서트홀 라이브 엔지니어링과 예술공학과 학우들의 홀로그램 연출이 어우러진 풀버전 영상입니다.",
+                comments: [
+                    "베르데 홀 음향 세팅 실화냐... 음향과랑 공연제작과 학우들 진짜 프로 그 자체다",
+                    "엠마 베르데 생일 주간이라고 건물 외벽 연두색 조명 켜진 거 너무 감동이에요 💚"
+                ]
+            },
+            {
+                id: "yt4",
+                type: "LONG",
+                duration: "14:08",
+                views: "6.7만회",
+                date: "3주 전",
+                badge: "CAMPUS TOUR",
+                bgClass: "from-emerald-900 to-slate-900",
+                title: "효빈대생이 알려주는 데이터 자격증 3종(빅분기·ADsP·SQLD) 패스 루트 & 국민건강보험공단 취업 선배 인터뷰",
+                desc: "사회복지학×경영학 복수전공생과 통계학과·컴퓨터공학과 학우들이 전산교육관(45동)에서 진행한 파이썬·R·SQL 스터디 노하우! ADsP 78점, SQLD 68점, 빅데이터분석기사 필기 원패스 비결을 대공개합니다.",
+                comments: [
+                    "사회복지학 전공에 경영학 복수전공 + 빅분기/SQLD/ADsP 조합이면 건보공단이랑 연금공단 서류 프리패스 정석이죠!! 꿀팁 감사합니다!"
+                ]
+            },
+            {
+                id: "yt5",
+                type: "SHORTS",
+                duration: "0:58",
+                views: "52만회",
+                date: "3일 전",
+                badge: "⚡ SHORTS",
+                bgClass: "from-rose-900 to-amber-950",
+                title: "#Shorts 조리과학과 과탑 김유영의 40kg 통한우 1분 발골 쇼 & 나수민 선배의 중식도 마늘 100알 편썰기 🔪",
+                desc: "생활과학대학(12동) 조리과학과 실습실의 흔한 풍경! 아무도 이들 앞에서 탕수육 부먹 찍먹으로 까불지 못한다.",
+                comments: [
+                    "칼질 소리가 ASMR 수준이네 ㄷㄷ 윤재훈 빵 테러 때 왜 조리과학과가 제압했는지 단번에 이해됨"
+                ]
+            },
+            {
+                id: "yt6",
+                type: "SHORTS",
+                duration: "0:45",
+                views: "38만회",
+                date: "1주 전",
+                badge: "⚡ SHORTS",
+                bgClass: "from-indigo-900 to-cyan-950",
+                title: "#Shorts 기숙사 아와관(스바루관) 학우들이 니나관 학우들 시험기간 멘탈 챙겨주는 방법 ㅋㅋㅋ",
+                desc: "아파트형 기숙사 A동(51번 니나관) 로비에서 과제 때문에 포효하던 학우에게 B동(52번 아와관) 선배가 건넨 것은?",
+                comments: [
+                    "니나관-아와관 훈훈한 전통 진짜 사랑스러움 ㅋㅋㅋㅋ"
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // 3. X (트위터) 실시간 속보 데이터 (교내철도 A·B선 및 도시철도 고증 완벽 준수)
+        // =========================================================================
+        const X_TWEETS = [
+            {
+                id: 101,
+                author: "효빈대학교 (HBNU)",
+                handle: "@HBNU_Official",
+                time: "18분 전",
+                content: "[🚊 교내철도 HBNU Rail 실시간 관제 안내]\n현재 오후 4시 수업 교대 시간으로 인해 『효빈대 중앙환승장(A09-B06)』에 환승 인파가 집중되고 있습니다.\n교통대학 철도운영학과 관제실(35-2동)에서 A선(트램)과 B선(모노레일)의 90초 상호 대기 연동 폐색을 가동 중이오니, 뛰지 마시고 안전하게 환승하시기 바랍니다.",
+                replies: 64,
+                retweets: 842,
+                likes: 2150,
+                views: "48.2K"
+            },
+            {
+                id: 102,
+                author: "효빈대학교 (HBNU)",
+                handle: "@HBNU_Official",
+                time: "2시간 전",
+                content: "[📚 방도도서관(36동) 시험기간 연장 개방 및 와이파이 안내]\n이공계·예체능계 학우 여러분! 오늘부터 방도도서관('방도리') 종합자료실 및 24시간 열람실 좌석이 전면 확대 운영됩니다.\n• 초고속 무선랜 SSID: Popipa_Pipopa_5G\n• 도서관 내 정숙 유지를 위해 문헌정보학과 자치위원회의 도서 배열 점검이 진행됩니다.",
+                replies: 112,
+                retweets: 1530,
+                likes: 4320,
+                views: "91.4K"
+            },
+            {
+                id: 103,
+                author: "효빈대학교 (HBNU)",
+                handle: "@HBNU_Official",
+                time: "5시간 전",
+                content: "[📢 사회복지학대학 3학년 2학기 현장실습 사전 오리엔테이션 공지]\n박윤영 학장님(사회복지실천학과)이 주관하시는 2026학년도 『사회복지현장실습 1 (160시간)』 오리엔테이션이 종합사회복지관(7-3동) 301호에서 진행됩니다.\n※ 필수 선수과목: [인간행동과 사회환경] + [사회복지실천론] + [사회복지실천기술론] 3과목 모두 이수 완료자만 실습 배정이 확정됩니다.",
+                replies: 48,
+                retweets: 512,
+                likes: 1890,
+                views: "34.1K"
+            },
+            {
+                id: 104,
+                author: "효빈대학교 (HBNU)",
+                handle: "@HBNU_Official",
+                time: "1일 전",
+                content: "[🚌 시내버스 & 도시철도 통학 꿀팁]\n5호선 소조역(#미소하) 출구에서 사회복지학대학(7-1동)과 사범대 타운(11-1~6동)까지는 도보 3분 거리이며, 시내 간선버스(#01B7ED 오사카 시즈쿠 도색) 및 지선버스(#37B484 미후네 시오리코 도색) 정류장과도 바로 연결됩니다. 오늘도 쾌적한 통학길 되세요!",
+                replies: 95,
+                retweets: 1204,
+                likes: 3670,
+                views: "72.8K"
+            }
+        ];
+
+        // =========================================================================
+        // 4. 네이버 블로그 포스트 데이터 (클릭 시 전체 본문 열람 가능)
+        // =========================================================================
+        const NAVER_POSTS = [
+            {
+                id: "nb1",
+                category: "취업/자격증",
+                title: "[합격수기] 사회복지×경영 복수전공 학우의 ADsP(78점)·SQLD(68점)·빅분기 필기 원패스 & 실기 파이썬 정복기!",
+                date: "2026. 11. 09.",
+                author: "홍보소통실 학생기자단",
+                summary: "문과(사회복지학·경영학) 베이스로 데이터 분석 자격증 3종 세트를 한 학기 만에 끝낸 비결! 전산교육관(45동) 스터디 활용법과 국민건강보험공단·국민연금공단 데이터 행정 직무 준비 팁을 공개합니다.",
+                fullText: `안녕하세요, 효빈대학교 공식 블로그 독자 여러분! 오늘은 우리 대학 사회복지학대학에서 사회복지학을 전공하고 상과대학 경영학을 복수전공하면서, 단기간에 데이터 자격증 트로이카(ADsP · SQLD · 빅데이터분석기사)를 연달아 취득한 학우의 생생한 공부법을 소개합니다.\n\n1. ADsP (데이터분석 준전문가) — 78점 여유 합격!\n1·2과목 이론은 요약집 위주로 빠르게 회독하고, 가장 배점이 높은 3과목(데이터 분석)의 R 통계 결과표 해석(p-value, 결정계수 R², 회귀식 계수)을 사회복지조사론·경영통계학 수업 내용과 연계해 공부하니 78점으로 가뿐히 통과할 수 있었습니다.\n\n2. SQLD (SQL 개발자) — 68점 합격!\n처음엔 조인(JOIN)과 윈도우 함수(RANK, PARTITION BY), 계층형 쿼리가 낯설었지만 전산교육관(45동) SQL 스터디에서 '노랭이 기출문제집'을 3회독하며 NULL 연산 규칙과 서브쿼리를 완벽히 정리해 68점으로 합격증을 거머쥐었습니다.\n\n3. 빅데이터분석기사 필기 원패스(61.25점) & 실기(Python) 대비!\nADsP에서 다져둔 통계·머신러닝 기초 덕분에 빅분기 필기까지 첫 도전에 바로 합격! 현재는 실기 시험의 작업형 제1유형(pandas 데이터 전처리)과 작업형 제2유형(scikit-learn RandomForestClassifier, LightGBM 모델링 및 평가지표 roc_auc_score 검증) 스크립트를 VS Code로 매일 연습하고 있습니다.\n\n사회복지 정책 설계와 데이터 분석 역량을 모두 갖춘 인재로 국민건강보험공단·국민연금공단 입사를 꿈꾸는 효빈대 학우 여러분을 응원합니다!`
+            },
+            {
+                id: "nb2",
+                category: "취업/자격증",
+                title: "[멘토링] 사회복지학대학 S등급 선정 기념, 국민건강보험공단·효빈시청 재직 선배 멘토링 현장 리포트",
+                date: "2026. 11. 05.",
+                author: "사회복지학대학 학생회",
+                summary: "노인장기요양보험 정책부터 지역사회 통합돌봄까지! 사회복지사 1급, 사회조사분석사 2급, 컴퓨터활용능력·사무자동화산업기사 등 실무 가산점 자격증 로드맵 총정리.",
+                fullText: `효빈대학교 사회복지학대학(7-1동)이 전국 최우수 S등급을 달성한 것을 기념하여, 종합사회복지관(7-3동) 세미나실에서 공공기관 및 지자체 현직 선배 멘토링 데이가 열렸습니다.\n\n이날 멘토로 참석한 국민건강보험공단 및 국민연금공단 재직 동문 선배들은 "효빈대 사회복지학대학의 탄탄한 3학년 2학기 현장실습과 정책·경영 융합 커리큘럼이 실무에서 엄청난 강점이 된다"며, 한국사능력검정시험 1급, 사회조사분석사 2급, 사무자동화산업기사, 컴퓨터활용능력 2급, 그리고 어학(OPIc)과 사회복지사 1급을 차근차근 준비하는 로드맵을 후배들에게 아낌없이 전수했습니다.`
+            },
+            {
+                id: "nb3",
+                category: "학과탐방",
+                title: "[단과대 탐방] '효빈대의 요리 전사들' 생활과학대학 조리과학과 & 제과제빵과 실습실을 가다",
+                date: "2026. 10. 28.",
+                author: "효빈톡톡 기자단",
+                summary: "나수민 선배의 40cm 중식도 전설부터 과탑 김유영 학우의 한우 발골, 나수미 학우의 '엠마의 샌드위치'와 소남주 학우의 소롱포까지! 생활과학관(12동)의 맛있는 하루.",
+                fullText: `북구 캠퍼스 12번 건물 생활과학대학 근처를 지나가면 늘 고소한 버터 향과 깊은 육수 향이 발걸음을 붙잡습니다.\n\n조리과학과 실습실에서는 학점 4.5 만점 과탑 김유영 학우가 정교한 한우 발골과 서양조리 스톡 실습을 선보이고 있었고, 바로 옆 제과제빵과 오븐실에서는 나수미 학우가 베르데 홀(29동) 1층 카페에 납품할 시그니처 '엠마의 샌드위치'용 천연발효 사워도우를 굽고 있었습니다. 소비자학과 소남주 학우가 빚어낸 육즙 가득한 소롱포까지 더해져, 왜 효빈대 학식과 캠퍼스 베이커리가 전국 대학 중 최고라 불리는지 단번에 확인할 수 있었습니다.`
+            },
+            {
+                id: "nb4",
+                category: "학과탐방",
+                title: "[메디컬 타운] 의·치·한·수 통합의과대학(49동)과 효빈대학교병원(59동)의 '원헬스(One Health)' 협진 시스템",
+                date: "2026. 10. 20.",
+                author: "메디컬 리포터",
+                summary: "1999년 출범한 국내 최초 통합의과대학! 의학과(1본부)·치의학과(2본부)·한의학과(3본부)·수의학과(4본부)와 약학·간호·보건대학이 만드는 미래 의료.",
+                fullText: `"사람과 동물의 건강은 하나로 연결되어 있으며(One Health), 동서양 의학의 벽을 허무는 자만이 미래 의료를 선도한다."\n\n효빈대학교 메디컬 타운(47동~50동, 59동~63동)은 교내트램 A선(A01 수의대·동물병원역 ~ A04 약대·보건대역)을 따라 하나의 거대한 생명과학 도시를 이루고 있습니다. 정형외과 천예은 교수님, 신경외과 서진희 교수님, 정신건강의학과 오수아 교수님, 수의외과 서수진 원장님, 간호대학 김강선 교수님의 지도 아래 13개 보건대학 학과까지 완벽한 팀 의료(Team Medicine) 실습을 수행합니다.`
+            },
+            {
+                id: "nb5",
+                category: "교내철도/문화",
+                title: "[HBNU Rail 완벽 가이드] 신입생을 위한 교내트램 A선 & 모노레일 B선 연강 환승 백서",
+                date: "2026. 10. 12.",
+                author: "교통대학 학생회",
+                summary: "당선캠퍼스 대평원을 가로지르는 A선(9개 역)과 북부 기숙사·단과대를 순환하는 B선(15개 역)! 철도운전학과 박유영·고나미 선배의 전설과 함께 알아보는 교내철도.",
+                fullText: `언덕이 없는 대평원 캠퍼스 효빈대학교! 하지만 걸어서 이동하면 다리가 터지기 때문에 교내철도 HBNU Rail은 선택이 아닌 필수입니다.\n\n• A선(트램형): A01 수의대·동물병원역을 출발해 A02 효빈대병원(7호선 효빈대입구역 환승), A05 화공·전기대, A07 대학본부·충승당(2호선 효빈대역 환승)을 거쳐 A09 효빈대 중앙환승장까지 운행합니다.\n• B선(모노레일형): B01 교통대학 기지를 출발해 B02 중앙도서관, B03 사회복지대(5호선 소조역 환승), B09 베르데홀(2·5호선 당선역 환승), B10 북부기숙사를 순환합니다.`
+            },
+            {
+                id: "nb6",
+                category: "교내철도/문화",
+                title: "[캠퍼스 라이프] 붉은 벽돌 희다관(키타관)부터 후등관(봇치관)·니나관·아와관까지, 학생생활관 완전 정복!",
+                date: "2026. 10. 03.",
+                author: "학생생활관 자치회",
+                summary: "51번~56번 기숙사 타운의 개성 만점 별명 유래와 기숙사 식당 인기 메뉴를 소개합니다.",
+                fullText: `효빈대학교 북서쪽 기숙사 타운(51번~56번 건물)은 학우들 사이에서 애니메이션 캐릭터 별명으로 더 친숙하게 불립니다.\n\n여학생 기숙사인 희다관은 화사한 붉은 벽돌 외관 덕분에 '키타관', 조용하고 아늑한 남학생관 후등관은 '봇치관', 행정고시·CPA·임용고시 합격생을 배출하는 성가관은 엄격한 사감 선생님의 카리스마 덕분에 '세이카관'으로 통합니다. 20층 규모의 아파트형 기숙사 A동(니나관)과 23층 B동(아와관/스바루관) 사이의 끈끈한 우정 또한 효빈대 기숙사만의 자랑입니다.`
+            }
+        ];
+
+        // =========================================================================
+        // 5. 페이스북 포스트 데이터 (댓글 실시간 작성 기능 포함)
+        // =========================================================================
+        const FB_POSTS = [
+            {
+                id: "fb1",
+                time: "3시간 전",
+                title: "[학사공지 : 2026학년도 수강신청 및 선수과목(Prerequisite) 이수 점검 안내]",
+                body: `효빈대학교 학우 여러분, 전산교육관(45동) 학사정보시스템에서 2026학년도 수강신청 및 선수과목 이수 검증이 진행 중입니다.\n\n📌 주요 확인 사항:\n1. 1학년~2학년 1학기 재학생은 기초교양(창의적 글쓰기, 통계적 사고와 사회, 비판적 토론, 컴퓨터과학과 코딩, 실용영어) 및 진로설계(0.5학점) 과목이 기본 배정됩니다.\n2. 2학년 2학기 이상 고학년은 기초교양 자동신청이 제외되며, 소속 학과 전공필수(3.0학점) 위주로 신청됩니다.\n3. 특히 사회복지학대학 3학년 2학기 [사회복지현장실습 1] 수강 신청자는 선수과목인 [인간행동과 사회환경(1-1)] → [사회복지실천론(2-1)] → [사회복지실천기술론(2-2)]을 모두 이수했는지 반드시 확인하시기 바랍니다.\n\n👉 학교 공식 홈페이지 바로가기: index.html`,
+                likes: 1842,
+                liked: false,
+                comments: [
+                    { author: "박효빈 (사회복지학·경영학)", text: "선수과목 체계랑 3학년 2학기 현장실습 공지 확인 완료했습니다!" },
+                    { author: "김시연 (정치외교학과 학생회장)", text: "사회과학대학 및 사회복지학대학 학우분들 수강신청 시간표 겹치지 않게 미리 체크하세요~" }
+                ]
+            },
+            {
+                id: "fb2",
+                time: "어제 오후 6:20",
+                title: "[총장실 소식 : 제26대 민부선 총장님 '효빈학의 이해' & '사회복지경영론' 열린 특강]",
+                body: `우리 대학 제26대 총장이신 민부선 교수님(사회복지경영학과)의 특별 공개강연이 베르데 홀(29동) 대공연장에서 개최됩니다.\n\n'서브컬처 가상공동체(Fandom)가 창출하는 사회적 자본과 현대 복지경영의 미래'를 주제로 진행되는 이번 강연에는 효빈대학교 재학생 누구나 참석 가능하며, 참석 학우 전원에게 베르데 홀 1층 베이커리의 '엠마의 샌드위치' 교환권이 제공됩니다.`,
+                likes: 2910,
+                liked: false,
+                comments: [
+                    { author: "주성우 (사회복지경영학과)", text: "민 총장님 특강은 무조건 1열 사수입니다!!" },
+                    { author: "엠마 체레스떼 (국제학부)", text: "베르데 홀에서 만나는 총장님 강연이라니 너무 기대돼요 💚" }
+                ]
+            }
+        ];
+
+        let currentYoutubeFilter = 'ALL';
+        let currentNaverCategory = 'ALL';
+
+        // =========================================================================
+        // 초기화 및 렌더링 함수들
+        // =========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderInstaHighlights();
+            renderInstaGrid();
+            renderYoutubeGrid();
+            renderXFeed();
+            renderNaverBlog();
+            renderFbFeed();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        function switchSns(platform) {
+            document.querySelectorAll('.sns-tab').forEach(el => {
+                el.classList.remove('active', 'active-insta', 'active-youtube', 'active-x', 'active-naver', 'active-fb');
+            });
+            const activeTab = document.getElementById(`tab-${platform}`);
+            if (activeTab) activeTab.classList.add('active', `active-${platform}`);
+
+            document.querySelectorAll('.sns-view').forEach(el => el.classList.remove('active'));
+            const activeView = document.getElementById(`view-${platform}`);
+            if (activeView) activeView.classList.add('active');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function toggleFollowBtn(btn) {
+            if (btn.innerText.includes("팔로잉") || btn.innerText.includes("구독중")) {
+                btn.innerText = "팔로우";
+                btn.className = "bg-[#0095f6] hover:bg-blue-600 text-white font-bold text-xs px-5 py-1.5 rounded-lg transition";
+            } else {
+                btn.innerText = "팔로잉 ✓";
+                btn.className = "bg-slate-200 hover:bg-slate-300 text-slate-900 font-black text-xs px-5 py-1.5 rounded-lg transition";
+            }
+        }
+
+        function toggleYoutubeSub(btn) {
+            if (btn.innerText.includes("구독중")) {
+                btn.innerText = "구독";
+                btn.className = "bg-red-600 text-white font-black text-xs px-5 py-2 rounded-full hover:bg-red-700 transition";
+            } else {
+                btn.innerText = "구독중 🔔";
+                btn.className = "bg-white text-black font-black text-xs px-5 py-2 rounded-full hover:bg-neutral-200 transition";
+            }
+        }
+
+        // ---------------- [1] 인스타그램 렌더링 & 모달 ----------------
+        function renderInstaHighlights() {
+            const bar = document.getElementById('insta-highlights-bar');
+            bar.innerHTML = INSTA_STORIES.map((st, idx) => `
+                <div onclick="openStoryModal(${idx})" class="flex flex-col items-center gap-1.5 cursor-pointer group shrink-0">
+                    <div class="insta-story-ring p-0.5 group-hover:scale-105 transition-transform">
+                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl border-2 border-white shadow-inner">${st.icon}</div>
+                    </div>
+                    <span class="text-xs font-bold text-slate-800">${st.title}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderInstaGrid() {
+            const box = document.getElementById('insta-grid-container');
+            box.innerHTML = INSTA_POSTS.map((p, idx) => `
+                <div onclick="openInstaPostModal(${idx})" class="insta-grid-item rounded-lg bg-gradient-to-br ${p.bgClass} p-4 flex flex-col justify-between text-white shadow-sm">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-[10px] font-black bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">${p.tag}</span>
+                        <i data-lucide="${p.icon}" class="w-5 h-5 opacity-85"></i>
+                    </div>
+                    <div class="my-auto text-center px-1">
+                        <p class="font-black text-xs sm:text-base leading-snug drop-shadow">${p.title}</p>
+                    </div>
+                    <div class="text-[10px] opacity-80 flex justify-between items-center">
+                        <span>@hbnu_official</span>
+                        <span>${p.date}</span>
+                    </div>
+                    <div class="overlay">
+                        <span class="flex items-center text-sm"><i data-lucide="heart" class="w-4 h-4 mr-1 fill-white"></i> ${p.likes.toLocaleString()}</span>
+                        <span class="flex items-center text-sm"><i data-lucide="message-circle" class="w-4 h-4 mr-1 fill-white"></i> ${p.comments.length}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openStoryModal(idx) {
+            const st = INSTA_STORIES[idx];
+            const modal = document.getElementById('sns-modal');
+            const content = document.getElementById('sns-modal-content');
+            content.innerHTML = `
+                <div class="bg-gradient-to-br from-[#1e2a78] via-indigo-900 to-slate-900 text-white p-8 space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-3xl">${st.icon}</span>
+                            <div>
+                                <div class="text-xs text-emerald-300 font-black">${st.badge}</div>
+                                <h3 class="text-xl font-black">HBNU 스토리 하이라이트 : ${st.title}</h3>
+                            </div>
+                        </div>
+                        <button onclick="closeSnsModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+                    </div>
+                    <p class="text-sm sm:text-base leading-relaxed text-indigo-100">${st.desc}</p>
+                    <div class="pt-4 flex justify-between items-center border-t border-white/15 text-xs">
+                        <a href="index.html" class="bg-[#4caf50] hover:bg-emerald-600 text-white font-black px-4 py-2 rounded-xl">🏫 효빈대학교 홈페이지에서 자세히 보기</a>
+                        <button onclick="closeSnsModal()" class="bg-white/15 hover:bg-white/25 px-4 py-2 rounded-xl font-bold">닫기</button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openInstaPostModal(idx) {
+            const p = INSTA_POSTS[idx];
+            const modal = document.getElementById('sns-modal');
+            const content = document.getElementById('sns-modal-content');
+
+            const commentsHtml = p.comments.map(c => `
+                <div class="text-xs leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                    <strong class="font-black text-[#1e2a78] mr-1.5">${c.user}</strong>
+                    <span class="text-slate-700">${c.text}</span>
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-12 max-h-[85vh] overflow-y-auto">
+                    <div class="md:col-span-5 bg-gradient-to-br ${p.bgClass} text-white p-6 flex flex-col justify-between min-h-[260px]">
+                        <span class="text-xs font-black bg-black/30 px-2.5 py-1 rounded-full w-fit">${p.tag}</span>
+                        <div class="my-6">
+                            <h3 class="text-xl font-black leading-snug">${p.title}</h3>
+                            <p class="text-xs opacity-80 mt-2">효빈대학교 공식 인스타그램 카드뉴스</p>
+                        </div>
+                        <a href="index.html" class="text-xs font-black bg-white/20 hover:bg-white/30 px-3 py-2 rounded-xl text-center">
+                            🔗 www.hbnu.ac.kr 공식 홈페이지 이동
+                        </a>
+                    </div>
+                    <div class="md:col-span-7 p-6 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b pb-3">
+                                <div class="flex items-center gap-2">
+                                    <img src="이미지/효빈대_로고.webp" class="w-7 h-7 object-contain" alt="HBNU">
+                                    <span class="font-black text-sm">hbnu_official</span>
+                                    <span class="text-xs text-slate-400">• ${p.date}</span>
+                                </div>
+                                <button onclick="closeSnsModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed">${p.content}</p>
+                            <div class="pt-2">
+                                <div class="text-xs font-black text-slate-500 mb-2">댓글 (${p.comments.length}개)</div>
+                                <div class="space-y-2 max-h-44 overflow-y-auto pr-1" id="insta-modal-comments">${commentsHtml}</div>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t space-y-2">
+                            <div class="flex items-center justify-between text-xs font-black">
+                                <button onclick="likeInstaPost(${idx})" class="flex items-center gap-1.5 text-rose-600 hover:scale-105 transition">
+                                    <i data-lucide="heart" class="w-4 h-4 fill-rose-600"></i> 좋아요 <span id="insta-like-num">${p.likes.toLocaleString()}</span>개
+                                </button>
+                                <span class="text-slate-400">${p.date}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="text" id="insta-comment-input" onkeydown="if(event.key==='Enter') addInstaComment(${idx})" placeholder="학우 댓글 달기..." class="flex-1 border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[#1e2a78]">
+                                <button onclick="addInstaComment(${idx})" class="bg-[#1e2a78] text-white font-black text-xs px-4 py-1.5 rounded-xl">게시</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function likeInstaPost(idx) {
+            INSTA_POSTS[idx].likes++;
+            document.getElementById('insta-like-num').innerText = INSTA_POSTS[idx].likes.toLocaleString();
+            renderInstaGrid();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function addInstaComment(idx) {
+            const input = document.getElementById('insta-comment-input');
+            const val = input.value.trim();
+            if (!val) return;
+            INSTA_POSTS[idx].comments.push({ user: "hbnu_student (재학생)", text: val });
+            input.value = '';
+            openInstaPostModal(idx);
+            renderInstaGrid();
+        }
+
+        // ---------------- [2] 유튜브 렌더링 & 모달 ----------------
+        function filterYoutube(type) {
+            currentYoutubeFilter = type;
+            ['ALL', 'LONG', 'SHORTS'].forEach(t => {
+                const btn = document.getElementById(`yt-tab-${t}`);
+                if (!btn) return;
+                btn.className = (t === type)
+                    ? "py-3 border-b-2 border-white text-white font-black"
+                    : "py-3 text-neutral-400 hover:text-white font-bold";
+            });
+            renderYoutubeGrid();
+        }
+
+        function renderYoutubeGrid() {
+            const box = document.getElementById('youtube-grid-container');
+            const list = YOUTUBE_VIDEOS.filter(v => currentYoutubeFilter === 'ALL' || v.type === currentYoutubeFilter);
+
+            box.innerHTML = list.map(v => `
+                <div onclick="openYoutubeModal('${v.id}')" class="cursor-pointer group bg-neutral-900/70 rounded-xl overflow-hidden border border-neutral-800 hover:border-neutral-600 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="w-full aspect-video bg-gradient-to-br ${v.bgClass} relative flex flex-col justify-between p-3.5">
+                            <span class="text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded w-fit">${v.badge}</span>
+                            <div class="my-auto flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-black/60 group-hover:bg-red-600 flex items-center justify-center transition-colors">
+                                    <i data-lucide="play" class="w-6 h-6 text-white fill-white ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="self-end bg-black/85 text-white text-[11px] px-1.5 py-0.5 rounded font-mono-code font-bold">${v.duration}</span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-sm text-white group-hover:text-[#3ea6ff] transition leading-snug">${v.title}</h4>
+                            <p class="text-xs text-neutral-400 mt-1.5 line-clamp-2">${v.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-3 text-[11px] text-neutral-400 flex justify-between items-center border-t border-neutral-800/80 pt-2">
+                        <span>조회수 ${v.views}</span>
+                        <span>${v.date}</span>
+                    </div>
+                </div>
+            `).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openYoutubeModal(vid) {
+            const v = YOUTUBE_VIDEOS.find(x => x.id === vid);
+            if (!v) return;
+            const modal = document.getElementById('sns-modal');
+            const content = document.getElementById('sns-modal-content');
+            content.innerHTML = `
+                <div class="bg-[#0f0f0f] text-white p-6 space-y-4">
+                    <div class="w-full aspect-video rounded-xl bg-gradient-to-br ${v.bgClass} flex flex-col items-center justify-center p-6 text-center relative border border-neutral-700">
+                        <i data-lucide="tv" class="w-12 h-12 text-red-500 mb-2"></i>
+                        <div class="text-xs font-black text-emerald-300 mb-1">HBNU OFFICIAL STREAMING PLAYER (${v.duration})</div>
+                        <h3 class="text-base sm:text-xl font-black max-w-xl">${v.title}</h3>
+                        <p class="text-xs text-neutral-300 mt-2 max-w-lg">${v.desc}</p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-800 pb-3">
+                        <div class="text-xs text-neutral-400">조회수 ${v.views} • ${v.date} • 효빈대학교 공식채널</div>
+                        <div class="flex gap-2">
+                            <a href="index.html" class="bg-[#3ea6ff] text-black font-black text-xs px-3.5 py-1.5 rounded-full">🏫 학교 홈페이지 이동</a>
+                            <button onclick="closeSnsModal()" class="bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold px-4 py-1.5 rounded-full">닫기</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-xs font-black text-neutral-300">베스트 댓글</div>
+                        ${v.comments.map(c => `<div class="p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 text-xs text-neutral-200">💬 ${c}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // ---------------- [3] X (트위터) 렌더링 & 새 트윗 작성 ----------------
+        function renderXFeed() {
+            const box = document.getElementById('x-feed-container');
+            box.innerHTML = X_TWEETS.map((t, idx) => `
+                <div class="p-4 hover:bg-slate-50/80 transition flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white border p-1 shrink-0">
+                        <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="font-black text-sm text-slate-900">${t.author}</span>
+                            <i data-lucide="badge-check" class="w-4 h-4 text-[#1DA1F2] fill-[#1DA1F2] text-white"></i>
+                            <span class="text-slate-500 text-xs">${t.handle} · ${t.time}</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed mb-3">${t.content}</p>
+                        <div class="flex justify-between text-slate-500 text-xs max-w-md">
+                            <span class="flex items-center gap-1 hover:text-sky-600 cursor-pointer"><i data-lucide="message-circle" class="w-4 h-4"></i> ${t.replies}</span>
+                            <button onclick="bumpTweetStat(${idx}, 'retweets')" class="flex items-center gap-1 hover:text-emerald-600"><i data-lucide="repeat-2" class="w-4 h-4"></i> ${t.retweets}</button>
+                            <button onclick="bumpTweetStat(${idx}, 'likes')" class="flex items-center gap-1 text-rose-500 font-bold"><i data-lucide="heart" class="w-4 h-4 fill-rose-500"></i> ${t.likes}</button>
+                            <span class="flex items-center gap-1"><i data-lucide="bar-chart-2" class="w-4 h-4"></i> ${t.views}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function bumpTweetStat(idx, field) {
+            X_TWEETS[idx][field]++;
+            renderXFeed();
+        }
+
+        function postNewTweet() {
+            const input = document.getElementById('new-tweet-input');
+            const val = input.value.trim();
+            if (!val) return;
+            X_TWEETS.unshift({
+                id: Date.now(),
+                author: "효빈대 재학생 제보",
+                handle: "@HBNU_Student",
+                time: "방금 전",
+                content: `${val}\n#효빈대학교 #HBNU_Rail`,
+                replies: 1,
+                retweets: 1,
+                likes: 1,
+                views: "12"
+            });
+            input.value = '';
+            renderXFeed();
+        }
+
+        // ---------------- [4] 네이버 블로그 렌더링 & 본문 리더기 ----------------
+        function filterNaverBlog(cat) {
+            currentNaverCategory = cat;
+            document.querySelectorAll('.naver-cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "naver-cat-btn w-full text-left px-3 py-2 rounded-lg bg-[#03C75A] text-white font-black";
+                } else {
+                    btn.className = "naver-cat-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-bold";
+                }
+            });
+            document.getElementById('naver-post-reader').classList.add('hidden');
+            renderNaverBlog();
+        }
+
+        function renderNaverBlog() {
+            const listEl = document.getElementById('naver-post-list');
+            const filtered = NAVER_POSTS.filter(p => currentNaverCategory === 'ALL' || p.category === currentNaverCategory);
+
+            listEl.innerHTML = filtered.map(p => `
+                <div onclick="openNaverPost('${p.id}')" class="p-4 rounded-xl border border-slate-200 hover:border-[#03C75A] bg-white cursor-pointer transition-all shadow-sm flex flex-col sm:flex-row justify-between gap-4">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#03C75A] font-black text-[10px] border border-emerald-200">${p.category}</span>
+                            <span class="text-xs text-slate-400">${p.date} · ${p.author}</span>
+                        </div>
+                        <h4 class="font-black text-base text-slate-900 hover:text-[#03C75A] transition">${p.title}</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">${p.summary}</p>
+                    </div>
+                    <div class="shrink-0 flex items-center">
+                        <span class="text-xs font-black text-[#03C75A] bg-emerald-50 px-3 py-1.5 rounded-lg">전문 읽기 →</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openNaverPost(postId) {
+            const p = NAVER_POSTS.find(x => x.id === postId);
+            if (!p) return;
+            const reader = document.getElementById('naver-post-reader');
+            reader.innerHTML = `
+                <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
+                    <div>
+                        <span class="px-2 py-0.5 rounded bg-[#03C75A] text-white text-[10px] font-black">${p.category}</span>
+                        <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-1">${p.title}</h3>
+                        <div class="text-xs text-slate-500 mt-0.5">${p.date} · 작성자: ${p.author}</div>
+                    </div>
+                    <button onclick="document.getElementById('naver-post-reader').classList.add('hidden')" class="text-xs font-bold bg-white border px-3 py-1.5 rounded-lg hover:bg-slate-100">접기 ✕</button>
+                </div>
+                <div class="text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed pt-2">${p.fullText}</div>
+                <div class="pt-3 border-t border-emerald-200 flex justify-between items-center text-xs">
+                    <a href="index.html" class="font-black text-[#03C75A] hover:underline">🏫 효빈대학교 공식 홈페이지(www.hbnu.ac.kr)로 이동</a>
+                    <span class="text-slate-400">공감 ♥ 312 · 댓글 28</span>
+                </div>
+            `;
+            reader.classList.remove('hidden');
+            reader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ---------------- [5] 페이스북 렌더링 & 댓글 작성 ----------------
+        function renderFbFeed() {
+            const box = document.getElementById('fb-feed-container');
+            box.innerHTML = FB_POSTS.map((p, idx) => `
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 flex items-center justify-between border-b border-slate-100">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-full border bg-white p-1">
+                                <img src="이미지/효빈대_로고.webp" class="w-full h-full object-contain" alt="HBNU">
+                            </div>
+                            <div>
+                                <div class="font-black text-sm text-slate-900 flex items-center gap-1">
+                                    <span>효빈대학교 (HBNU)</span>
+                                    <i data-lucide="badge-check" class="w-4 h-4 text-[#1877F2] fill-[#1877F2] text-white"></i>
+                                </div>
+                                <div class="text-[11px] text-slate-500">${p.time} · 🌐 전체공개</div>
+                            </div>
+                        </div>
+                        <a href="index.html" class="text-xs font-bold text-[#1877F2] hover:underline">hbnu.ac.kr</a>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-sm sm:text-base text-[#1e2a78]">${p.title}</h4>
+                        <p class="text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed">${p.body}</p>
+                    </div>
+                    <div class="px-4 py-2 bg-slate-50 border-t border-b flex justify-between text-xs text-slate-600 font-bold">
+                        <span>👍 ❤️ 좋아요 ${p.likes.toLocaleString()}명</span>
+                        <span>댓글 ${p.comments.length}개</span>
+                    </div>
+                    <div class="px-4 py-2 flex gap-2 border-b">
+                        <button onclick="toggleFbLike(${idx})" class="flex-1 py-1.5 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 ${p.liked ? 'bg-blue-50 text-[#1877F2]' : 'hover:bg-slate-100 text-slate-600'}">
+                            <i data-lucide="thumbs-up" class="w-4 h-4"></i> ${p.liked ? '좋아요 취소' : '좋아요'}
+                        </button>
+                        <a href="index.html" class="flex-1 py-1.5 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-slate-100 text-slate-600">
+                            <i data-lucide="external-link" class="w-4 h-4"></i> 공식 홈페이지 이동
+                        </a>
+                    </div>
+                    <div class="p-4 bg-slate-50/60 space-y-2">
+                        ${p.comments.map(c => `
+                            <div class="text-xs bg-white p-2.5 rounded-xl border border-slate-200">
+                                <strong class="font-black text-slate-900 mr-1.5">${c.author}</strong>
+                                <span class="text-slate-700">${c.text}</span>
+                            </div>
+                        `).join('')}
+                        <div class="flex gap-2 pt-1">
+                            <input type="text" id="fb-comment-input-${idx}" onkeydown="if(event.key==='Enter') addFbComment(${idx})" placeholder="댓글을 입력하세요..." class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[#1877F2]">
+                            <button onclick="addFbComment(${idx})" class="bg-[#1877F2] text-white font-black text-xs px-3.5 py-1.5 rounded-xl">등록</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function toggleFbLike(idx) {
+            FB_POSTS[idx].liked = !FB_POSTS[idx].liked;
+            FB_POSTS[idx].likes += FB_POSTS[idx].liked ? 1 : -1;
+            renderFbFeed();
+        }
+
+        function addFbComment(idx) {
+            const input = document.getElementById(`fb-comment-input-${idx}`);
+            const val = input.value.trim();
+            if (!val) return;
+            FB_POSTS[idx].comments.push({ author: "효빈대 재학생", text: val });
+            input.value = '';
+            renderFbFeed();
+        }
+
+        function closeSnsModal() {
+            const modal = document.getElementById('sns-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>

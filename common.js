@@ -162,22 +162,22 @@ const OLD_URLS = {
     "HBNU 포털": "hbnu_portal.html",
     "종합정보시스템": "hbnu_portal.html",
 
-    // 7. SNS 및 HBNU anis (위키)
-    "인스타그램": "hbnu_community.html",
-    "유튜브": "hbnu_community.html",
-    "페이스북": "hbnu_community.html",
-    "네이버블로그": "hbnu_community.html",
-    "엑스": "hbnu_community.html",
-    "HBNU anis": "HBNUanis.html",
-    "HBNU anis 홈": "HBNUanis.html",
-    "개요": "HBNUanis.html",
-    "캠퍼스 특징": "HBNUanis.html",
-    "주요 학과 (S등급)": "HBNUanis.html",
-    "학부 대학원": "hbnu_colleges.html",
-    "부속 시설": "hbnu_campus.html",
-    "학내 문화": "HBNUanis.html",
-    "사건 및 사고": "HBNUanis.html",
-    "여담": "HBNUanis.html",
+// 7. SNS 및 HBNU anis (공식 캠퍼스 백과 플랫폼 - SPA 해시 라우팅 완벽 지원)
+    "인스타그램": "http://localhost:8004/instagram.html?user=hbnu_official",
+    "유튜브": "hbnu_sns.html#youtube",
+    "페이스북": "hbnu_sns.html#facebook",
+    "네이버블로그": "hbnu_sns.html#blog",
+    "엑스": "hbnu_sns.html#x",
+    "HBNU anis": "HBNUanis.html#home",
+    "HBNU anis 홈": "HBNUanis.html#home",
+    "개요": "HBNUanis.html#overview",
+    "캠퍼스 특징": "HBNUanis.html#campus-features",
+    "주요 학과 (S등급)": "HBNUanis.html#s-grade-depts",
+    "학부 대학원": "HBNUanis.html#colleges",
+    "부속 시설": "HBNUanis.html#facilities",
+    "학내 문화": "HBNUanis.html#culture",
+    "사건 및 사고": "HBNUanis.html#incidents",
+    "여담": "HBNUanis.html#trivia",
     "도시철도 마스코트": "교내교통시스템.html"
 };
 
@@ -245,7 +245,7 @@ const MEGA_MENU = [
         { name: "뉴스광장", items: ["효빈뉴스", "HBNU News", "특강 세미나", "교육정책"] },
         { name: "이용안내", items: ["정보공개", "홈페이지운영지침", "개인정보처리방침", "이메일무단수집거부", "국민신문고"] }
     ]},
-    { title: "SNS", url: "hbnu_community.html", groups: [
+    { title: "SNS", url: "hbnu_sns.html", groups: [
         { name: "공식 미디어", items: ["인스타그램", "유튜브", "페이스북", "네이버블로그", "엑스"] }
     ]},
     { title: "HBNU anis", url: "HBNUanis.html", groups: [
@@ -486,3 +486,87 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('footer-area')) renderFooter();
     if (typeof lucide !== 'undefined') lucide.createIcons();
 });
+
+// ============================================================================
+// ★ [링크 자동 납치기] 공통 JS 파일(또는 각 메인 홈페이지 하단)에 붙여넣기만 하면 끝!
+// 기존에 'OO 인스타그램.html', 'hbnu_inst.html' 등으로 되어 있던 모든 링크를
+// 자동으로 http://localhost:8004/instagram.html?user=아이디 로 연결해 줍니다!
+// ============================================================================
+document.addEventListener('click', function(e) {
+    const aTag = e.target.closest('a');
+    if (!aTag) return;
+
+    const rawHref = decodeURIComponent(aTag.getAttribute('href') || '');
+    if (!rawHref) return;
+
+    // '인스타그램', '인스타', 'inst', 'profile.html?user=' 이 포함된 링크인지 감지
+    if (rawHref.includes('인스타') || rawHref.includes('inst') || rawHref.includes('profile.html?user=')) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 한글 문서명 / 파일명 -> 실제 인스타 @아이디 자동 매핑 사전
+        const NAME_TO_ID_MAP = {
+            '효빈대학교': 'hbnu_official',
+            'hbnu': 'hbnu_official',
+            '효빈광역시청': 'hyobin_city_official',
+            '효빈시청': 'hyobin_city_official',
+            '박효빈': 'hyobin_city_official',
+            '민부선': 'min_president26',
+            '은권규': 'eun_profiler',
+            '박윤영': 'park_dean_swc',
+            '최형석': 'choi_realestate',
+            '태상훈': 'tae_econ',
+            '권기준': 'kwon_rail_mit',
+            '오다구': 'odagu_rail_otaku',
+            '김시연': 'siyun_pol',
+            '고다솔': 'dasol_astro',
+            '강하애': 'ha_ae_kang',
+            '나수미': 'sumi_bread',
+            '오이슬': 'oiseul_voice',
+            '임세하': 'seha_im_line7',
+            '임세정': 'sejeong_im_line7',
+            '고나미': 'gonami_line1',
+            '하루빈': 'harubin_line2',
+            '박라미': 'rami_park_line3',
+            '다로나': 'darona_line4',
+            '미소하': 'misoha_line5',
+            '라세나': 'sena_ra_line6',
+            '유리아': 'yuria_line8',
+            '전노아': 'noa_jeon_binhyo',
+            '심세이': 'sei_changjeon',
+            '박빛나': 'bitna_burc',
+            '김소빈': 'sobin_burc2',
+            '이덕희': 'deokhee_deokju1',
+            '박현만': 'oldtype_hyunman',
+            '김성민': 'seongmin_assembly',
+            '이한선': 'iron_lady_hanseon',
+            '천성현': 'chief_cheon_chikariko',
+            '천비서실장': 'chief_cheon_chikariko',
+            '윤재훈': 'real_yoonjaehoon',
+            '윤대환': 'yoondaehwan_official',
+            '엠마': 'emma_verde_airport',
+            '카린': 'justice_citizen',
+            '카논': 'kanon_shibuya',
+            '치카': 'happy_hyobin_life',
+            '요우': 'subway_duck'
+        };
+
+        let targetUser = 'hbnu_official'; // 기본값
+
+        // 1) 만약 profile.html?user=아이디 형식이면 그대로 추출
+        if (rawHref.includes('user=')) {
+            targetUser = rawHref.split('user=')[1].split('&')[0].replace('.html', '');
+        } else {
+            // 2) 한글 파일명(예: '임세하 인스타그램.html', '효빈광역시청 인스타그램.html')에서 인물 매칭
+            for (const [krName, instaId] of Object.entries(NAME_TO_ID_MAP)) {
+                if (rawHref.includes(krName) || (aTag.innerText && aTag.innerText.includes(krName))) {
+                    targetUser = instaId;
+                    break;
+                }
+            }
+        }
+
+        // 8004번 포트(sns 서버)의 instagram.html로 즉시 이동!
+        window.location.href = `http://localhost:8004/instagram.html?user=${targetUser}`;
+    }
+}, true);

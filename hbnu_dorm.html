@@ -3,105 +3,543 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBNU 생활관</title>
+    <title>효빈대학교 학생생활관</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Noto Sans KR', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8f9fa; }
+        .hall-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .hall-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .badge-female { background-color: #ffe4e6; color: #e11d48; }
+        .badge-male { background-color: #e0f2fe; color: #0284c7; }
+        .badge-common { background-color: #f3f4f6; color: #4b5563; }
+        .badge-special { background-color: #fef08a; color: #854d0e; }
+        .lore-box { border-left: 3px solid #1e2a78; background: #f0f4f8; }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
+    
+    <!-- common.js에서 불러올 헤더 영역 -->
     <div id="header-area"></div>
 
     <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full">
-        <div class="relative rounded-xl overflow-hidden h-64 mb-10 bg-gray-800">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent z-10 flex flex-col justify-center px-10">
-                <h1 class="text-4xl font-bold text-white mb-2">편안한 휴식, 꿈을 키우는 공간</h1>
-                <p class="text-gray-200">효빈대학교 생활관에 오신 것을 환영합니다.</p>
+        
+        <!-- 메인 배너 -->
+        <div class="relative rounded-2xl overflow-hidden h-72 mb-12 shadow-lg bg-gray-900">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-10 flex flex-col justify-center px-10 md:px-12">
+                <span class="text-[#4caf50] font-bold mb-2 tracking-widest text-sm">HYOBIN NATIONAL UNIVERSITY DORMITORY</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">편안한 휴식,<br>꿈을 키우는 생활공간</h1>
+                <p class="text-gray-300 text-lg">총 18개 관, 1만 명 규모의 국내 최고 수준 주거 인프라</p>
             </div>
             <!-- 배경 이미지 (가상) -->
-            <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('https://이미지.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+            <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 퀵 메뉴 및 공지사항 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             <!-- 공지사항 -->
-            <div class="md:col-span-2">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-[#3344aa]">생활관 공지사항</h2>
-                    <a href="#" class="text-sm text-gray-500 hover:text-[#3344aa]">+ 더보기</a>
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50">
+                    <h2 class="text-lg font-bold text-[#1e2a78] flex items-center gap-2">
+                        <i data-lucide="bell" class="w-5 h-5"></i> 생활관 공지사항
+                    </h2>
+                    <a href="#" class="text-sm text-gray-500 hover:text-[#1e2a78] font-medium">+ 전체보기</a>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
-                    <ul class="divide-y divide-gray-100">
-                        <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center">
-                            <span class="truncate pr-4">[모집] 2025학년도 1학기 생활관 추가 입사 신청 안내</span>
-                            <span class="text-xs text-gray-400 whitespace-nowrap">2025.02.20</span>
-                        </li>
-                        <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center">
-                            <span class="truncate pr-4"><span class="text-red-500 font-bold">[필독]</span> 입사 시 준비물 및 반입 금지 물품 안내</span>
-                            <span class="text-xs text-gray-400 whitespace-nowrap">2025.02.15</span>
-                        </li>
-                        <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center">
-                            <span class="truncate pr-4">[식당] 3월 월간 식단표 안내</span>
-                            <span class="text-xs text-gray-400 whitespace-nowrap">2025.02.10</span>
-                        </li>
-                        <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center">
-                            <span class="truncate pr-4">[점검] 소방 시설 정기 점검 안내 (2/25)</span>
-                            <span class="text-xs text-gray-400 whitespace-nowrap">2025.02.05</span>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="divide-y divide-gray-100">
+                    <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded">필독</span>
+                            <span class="font-medium text-gray-800">2025학년도 1학기 생활관 호실 배정 결과 및 입사 안내</span>
+                        </div>
+                        <span class="text-sm text-gray-400">2025.02.20</span>
+                    </li>
+                    <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-1 rounded">안내</span>
+                            <span class="font-medium text-gray-800">입사 시 반입 금지 물품(전열기구 등) 및 택배 수령 안내</span>
+                        </div>
+                        <span class="text-sm text-gray-400">2025.02.15</span>
+                    </li>
+                    <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded">식당</span>
+                            <span class="font-medium text-gray-800">3월 1주차 생활관 직영식당(엠마의 식탁 등) 식단표</span>
+                        </div>
+                        <span class="text-sm text-gray-400">2025.02.10</span>
+                    </li>
+                    <li class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded">점검</span>
+                            <span class="font-medium text-gray-800">전체 생활관 소방 시설 및 호실 비품 정기 점검 안내</span>
+                        </div>
+                        <span class="text-sm text-gray-400">2025.02.05</span>
+                    </li>
+                </ul>
             </div>
 
-            <!-- 바로가기 메뉴 -->
-            <div class="space-y-4">
-                <button class="w-full bg-[#3344aa] text-white p-4 rounded-lg shadow hover:bg-[#2a3a9a] transition flex items-center justify-between">
-                    <span class="font-bold">입사 신청 / 조회</span>
-                    <i data-lucide="arrow-right-circle" width="20"></i>
+            <!-- 퀵 버튼 -->
+            <div class="flex flex-col gap-4">
+                <button class="w-full bg-[#1e2a78] text-white p-5 rounded-xl shadow-sm hover:bg-[#151d54] transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="log-in" class="w-6 h-6 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-lg">입/퇴사 신청 및 조회</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i>
                 </button>
-                <button class="w-full bg-white text-gray-700 border p-4 rounded-lg shadow-sm hover:bg-gray-50 transition flex items-center justify-between">
-                    <span class="font-bold">외박 신청</span>
-                    <i data-lucide="moon" width="20"></i>
+                <button class="w-full bg-white border border-gray-200 text-gray-700 p-5 rounded-xl shadow-sm hover:border-[#1e2a78] hover:text-[#1e2a78] transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="moon" class="w-6 h-6 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-lg">외박 신청 (23:30 마감)</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
                 </button>
-                <button class="w-full bg-white text-gray-700 border p-4 rounded-lg shadow-sm hover:bg-gray-50 transition flex items-center justify-between">
-                    <span class="font-bold">고장 수리 접수</span>
-                    <i data-lucide="wrench" width="20"></i>
+                <button class="w-full bg-white border border-gray-200 text-gray-700 p-5 rounded-xl shadow-sm hover:border-[#1e2a78] hover:text-[#1e2a78] transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="wrench" class="w-6 h-6 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-lg">고장 수리 접수</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
                 </button>
-                <button class="w-full bg-white text-gray-700 border p-4 rounded-lg shadow-sm hover:bg-gray-50 transition flex items-center justify-between">
-                    <span class="font-bold">상벌점 조회</span>
-                    <i data-lucide="alert-circle" width="20"></i>
+                <button class="w-full bg-white border border-gray-200 text-gray-700 p-5 rounded-xl shadow-sm hover:border-red-600 hover:text-red-600 transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="alert-triangle" class="w-6 h-6 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-lg">상벌점 조회</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
                 </button>
             </div>
         </div>
 
-        <!-- 관별 소개 -->
-        <div class="mt-12">
-            <h2 class="text-xl font-bold text-[#3344aa] mb-4">관별 안내</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded border">
-                    <h3 class="font-bold text-lg mb-1">니나관 (기숙사A)</h3>
-                    <p class="text-xs text-gray-500 mb-2">2인 1실 / 아파트형</p>
-                    <p class="text-sm text-gray-600">최신식 시설, 편의점, 세탁소, 헬스장 완비.</p>
+        <!-- 생활 수칙 요약 -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-16">
+            <h2 class="text-xl font-bold text-[#1e2a78] mb-4 flex items-center gap-2">
+                <i data-lucide="book-open-check" class="w-5 h-5"></i> 주요 생활수칙 및 규정 안내
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 출입 및 통금</h3>
+                    <p class="text-sm text-gray-600 mb-2">출입 통제 시간: <strong>01:00 ~ 05:00</strong><br><span class="text-xs text-gray-500">(※ 장곡천관, 궁하관 등 특수목적동 24시간 개방)</span></p>
+                    <p class="text-sm text-gray-600">외박은 당일 23:30까지 온라인 종합정보시스템 신청 필수 (미신고 무단외박 시 벌점 부과)</p>
                 </div>
-                <div class="bg-white p-4 rounded border">
-                    <h3 class="font-bold text-lg mb-1">아와관 (기숙사B)</h3>
-                    <p class="text-xs text-gray-500 mb-2">2인 1실 / 4인 1실</p>
-                    <p class="text-sm text-gray-600">대규모 수용 가능, 전용 식당 운영.</p>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-1"><i data-lucide="flame" class="w-4 h-4"></i> 화재 예방 (퇴사 주의)</h3>
+                    <p class="text-sm text-gray-600"><strong>반입 금지:</strong> 전기장판, 전열기, 취사도구, 향초 일체.</p>
+                    <p class="text-sm text-red-600 font-bold mt-2">※ 생활관 내 흡연, 취사, 전열기구 사용 적발 시 즉각 영구 퇴사 조치</p>
                 </div>
-                <div class="bg-white p-4 rounded border">
-                    <h3 class="font-bold text-lg mb-1">희다관 (기숙사1)</h3>
-                    <p class="text-xs text-gray-500 mb-2">4인 1실</p>
-                    <p class="text-sm text-gray-600">전통 있는 기숙사, 저렴한 관리비.</p>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-1"><i data-lucide="scale" class="w-4 h-4"></i> 상벌점 제도</h3>
+                    <p class="text-sm text-gray-600">벌점 <strong>15점</strong> 누적 시 다음 학기 입사 제한, <strong>20점</strong> 이상 시 중도 퇴사 조치.</p>
+                    <p class="text-sm text-gray-600 mt-2">이성 층 무단 출입, 타인 ID카드 도용 시 경고 없이 즉각 퇴사 및 학칙 회부.</p>
                 </div>
-                <div class="bg-white p-4 rounded border">
-                    <h3 class="font-bold text-lg mb-1">소금하우스</h3>
-                    <p class="text-xs text-gray-500 mb-2">게스트하우스</p>
-                    <p class="text-sm text-gray-600">외부 연구원 및 가족 방문객용 숙소.</p>
+            </div>
+        </div>
+
+        <!-- 18개 생활관 상세 디렉토리 -->
+        <div>
+            <div class="flex justify-between items-end border-b-2 border-gray-900 mb-6 pb-3">
+                <h2 class="text-3xl font-black text-gray-900">생활관 전체 디렉토리 <span class="text-lg font-bold text-[#1e2a78] ml-2">(총 18개 관)</span></h2>
+            </div>
+            
+            <!-- 필터 탭 -->
+            <div class="flex flex-wrap gap-2 mb-8" id="campus-tabs">
+                <button class="px-5 py-2.5 rounded-lg font-bold text-sm bg-[#1e2a78] text-white transition filter-btn shadow-sm" data-target="all">전체보기 (18관)</button>
+                <button class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition filter-btn shadow-sm" data-target="main">당선(본)캠퍼스 (11관)</button>
+                <button class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition filter-btn shadow-sm" data-target="ija">이자캠퍼스 (2관)</button>
+                <button class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition filter-btn shadow-sm" data-target="cheonju">천주캠퍼스 (2관)</button>
+                <button class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition filter-btn shadow-sm" data-target="nangwon">낭원캠퍼스 (2관)</button>
+                <button class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition filter-btn shadow-sm" data-target="gangju">강주캠퍼스 (1관)</button>
+            </div>
+
+            <!-- 기숙사 카드 그리드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="hall-grid">
+                
+                <!-- [당선캠퍼스] 1. 니나관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제51동 (아파트형 A)</span>
+                            <h3 class="text-2xl font-black text-gray-900">니나관 <span class="text-sm font-bold text-gray-400 ml-1">Nina Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-common">남녀 분리형</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        거실과 개별 욕실·발코니를 갖춘 20층 규모의 현대식 아파트형 학생생활관입니다. 1층 로비에 CU 편의점, 생협 카페, 무인세탁실 및 학생 커뮤니티 라운지가 완비되어 쾌적한 생활을 보장합니다.
+                    </p>
+                    <div class="lore-box p-3 mb-4 text-[13px] text-gray-600 rounded">
+                        <strong>💡 교내 밈:</strong> '이세리 니나'에서 이름을 따왔다는 썰이 정설. 가끔 로비 한가운데서 록 스피릿이 차오른 학생이 고성방가를 지르는 모습이 목격되기도 합니다.
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 20층 · 2/3인실 아파트 구조 (수용인원: 1,400명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#00CCAA]"></i>2호선 효빈대역 · 모노레일 B10</p>
+                    </div>
                 </div>
+
+                <!-- [당선캠퍼스] 2. 아와관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제52동 (아파트형 B)</span>
+                            <h3 class="text-2xl font-black text-gray-900">아와관 <span class="text-sm font-bold text-gray-400 ml-1">Awa Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-common">남녀 분리형</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        니나관 맞은편에 건립된 23층 초고층 아파트형 생활관입니다. 1층에는 교비 지원 천원의 아침밥과 균형 잡힌 3식을 제공하는 대규모 직영 식당('엠마의 식탁')과 대형 피트니스룸이 운영됩니다.
+                    </p>
+                    <div class="lore-box p-3 mb-4 text-[13px] text-gray-600 rounded">
+                        <strong>💡 교내 밈:</strong> 이름의 유래는 '아와 스바루'. 건너편 니나관 입사생 후배들에게 간식을 챙겨주는 기이하고도 훈훈한 전통이 이어져 오고 있습니다.
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 23층 · 대형 기숙사 식당 완비 (수용인원: 1,650명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#00CCAA]"></i>2호선 효빈대역 · 모노레일 B10</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 3. 희다관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제53-1~5동 (제1단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">희다관 1~5동 <span class="text-sm font-bold text-gray-400 ml-1">Heeda Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-female">여학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        따뜻한 붉은 벽돌 외관과 정원을 갖춘 여학생 전용 클러스터입니다. 리모델링을 통해 층마다 공유 주방과 셰어하우스형 라운지를 구축하였으며, 단지 내 전용 식당과 숲속 카페가 자리 잡고 있습니다.
+                    </p>
+                    <div class="lore-box p-3 mb-4 text-[13px] text-gray-600 rounded">
+                        <strong>💡 교내 밈:</strong> 화사한 분위기와 붉은 벽돌 덕분에 학생들 사이에선 봇치 더 록의 '키타 이쿠요'를 딴 <strong>'키타관'</strong>이라 불립니다.
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>여학생 전용 5개 동 · 셰어하우스 (수용인원: 1,800명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 · B11 보건진료소역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 4. 후등관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제53-6동 (제1단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">후등관 <span class="text-sm font-bold text-gray-400 ml-1">Hudeung Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-male">남학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        제1단지 내 깊고 조용한 숲길에 위치한 남학생 전용관입니다. 24시간 개방 정독실과 방음 부스, 그리고 전동 킥보드·자전거 무상 수리소인 '기어스(Gears)'가 마련되어 있습니다.
+                    </p>
+                    <div class="lore-box p-3 mb-4 text-[13px] text-gray-600 rounded">
+                        <strong>💡 교내 밈:</strong> 구석지고 어두운 위치 탓에 <strong>'봇치관(고토 히토리)'</strong>으로 통합니다. 가끔 옷장에서 몰래 기타를 치다 룸메이트에게 걸리는 학우가 속출합니다.
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>정숙 면학동 · 음악 연습 부스 (수용인원: 950명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 북부기숙사역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 5. 성가관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제53-7동 (제1단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">성가관 <span class="text-sm font-bold text-gray-400 ml-1">Seongga Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-special">국가고시반</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        5급 공채, 외교관, CPA, 임용고시 준비생을 위한 전용 생활관입니다. 전 객실 1인 1실 배정 및 고도의 정숙 관리가 이루어지며, 수험생 체력 보강을 위해 보양식 특화 식당이 연결되어 있습니다.
+                    </p>
+                    <div class="lore-box p-3 mb-4 text-[13px] text-gray-600 rounded">
+                        <strong>💡 교내 밈:</strong> 사감 선생님의 엄격하고 깐깐한 관리(하지만 은근히 잘 챙겨줌) 덕분에 학생들은 이곳을 <strong>'세이카관(이지치 세이카)'</strong>이라 부릅니다.
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>국가고시 준비반 전용 1인 1실 (수용인원: 320명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 북부기숙사역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 6. 청수관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제54-1동 (제2단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">청수관 <span class="text-sm font-bold text-gray-400 ml-1">Cheongsu Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-special">교원/연구원</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        외국인 전임교원, 해외 객원교수 및 박사후연구원(Post-Doc) 전용 주거동입니다. 세대별 개별 취사 시설과 최고급 빌트인 가전이 완비되어 장기 체류 연구자의 안정적인 정착을 지원합니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>외국인 교원 및 초빙연구원 숙소 (원룸·투룸형)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 북부기숙사역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 7. 지마관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제54-2동 (제2단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">지마관 <span class="text-sm font-bold text-gray-400 ml-1">Jima Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-special">가족동반</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        기혼 대학원생 및 학부생 부부가 자녀와 함께 거주할 수 있도록 쓰리룸(3-Room) 아파트 구조로 설계된 가족동반 생활관입니다. 교내 어린이집(제33동) 우선 입소 혜택이 주어집니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="baby" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>어린이 놀이터 및 육아 품앗이 가족라운지</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 북부기숙사역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 8. 양인관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제54-3~4동 (제2단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">양인관 1~2동 <span class="text-sm font-bold text-gray-400 ml-1">Yangin Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-special">전문대학원</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        법학전문대학원(로스쿨) 및 의학·치의학전문대학원 재학생을 위한 전용 생활관입니다. 방대한 학업량을 소화하기 위해 전 객실 1인 1실 방음 설계 및 동별 판례·의학 스터디룸이 구비되어 있습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>법학·의학·치의학전원 전용 1인실 (수용인원: 600명)</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B05 법전원역 · B10</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 9. 장곡천관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제54-5~7동 (제2단지)</span>
+                            <h3 class="text-2xl font-black text-gray-900">장곡천관 1~3동 <span class="text-sm font-bold text-gray-400 ml-1">Janggokcheon</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-special">일반대학원</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        야간 실험과 논문 집필이 잦은 일반대학원 석·박사 전일제 연구생 전용관입니다. 학부생과 달리 통금 제한 없이 24시간 지문 인식 자유 출입이 가능하며, 1동 1층에 심야 카페와 세븐일레븐이 있습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="clock" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>일반대학원생 통금 면제 · 24시간 세븐일레븐 운영</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>모노레일 B10 북부기숙사역</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 10. 관리동 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제55동 (본부)</span>
+                            <h3 class="text-2xl font-black text-gray-900">생활관 관리동 <span class="text-sm font-bold text-gray-400 ml-1">Admin</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded bg-gray-800 text-white">행정/보안</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        18개 전 생활관의 입·퇴사 행정 처리, 시설물 유지 보수, 대형 무인택배 종합 보관 및 24시간 유인 CCTV 보안관제를 총괄하는 캠퍼스 기숙사 촌의 심장이자 컨트롤 타워입니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="shield-check" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>통합행정실 · 무인택배 관제 · 24시간 종합상황실</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#EE0022]"></i>5호선·2호선 당선역 · 모노레일 B10</p>
+                    </div>
+                </div>
+
+                <!-- [당선캠퍼스] 11. 소금하우스 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-main flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 mb-1 block">제56동 (학술교류관)</span>
+                            <h3 class="text-2xl font-black text-gray-900">소금하우스 <span class="text-sm font-bold text-gray-400 ml-1">Sogeum House</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded bg-purple-100 text-purple-700">게스트하우스</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        국내외 학술대회 초청 연사, 교환교수 및 외빈을 모시기 위한 정갈하고 품격 있는 4성급 호텔형 게스트하우스입니다. 최고급 침구를 갖춘 양실 스위트 객실과 전통 다도실(화실)을 제공합니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="hotel" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>학술 게스트하우스 · 스위트/디럭스/화실</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#00CCAA]"></i>2호선·5호선 당선역 도보 3분</p>
+                    </div>
+                </div>
+
+                <!-- [이자캠퍼스] 12. 이화관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-ija">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#4caf50] mb-1 block">이자 I-18동 (A동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">이화관 <span class="text-sm font-bold text-gray-400 ml-1">Ihwa Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-female">여학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        농업대학·생명대학·디자인대학 여학생 전용 생활관. 봄철 배꽃과 벚꽃이 만개하는 이화원(배나무 과수원) 정원의 압도적 뷰를 자랑하며, 밤샘 작업이 잦은 미대생을 위한 디자인 과제 전용 작업실을 운영합니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 8층 (2인 1실) · 무인편의점</p>
+                        <p><i data-lucide="map-pin" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>이자캠퍼스 이화원(과수원) 인접</p>
+                    </div>
+                </div>
+
+                <!-- [이자캠퍼스] 13. 신리관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-ija">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#4caf50] mb-1 block">이자 I-19동 (B동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">신리관 <span class="text-sm font-bold text-gray-400 ml-1">Sinri Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-male">남학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        이자캠퍼스 남학생 전용 생활관입니다. 1층에 교비 지원 조식 식당('엠마의 식탁' 이자점), 헬스장, 편의점이 밀집해 있으며 서문 보행육교(I-20)를 건너면 코스트코 등 인접 상권과 바로 직결되는 최고의 인프라를 가졌습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 8층 · 기숙사 직영식당 운영</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#6677CC]"></i>빈효선 리의역 도보 5분</p>
+                    </div>
+                </div>
+
+                <!-- [천주캠퍼스] 14. 궁하관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-cheonju">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#f59e0b] mb-1 block">천주 C-13동 (A동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">궁하관 <span class="text-sm font-bold text-gray-400 ml-1">Gungha Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-male">남학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        천주캠퍼스 남학생 전용관. 심야 시간까지 웹툰·게임 실습실 및 특수장비 격납고에서 과제를 수행해야 하는 응용과학/예술대 학우들의 생체 리듬을 반영하여 통금 없이 24시간 개방되며 암막 수면실이 별도로 마련되어 있습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 9층 · 통금 면제(24시) · 웹툰/게임 실습실</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#6677CC]"></i>빈효선 궁하역 도보 5분</p>
+                    </div>
+                </div>
+
+                <!-- [천주캠퍼스] 15. 아이관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-cheonju">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#f59e0b] mb-1 block">천주 C-14동 (B동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">아이관 <span class="text-sm font-bold text-gray-400 ml-1">Ai Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-female">여학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        천주캠퍼스 여학생 전용 생활관. 천주 대학가 상권과 마주하고 있으며, 건물 내에 직영 식당과 편의점이 있습니다. 층마다 액정 태블릿 작업이 가능한 크리에이티브 라운지와 고급 파우더룸을 완비하여 예술계열 학생들의 호응이 높습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 9층 · 크리에이티브 라운지</p>
+                        <p><i data-lucide="map-pin" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>천주캠퍼스 서문 대학가 인접</p>
+                    </div>
+                </div>
+
+                <!-- [낭원캠퍼스] 16. 전포관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-nangwon">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#8b5cf6] mb-1 block">낭원 N-10동 (A동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">전포관 <span class="text-sm font-bold text-gray-400 ml-1">Jeonpo Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-male">남학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        낭원캠 융합학부·지역개발학부 남학생 전용관. 인근 Nano-Fab(반도체 클린룸) 교대 실습을 마친 학생들의 피로 회복을 위해 안마의자 휴게라운지와 첨단 무인 세탁·건조 시설을 각 층마다 구비해 두었습니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="building" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 10층 · 안마의자 라운지</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>덕빈선 전포역 셔틀 5분 · Nano-Fab 인접</p>
+                    </div>
+                </div>
+
+                <!-- [낭원캠퍼스] 17. 웨이퍼관 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-nangwon">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#8b5cf6] mb-1 block">낭원 N-11동 (B동)</span>
+                            <h3 class="text-2xl font-black text-gray-900">웨이퍼관 <span class="text-sm font-bold text-gray-400 ml-1">Wafer Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-female">여학생 전용</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        낭원캠퍼스 여학생 전용 생활관입니다. 1층에 낭원 기숙사 직영식당과 24시간 CU, 요가/필라테스가 가능한 실내 피트니스룸이 운영되며, 외부인 출입 통제를 위한 최첨단 생체인식 보안 게이트가 적용된 안전 특화 기숙사입니다.
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="shield-check" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 10층 · 생체인식 보안 게이트 적용</p>
+                        <p><i data-lucide="map-pin" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>낭원 중앙광장(N-12) 인접</p>
+                    </div>
+                </div>
+
+                <!-- [강주캠퍼스] 18. 오션홀 -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hall-card campus-gangju">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#0ea5e9] mb-1 block">강주 G-12동 (통합관)</span>
+                            <h3 class="text-2xl font-black text-gray-900">오션홀 <span class="text-sm font-bold text-gray-400 ml-1">Ocean Hall</span></h3>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-1 rounded badge-common">남녀 분리형</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4 flex-grow">
+                        강주캠 해양대학·환경산업대학 재학생을 위한 최신식 남녀 분리형 통합관입니다. 전 객실에서 강주항 서해 바다 조망(오션뷰)이 가능하며, 거센 해풍과 해무를 완벽히 차단하기 위해 3중 기밀 이중창 시공이 적용되어 있습니다. 
+                    </p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1.5 font-medium border border-gray-100">
+                        <p><i data-lucide="sun" class="w-3.5 h-3.5 inline mr-1 text-gray-400"></i>지상 12층 · 전 객실 서해 오션뷰 특화</p>
+                        <p><i data-lucide="train" class="w-3.5 h-3.5 inline mr-1 text-[#005BAC]"></i>빈주권광역철도 강주항역 인접</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
 
-    <footer id="footer-area" class="bg-[#2a2a2a] text-gray-400 py-12 text-sm mt-auto"></footer>
-    <script>lucide.createIcons();</script>
+    <!-- common.js에서 불러올 푸터 영역 -->
+    <div id="footer-area"></div>
+    
+    <!-- 필수 연동 스크립트 (절대 생략 불가) -->
     <script src="common.js"></script>
+    
+    <script>
+        // 아이콘 초기화
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // 캠퍼스 탭 필터링 로직
+        const buttons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.hall-card');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 버튼 스타일 리셋
+                buttons.forEach(btn => {
+                    btn.classList.remove('bg-[#1e2a78]', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-600');
+                });
+                // 클릭된 버튼 스타일 활성화
+                button.classList.remove('bg-white', 'text-gray-600');
+                button.classList.add('bg-[#1e2a78]', 'text-white');
+
+                // 카드 필터링
+                const target = button.getAttribute('data-target');
+                
+                cards.forEach(card => {
+                    if (target === 'all') {
+                        card.style.display = 'flex';
+                    } else {
+                        if (card.classList.contains('campus-' + target)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
