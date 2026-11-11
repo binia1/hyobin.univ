@@ -163,11 +163,11 @@ const OLD_URLS = {
     "종합정보시스템": "hbnu_portal.html",
 
 // 7. SNS 및 HBNU anis (공식 캠퍼스 백과 플랫폼 - SPA 해시 라우팅 완벽 지원)
-    "인스타그램": "http://localhost:8004/instagram.html?user=hbnu_official",
-    "유튜브": "hbnu_sns.html#youtube",
-    "페이스북": "hbnu_sns.html#facebook",
-    "네이버블로그": "hbnu_sns.html#blog",
-    "엑스": "hbnu_sns.html#x",
+"인스타그램": (location.hostname.includes("github.io") ? "https://binia1.github.io/sns/" : "http://localhost:8004/") + "instagram.html?user=hbnu_official",
+    "유튜브": (location.hostname.includes("github.io") ? "https://binia1.github.io/sns/" : "http://localhost:8004/") + "youtube.html?user=hbnu_official",
+    "페이스북": (location.hostname.includes("github.io") ? "https://binia1.github.io/sns/" : "http://localhost:8004/") + "facebook.html?user=hbnu_official",
+    "네이버블로그": (location.hostname.includes("github.io") ? "https://binia1.github.io/sns/" : "http://localhost:8004/") + "blog.html?user=hbnu_official",
+    "엑스": (location.hostname.includes("github.io") ? "https://binia1.github.io/sns/" : "http://localhost:8004/") + "x.html?user=hbnu_official",
     "HBNU anis": "HBNUanis.html#home",
     "HBNU anis 홈": "HBNUanis.html#home",
     "개요": "HBNUanis.html#overview",
